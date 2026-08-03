@@ -1,0 +1,72 @@
+name: Wordstat — еженедельное обновление
+
+on:
+  schedule:
+    # Каждый понедельник в 04:00 UTC (≈07:00 МСК)
+    - cron: "0 4 * * 1"
+  workflow_dispatch:
+    inputs:
+      max_quota:
+        description: "Потолок квот за прогон (1 квота = 1 dynamics или 1 topRequests)"
+        required: false
+        default: "500"
+      top_requests_limit:
+        description: "Сколько верхних P1-ключей также получают /v1/topRequests"
+        required: false
+        default: "1000"
+      fresh_days:
+        description: "Ключ считается актуальным, если обновлён за N дней"
+        required: false
+        default: "7"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Extract candidate keys
+        run: node scripts/wordstat/extract-keys.mjs
+
+      - name: Fetch from Wordstat API (точечно по seo.keywords)
+        env:
+          YC_API_KEY: ${{ secrets.YC_API_KEY }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+          MAX_QUOTA: ${{ inputs.max_quota || '500' }}
+          TOP_REQUESTS_LIMIT: ${{ inputs.top_requests_limit || '1000' }}
+          FRESH_DAYS: ${{ inputs.fresh_days || '7' }}
+          REGION_ID: "225"
+        run: node scripts/wordstat/fetch.mjs
+
+      - name: Discover trends (broad по seeds.json)
+        env:
+          YC_API_KEY: ${{ secrets.YC_API_KEY }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+          REGION_ID: "225"
+          NUM_PHRASES: "2000"
+        run: node scripts/wordstat/discover.mjs
+
+      - name: Diff vs previous snapshot
+        run: node scripts/wordstat/diff-snapshots.mjs
+
+      - name: Demand watch (спрос ↔ покрытие по кластерам)
+        run: node scripts/wordstat/demand-watch.mjs
+
+      - name: Commit refresh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/wordstat/keys.json src/data/wordstat/snapshots/ src/data/wordstat/discoveries/ src/data/wordstat/demand-watch.md
+          if git diff --cached --quiet; then
+            echo "wordstat: нет изменений"
+            exit 0
+          fi
+          git commit -m "wordstat: weekly refresh $(date -u +%Y-%m-%d)"
+          git push origin HEAD:${{ github.ref_name }}

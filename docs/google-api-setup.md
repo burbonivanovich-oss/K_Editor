@@ -1,0 +1,215 @@
+# Подключение Google API для редакционного цикла
+
+Что включить, чтобы бот мог вести таблицу плана и доки статей в папке
+Drive. Настройка разовая, 20 минут.
+
+Визуальная версия со схемами экранов — артефакт «Подключение Google API»
+(ссылка в переписке). Здесь тот же материал текстом.
+
+## Что требуется
+
+| Что | Зачем | Состояние |
+|---|---|---|
+| Google Drive API | Папка цикла, поиск и удаление файлов | включён под соцпосты |
+| Google Docs API | Наполнение доков текстом | включён под соцпосты |
+| **Google Sheets API** | Таблица плана | **включить** |
+| Скоуп `drive.file` | Права на файлы, созданные ботом | скорее всего уже есть |
+| Папка Drive | Рабочее место редактора | `GOOGLE_DOCS_FOLDER_ID` |
+
+**Одного `drive.file` достаточно.** Sheets API и Docs API принимают его для
+файлов, созданных самим приложением, а таблицу и доки создаёт бот. Скоуп
+помечен Google как Recommended / Non-sensitive — верификация приложения не
+нужна. Отдельные `spreadsheets` и `documents` брать не обязательно, и лучше
+не брать: они sensitive и тянут за собой верификацию.
+
+Полный `auth/drive` не брать никогда — это restricted-скоуп с обязательной
+проверкой приложения.
+
+## Шаг 0 — понять, что уже работает
+
+```bash
+node scripts/drive-sync.mjs check
+```
+
+Скрипт покажет путь аутентификации, реально выданные скоупы, доступность
+API и запись в папку. Читать так:
+
+- `drive.file` с галочкой → со скоупами всё в порядке, шаги 2 и 3 пропустить;
+- `Sheets API не включён` → шаг 1;
+- прав не хватает → шаги 2 и 3.
+
+## Развилка: два пути
+
+| | Путь A — OAuth | Путь B — сервисный аккаунт |
+|---|---|---|
+| Признак | `GOOGLE_DOCS_KEY` пустой, заданы `GSC_*` | задан `GOOGLE_DOCS_KEY` |
+| От чьего имени файлы | ваш личный аккаунт | робот |
+| Квота Drive | ваша | **нет своей** → `storageQuotaExceeded` |
+| Шаги | 1 → 2 → 3 | 1 → 4 |
+
+В `docs/SECRETS.md` записано, что из-за `storageQuotaExceeded` проект уже
+переключался на OAuth. Скорее всего у вас путь A.
+
+## Шаг 1 — включить Sheets API (оба пути)
+
+`console.cloud.google.com` → выбрать **тот же проект**, где включены Drive и
+Docs → **APIs & Services** → **Library** → поиск `google sheets` → карточка
+**Google Sheets API** → **ENABLE**.
+
+Не перепутать с «Google Sheets API for Apps Script».
+
+## Шаг 2 — добавить скоуп (путь A, если check показал нехватку)
+
+**APIs & Services** → **OAuth consent screen** → **Scopes**.
+
+В новом интерфейсе раздел называется **Google Auth Platform** и разбит на
+вкладки **Branding**, **Audience**, **Data Access**, **Clients**. Скоупы —
+в **Data Access**.
+
+**ADD OR REMOVE SCOPES** → фильтр `drive.file` → отметить
+`https://www.googleapis.com/auth/drive.file` → **UPDATE** → **SAVE**.
+
+## Шаг 3 — переполучить refresh_token (путь A)
+
+Галочка в консоли не расширяет уже выданный токен: права зашиты в него в
+момент выдачи. Нужен новый.
+
+### 3.1 Проверить тип OAuth-клиента
+
+**APIs & Services** → **Credentials** → ваш OAuth 2.0 Client ID.
+
+- Тип **Desktop app** — петлевой адрес разрешён автоматически, ничего не делать.
+- Тип **Web application** — открыть клиент, добавить `http://localhost` в
+  **Authorized redirect URIs**, сохранить.
+
+### 3.2 Дать согласие заново
+
+> ⚠ Процедура в `docs/SECRETS.md` с `redirect_uri=urn:ietf:wg:oauth:2.0:oob`
+> **больше не работает**. Google запретил новые OOB-клиенты с 28.02.2022,
+> заблокировал запросы существующих с 03.10.2022 и полностью отключил поток
+> 31.01.2023. Такая ссылка отдаёт `invalid_request`. Ниже рабочая замена.
+
+Открыть в браузере под аккаунтом-владельцем папки Drive, одной строкой,
+подставив свой `GSC_CLIENT_ID`:
+
+```
+https://accounts.google.com/o/oauth2/v2/auth
+  ?client_id=ВАШ_GSC_CLIENT_ID
+  &redirect_uri=http://localhost
+  &response_type=code
+  &access_type=offline
+  &prompt=consent
+  &scope=https://www.googleapis.com/auth/webmasters.readonly%20https://www.googleapis.com/auth/indexing%20https://www.googleapis.com/auth/drive.file
+```
+
+Два обязательных момента:
+
+- **Перечислять все скоупы разом.** Новый токен заменяет старый. Оставите
+  только новый скоуп — отвалится `fetch-gsc`, который живёт
+  на том же `GSC_REFRESH_TOKEN`.
+- **`prompt=consent` обязателен.** Без него Google не вернёт `refresh_token`,
+  если согласие уже давалось.
+
+Экран «Google не проверил это приложение» — ожидаемо для статуса Testing:
+**Дополнительные настройки** → «Перейти на страницу … (небезопасно)».
+
+### 3.3 Забрать код
+
+Браузер уйдёт на `http://localhost` и покажет ошибку соединения — сервера
+там нет, это нормально. Код в адресной строке:
+
+```
+http://localhost/?code=4/0AX4XfWh...&scope=...
+                       └─ скопировать до символа &
+```
+
+### 3.4 Обменять на refresh_token
+
+```bash
+curl -X POST https://oauth2.googleapis.com/token \
+  -d "code=4/0AX4XfWh..." \
+  -d "client_id=ВАШ_GSC_CLIENT_ID" \
+  -d "client_secret=ВАШ_GSC_CLIENT_SECRET" \
+  -d "redirect_uri=http://localhost" \
+  -d "grant_type=authorization_code"
+```
+
+Код живёт около минуты и срабатывает один раз. `invalid_grant` — открыть
+ссылку из 3.2 заново.
+
+### 3.5 Обновить секрет
+
+GitHub → репозиторий → **Settings** → **Secrets and variables** → **Actions**
+→ обновить `GSC_REFRESH_TOKEN` (не создавать второй).
+
+## Шаг 4 — расшарить папку (путь B)
+
+```bash
+echo $GOOGLE_DOCS_KEY | jq -r .client_email
+# если ключ в base64:
+echo $GOOGLE_DOCS_KEY | base64 -d | jq -r .client_email
+```
+
+Drive → ПКМ на папке → **Открыть доступ** → вставить `client_email` → роль
+**Редактор** → снять «Уведомить пользователей» → **Отправить**.
+
+Путь B почти наверняка упрётся в `storageQuotaExceeded`: у сервисного
+аккаунта нет своего места, а файл засчитывается создателю. Скрипт откатится
+на OAuth, но OAuth тогда всё равно придётся настроить по пути A. Проще сразу
+идти путём A.
+
+## Проверка
+
+```bash
+node scripts/drive-sync.mjs check
+```
+
+Должно закончиться строкой `Всё готово, можно запускать /cycle-plan`.
+Проверка создаёт в папке пробный файл и сразу удаляет его — так надёжнее,
+чем читать саму папку: под `drive.file` бот не видит папку, созданную
+человеком, и 404 там ничего не значит.
+
+## Семидневный срок — главный риск для автоматики
+
+Пока приложение в статусе **Testing** с типом пользователей **External**,
+Google отзывает `refresh_token` через 7 дней. Цикл встанет молча: в
+понедельник рутина просто не сможет войти.
+
+Выходы, от лучшего к худшему:
+
+1. **Тип пользователей Internal** — если есть Google Workspace. Ни семи дней,
+   ни лимита в 100 тестовых пользователей, верификация не нужна.
+2. **Опубликовать в Production** с одним `drive.file`. Скоуп non-sensitive,
+   верификация не требуется, срок жизни токена снимается.
+3. **Остаться в Testing** и переполучать токен вручную раз в неделю. Работает
+   ровно до первого пропущенного понедельника.
+
+Это и есть причина рекомендовать `drive.file` вместо `spreadsheets`: с
+sensitive-скоупами Production требует верификации приложения.
+
+## Ошибки
+
+| Ошибка | Причина | Что делать |
+|---|---|---|
+| `Sheets API has not been used in project … or it is disabled` | Не сделан шаг 1 или включено в другом проекте | Проверить селектор проекта, включить там же, где Drive |
+| `Request had insufficient authentication scopes` | Скоуп добавлен, но токен старый | Шаг 3 целиком |
+| `invalid_grant` при обмене кода | Код протух или использован | Открыть ссылку из 3.2 заново |
+| В ответе нет `refresh_token` | Потерян `prompt=consent` | Добавить в ссылку, повторить |
+| `redirect_uri_mismatch` | Web-клиент без localhost в списке | Шаг 3.1 |
+| `invalid_request` на самой ссылке согласия | Остался OOB-редирект | Заменить на `http://localhost` |
+| `storageQuotaExceeded` | Файл создаёт сервисный аккаунт | Перейти на путь A |
+| `File not found: <id>` | Папка не расшарена (B) или чужой аккаунт (A) | Шаг 4 либо согласие под владельцем папки |
+| Через 7 дней `invalid_grant` | Testing + External | См. раздел выше |
+
+## Что проверено
+
+Сверено с документацией Google в августе 2026:
+
+- отключение OOB-редиректа и сроки — миграционный гайд Google и блог
+  Google Developers;
+- переименование в Google Auth Platform (Branding / Audience / Data Access /
+  Clients) — справка Google Cloud;
+- поддержка `drive.file` в Sheets API и его пометка Recommended /
+  Non-sensitive — страницы скоупов Sheets API и Drive API;
+- отзыв refresh_token через 7 дней при Testing + External и отсутствие этого
+  ограничения у Internal и Production — справка по аудитории приложения.

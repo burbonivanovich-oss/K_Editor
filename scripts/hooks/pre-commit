@@ -1,0 +1,63 @@
+#!/usr/bin/env bash
+# pre-commit hook: quality gates перед публикацией статьи блога.
+# Установка: bash scripts/install-hooks.sh
+
+set -euo pipefail
+
+BLOG_PREFIX="src/content/blog/"
+FACTCHECK_DIR=".claude/factchecked"
+ERRORS=0
+
+# Staged blog-файлы
+staged_blog=$(git diff --cached --name-only | grep "^${BLOG_PREFIX}" | grep '\.md$' || true)
+
+if [ -z "$staged_blog" ]; then
+  exit 0
+fi
+
+for file in $staged_blog; do
+  content=$(git show ":${file}" 2>/dev/null || true)
+  [ -z "$content" ] && continue
+
+  # Проверяем только статьи с draft: false
+  if ! echo "$content" | grep -qE '^draft:\s*false'; then
+    continue
+  fi
+
+  slug=$(basename "$file" .md)
+  file_errors=0
+
+  # 1. SEO-проверка (P0)
+  seo_output=$(echo "$content" | node scripts/check-seo.mjs --label="$file" 2>&1 || true)
+  if echo "$seo_output" | grep -q "^P0"; then
+    echo ""
+    echo "  БЛОКИРОВКА (SEO): ${file}"
+    echo "$seo_output" | grep -E "^  ✗|^P0" | sed 's/^/  /'
+    echo ""
+    file_errors=$((file_errors + 1))
+  fi
+
+  # 2. Фактчекинг — маркер
+  if [ ! -f "${FACTCHECK_DIR}/${slug}" ]; then
+    echo ""
+    echo "  БЛОКИРОВКА (фактчекинг): ${file}"
+    echo "  Статья снята с draft, но фактчекинг не подтверждён."
+    echo "  Запустите: /blog factcheck ${file}"
+    echo "  Затем: mkdir -p ${FACTCHECK_DIR} && touch ${FACTCHECK_DIR}/${slug}"
+    echo ""
+    file_errors=$((file_errors + 1))
+  fi
+
+  # 3. Напоминание о каннибализации (не блокируем)
+  echo "  НАПОМИНАНИЕ: запустите /blog cannibalization src/content/blog/ для «${slug}»"
+
+  ERRORS=$((ERRORS + file_errors))
+done
+
+echo ""
+if [ "$ERRORS" -gt 0 ]; then
+  echo "Коммит заблокирован: исправьте P0-ошибки выше."
+  exit 1
+fi
+
+exit 0

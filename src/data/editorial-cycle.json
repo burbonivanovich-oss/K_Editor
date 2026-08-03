@@ -1,0 +1,22 @@
+{
+  "cycleId": null,
+  "state": "idle",
+  "createdAt": null,
+  "updatedAt": "2026-08-02T13:07:19.814Z",
+  "drive": {
+    "folderId": null,
+    "sheetId": null,
+    "sheetUrl": null,
+    "folderUrl": null
+  },
+  "batchSize": 3,
+  "maxInReview": 6,
+  "plan": [],
+  "batches": [],
+  "log": [
+    {
+      "at": "2026-08-02T13:07:19.814Z",
+      "event": "reset"
+    }
+  ]
+}

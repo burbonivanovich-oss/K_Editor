@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# Запускает гейты перед коммитом:
+# - factcheck-guard: маркер .claude/factchecked/<slug> для draft: false
+# Для других проверок (lint, typecheck) — добавлять отдельные блоки ниже.
+
+set -e
+
+ROOT="$(git rev-parse --show-toplevel)"
+node "$ROOT/scripts/git-hooks/pre-commit-factcheck-guard.mjs"

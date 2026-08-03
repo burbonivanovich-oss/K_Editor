@@ -1,0 +1,15 @@
+{
+  "name": "kontur-editorial-assistant",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "cycle:state": "node scripts/cycle-state.mjs",
+    "cycle:check": "node scripts/drive-sync.mjs check",
+    "plan": "node scripts/generate-editorial-plan.mjs",
+    "check:ai": "node scripts/check-ai-markers.mjs",
+    "check:stale": "node scripts/check-stale-content.mjs",
+    "health": "node scripts/health-check.mjs"
+  },
+  "description": "Модуль-помощник редактора и копирайтеров: ресерч, написание и рерайт статей"
+}

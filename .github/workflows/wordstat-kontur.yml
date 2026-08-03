@@ -1,0 +1,77 @@
+name: Wordstat — Контур-фокус (наши темы)
+
+# Гонит Wordstat-дискавери строго по нашим сидам (seeds-kontur.json) в отдельный
+# namespace (discoveries/kontur/), не пересекаясь с «этикеточным» набором.
+
+on:
+  schedule:
+    # Два автодобора под часовую квоту Wordstat (100 req/час): каждый прогон берёт
+    # ≤90 новых сидов (MAX_REQUESTS), уже собранные пропускает. Двух хватает на
+    # остаток 206. После сбора всех — вернуть на еженедельный "0 5 * * 1".
+    # GitHub может задержать запуск на 5–20 мин.
+    - cron: "17 12 * * *"
+    - cron: "22 13 * * *"
+  workflow_dispatch:
+    inputs:
+      num_phrases:
+        description: "Сколько фраз возвращать на seed (макс. 2000)"
+        required: false
+        default: "2000"
+
+permissions:
+  contents: write
+
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: wordstat-kontur
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Discover trends (по seeds-kontur.json)
+        env:
+          YC_API_KEY: ${{ secrets.YC_API_KEY }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+          REGION_ID: "225"
+          NUM_PHRASES: ${{ inputs.num_phrases || '2000' }}
+          SEEDS_FILE: "seeds-kontur.json"
+          WS_NS: "kontur"
+        run: node scripts/wordstat/discover.mjs
+
+      - name: Diff vs previous snapshot (namespace kontur)
+        env:
+          WS_NS: "kontur"
+        run: node scripts/wordstat/diff-snapshots.mjs
+
+      - name: Commit refresh
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/wordstat/discoveries/kontur/
+          if git diff --cached --quiet; then
+            echo "wordstat-kontur: нет изменений"
+            exit 0
+          fi
+          git commit -m "wordstat-kontur: refresh $(date -u +%Y-%m-%d)"
+          # Push с ребейзом: main мог уйти вперёд, пока шёл сбор (~30 мин).
+          # Раньше без этого push отклонялся («fetch first») и собранные
+          # данные Wordstat терялись. Данные аддитивные (файл на сид),
+          # конфликтов нет — просто накатываем свой коммит поверх свежего main.
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:${{ github.ref_name }}; then
+              echo "push ok (попытка $i)"
+              exit 0
+            fi
+            echo "push отклонён, попытка $i — ребейз на свежий ${{ github.ref_name }}"
+            git pull --rebase --autostash origin ${{ github.ref_name }} || exit 1
+            sleep 3
+          done
+          echo "push не удался после 5 попыток"; exit 1

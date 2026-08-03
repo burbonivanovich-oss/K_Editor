@@ -1,0 +1,134 @@
+# Инструменты, скрипты и автоматизация
+
+Справочник по тулчейну модуля. Что куда писать при изменении — в конце
+документа («Документация изменений»).
+
+## QA-инструментарий
+
+### Фактчек — `/factcheck <slug>`
+
+Свой стек проверки фактов (без плагина claude-blog, который в облачном
+эфемерном контейнере не выживает между сессиями).
+
+- **`scripts/factcheck/extract-claims.mjs`** извлекает claims
+  (даты, штрафы, ст. КоАП/УК/НК, номера ПП/Приказов/ФЗ, ссылки).
+- **`/factcheck <slug>`** сверяет каждый claim с первоисточником через
+  WebSearch/WebFetch, опираясь на `src/data/factcheck/sources.json`.
+- **`/factcheck-batch [--count N] [--filter <topic>]`** — пакетный прогон
+  8–16 статей через параллельный subagent dispatch (×6 быстрее, чем по одной).
+- **`scripts/factcheck/audit-npa-references.mjs`** — регрессионный аудит
+  упоминаний НПА против `sources.json.npaWhitelist`. Флаг `--strict` для CI.
+- **Решения** принимаются по `docs/editorial-policy.md` — классы A/B/C.
+- **Результат:** `src/data/factcheck/results/<slug>.json` + маркер
+  `.claude/factchecked/<slug>` с датой.
+
+### Шлюзы качества
+
+- **`/analyze-article <slug>`** — оценка 0–100 по 6 категориям. Блокер,
+  если балл < 70, маркер факт-чека старше 180 дней, либо упали
+  `factcheck/audit-npa-references.mjs` или `audit/check-blog-links.mjs`.
+- **`scripts/check-ai-markers.mjs`** — AI-маркеры в тексте: шаблонные
+  фразы, пассивные конструкции, структурные признаки. Порог — 6/10.
+- **`scripts/check-seo.mjs`** — ключ в title, первом абзаце, H2 и
+  description; длина description.
+- **`scripts/check-stale-content.mjs`** — статьи, где даты и сроки могли
+  устареть. Основа для `/maintain-content`.
+- **Pre-commit hook** (`scripts/git-hooks/`) блокирует коммит статьи с
+  `draft: false` без маркера `.claude/factchecked/<slug>`. Установка:
+  `bash scripts/git-hooks/install.sh`.
+
+Факт-чек обязателен до передачи статьи редактору. Подробности —
+`docs/factcheck.md`, `docs/factcheck-history.md`, `docs/editorial-policy.md`.
+
+### Расширенный QA: плагин claude-blog (опционально)
+
+[claude-blog](https://github.com/AgriciDaniel/claude-blog) — внешний плагин.
+**В облачном контейнере не сохраняется между сессиями.** Если работаете
+локально и хотите им пользоваться — установите вручную в
+`~/.claude/skills/`. В облачных сессиях используем свой `/factcheck`.
+
+Полезные команды плагина, если он установлен:
+
+- `/blog analyze <file>` — оценка 0–100 по 6 категориям, детектирует AI-текст.
+- `/blog seo-check <file>` — SEO-чеклист: title, meta, H2, внутренние ссылки.
+- `/blog factcheck` — **не используем**, есть свой `/factcheck`.
+
+## Wordstat: два контура
+
+Используется в workflow `wordstat-weekly.yml` и `wordstat-kontur.yml`.
+
+- **A. Точечный** — `src/data/wordstat/keys.json` хранит частоты и тренды
+  по нашим `seo.keywords` и «Целевому запросу» из контент-плана. Читают
+  `/find-topics`, `/cluster-gaps`, `/maintain-content`.
+- **B. Discovery** — `discoveries/<date>/*.json` хранят топ-2000 фраз
+  вокруг каждого из 162 широких seed-ов. `diff-snapshots.mjs` каждую
+  неделю сравнивает с предыдущим прогоном и пишет в
+  `discoveries/diffs/<date>.md` отчёт NEW/RISING/FALLING/DROPPED.
+  `/find-topics` читает свежий diff как главный источник идей.
+
+**Лимиты API:** 1000 запросов/сутки на токен, 10 req/sec. Бюджет weekly
+прогона — ~640 квот. Подробности — `docs/wordstat.md`.
+
+## Редакционный цикл
+
+- **`scripts/cycle-state.mjs`** — машина состояний цикла. Единственный
+  способ менять `src/data/editorial-cycle.json`; руками JSON не править.
+- **`scripts/drive-sync.mjs`** — мост в Google Drive: создание папки цикла
+  и таблицы плана, чтение решений редактора, выкладка статей доками,
+  экспорт дока обратно в markdown, чтение и закрытие комментариев.
+  Диагностика доступа — подкоманда `check`.
+
+Полное описание — `docs/editorial-cycle.md`, настройка доступа —
+`docs/google-api-setup.md`.
+
+## Вспомогательные скрипты (scripts/)
+
+| Скрипт | Назначение |
+|---|---|
+| `health-check.mjs` | Единый отчёт состояния модуля: контент, workflow, скрипты, доки, контент-план |
+| `generate-editorial-plan.mjs` | `content-plan-2026.md` → `editorial-plan.json` |
+| `check-ai-markers.mjs` | AI-маркеры в тексте, скор 0–10 |
+| `check-seo.mjs` | SEO-проверка текста статьи |
+| `check-stale-content.mjs` | Поиск статей с потенциально устаревшими сроками |
+| `cycle-state.mjs` | Машина состояний редакционного цикла |
+| `drive-sync.mjs` | Google Drive: таблица плана, доки статей, комментарии |
+| `wordstat/extract-keys.mjs` | Кандидаты из блога и контент-плана |
+| `wordstat/fetch.mjs` | `/v1/dynamics` + `/v1/topRequests` (контур A) |
+| `wordstat/discover.mjs` | Trend discovery: `/v1/topRequests` на 162 seed-а (контур B) |
+| `wordstat/diff-snapshots.mjs` | Сравнение discovery-выгрузок неделя к неделе |
+| `factcheck/extract-claims.mjs` | Regex-парсер дат, сумм, статей КоАП |
+| `factcheck/audit-npa-references.mjs` | Регрессионный аудит ссылок на НПА |
+| `audit/linkgraph.mjs` | Граф перелинковки, сироты, кандидаты на ссылки |
+| `audit/check-blog-links.mjs` | Битые внутренние ссылки |
+| `audit/fix-broken-blog-links.mjs` | Автопочинка битых внутренних ссылок |
+| `audit/set-review-dates.mjs` | Проставление `reviewDate` в frontmatter |
+
+Запуск: `node scripts/<имя>.mjs`. Внешних зависимостей нет — только
+встроенные модули Node. Скрипты с сетевыми вызовами поддерживают
+`DRY_RUN=1` для отладки без запросов.
+
+Ключи для скриптов с сетевыми вызовами лежат в секретах GitHub, локально
+не прописаны — см. `docs/SECRETS.md`.
+
+## Документация изменений
+
+При изменении скрипта, агента или паттерна — **обновлять соответствующий
+файл в `docs/` в той же PR**. Не накапливать долг.
+
+| Что меняется | Какой doc обновить |
+|---|---|
+| Редакционный цикл, рутины, машина состояний | `docs/editorial-cycle.md` |
+| Доступ к Google API, скоупы, токены | `docs/google-api-setup.md` |
+| Wordstat API, частотность ключей | `docs/wordstat.md` |
+| Factcheck pipeline, `extract-claims`, `sources.json`, аудит НПА | `docs/factcheck.md` |
+| Backfill истории и системные паттерны факт-чека | `docs/factcheck-history.md` |
+| Редполитика, классы решений | `docs/editorial-policy.md` |
+| Правила контента и стиля, frontmatter | `docs/content-rules.md` |
+| Как добавить статью, термин, pillar | `docs/content-types.md` |
+| Секреты GitHub | `docs/SECRETS.md` |
+| Ритуалы и «что делать когда горит» | `docs/operations.md` |
+| Post-mortem крупных сессий | `docs/archive/sessions/session-YYYY-MM-DD-postmortem.md` |
+| Этот файл | `docs/tools.md` |
+
+Если изменение не покрыто существующим документом — расширить ближайший
+по теме или завести новый и добавить ссылку в `CLAUDE.md`.

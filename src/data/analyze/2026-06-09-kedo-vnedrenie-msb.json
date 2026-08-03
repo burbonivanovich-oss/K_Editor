@@ -1,0 +1,44 @@
+{
+  "slug": "2026-06-09-kedo-vnedrenie-msb",
+  "score": 70,
+  "blocker": false,
+  "categories": {
+    "quality": {
+      "score": 15,
+      "issues": [
+        "объём ~545 слов — ниже порога сателлита 800+ (−5)"
+      ]
+    },
+    "seo": {
+      "score": 15,
+      "issues": [
+        "description 264 символа — норма 140–160 (−5)"
+      ]
+    },
+    "eeat": {
+      "score": 20,
+      "issues": [
+        "маркер factcheck свежий (2026-06-11); НПА статьи аудитом не флагнуты, глобальный --strict падает из-за чужих статей"
+      ]
+    },
+    "graph": {
+      "score": 10,
+      "issues": [
+        "0 входящих ссылок (−5) — нужны входящие из zakonodatelstvo.md и кадровых статей",
+        "pillar zakonodatelstvo.md не ссылается на статью (−5)"
+      ]
+    },
+    "tech": {
+      "score": 15,
+      "issues": [
+        "heroImage не задан — нужен fallback /og/2026-06-09-kedo-vnedrenie-msb.png (−5)",
+        "tags: 4 шт — норма соблюдена"
+      ]
+    },
+    "ai_citation": {
+      "score": 10,
+      "issues": []
+    }
+  },
+  "checkedAt": "2026-06-11"
+}

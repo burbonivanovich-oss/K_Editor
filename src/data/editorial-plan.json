@@ -1,0 +1,2213 @@
+{
+  "_generated": "2026-08-03",
+  "_source": "src/content/wiki/content-plan-2026.md",
+  "stats": {
+    "total": 244,
+    "byStatus": {
+      "planned": 244
+    },
+    "byPriority": {
+      "P0": 80,
+      "P1": 126,
+      "P2": 38
+    }
+  },
+  "items": [
+    {
+      "slug": "kto-ne-nuzhen-ts-piot",
+      "title": "Кому не нужен ТС ПИоТ: исключения и освобождения",
+      "priority": "P0",
+      "targetKeyword": "кому не нужен ТС ПИоТ",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-dlya-obschepita",
+      "title": "ТС ПИоТ для кафе и ресторана: нужен ли и как настроить",
+      "priority": "P0",
+      "targetKeyword": "ТС ПИоТ для кафе",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-dlya-apteki",
+      "title": "ТС ПИоТ для аптеки: лекарства и маркировка",
+      "priority": "P1",
+      "targetKeyword": "ТС ПИоТ аптека",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-oshibki-kassira",
+      "title": "ТС ПИоТ: сценарии отказа и что говорить покупателю",
+      "priority": "P1",
+      "targetKeyword": "ТС ПИоТ ошибка кассира",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-mojsklad",
+      "title": "Настройка ТС ПИоТ в МойСклад",
+      "priority": "P2",
+      "targetKeyword": "ТС ПИоТ МойСклад",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-data-matrix",
+      "title": "ТС ПИоТ и Data Matrix: что сканирует касса",
+      "priority": "P1",
+      "targetKeyword": "ТС ПИоТ Data Matrix",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "chto-takoe-ts-piot",
+      "title": "ТС ПИоТ: что это, кому нужен и как подключить",
+      "priority": "P0",
+      "targetKeyword": "что такое ТС ПИоТ",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-podklyuchenie-instrukciya",
+      "title": "Подключение ТС ПИоТ к кассе: пошаговая инструкция",
+      "priority": "P0",
+      "targetKeyword": "подключить ТС ПИоТ",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-evotor-atol-shtrih",
+      "title": "ТС ПИоТ на кассах Эвотор, Атол, Штрих и Дримкас",
+      "priority": "P0",
+      "targetKeyword": "ТС ПИоТ касса какая",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-shtrafy",
+      "title": "Штраф за работу без ТС ПИоТ в 2026",
+      "priority": "P0",
+      "targetKeyword": "штраф ТС ПИоТ",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-bez-interneta",
+      "title": "ТС ПИоТ без интернета: как работает касса при потере связи",
+      "priority": "P1",
+      "targetKeyword": "ТС ПИоТ нет интернета",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-vs-ofd",
+      "title": "ТС ПИоТ и ОФД: в чём разница и нужны ли оба",
+      "priority": "P2",
+      "targetKeyword": "ТС ПИоТ или ОФД",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-1c",
+      "title": "ТС ПИоТ в 1С:Розница и УНФ: настройка пошагово",
+      "priority": "P1",
+      "targetKeyword": "ТС ПИоТ 1С",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "ts-piot-provajdery-sravnenie",
+      "title": "Провайдеры ТС ПИоТ: сравнение ЕСМ и Инвенты",
+      "priority": "P0",
+      "targetKeyword": "провайдер ТС ПИоТ",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ТС ПИоТ"
+    },
+    {
+      "slug": "markirovka-tabaka-2026",
+      "title": "Маркировка табака и сигарет в 2026: разрешительный режим",
+      "priority": "P0",
+      "targetKeyword": "маркировка табака 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-bad-2026",
+      "title": "Маркировка БАД: сроки, требования, штрафы",
+      "priority": "P0",
+      "targetKeyword": "маркировка БАД 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-vody-2026",
+      "title": "Маркировка питьевой воды в 2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка воды",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-ostatkov",
+      "title": "Маркировка остатков: когда возможна и как сделать",
+      "priority": "P0",
+      "targetKeyword": "маркировка остатков",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "poexzemplyarnyj-uchet",
+      "title": "Поэкземплярный учёт: что меняется для розницы",
+      "priority": "P1",
+      "targetKeyword": "поэкземплярный учёт",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-tabaka-novye-proverki-2026",
+      "title": "Табак 2026: проверка цены ниже минимальной с 01.09.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка табака новые правила",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "razreshitelnyj-rezhim-onlayn-offlayn",
+      "title": "Онлайн- и офлайн-проверки в разрешительном режиме",
+      "priority": "P1",
+      "targetKeyword": "онлайн и офлайн проверки маркировки",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "gis-mt-kak-rabotaet",
+      "title": "ГИС МТ: как работает национальная система прослеживаемости",
+      "priority": "P1",
+      "targetKeyword": "ГИС МТ что это",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "sroki-markirovki-2026",
+      "title": "Полный календарь сроков маркировки 2026: даты и категории",
+      "priority": "P1",
+      "targetKeyword": "сроки маркировки 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "data-matrix-chto-eto",
+      "title": "Data Matrix: что это, как читается и где взять",
+      "priority": "P1",
+      "targetKeyword": "Data Matrix маркировка",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "kategorii-markirovki-2026",
+      "title": "Маркировка «Честный знак» 2026: категории и сроки",
+      "priority": "P0",
+      "targetKeyword": "категории маркировки 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-piva-roznica",
+      "title": "Маркировка пива в рознице: пошаговая настройка",
+      "priority": "P0",
+      "targetKeyword": "маркировка пиво розница",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-molochki-msb",
+      "title": "Маркировка молочной продукции для МСБ",
+      "priority": "P1",
+      "targetKeyword": "маркировка молочной продукции",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-obuvi-2026",
+      "title": "Маркировка обуви в 2026: разрешительный режим, остатки, штрафы",
+      "priority": "P1",
+      "targetKeyword": "маркировка обуви",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-importerov",
+      "title": "Маркировка для импортёров: GTIN, ЭДО и таможня",
+      "priority": "P1",
+      "targetKeyword": "маркировка импорт",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-cherez-marketplace",
+      "title": "Маркировка на маркетплейсах Wildberries и Ozon в 2026",
+      "priority": "P1",
+      "targetKeyword": "маркировка маркетплейс",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "shtraf-za-markirovku",
+      "title": "Штраф за отсутствие маркировки в 2026: размеры и последствия",
+      "priority": "P0",
+      "targetKeyword": "штраф за маркировку",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "razreshitelnyj-rezhim-markirovka",
+      "title": "Разрешительный режим Честного знака: как работает",
+      "priority": "P0",
+      "targetKeyword": "разрешительный режим",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "chestny-znak-registraciya",
+      "title": "Регистрация в «Честном знаке»: пошаговая инструкция для ИП и ООО",
+      "priority": "P0",
+      "targetKeyword": "регистрация в Честном знаке",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка «Честный знак»"
+    },
+    {
+      "slug": "markirovka-kosmetiki-2026",
+      "title": "Маркировка косметики и парфюмерии с 01.07.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка косметики 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "markirovka-bytovoy-himii-2026",
+      "title": "Маркировка бытовой химии с 01.07.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка бытовой химии",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "markirovka-lichnoy-gigieny-2026",
+      "title": "Маркировка товаров личной гигиены с 01.07.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка средств гигиены",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "markirovka-bezalk-napitkov-2026",
+      "title": "Безалкогольные напитки: проверки кодов с 01.09.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка безалкогольных напитков",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "markirovka-sportpita-2026",
+      "title": "Спортивное питание: запрет остатков с 01.09.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка спортивного питания",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "markirovka-bakalei-2026",
+      "title": "Маркировка снеков, соусов и специй с 01.09.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка бакалеи",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "markirovka-igrushek-2026",
+      "title": "Маркировка игрушек с 01.09.2026: поэкземплярный учёт",
+      "priority": "P0",
+      "targetKeyword": "маркировка игрушек 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "markirovka-avtozhidkostey-2026",
+      "title": "Автомобильные жидкости: разрешительный режим с 01.10.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка автомобильных жидкостей",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "markirovka-konservov-2026",
+      "title": "Маркировка консервов с 01.10.2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка консервов",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "kalendar-markirovki-2026",
+      "title": "Календарь маркировки 2026: что и когда вступает в силу",
+      "priority": "P0",
+      "targetKeyword": "календарь маркировки 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "obyemno-sortovoy-vs-poexzemplyarnyj",
+      "title": "Объёмно-сортовой и поэкземплярный учёт: разница",
+      "priority": "P1",
+      "targetKeyword": "объёмно-сортовой учёт",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "vyvod-iz-oborota-cherez-kassu",
+      "title": "Вывод товаров из оборота через кассу: как настроить в 2026",
+      "priority": "P0",
+      "targetKeyword": "вывод из оборота через кассу",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркировка 2026: новые категории по срокам"
+    },
+    {
+      "slug": "patent-2026-limit",
+      "title": "Лимит патента в 2026 и что делать при превышении",
+      "priority": "P0",
+      "targetKeyword": "патент 60 миллионов",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "limity-usn-2026",
+      "title": "Лимиты УСН в 2026: доходы, сотрудники, ОС",
+      "priority": "P0",
+      "targetKeyword": "лимит УСН 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "vznosy-ip-bez-rabotnikov-2026",
+      "title": "Страховые взносы ИП без сотрудников в 2026",
+      "priority": "P0",
+      "targetKeyword": "фиксированные взносы ИП 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "reestr-msp-lgoty-2026",
+      "title": "Реестр МСП: как проверить статус и получить льготы",
+      "priority": "P1",
+      "targetKeyword": "реестр МСП льготы 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "elektronnaya-trudovaya-knizhka-2026",
+      "title": "Электронная трудовая книжка работодателя в 2026",
+      "priority": "P1",
+      "targetKeyword": "электронная трудовая работодатель",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "kontrolnye-zakupki-fns-2025",
+      "title": "Контрольные закупки ФНС 2025–2026: как проходят",
+      "priority": "P1",
+      "targetKeyword": "контрольная закупка ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "subsidii-msb-2026",
+      "title": "Субсидии и гранты для МСБ в 2026",
+      "priority": "P0",
+      "targetKeyword": "субсидии малому бизнесу 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "koap-shtrafy-biznes-2026",
+      "title": "Новые штрафы КоАП для бизнеса в 2026",
+      "priority": "P1",
+      "targetKeyword": "новые штрафы для бизнеса 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "bnpl-msb",
+      "title": "Индикаторы риска ФНС в 2026",
+      "priority": "P1",
+      "targetKeyword": "индикаторы риска ФНС 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "trudovoy-uchet-mikropredpr",
+      "title": "Кадровый учёт у микропредприятия: упрощение",
+      "priority": "P2",
+      "targetKeyword": "кадровый учёт микропредприятие",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "nalogi-msb-2026",
+      "title": "Налоги МСБ в 2026: УСН, патент, ЕНС и КЭДО",
+      "priority": "P0",
+      "targetKeyword": "налоги МСБ 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "usn-nds-rasschet",
+      "title": "НДС на УСН в 2026: ставка 5%, 7% или 22% — как выбрать",
+      "priority": "P0",
+      "targetKeyword": "НДС на УСН какая ставка",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "ens-enp-uvedomleniya",
+      "title": "Уведомления по ЕНС в 2026",
+      "priority": "P0",
+      "targetKeyword": "уведомление ЕНП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "proverki-2026",
+      "title": "Мораторий на проверки бизнеса в 2026",
+      "priority": "P0",
+      "targetKeyword": "мораторий на проверки 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "edo-upd-markirovka",
+      "title": "ЭДО и УПД для маркированных товаров",
+      "priority": "P1",
+      "targetKeyword": "ЭДО маркировка УПД",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "strahovye-vznosy-msp-2026",
+      "title": "Страховые взносы МСП в 2026: пониженный тариф",
+      "priority": "P0",
+      "targetKeyword": "страховые взносы МСП 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "mrot-2026-rabotodatel",
+      "title": "МРОТ 27 093 ₽: как пересчитать зарплаты и взносы",
+      "priority": "P1",
+      "targetKeyword": "МРОТ 2026 для работодателя",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "etrn-2026",
+      "title": "ЭТрН с 01.09.2026: кто обязан оформлять",
+      "priority": "P0",
+      "targetKeyword": "электронная транспортная накладная 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "zakon-o-marketpleysah-289-fz",
+      "title": "Закон о маркетплейсах 289-ФЗ: с 01.10.2026",
+      "priority": "P0",
+      "targetKeyword": "закон о маркетплейсах 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "personalnye-dannye-shtrafy-2025",
+      "title": "Персональные данные: штрафы до 500 млн ₽",
+      "priority": "P0",
+      "targetKeyword": "штрафы персональные данные",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "samozanyatye-riski-2026",
+      "title": "Самозанятые и работодатель в 2026: риски с октября",
+      "priority": "P0",
+      "targetKeyword": "риски работы с самозанятыми",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "psn-nds-2026",
+      "title": "ПСН и НДС в 2026: платит ли ИП на патенте",
+      "priority": "P0",
+      "targetKeyword": "патент НДС 2026 ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "sovmeschenie-usn-patent-2026",
+      "title": "Совмещение УСН и патента в 2026",
+      "priority": "P1",
+      "targetKeyword": "совмещение УСН и патента",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "140-fz-epd-perehod-msb",
+      "title": "140-ФЗ: переход на ЭПД с 01.09.2026 для МСБ",
+      "priority": "P0",
+      "targetKeyword": "140 ФЗ ЭПД 2026",
+      "status": "planned",
+      "blocker": "редактура",
+      "cluster": "Законодательство и налоги"
+    },
+    {
+      "slug": "smena-ofd-instrukciya",
+      "title": "Смена ОФД: пошаговая инструкция без штрафов",
+      "priority": "P1",
+      "targetKeyword": "как сменить ОФД",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "ofd-shtrafy",
+      "title": "Штрафы за работу без действующего договора с ОФД",
+      "priority": "P1",
+      "targetKeyword": "штраф ОФД нет договора",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "pereregistraciya-kkt",
+      "title": "Перерегистрация ККТ при замене ФН в ФНС",
+      "priority": "P1",
+      "targetKeyword": "перерегистрация ККТ ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "fn-dlya-markirovki",
+      "title": "Какой ФН нужен для торговли маркированным товаром",
+      "priority": "P1",
+      "targetKeyword": "ФН для маркировки",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "shtrafy-prosrochennyj-fn",
+      "title": "Штрафы за работу с просроченным ФН",
+      "priority": "P1",
+      "targetKeyword": "штраф просроченный ФН",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "ffd-12-chto-eto",
+      "title": "ФФД 1.2: что это и кому нужно менять ФН",
+      "priority": "P0",
+      "targetKeyword": "ФФД 1.2 зачем переходить",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "oshibki-na-kasse",
+      "title": "Ошибки на кассе: коды ошибок и как исправить",
+      "priority": "P1",
+      "targetKeyword": "ошибка на кассе что делать",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "snyatie-kkt-s-ucheta",
+      "title": "Снятие ККТ с учёта: когда нужно и как сделать",
+      "priority": "P2",
+      "targetKeyword": "снять ККТ с учёта",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "chto-takoe-ofd",
+      "title": "ОФД: что это, как работает и кому обязателен",
+      "priority": "P0",
+      "targetKeyword": "что такое ОФД",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "kak-vybrat-ofd-2026",
+      "title": "Сравнение операторов фискальных данных в 2026",
+      "priority": "P0",
+      "targetKeyword": "какой ОФД выбрать 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "chto-takoe-fn",
+      "title": "Фискальный накопитель: ФН-1.1М и ФН-1.2",
+      "priority": "P0",
+      "targetKeyword": "что такое фискальный накопитель",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "srok-fn-15-36",
+      "title": "Срок действия ФН: 15 или 36 месяцев",
+      "priority": "P1",
+      "targetKeyword": "ФН 15 или 36 месяцев",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "zamena-fn-poshagovo",
+      "title": "Замена фискального накопителя: пошаговая инструкция",
+      "priority": "P0",
+      "targetKeyword": "замена ФН пошагово",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "ofd-dlya-ts-piot",
+      "title": "ОФД для ТС ПИоТ 2026: оператор фискальных данных",
+      "priority": "P0",
+      "targetKeyword": "ОФД для ТС ПИоТ",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "registraciya-kkt-v-fns",
+      "title": "Регистрация онлайн-кассы в ФНС в 2026",
+      "priority": "P0",
+      "targetKeyword": "регистрация ККТ в ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ОФД и фискальные накопители"
+    },
+    {
+      "slug": "merkuriy-shtrafy",
+      "title": "Штрафы за нарушения в Меркурии в 2026",
+      "priority": "P1",
+      "targetKeyword": "штраф Меркурий",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "merkuriy-1c",
+      "title": "Интеграция Меркурия с 1С: настройка обмена",
+      "priority": "P1",
+      "targetKeyword": "Меркурий 1С интеграция",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "merkuriy-offline",
+      "title": "Что делать при сбое Меркурия: офлайн-режим",
+      "priority": "P1",
+      "targetKeyword": "Меркурий не работает",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "merkuriy-dlya-roznicy",
+      "title": "Меркурий для розничного магазина: минимум действий",
+      "priority": "P1",
+      "targetKeyword": "Меркурий розница",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "merkuriy-dlya-obschepita",
+      "title": "Меркурий в общепите: входящие ВСД и списание",
+      "priority": "P1",
+      "targetKeyword": "Меркурий общепит",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "merkuriy-import-eksport",
+      "title": "Меркурий при импорте и экспорте",
+      "priority": "P2",
+      "targetKeyword": "Меркурий импорт",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "vetdokumenty-kak-poluchit",
+      "title": "Ветеринарные документы: как получить ВСД пошагово",
+      "priority": "P1",
+      "targetKeyword": "ветеринарные документы",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "chto-takoe-merkuriy",
+      "title": "Меркурий ВетИС: что это и кому обязателен",
+      "priority": "P0",
+      "targetKeyword": "что такое Меркурий",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "registraciya-v-merkurii",
+      "title": "Регистрация в Меркурии для ИП и ООО",
+      "priority": "P0",
+      "targetKeyword": "регистрация в Меркурии",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "gashenie-vsd-merkuriy",
+      "title": "Гашение ВСД в Меркурии: сроки и порядок",
+      "priority": "P0",
+      "targetKeyword": "гашение ВСД Меркурий",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "merkuriy-i-chestnyj-znak",
+      "title": "Меркурий и Честный знак: молочка и рыба",
+      "priority": "P1",
+      "targetKeyword": "Меркурий и Честный знак",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Меркурий (ВетИС)"
+    },
+    {
+      "slug": "mspos-nastroyka-markirovka",
+      "title": "Настройка MSPOS под маркировку и ТС ПИоТ",
+      "priority": "P1",
+      "targetKeyword": "MSPOS маркировка настройка",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "atol-podklyuchenie-1c",
+      "title": "Подключение фискальных регистраторов АТОЛ к 1С",
+      "priority": "P1",
+      "targetKeyword": "АТОЛ 1С подключить",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "kassa-dlya-kuryera",
+      "title": "Касса для курьерской доставки",
+      "priority": "P1",
+      "targetKeyword": "касса для курьера",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "kassa-dlya-marketplace",
+      "title": "Касса для продавца на Wildberries и Ozon",
+      "priority": "P0",
+      "targetKeyword": "касса для маркетплейса",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "kassa-dlya-obschepita",
+      "title": "Касса для кафе и общепита",
+      "priority": "P1",
+      "targetKeyword": "касса для общепита",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "kassa-dlya-uslug",
+      "title": "Касса для парикмахерской и сферы услуг",
+      "priority": "P2",
+      "targetKeyword": "касса для парикмахерской",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "kassa-dlya-ip-bez-rabotnikov",
+      "title": "Касса для ИП без сотрудников: нужна ли в 2026",
+      "priority": "P0",
+      "targetKeyword": "нужна ли касса ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "kak-vybrat-onlayn-kassu-2026",
+      "title": "Как выбрать онлайн-кассу для МСБ в 2026",
+      "priority": "P0",
+      "targetKeyword": "как выбрать онлайн-кассу",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "vidy-kkt",
+      "title": "Виды ККТ: автономные, смарт, фискальные регистраторы",
+      "priority": "P0",
+      "targetKeyword": "виды онлайн-касс",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "smart-terminal-vs-fiskalnyj-registrator",
+      "title": "Смарт-терминал или фискальный регистратор",
+      "priority": "P0",
+      "targetKeyword": "смарт-терминал или ФР",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "mspos-f20-obzor",
+      "title": "MSPOS F20: характеристики и сценарии",
+      "priority": "P1",
+      "targetKeyword": "MSPOS F20 обзор",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "mspos-t-d3-mini-obzor",
+      "title": "MSPOS T D3 Mini: характеристики",
+      "priority": "P1",
+      "targetKeyword": "MSPOS T D3 Mini обзор",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "mspos-f20-vs-d3-mini",
+      "title": "Сравнение MSPOS F20 и MSPOS T D3 Mini",
+      "priority": "P1",
+      "targetKeyword": "MSPOS F20 или D3 Mini",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "atol-30f-obzor",
+      "title": "АТОЛ 30Ф: обзор фискального регистратора",
+      "priority": "P1",
+      "targetKeyword": "АТОЛ 30Ф обзор",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "atol-27f-obzor",
+      "title": "АТОЛ 27Ф: обзор и сценарии установки",
+      "priority": "P1",
+      "targetKeyword": "АТОЛ 27Ф обзор",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "atol-30f-vs-27f",
+      "title": "Сравнение АТОЛ 30Ф и АТОЛ 27Ф",
+      "priority": "P1",
+      "targetKeyword": "АТОЛ 30Ф или 27Ф",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "kassa-dlya-internet-magazina",
+      "title": "Касса для интернет-магазина в 2026",
+      "priority": "P0",
+      "targetKeyword": "касса для интернет-магазина",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "spisanie-alkogolya",
+      "title": "Списание алкоголя в ЕГАИС: бой, просрочка",
+      "priority": "P1",
+      "targetKeyword": "списание алкоголя ЕГАИС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "aktsiznaya-marka-proverka",
+      "title": "Акцизные марки на алкоголь: проверка и сканирование",
+      "priority": "P1",
+      "targetKeyword": "акцизная марка проверка",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "kokteyli-i-egais",
+      "title": "Слабоалкогольные коктейли и ЕГАИС",
+      "priority": "P2",
+      "targetKeyword": "коктейли ЕГАИС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "kassa-alkogol-fkk",
+      "title": "Онлайн-касса и алкоголь: ФФД и реквизиты чека",
+      "priority": "P1",
+      "targetKeyword": "касса алкоголь чек",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "egais-shtrafy-2026",
+      "title": "Штрафы за нарушения в ЕГАИС в 2026",
+      "priority": "P1",
+      "targetKeyword": "штрафы ЕГАИС 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "egais-i-markirovka-piva",
+      "title": "ЕГАИС и маркировка пива: как уживаются",
+      "priority": "P1",
+      "targetKeyword": "ЕГАИС и Честный знак пиво",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "licenziya-na-alkogol",
+      "title": "Лицензия на розничную продажу алкоголя",
+      "priority": "P1",
+      "targetKeyword": "лицензия на алкоголь розница",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "uchyot-alkogolya-v-obschepite",
+      "title": "Учёт алкоголя в кафе и баре: ЕГАИС без ошибок",
+      "priority": "P0",
+      "targetKeyword": "учёт алкоголя в общепите",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "egais-chto-eto",
+      "title": "ЕГАИС: что это, кому нужен и как подключить",
+      "priority": "P0",
+      "targetKeyword": "что такое ЕГАИС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "utm-egais-podklyuchenie",
+      "title": "Подключение УТМ ЕГАИС: пошаговая инструкция",
+      "priority": "P0",
+      "targetKeyword": "подключение УТМ ЕГАИС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "egais-zhurnal-roznichnoy-prodazhi",
+      "title": "Журнал учёта розничной продажи алкоголя в 2026",
+      "priority": "P0",
+      "targetKeyword": "журнал учёта алкоголя",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "deklaracii-po-alkogolyu",
+      "title": "Декларации по алкоголю: формы 7 и 8",
+      "priority": "P1",
+      "targetKeyword": "декларация по алкоголю",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "poshtuchnyj-uchyot-alkogolya",
+      "title": "Поштучный учёт крепкого алкоголя в общепите",
+      "priority": "P1",
+      "targetKeyword": "поштучный учёт алкоголя",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "uchyot-razlivnogo-piva",
+      "title": "Учёт разливного пива: марки, кеги, остатки",
+      "priority": "P1",
+      "targetKeyword": "учёт разливного пива",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "ЕГАИС, общепит и розница алкоголя"
+    },
+    {
+      "slug": "buh-dlya-ooo",
+      "title": "Онлайн-бухгалтерия для ООО: что должна закрывать",
+      "priority": "P1",
+      "targetKeyword": "онлайн бухгалтерия для ООО",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "buh-dlya-samozanyatyh",
+      "title": "Нужна ли самозанятому онлайн-бухгалтерия",
+      "priority": "P2",
+      "targetKeyword": "бухгалтерия для самозанятых",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "buh-i-bank-integraciya",
+      "title": "Интеграция онлайн-бухгалтерии с банком",
+      "priority": "P1",
+      "targetKeyword": "онлайн бухгалтерия банк",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "sdacha-otchetnosti-onlayn",
+      "title": "Сдача отчётности онлайн: УСН, ЕНП, страховые",
+      "priority": "P1",
+      "targetKeyword": "сдать отчётность онлайн",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "buh-i-markirovka",
+      "title": "Онлайн-бухгалтерия и маркировка: что учесть",
+      "priority": "P2",
+      "targetKeyword": "бухгалтерия и маркировка",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "buh-i-egais",
+      "title": "Онлайн-бухгалтерия для общепита и магазина с алкоголем",
+      "priority": "P1",
+      "targetKeyword": "бухгалтерия для общепита",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "perehod-na-onlayn-buh",
+      "title": "Переход с офлайн-бухгалтера на облачный сервис",
+      "priority": "P2",
+      "targetKeyword": "как перейти на онлайн бухгалтерию",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "elektronnaya-otchetnost-dlya-ip",
+      "title": "Электронная отчётность для ИП и ООО: как подключить",
+      "priority": "P1",
+      "targetKeyword": "электронная отчётность подключить",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "sverka-s-ens-kak-proverit",
+      "title": "Сверка с ЕНС: как проверить переплату или долг",
+      "priority": "P1",
+      "targetKeyword": "сверка с ЕНС ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "otchetnost-v-sfr-2026",
+      "title": "Персонифицированный учёт в СФР: ЕФС-1 и сроки",
+      "priority": "P1",
+      "targetKeyword": "отчётность в СФР 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "proverka-kontragenta-pered-sdelkoy",
+      "title": "Как проверить контрагента перед сделкой",
+      "priority": "P0",
+      "targetKeyword": "проверка контрагента ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "priznaki-firmy-odnodevki",
+      "title": "Признаки фирмы-однодневки: чек-лист",
+      "priority": "P1",
+      "targetKeyword": "фирма однодневка признаки",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "kedo-vnedrenie-msb",
+      "title": "КЭДО: с чего начать внедрение в малом бизнесе",
+      "priority": "P0",
+      "targetKeyword": "КЭДО малый бизнес",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "elektronnye-kadrovye-dokumenty",
+      "title": "Электронные кадровые документы: как перейти",
+      "priority": "P1",
+      "targetKeyword": "кадровые документы электронный вид",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "mchd-chto-eto",
+      "title": "МЧД с 01.09.2024: что обязан сделать работодатель",
+      "priority": "P0",
+      "targetKeyword": "МЧД машиночитаемая доверенность",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "mchd-oformlenie-dlya-bukhgaltera",
+      "title": "МЧД для бухгалтера: как оформить пошагово",
+      "priority": "P1",
+      "targetKeyword": "МЧД для бухгалтера",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "edi-dlya-postavschikov",
+      "title": "EDI для поставщика торговой сети: как подключиться",
+      "priority": "P1",
+      "targetKeyword": "EDI для поставщика",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "152-fz-personalnye-dannye",
+      "title": "152-ФЗ для бизнеса: согласия, реестр, ответственность",
+      "priority": "P0",
+      "targetKeyword": "152-ФЗ персональные данные бизнес",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "onlayn-buhgalteriya-2026",
+      "title": "Онлайн-бухгалтерия для МСБ в 2026: как выбрать",
+      "priority": "P0",
+      "targetKeyword": "онлайн-бухгалтерия 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "sravnenie-onlayn-buhov",
+      "title": "Сравнение Контур.Эльба, Моё дело, 1С:Облако",
+      "priority": "P1",
+      "targetKeyword": "сравнение онлайн бухгалтерий",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "buh-dlya-ip-usn",
+      "title": "Онлайн-бухгалтерия для ИП на УСН: чек-лист",
+      "priority": "P1",
+      "targetKeyword": "онлайн бухгалтерия для ИП УСН",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "buh-dlya-marketplace",
+      "title": "Онлайн-бухгалтерия для продавца на маркетплейсах",
+      "priority": "P1",
+      "targetKeyword": "бухгалтерия для маркетплейса",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Онлайн-бухгалтерия и ЭДО"
+    },
+    {
+      "slug": "kogda-samozanyatyj-dolzhen-otkryt-ip",
+      "title": "Когда самозанятый обязан открыть ИП: лимиты и риски",
+      "priority": "P1",
+      "targetKeyword": "лимит самозанятого 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "kassa-dlya-uslug-ip",
+      "title": "Нужна ли касса ИП в сфере услуг в 2026",
+      "priority": "P1",
+      "targetKeyword": "касса для услуг ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "patent-dlya-uslug",
+      "title": "Патент для ИП в сфере услуг: как рассчитать",
+      "priority": "P1",
+      "targetKeyword": "патент для ИП услуги",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "nalog-dlya-freelansera",
+      "title": "Налоги фрилансера в 2026: НПД, УСН, патент",
+      "priority": "P1",
+      "targetKeyword": "налог для фрилансера",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "ip-na-usn-uslugi",
+      "title": "ИП на УСН в услугах: 6% или 15%",
+      "priority": "P1",
+      "targetKeyword": "УСН для услуг 6 или 15",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "kak-vesti-uchet-samozanyatomu",
+      "title": "Как самозанятому вести учёт доходов",
+      "priority": "P2",
+      "targetKeyword": "учёт доходов самозанятого",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "dogovor-s-samozanyatym-riski",
+      "title": "Договор с самозанятым: переквалификация",
+      "priority": "P1",
+      "targetKeyword": "договор с самозанятым риски",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "ip-dlya-repetitora",
+      "title": "ИП для репетитора: касса, налог",
+      "priority": "P2",
+      "targetKeyword": "ИП репетитор касса",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "ip-dlya-mastera",
+      "title": "ИП для мастера маникюра и парикмахера",
+      "priority": "P2",
+      "targetKeyword": "ИП мастер маникюр патент",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "npd-vs-ip-chto-vybrat",
+      "title": "НПД или ИП: что выгоднее в 2026",
+      "priority": "P0",
+      "targetKeyword": "самозанятый или ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Услуги и самозанятые"
+    },
+    {
+      "slug": "kassa-dlya-kafe-2026",
+      "title": "Касса для кафе в 2026: требования, модели, ФФД 1.2",
+      "priority": "P0",
+      "targetKeyword": "касса для кафе 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "egais-dlya-bara",
+      "title": "ЕГАИС для бара: пошаговое подключение",
+      "priority": "P0",
+      "targetKeyword": "ЕГАИС для бара",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "merkuriy-dlya-restorana",
+      "title": "Меркурий в ресторане: ВСД на мясо и молочку",
+      "priority": "P1",
+      "targetKeyword": "Меркурий ресторан",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "uchet-produktov-v-kafe",
+      "title": "Учёт продуктов в кафе: списание, инвентаризация",
+      "priority": "P1",
+      "targetKeyword": "учёт продуктов кафе",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "alkogolnaya-licenziya-kafe",
+      "title": "Лицензия на алкоголь для кафе: стоимость и сроки",
+      "priority": "P1",
+      "targetKeyword": "лицензия на алкоголь кафе",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "chajnye-cheki-obschepita",
+      "title": "Чек в общепите: 54-ФЗ, обязательные реквизиты",
+      "priority": "P1",
+      "targetKeyword": "чек для кафе реквизиты",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "dostavka-eda-kassa",
+      "title": "Касса при доставке еды: чеки курьера",
+      "priority": "P1",
+      "targetKeyword": "касса для доставки еды",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "nalog-dlya-kafe-2026",
+      "title": "Налог для кафе в 2026: УСН, патент, НДС 5%",
+      "priority": "P1",
+      "targetKeyword": "налог для кафе 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "edo-s-postavschikami-obschepita",
+      "title": "ЭДО с поставщиками в общепите",
+      "priority": "P2",
+      "targetKeyword": "ЭДО ресторан поставщики",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "kassovaya-disciplina-horeca",
+      "title": "Кассовая дисциплина в HoReCa: возвраты, Z-отчёты",
+      "priority": "P2",
+      "targetKeyword": "кассовая дисциплина кафе",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "kofejnya-bez-kassy",
+      "title": "Нужна ли касса кофейне: исключения 54-ФЗ",
+      "priority": "P2",
+      "targetKeyword": "касса для кофейни",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "kak-otkryt-kafe-cheklis",
+      "title": "Открытие кафе в 2026: полный чек-лист",
+      "priority": "P0",
+      "targetKeyword": "как открыть кафе 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "HoReCa"
+    },
+    {
+      "slug": "pervaya-kassa-dlya-ip",
+      "title": "Первая касса для ИП: когда и как зарегистрировать",
+      "priority": "P1",
+      "targetKeyword": "нужна ли касса ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "usn-posle-registracii-ip",
+      "title": "Как перейти на УСН сразу после регистрации ИП",
+      "priority": "P1",
+      "targetKeyword": "переход на УСН ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "pervyj-sotrudnik-ip",
+      "title": "Первый сотрудник у ИП: договор, взносы, отчётность",
+      "priority": "P1",
+      "targetKeyword": "первый сотрудник ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "ooo-bez-sotrudnikov",
+      "title": "ООО без сотрудников: что сдавать",
+      "priority": "P1",
+      "targetKeyword": "ООО без сотрудников отчётность",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "registraciya-ip-cherez-gosuslugi",
+      "title": "Регистрация ИП через Госуслуги: пошагово",
+      "priority": "P1",
+      "targetKeyword": "регистрация ИП госуслуги",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "lgoty-dlya-novogo-ip",
+      "title": "Налоговые каникулы для нового ИП в 2026",
+      "priority": "P1",
+      "targetKeyword": "налоговые каникулы ИП 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "kak-zakryt-ip",
+      "title": "Как закрыть ИП в 2026: долги, касса, документы",
+      "priority": "P2",
+      "targetKeyword": "как закрыть ИП 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "ooo-likvidaciya",
+      "title": "Ликвидация ООО: сроки, документы, долги",
+      "priority": "P2",
+      "targetKeyword": "ликвидация ООО 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "ip-ili-ooo-chto-vybrat-2026",
+      "title": "ИП или ООО в 2026: что выбрать",
+      "priority": "P0",
+      "targetKeyword": "ИП или ООО 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "kak-otkryt-ip-poshagovo",
+      "title": "Как открыть ИП в 2026: пошаговая инструкция",
+      "priority": "P0",
+      "targetKeyword": "как открыть ИП пошагово",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "kakoy-nalog-vybrat-ip",
+      "title": "Какую систему налогообложения выбрать ИП",
+      "priority": "P0",
+      "targetKeyword": "система налогообложения ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "raschetnyj-schet-dlya-ip-2026",
+      "title": "Расчётный счёт для ИП: как выбрать банк в 2026",
+      "priority": "P1",
+      "targetKeyword": "расчётный счёт ИП 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "nuzhen-li-raschetnyj-schet-ip",
+      "title": "Нужен ли расчётный счёт ИП на патенте и УСН",
+      "priority": "P2",
+      "targetKeyword": "нужен ли расчётный счёт ИП",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Старт бизнеса"
+    },
+    {
+      "slug": "markirovka-dlya-wb-ozon",
+      "title": "Маркировка для Wildberries и Ozon: требования 2026",
+      "priority": "P0",
+      "targetKeyword": "маркировка Wildberries",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "vozvrat-tovara-marketplace",
+      "title": "Возврат через маркетплейс: учёт и налоги",
+      "priority": "P1",
+      "targetKeyword": "возврат маркетплейс бухучёт",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "komissiya-marketplace-nds",
+      "title": "Комиссия маркетплейса и НДС: учёт в расходах",
+      "priority": "P1",
+      "targetKeyword": "комиссия WB Ozon НДС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "ozon-edo-postavschik",
+      "title": "ЭДО с Ozon для поставщика: как подключиться",
+      "priority": "P1",
+      "targetKeyword": "ЭДО с Ozon",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "wb-lichnyj-kabinet-nalogi",
+      "title": "Личный кабинет WB: отчёт и расчёт налога",
+      "priority": "P1",
+      "targetKeyword": "Wildberries отчёт налог",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "prodazhi-cherez-socset",
+      "title": "Продажи через ВКонтакте и Telegram",
+      "priority": "P2",
+      "targetKeyword": "продажи через соцсети касса",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "svoy-internet-magazin-kassa",
+      "title": "Своя онлайн-касса: облачная или физическая",
+      "priority": "P2",
+      "targetKeyword": "онлайн-касса для сайта",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "yandex-market-nalog",
+      "title": "Продажи на Яндекс Маркете: налог и ЭДО",
+      "priority": "P2",
+      "targetKeyword": "Яндекс Маркет налог",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "sbp-dlya-internet-magazina",
+      "title": "СБП для онлайн-магазина: подключение",
+      "priority": "P2",
+      "targetKeyword": "СБП для интернет-магазина",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "nalogi-s-wildberries-2026",
+      "title": "Налоги с продаж на Wildberries в 2026",
+      "priority": "P0",
+      "targetKeyword": "налоги с Wildberries 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "samozanyatyj-na-wildberries",
+      "title": "Самозанятый на Wildberries в 2026",
+      "priority": "P0",
+      "targetKeyword": "самозанятый Wildberries",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Маркетплейсы и онлайн-продажи"
+    },
+    {
+      "slug": "gpd-vs-trudovoj-dogovor",
+      "title": "ГПД или трудовой договор: что выбрать",
+      "priority": "P1",
+      "targetKeyword": "ГПД или трудовой договор",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "bolnichnyj-2026-rabotodatel",
+      "title": "Больничный в 2026: как рассчитать",
+      "priority": "P1",
+      "targetKeyword": "больничный лист работодатель",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "otpusknye-raschet-2026",
+      "title": "Отпускные в 2026: как рассчитать",
+      "priority": "P1",
+      "targetKeyword": "расчёт отпускных 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "uvolnenie-po-soglasheniyu",
+      "title": "Увольнение по соглашению сторон",
+      "priority": "P1",
+      "targetKeyword": "увольнение по соглашению",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "inostrannyj-sotrudnik-oformlenie",
+      "title": "Иностранный сотрудник: МВД, патент, взносы",
+      "priority": "P1",
+      "targetKeyword": "иностранный сотрудник 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "distancionnaya-rabota-dogovor",
+      "title": "Дистанционный сотрудник: договор, КЭДО, налоги",
+      "priority": "P1",
+      "targetKeyword": "дистанционная работа договор",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "sokraschenie-shtata",
+      "title": "Сокращение штата: порядок, выплаты, документы",
+      "priority": "P1",
+      "targetKeyword": "сокращение штата 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "ndfl-s-zarplaty-2026",
+      "title": "НДФЛ с зарплаты в 2026: ставки и вычеты",
+      "priority": "P1",
+      "targetKeyword": "НДФЛ с зарплаты 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "vznosy-za-sotrudnikov-2026",
+      "title": "Страховые взносы за сотрудников в 2026",
+      "priority": "P1",
+      "targetKeyword": "взносы за сотрудников 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "efs-1-sdacha",
+      "title": "ЕФС-1 в СФР: кто, когда и как сдаёт в 2026",
+      "priority": "P1",
+      "targetKeyword": "ЕФС-1 как сдать 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "komandirovka-2026",
+      "title": "Командировочные расходы в 2026",
+      "priority": "P2",
+      "targetKeyword": "командировка суточные 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "sverhurochnie",
+      "title": "Сверхурочная работа: оформление, оплата",
+      "priority": "P2",
+      "targetKeyword": "сверхурочная работа оплата",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "materialnaya-otvetstvennost",
+      "title": "Материальная ответственность сотрудника",
+      "priority": "P2",
+      "targetKeyword": "материальная ответственность работника",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "pervyj-sotrudnik-dokumenty",
+      "title": "Первый сотрудник в ООО и ИП",
+      "priority": "P0",
+      "targetKeyword": "первый сотрудник оформление",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Трудовые отношения и кадры"
+    },
+    {
+      "slug": "115-fz-biznes",
+      "title": "115-ФЗ и малый бизнес: блокировка счёта",
+      "priority": "P1",
+      "targetKeyword": "115 ФЗ блокировка счёта",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "ekvajring-vs-sbp",
+      "title": "Эквайринг или СБП: что выгоднее в 2026",
+      "priority": "P1",
+      "targetKeyword": "эквайринг или СБП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "kak-vybrat-bank-dlya-ip",
+      "title": "Как выбрать банк для ИП в 2026",
+      "priority": "P1",
+      "targetKeyword": "как выбрать банк для ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "nalogovoe-trebovanie-kak-otvetit",
+      "title": "Требование ФНС о документах: как ответить",
+      "priority": "P1",
+      "targetKeyword": "требование ФНС документы",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "kameralka-chto-eto",
+      "title": "Камеральная проверка: как проходит",
+      "priority": "P1",
+      "targetKeyword": "камеральная проверка ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "vstrechnaya-proverka",
+      "title": "Встречная проверка от ФНС",
+      "priority": "P1",
+      "targetKeyword": "встречная проверка ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "kak-rabotat-s-nalichnymi",
+      "title": "Кассовая дисциплина при работе с наличными",
+      "priority": "P1",
+      "targetKeyword": "кассовая дисциплина наличные",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "vozvrat-nds-iz-byudzheta",
+      "title": "Возврат НДС из бюджета",
+      "priority": "P2",
+      "targetKeyword": "возврат НДС МСБ",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "lizing-dlya-ip",
+      "title": "Лизинг для ИП: учёт и налоги",
+      "priority": "P2",
+      "targetKeyword": "лизинг для ИП налоги",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "faktoring-dlya-msb",
+      "title": "Факторинг для малого бизнеса",
+      "priority": "P2",
+      "targetKeyword": "факторинг для МСБ",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "blokirovka-scheta-fns",
+      "title": "Блокировка расчётного счёта ФНС",
+      "priority": "P0",
+      "targetKeyword": "заблокировали счёт ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Расчёты, банк и финансовая безопасность"
+    },
+    {
+      "slug": "apteka-markirovka-lekarstv",
+      "title": "Аптека и маркировка лекарств в 2026",
+      "priority": "P1",
+      "targetKeyword": "аптека маркировка лекарств",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "ip-voditel-taksi-nalogi",
+      "title": "ИП-водитель такси: патент, НПД или УСН",
+      "priority": "P1",
+      "targetKeyword": "такси ИП налог",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "stroitelnyj-ip-nalogi",
+      "title": "Строительный подряд: ИП или самозанятый",
+      "priority": "P1",
+      "targetKeyword": "строитель ИП налог",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "fotograf-ip-ili-samozanyatyj",
+      "title": "Фотограф: самозанятость или ИП",
+      "priority": "P1",
+      "targetKeyword": "фотограф самозанятый",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "stomatologiya-kassa",
+      "title": "Стоматология и касса: реквизиты в чеке",
+      "priority": "P1",
+      "targetKeyword": "касса для стоматологии",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "fitnes-klub-kassa-nalogi",
+      "title": "Фитнес-клуб: касса, абонемент, налог",
+      "priority": "P1",
+      "targetKeyword": "фитнес касса абонемент",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "salonkrasoty-kassa",
+      "title": "Салон красоты: касса, патент, маркировка",
+      "priority": "P1",
+      "targetKeyword": "салон красоты касса",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "cvetochnyj-magazin-markirovka",
+      "title": "Цветочный магазин и маркировка",
+      "priority": "P2",
+      "targetKeyword": "маркировка цветочный магазин",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "avtoservis-kassa",
+      "title": "Автосервис и касса: запчасти + работы",
+      "priority": "P2",
+      "targetKeyword": "касса для автосервиса",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "yurist-advocat-nalog",
+      "title": "Адвокат и юрист: налоги в 2026",
+      "priority": "P2",
+      "targetKeyword": "юрист ИП налог патент",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "medicinskaya-licenziya",
+      "title": "Медицинская лицензия: кому нужна и как получить",
+      "priority": "P2",
+      "targetKeyword": "медицинская лицензия 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "detskij-centr-kassa",
+      "title": "Детский центр: касса, лицензия",
+      "priority": "P2",
+      "targetKeyword": "детский центр касса",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "gruzoperevozki-etrn",
+      "title": "Грузоперевозки с 01.09.2026: ЭТрН, путевой лист",
+      "priority": "P1",
+      "targetKeyword": "грузоперевозки ЭТрН 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "kurier-samozanyatyj",
+      "title": "Курьер-самозанятый: договор, чек, риски",
+      "priority": "P1",
+      "targetKeyword": "курьер самозанятый договор",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "klinig-ip-nalogi",
+      "title": "Клининг: ИП или ООО, касса, налоги",
+      "priority": "P2",
+      "targetKeyword": "клининг ИП налог",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "ekvajring-dlya-uslug",
+      "title": "Эквайринг для ИП в услугах",
+      "priority": "P2",
+      "targetKeyword": "эквайринг ИП услуги",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Нишевые аудитории"
+    },
+    {
+      "slug": "nalogovy-vychet-ip",
+      "title": "Налоговый вычет для ИП на УСН: взносы и страховка",
+      "priority": "P1",
+      "targetKeyword": "вычет для ИП УСН",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "avansovye-platezhi-usn",
+      "title": "Авансовые платежи по УСН в 2026",
+      "priority": "P1",
+      "targetKeyword": "авансовый платёж УСН 2026",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "usn-dohody-rashody-chto-vklyuchat",
+      "title": "УСН 15%: что включать в расходы и что нельзя",
+      "priority": "P1",
+      "targetKeyword": "расходы УСН 15 процентов",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "kak-umenshit-nalog-usn",
+      "title": "Как уменьшить налог на УСН 6%: схемы и вычеты",
+      "priority": "P1",
+      "targetKeyword": "как уменьшить налог УСН",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "nulevaya-otchetnost-ip",
+      "title": "Нулевая отчётность ИП: когда и как сдать",
+      "priority": "P1",
+      "targetKeyword": "нулевая отчётность ИП",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "usn-pri-prodazhe-biznesa",
+      "title": "УСН при продаже бизнеса: налог с дохода",
+      "priority": "P2",
+      "targetKeyword": "продажа бизнеса налог УСН",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "nalog-na-imuschestvo-ip",
+      "title": "Налог на имущество для ИП",
+      "priority": "P2",
+      "targetKeyword": "налог на имущество ИП",
+      "status": "planned",
+      "blocker": "wordstat-2026-05",
+      "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "droblenie-biznesa-riski",
+      "title": "Дробление бизнеса: когда законно, а когда уклонение",
+      "priority": "P1",
+      "targetKeyword": "дробление бизнеса ФНС",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "ip-bez-deyatelnosti-vznosy",
+      "title": "ИП без деятельности: взносы и отчёты",
+      "priority": "P1",
+      "targetKeyword": "ИП без деятельности 2026",
+      "status": "planned",
+      "blocker": null,
+      "cluster": "Налоговая оптимизация"
+    }
+  ]
+}

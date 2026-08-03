@@ -1,0 +1,145 @@
+{
+  "generatedAt": "2026-05-19T11:05:10.165Z",
+  "articles": 83,
+  "totalClaims": 2452,
+  "byType": {
+    "DATE_TEXT": 234,
+    "DATE_YEAR": 444,
+    "NPA_PP_NUMBERED": 62,
+    "DATE_DMY": 402,
+    "LINK": 75,
+    "NPA_KOAP": 70,
+    "MONEY": 545,
+    "DATE_RANGE": 16,
+    "NPA_UK": 13,
+    "NPA_FZ_FULL": 32,
+    "NPA_FZ": 154,
+    "NPA_PUNKT": 39,
+    "PERCENT": 309,
+    "NPA_NK": 50,
+    "NPA_PRIKAZ": 2,
+    "DATE_CONTEXT": 5
+  },
+  "topArticles": [
+    {
+      "slug": "2026-05-01-usn-nds-rasschet",
+      "claims": 152
+    },
+    {
+      "slug": "2026-03-05-nalogi-msb-2026",
+      "claims": 99
+    },
+    {
+      "slug": "2026-05-27-sovmeschenie-usn-patent-2026",
+      "claims": 94
+    },
+    {
+      "slug": "2026-05-03-mrot-2026-rabotodatel",
+      "claims": 85
+    },
+    {
+      "slug": "2026-05-19-kakoy-nalog-vybrat-ip",
+      "claims": 79
+    },
+    {
+      "slug": "2026-05-29-psn-nds-2026",
+      "claims": 75
+    },
+    {
+      "slug": "2026-05-01-ens-enp-uvedomleniya",
+      "claims": 73
+    },
+    {
+      "slug": "2026-05-03-strahovye-vznosy-msp-2026",
+      "claims": 69
+    },
+    {
+      "slug": "2026-05-01-kalendar-markirovki-2026",
+      "claims": 63
+    },
+    {
+      "slug": "2026-05-01-razreshitelnyj-rezhim-markirovka",
+      "claims": 59
+    },
+    {
+      "slug": "2026-05-27-markirovka-obuvi-2026",
+      "claims": 54
+    },
+    {
+      "slug": "2026-05-17-nalogi-s-wildberries-2026",
+      "claims": 50
+    },
+    {
+      "slug": "2026-05-01-ofd-dlya-ts-piot",
+      "claims": 45
+    },
+    {
+      "slug": "2026-05-03-buh-dlya-ip-usn",
+      "claims": 45
+    },
+    {
+      "slug": "2026-05-01-uchyot-alkogolya-v-obschepite",
+      "claims": 44
+    },
+    {
+      "slug": "2026-05-18-npd-vs-ip-chto-vybrat",
+      "claims": 44
+    },
+    {
+      "slug": "2026-02-10-kategorii-markirovki-2026",
+      "claims": 43
+    },
+    {
+      "slug": "2026-05-01-buh-dlya-marketplace",
+      "claims": 38
+    },
+    {
+      "slug": "2026-05-03-personalnye-dannye-shtrafy-2025",
+      "claims": 38
+    },
+    {
+      "slug": "2026-05-01-ts-piot-shtrafy",
+      "claims": 37
+    },
+    {
+      "slug": "2026-05-03-markirovka-sportpita-2026",
+      "claims": 37
+    },
+    {
+      "slug": "2026-05-01-markirovka-cherez-marketplace",
+      "claims": 36
+    },
+    {
+      "slug": "2026-05-01-proverki-2026",
+      "claims": 36
+    },
+    {
+      "slug": "2026-05-03-markirovka-bakalei-2026",
+      "claims": 36
+    },
+    {
+      "slug": "2026-05-03-markirovka-lichnoy-gigieny-2026",
+      "claims": 36
+    },
+    {
+      "slug": "2026-05-03-markirovka-bezalk-napitkov-2026",
+      "claims": 34
+    },
+    {
+      "slug": "2026-05-01-shtraf-za-markirovku",
+      "claims": 33
+    },
+    {
+      "slug": "2026-05-01-smart-terminal-vs-fiskalnyj-registrator",
+      "claims": 33
+    },
+    {
+      "slug": "2026-05-01-egais-chto-eto",
+      "claims": 32
+    },
+    {
+      "slug": "2026-05-26-ts-piot-vs-ofd",
+      "claims": 31
+    }
+  ]
+}
