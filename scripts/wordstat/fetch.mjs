@@ -96,15 +96,35 @@ function rfc3339FirstDayThisMonth() {
   return d.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
+const MAX_ATTEMPTS = 4;
+const REQUEST_TIMEOUT_MS = parseInt(process.env.REQUEST_TIMEOUT_MS || "30000", 10);
+
 async function callApi(path, body, attempt = 1) {
-  const res = await fetch(`${API_BASE}${path}`, {
-    method: "POST",
-    headers: {
-      "Authorization": `Api-Key ${API_KEY}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ folderId: FOLDER_ID, ...body }),
-  });
+  let res;
+  try {
+    res = await fetch(`${API_BASE}${path}`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Api-Key ${API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ folderId: FOLDER_ID, ...body }),
+      // Без таймаута зависшее соединение держит job до лимита GitHub
+      // Actions: у fetch в Node своего таймаута нет.
+      signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS),
+    });
+  } catch (err) {
+    // Сетевой сбой (ECONNRESET, DNS, таймаут) — это не ответ сервера,
+    // до проверки кодов ниже дело не доходит. Прогон делает сотни
+    // запросов подряд, поэтому один разрыв не должен ронять всё.
+    if (attempt < MAX_ATTEMPTS) {
+      const backoff = 1000 * 2 ** attempt;
+      console.warn(`  ↻ retry ${path} after ${backoff}ms (сеть: ${err.name})`);
+      await sleep(backoff);
+      return callApi(path, body, attempt + 1);
+    }
+    throw new Error(`API ${path} — сеть недоступна после ${MAX_ATTEMPTS} попыток: ${err.message}`);
+  }
   const txt = await res.text();
   let data = null;
   try {
@@ -121,7 +141,7 @@ async function callApi(path, body, attempt = 1) {
     const msg = (data && data.message) || txt.slice(0, 200);
     // Транзиентные: 13 (Internal), 429, 5xx — ретраим. 3/7/16 — фатальны.
     const transient = code === 13 || res.status === 429 || res.status >= 500;
-    if (transient && attempt < 4) {
+    if (transient && attempt < MAX_ATTEMPTS) {
       const backoff = 1000 * 2 ** attempt;
       console.warn(`  ↻ retry ${path} after ${backoff}ms (code ${code})`);
       await sleep(backoff);

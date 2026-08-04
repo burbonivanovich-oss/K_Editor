@@ -64,7 +64,24 @@ function diffSeed(prev, curr) {
       NEW.push({ phrase, count });
     } else {
       const prevCount = prevMap.get(phrase);
-      if (prevCount < MIN_COUNT) continue;
+      // Фраза была ниже порога шума, а теперь выше — это прорыв, самый
+      // интересный случай для детектора трендов. Раньше он терялся:
+      // в NEW не попадал (фраза есть в прошлом снапшоте), а здесь
+      // отсекался порогом. Ровно рост с 5 до 500 и уходил в тишину.
+      if (prevCount < MIN_COUNT) {
+        if (prevCount <= 0) {
+          NEW.push({ phrase, count });
+        } else {
+          RISING.push({
+            phrase,
+            prev: prevCount,
+            now: count,
+            ratio: count / prevCount,
+            breakout: true,
+          });
+        }
+        continue;
+      }
       const ratio = count / prevCount;
       if (ratio >= RISE_THRESHOLD) {
         RISING.push({ phrase, prev: prevCount, now: count, ratio });
@@ -104,8 +121,9 @@ function renderReport(prevDate, currDate, perSeed) {
   lines.push(`# Wordstat discovery diff: ${currDate} vs ${prevDate}`);
   lines.push("");
   lines.push(
-    `Изменения за неделю по 162 seed-ам. Пороги: RISING ≥ ×${RISE_THRESHOLD}, ` +
-      `MIN_COUNT ≥ ${MIN_COUNT}. Шум ниже порога отфильтрован.`,
+    `Изменения за неделю по ${perSeed.length} seed-ам. Пороги: RISING ≥ ×${RISE_THRESHOLD}, ` +
+      `MIN_COUNT ≥ ${MIN_COUNT}. Шум ниже порога отфильтрован, ` +
+      `⚡ — фраза пробила порог снизу.`,
   );
   lines.push("");
 
@@ -141,7 +159,7 @@ function renderReport(prevDate, currDate, perSeed) {
     lines.push("|---|---:|---:|---:|---|");
     for (const r of allRising.slice(0, 20)) {
       lines.push(
-        `| ${r.phrase} | ${fmtNum(r.prev)} | ${fmtNum(r.now)} | ${r.ratio.toFixed(1)} | ${r.seed} |`,
+        `| ${r.phrase}${r.breakout ? " ⚡" : ""} | ${fmtNum(r.prev)} | ${fmtNum(r.now)} | ${r.ratio.toFixed(1)} | ${r.seed} |`,
       );
     }
     lines.push("");
@@ -163,7 +181,7 @@ function renderReport(prevDate, currDate, perSeed) {
         "RISING",
         RISING,
         (r) =>
-          `- ${r.phrase} — ${fmtNum(r.prev)} → ${fmtNum(r.now)} (×${r.ratio.toFixed(1)})`,
+          `- ${r.phrase} — ${fmtNum(r.prev)} → ${fmtNum(r.now)} (×${r.ratio.toFixed(1)})${r.breakout ? " — пробил порог шума" : ""}`,
       ),
     );
     lines.push(
