@@ -100,8 +100,8 @@ if (!fm.description) {
 if (fm._categories.length === 0)
   p0.push('Не указана категория (categories)');
 
-if (fm._tags.length < 2)
-  p0.push(`Мало тегов: ${fm._tags.length} (нужно минимум 2)`);
+if (fm._tags.length < 4)
+  p0.push(`Мало тегов: ${fm._tags.length} (норма 4–7)`);
 
 if (fm._keywords.length === 0)
   p0.push('Нет seo.keywords во frontmatter');
@@ -111,6 +111,11 @@ const internalLinks = (body.match(/\(\/(?:blog|category|tag|slovar|kalkulyator)[
 if (internalLinks.length === 0)
   p0.push('Нет ни одной внутренней ссылки (/blog/, /category/, …)');
 
+// FAQ обязателен без исключений — критичен для нейровыдачи, поэтому
+// блокирует, а не предупреждает (docs/content-types.md).
+if (!/^#{2,3}\s.*(?:FAQ|вопрос|частые)/im.test(body))
+  p0.push('Нет FAQ-блока (H2/H3 с «FAQ» или «вопрос»)');
+
 // ── P1 — предупреждения ───────────────────────────────────────────────────────
 
 if (fm.description && fm.description.length < 140)
@@ -119,12 +124,14 @@ if (fm.description && fm.description.length < 140)
 if (internalLinks.length > 0 && internalLinks.length < 3)
   p1.push(`Мало внутренних ссылок: ${internalLinks.length} (рекомендовано 3+)`);
 
-const h2count = (body.match(/^## /gm) ?? []).length;
-if (h2count < 3)
-  p1.push(`Мало H2-заголовков: ${h2count} (рекомендовано 5–7)`);
+if (fm._tags.length > 7)
+  p1.push(`Много тегов: ${fm._tags.length} (норма 4–7)`);
 
-if (!/^#{2,3}\s.*(?:FAQ|вопрос|частые)/im.test(body))
-  p1.push('Нет FAQ-блока (H2/H3 с «FAQ» или «вопрос»)');
+// Порог совпадает с нижней границей нормы 5–7: раньше здесь стояло 3
+// при тексте предупреждения «рекомендовано 5–7».
+const h2count = (body.match(/^## /gm) ?? []).length;
+if (h2count < 5)
+  p1.push(`Мало H2-заголовков: ${h2count} (норма 5–7)`);
 
 if (fm._keywords.length > 0 && fm.title) {
   const key = fm._keywords[0].toLowerCase();

@@ -51,6 +51,12 @@ jobs:
           WS_NS: "kontur"
         run: node scripts/wordstat/diff-snapshots.mjs
 
+      # kontur гоняется ежедневно — без ретенции именно он раздувает
+      # дерево быстрее всех. Строго после diff: тому нужны две последние
+      # датированные папки.
+      - name: Prune history (ретенция discoveries/kontur)
+        run: node scripts/wordstat/prune-history.mjs
+
       - name: Commit refresh
         run: |
           git config user.name "github-actions[bot]"

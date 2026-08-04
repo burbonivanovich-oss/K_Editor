@@ -143,8 +143,9 @@ CPA-баннеры, — из модуля удалено вместе с Astro-�
 title: "Заголовок: что и почему"
 description: "Краткое описание, до 160 символов."
 pubDate: "YYYY-MM-DD"
-tags: [тег1, тег2]
-categories: [ts-piot]   # или markirovka, zakonodatelstvo, kkt, egais
+reviewDate: "YYYY-MM-DD"   # pubDate + 6 месяцев
+tags: [тег1, тег2]         # 4–7 штук
+categories: [ts-piot]   # ровно одна из 18 — список в docs/content-rules.md
 draft: false
 seo:
   keywords: [целевой ключ]

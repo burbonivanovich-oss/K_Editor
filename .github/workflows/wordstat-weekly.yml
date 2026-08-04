@@ -59,6 +59,14 @@ jobs:
       - name: Demand watch (спрос ↔ покрытие по кластерам)
         run: node scripts/wordstat/demand-watch.mjs
 
+      # Обязательно после diff-snapshots: тот сравнивает две последние
+      # датированные папки, ретенция режет только то, что старше лимита.
+      - name: Prune history (ретенция снапшотов и discoveries)
+        run: node scripts/wordstat/prune-history.mjs
+
+      - name: Cleanup orphans (устаревшие ключи в keys.json)
+        run: node scripts/wordstat/cleanup-orphans.mjs --apply
+
       - name: Commit refresh
         run: |
           git config user.name "github-actions[bot]"
