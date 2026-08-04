@@ -1,0 +1,114 @@
+name: Запрос редактора из таблицы
+
+# Кнопка в Google-таблице бьёт сюда. Редактор не заходит в GitHub — он
+# жмёт пункт меню в документе, который у него и так открыт, а токен лежит
+# в настройках скрипта таблицы, не в чьём-то браузере.
+#
+# Workflow сам ничего не решает: он кладёт запрос в очередь
+# src/data/editor-requests/ и коммитит. Разбирает очередь рутина B
+# (/cycle-listen) — она читает эти файлы первыми, до обхода таблицы.
+#
+# Это заменяет колонку «Срочно» из docs/editorial-cycle.md, которой
+# drive-sync.mjs на самом деле никогда не создавал.
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: "Что за запрос"
+        required: true
+        type: choice
+        default: urgent
+        options:
+          - urgent      # срочная правка, нужна раньше планового прохода
+          - question    # вопрос по теме, ответ в треде дока
+          - recheck     # перечитать док: правки внесены
+      topic:
+        description: "Тема из строки таблицы"
+        required: false
+        type: string
+      note:
+        description: "Что нужно — своими словами"
+        required: false
+        type: string
+      who:
+        description: "Кто просит"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  record:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: editor-request
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Записать запрос в очередь
+        id: rec
+        env:
+          KIND: ${{ inputs.kind }}
+          TOPIC: ${{ inputs.topic }}
+          NOTE: ${{ inputs.note }}
+          WHO: ${{ inputs.who }}
+        run: |
+          set -euo pipefail
+          mkdir -p src/data/editor-requests
+
+          STAMP=$(date -u +%Y-%m-%dT%H-%M-%SZ)
+          FILE="src/data/editor-requests/${STAMP}.json"
+
+          # Через jq, а не через кавычки в bash: редактор пишет свободный
+          # текст, и любая кавычка или перенос строки в note сломали бы
+          # руками собранный JSON.
+          jq -n \
+            --arg kind "${KIND}" \
+            --arg topic "${TOPIC}" \
+            --arg note "${NOTE}" \
+            --arg who "${WHO}" \
+            --arg at "$(date -u +%Y-%m-%dT%H:%M:%SZ)" \
+            '{at: $at, kind: $kind, topic: $topic, note: $note, who: $who, handled: false}' \
+            > "${FILE}"
+
+          echo "file=${FILE}" >> "$GITHUB_OUTPUT"
+          cat "${FILE}"
+
+      - name: Коммит
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/editor-requests/
+          if git diff --cached --quiet; then
+            echo "нечего коммитить"
+            exit 0
+          fi
+          git commit -m "editor: запрос «${{ inputs.kind }}» из таблицы"
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:${{ github.ref_name }}; then
+              echo "push ok (попытка $i)"
+              exit 0
+            fi
+            git pull --rebase --autostash origin ${{ github.ref_name }} || exit 1
+          done
+          exit 1
+
+      - name: Отчёт
+        if: always()
+        run: |
+          {
+            echo "## Запрос редактора принят"
+            echo ""
+            echo "| Поле | Значение |"
+            echo "|---|---|"
+            echo "| Тип | ${{ inputs.kind }} |"
+            echo "| Тема | ${{ inputs.topic }} |"
+            echo "| Кто | ${{ inputs.who }} |"
+            echo "| Файл | \`${{ steps.rec.outputs.file }}\` |"
+            echo ""
+            echo "Разберёт рутина B (\`/cycle-listen\`) — очередь читается до обхода таблицы."
+          } >> "$GITHUB_STEP_SUMMARY"

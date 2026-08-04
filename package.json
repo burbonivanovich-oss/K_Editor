@@ -4,6 +4,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "console": "node scripts/console.mjs",
+    "status": "node scripts/console.mjs status",
     "cycle:state": "node scripts/cycle-state.mjs",
     "cycle:check": "node scripts/drive-sync.mjs check",
     "plan": "node scripts/generate-editorial-plan.mjs",

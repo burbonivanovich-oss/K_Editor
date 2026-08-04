@@ -1,0 +1,186 @@
+name: Консоль — запуск скриптов
+
+# Веб-пульт модуля. Вкладка Actions даёт готовую страницу с выпадающим
+# списком и кнопкой Run workflow — отдельный сайт для этого не нужен.
+#
+# Результат кладётся в Summary прогона (страница с отчётом), а не только в
+# сырой лог: смотреть операционный отчёт в логе сборки неудобно.
+#
+# Скрипты, которые пишут файлы, коммитятся обратно в ветку — при
+# commit: true. Пункты пайплайна статьи (/create-article, /factcheck и
+# прочие) сюда не входят: это работа агентов Claude, а не скриптов, и
+# запустить их из Actions нельзя.
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "Что запустить"
+        required: true
+        type: choice
+        default: health
+        options:
+          - health                 # сводка состояния модуля
+          - status                 # панель консоли
+          - console-check          # целостность меню консоли
+          - drive-check            # доступ к Google API
+          - cycle-get              # где сейчас цикл
+          - can-start-batch        # можно ли стартовать батч
+          - stale-content          # статьи с истёкшим reviewDate
+          - linkgraph              # сироты и тупики перелинковки
+          - blog-links             # битые внутренние ссылки
+          - npa-audit              # аудит ссылок на НПА (--strict)
+          - check-ai               # AI-маркеры (нужен slug)
+          - check-seo              # SEO-качество (нужен slug)
+          - editorial-plan         # пересобрать editorial-plan.json
+          - extract-keys           # кандидаты в Wordstat
+          - demand-watch           # отчёт спроса по кластерам
+          - diff-snapshots         # diff последних выгрузок
+          - npa-changes            # кандидаты по изменившейся нормативке
+          - cleanup-orphans        # чистка keys.json
+          - prune-history          # ретенция выгрузок
+      slug:
+        description: "Slug статьи — только для check-ai и check-seo"
+        required: false
+        type: string
+      commit:
+        description: "Закоммитить изменённые файлы обратно в ветку"
+        required: false
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ops-${{ github.ref_name }}
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Запуск
+        id: task
+        env:
+          TASK: ${{ inputs.task }}
+          SLUG: ${{ inputs.slug }}
+          GOOGLE_DOCS_KEY: ${{ secrets.GOOGLE_DOCS_KEY }}
+          GOOGLE_DOCS_FOLDER_ID: ${{ secrets.GOOGLE_DOCS_FOLDER_ID }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+        run: |
+          set -uo pipefail
+
+          # Скрипты, которым нужен путь к статье. Проверяем файл заранее:
+          # иначе ошибка вылезет глубоко внутри скрипта и будет непонятной.
+          need_slug() {
+            if [ -z "${SLUG}" ]; then
+              echo "Задача ${TASK} требует slug, а он пустой." >&2
+              exit 2
+            fi
+            ARTICLE="src/content/blog/${SLUG}.md"
+            if [ ! -f "${ARTICLE}" ]; then
+              echo "Нет файла ${ARTICLE}. Slug пишется без даты? Нужен полный: YYYY-MM-DD-slug" >&2
+              exit 2
+            fi
+          }
+
+          case "${TASK}" in
+            health)           CMD="node scripts/health-check.mjs" ;;
+            status)           CMD="node scripts/console.mjs status" ;;
+            console-check)    CMD="node scripts/console.mjs check" ;;
+            drive-check)      CMD="node scripts/drive-sync.mjs check" ;;
+            cycle-get)        CMD="node scripts/cycle-state.mjs get" ;;
+            can-start-batch)  CMD="node scripts/cycle-state.mjs can-start-batch" ;;
+            stale-content)    CMD="node scripts/check-stale-content.mjs" ;;
+            linkgraph)        CMD="node scripts/audit/linkgraph.mjs" ;;
+            blog-links)       CMD="node scripts/audit/check-blog-links.mjs" ;;
+            npa-audit)        CMD="node scripts/factcheck/audit-npa-references.mjs --strict" ;;
+            check-ai)         need_slug; CMD="node scripts/check-ai-markers.mjs ${ARTICLE}" ;;
+            check-seo)        need_slug; CMD="node scripts/check-seo.mjs ${ARTICLE}" ;;
+            editorial-plan)   CMD="node scripts/generate-editorial-plan.mjs" ;;
+            extract-keys)     CMD="node scripts/wordstat/extract-keys.mjs" ;;
+            demand-watch)     CMD="node scripts/wordstat/demand-watch.mjs" ;;
+            diff-snapshots)   CMD="node scripts/wordstat/diff-snapshots.mjs" ;;
+            npa-changes)      CMD="node scripts/npa-change-candidates.mjs" ;;
+            cleanup-orphans)  CMD="node scripts/wordstat/cleanup-orphans.mjs" ;;
+            prune-history)    CMD="node scripts/wordstat/prune-history.mjs" ;;
+            *)
+              echo "Неизвестная задача: ${TASK}" >&2
+              exit 2
+              ;;
+          esac
+
+          echo "$ ${CMD}"
+          echo ""
+
+          # Код возврата не гасим: у части скриптов ненулевой код — это
+          # содержательная находка (битые ссылки, незнакомые НПА), и она
+          # должна красить прогон красным. Но отчёт нужен в любом случае,
+          # поэтому сначала сохраняем вывод, потом возвращаем код.
+          set +e
+          ${CMD} 2>&1 | tee /tmp/ops-output.txt
+          CODE=${PIPESTATUS[0]}
+          set -e
+
+          echo "code=${CODE}" >> "$GITHUB_OUTPUT"
+          echo "cmd=${CMD}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Отчёт в Summary
+        if: always()
+        run: |
+          {
+            echo "## ${{ inputs.task }}"
+            echo ""
+            echo '```'
+            # Скрипты красят вывод даже без терминала — в Summary эти
+            # последовательности видны как мусор, вырезаем.
+            sed -r 's/\x1b\[[0-9;]*m//g' /tmp/ops-output.txt 2>/dev/null || echo "(вывод пуст)"
+            echo '```'
+            echo ""
+            if [ "${{ steps.task.outputs.code }}" = "0" ]; then
+              echo "Код возврата: 0"
+            else
+              echo "**Код возврата: ${{ steps.task.outputs.code }}** — смотрите вывод выше."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Коммит изменений
+        if: inputs.commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "изменений нет — коммитить нечего"
+            exit 0
+          fi
+          git commit -m "ops(${{ inputs.task }}): обновление данных"
+          for i in 1 2 3 4 5; do
+            if git push origin HEAD:${{ github.ref_name }}; then
+              echo "push ok (попытка $i)"
+              exit 0
+            fi
+            echo "push отклонён, попытка $i — ребейз на свежий ${{ github.ref_name }}"
+            git pull --rebase --autostash origin ${{ github.ref_name }} || exit 1
+          done
+          echo "push не прошёл за 5 попыток" >&2
+          exit 1
+
+      - name: Проброс кода возврата
+        if: always()
+        run: |
+          CODE="${{ steps.task.outputs.code }}"
+          if [ -n "${CODE}" ] && [ "${CODE}" != "0" ]; then
+            echo "Задача завершилась с кодом ${CODE}"
+            exit "${CODE}"
+          fi
