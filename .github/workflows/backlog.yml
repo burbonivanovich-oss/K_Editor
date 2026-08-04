@@ -1,0 +1,144 @@
+name: Бэклог тем — ресерч и выкладка редактору
+
+# Рутина A0 целиком, одной кнопкой: от сбора спроса до таблицы в папке
+# редактора. Раньше этапы существовали по отдельности и часть из них была
+# только на бумаге — таблицу бэклога создавать было нечем.
+#
+# Цепочка:
+#   discover           свежая выгрузка Wordstat по сидам
+#   enrich-candidates  помесячная динамика по кандидатам (12 месяцев)
+#   generate-backlog   отбор тем с обоснованием «почему сейчас»
+#   drive-sync         таблица в папке редактора
+#
+# Динамика вместо diff-а неделя-к-неделе: topRequests не отдаёт срез задним
+# числом, второй снапшот появился бы только через неделю. /dynamics отдаёт
+# 12 месяцев истории сразу, и рост считается в первый же день.
+
+on:
+  workflow_dispatch:
+    inputs:
+      limit:
+        description: "Сколько тем в бэклоге"
+        required: false
+        type: string
+        default: "15"
+      top_n:
+        description: "Сколько фраз проверить на динамику (= столько же квот Wordstat)"
+        required: false
+        type: string
+        default: "700"
+      publish:
+        description: "Выложить таблицу редактору в Google Drive"
+        required: false
+        type: boolean
+        default: true
+  schedule:
+    # Понедельник, 06:00 UTC — после weekly-обновления Wordstat в 04:00,
+    # чтобы бэклог собирался на свежих данных, а не на прошлонедельных.
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: write
+
+jobs:
+  backlog:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: backlog
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Выгрузка Wordstat по сидам
+        env:
+          YC_API_KEY: ${{ secrets.YC_API_KEY }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+          REGION_ID: "225"
+        # Уже собранные за сегодня сиды скрипт пропускает, так что повторный
+        # запуск в тот же день квоту не жжёт.
+        run: node scripts/wordstat/discover.mjs
+
+      - name: Динамика по кандидатам
+        env:
+          YC_API_KEY: ${{ secrets.YC_API_KEY }}
+          YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
+          REGION_ID: "225"
+          # 176 сидов на discover + 700 сюда = 876 из часовой тысячи.
+          # Измерения копятся между прогонами: пул ~8500 фраз закрывается
+          # примерно за дюжину запусков, а не мерится заново каждый раз.
+          TOP_N: ${{ inputs.top_n || '700' }}
+        run: node scripts/wordstat/enrich-candidates.mjs
+
+      - name: Сборка бэклога
+        id: gen
+        run: |
+          set -euo pipefail
+          node scripts/topics/generate-backlog.mjs --limit "${{ inputs.limit || '15' }}" | tee /tmp/backlog.log
+          COUNT=$(node -e "const j=require('./src/data/topic-backlog.json');console.log((j.candidates||[]).length)")
+          echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
+
+      - name: Таблица редактору в Drive
+        id: drive
+        if: ${{ inputs.publish != false }}
+        env:
+          GOOGLE_DOCS_KEY: ${{ secrets.GOOGLE_DOCS_KEY }}
+          GOOGLE_DOCS_FOLDER_ID: ${{ secrets.GOOGLE_DOCS_FOLDER_ID }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+        run: |
+          set -uo pipefail
+          if [ -z "${GOOGLE_DOCS_KEY}" ] && [ -z "${GSC_REFRESH_TOKEN}" ]; then
+            # Явное сообщение вместо падения в недрах drive-sync: без
+            # учётных данных бэклог всё равно собран и лежит в репозитории.
+            echo "no-creds=1" >> "$GITHUB_OUTPUT"
+            echo "Учётных данных Google нет — таблица не выкладывается."
+            exit 0
+          fi
+          # generate-backlog пишет {stats, candidates}, init-backlog ждёт
+          # массив тем — разворачиваем.
+          node -e "const j=require('./src/data/topic-backlog.json');require('fs').writeFileSync('/tmp/items.json',JSON.stringify(j.candidates||[]))"
+          node scripts/drive-sync.mjs init-backlog \
+            --week "$(date -u +%F)" --items /tmp/items.json | tee /tmp/drive.json
+          URL=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('/tmp/drive.json','utf8')).sheetUrl)}catch{console.log('')}")
+          echo "url=${URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Коммит
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/
+          if git diff --cached --quiet; then
+            echo "изменений нет"
+            exit 0
+          fi
+          git commit -m "backlog: сборка $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4 5; do
+            git push origin HEAD:${{ github.ref_name }} && exit 0
+            git pull --rebase --autostash origin ${{ github.ref_name }} || exit 1
+          done
+          exit 1
+
+      - name: Отчёт
+        if: always()
+        run: |
+          {
+            echo "## Бэклог тем"
+            echo ""
+            echo "Тем отобрано: **${{ steps.gen.outputs.count || '—' }}**"
+            echo ""
+            if [ -n "${{ steps.drive.outputs.url }}" ]; then
+              echo "Таблица редактору: ${{ steps.drive.outputs.url }}"
+            elif [ "${{ steps.drive.outputs.no-creds }}" = "1" ]; then
+              echo "> Таблица не выложена: в секретах нет \`GOOGLE_DOCS_KEY\`."
+              echo "> Бэклог собран и лежит в \`src/data/topic-backlog.json\`."
+            fi
+            echo ""
+            echo '```'
+            sed -r 's/\x1b\[[0-9;]*m//g' /tmp/backlog.log 2>/dev/null | tail -40 || echo "(лог пуст)"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
