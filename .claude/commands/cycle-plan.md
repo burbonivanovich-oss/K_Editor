@@ -32,7 +32,7 @@ node scripts/cycle-state.mjs get
 ## Шаг 1 — Сбор тем
 
 1. `/monitor-rss` — новости за 30 дней.
-2. `/cluster-gaps` — пробелы по всем 18 кластерам.
+2. `/cluster-gaps` — пробелы по всем 25 кластерам.
 3. `src/data/editorial-plan.json` — отсеять `done` и уже запланированное.
 4. `src/data/wordstat/keys.json` — частотности для приоритизации.
 

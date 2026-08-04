@@ -231,7 +231,7 @@ Wordstat больше **не отдельный сервис**. С 2026 года
 `src/data/wordstat/discoveries/seeds.json` — JSON-массив с полями `phrase`,
 `category`, `cluster`. Категории: `entity` (узкая сущность), `intent`
 (паттерн запроса), `audience` (срез), `problem` (боль/ошибка), `system`
-(платформа), `seasonal` (календарь). Cluster — один из 18 кластеров
+(платформа), `seasonal` (календарь). Cluster — один из 25 кластеров
 контент-плана или `any`.
 
 Добавление/удаление seed-а — простой редит JSON. На следующем weekly:
