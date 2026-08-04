@@ -89,10 +89,19 @@ function rfc3339FirstDayMonthsAgo(months) {
   return d.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
-function rfc3339FirstDayThisMonth() {
+// Правый край периода. Yandex Cloud требует ровно последний день месяца:
+// на любую другую дату /dynamics отвечает InvalidArgument «The to field
+// value should be the last day of the month». Здесь стоял первый день
+// текущего месяца, из-за чего невалиден был каждый запрос без исключения.
+//
+// Берём последний день ПРЕДЫДУЩЕГО месяца: текущий ещё не закончился, и
+// его частотность всё равно неполная — сравнивать её с полными месяцами
+// значит каждый раз видеть ложное падение спроса.
+function rfc3339LastDayPrevMonth() {
   const d = new Date();
   d.setUTCDate(1);
   d.setUTCHours(0, 0, 0, 0);
+  d.setUTCDate(0); // нулевой день = последний день предыдущего месяца
   return d.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
@@ -157,7 +166,7 @@ async function getDynamics(phrase) {
     phrase,
     period: "PERIOD_MONTHLY",
     fromDate: rfc3339FirstDayMonthsAgo(12),
-    toDate: rfc3339FirstDayThisMonth(),
+    toDate: rfc3339LastDayPrevMonth(),
     regions: [REGION_ID],
   });
   const arr = Array.isArray(data?.results) ? data.results : [];
@@ -307,6 +316,7 @@ async function main() {
   }
 
   let updated = 0;
+  const failures = new Map();
   for (const p of plan) {
     try {
       const history = await getDynamics(p.phrase);
@@ -352,16 +362,46 @@ async function main() {
       console.error(`  ✗ "${p.phrase}": ${err.message}`);
       // Не критично — идём дальше, токен может сломаться на одной фразе
       // (например, кириллица или редкий символ).
+      failures.set(err.message, (failures.get(err.message) || 0) + 1);
     }
   }
 
-  cache.lastFullUpdate = todayISO();
+  // Одна и та же ошибка на всех фразах — это не «сломалось на редком
+  // символе», а отказ целиком: неверный эндпоинт, протухший ключ,
+  // исчерпанная квота. В логе из сотен одинаковых строк это не читается,
+  // поэтому сводим причины в короткий список.
+  if (failures.size) {
+    const total = [...failures.values()].reduce((a, b) => a + b, 0);
+    console.error(`\nfetch: не удалось ${total} запросов. Причины:`);
+    for (const [msg, count] of [...failures].sort((a, b) => b[1] - a[1]).slice(0, 5)) {
+      console.error(`  ${String(count).padStart(4)} × ${msg}`);
+    }
+  }
+
+  // lastFullUpdate раньше проставлялся здесь безусловно. Из-за этого прогон,
+  // не обновивший ни одного ключа, всё равно помечал файл сегодняшней датой:
+  // метаданные обещали свежие данные, а внутри лежали месячной давности.
+  // Ставим метку только когда данные действительно поменялись.
+  cache.lastAttemptAt = new Date().toISOString();
+  if (updated > 0) cache.lastFullUpdate = todayISO();
+
   if (!existsSync(SNAPSHOTS_DIR)) mkdirSync(SNAPSHOTS_DIR, { recursive: true });
   writeFileSync(KEYS_FILE, JSON.stringify(cache, null, 2) + "\n");
   copyFileSync(KEYS_FILE, join(SNAPSHOTS_DIR, `${todayISO()}.json`));
 
   console.log(`fetch: обновлено ${updated} ключей → ${KEYS_FILE}`);
   console.log(`       snapshot → snapshots/${todayISO()}.json`);
+
+  // Прогон, который планировал работу и не сделал ничего, — сломанный
+  // прогон, а не пустой. Зелёный статус здесь опаснее красного: он говорит
+  // «данные свежие», когда они не обновлялись.
+  if (plan.length > 0 && updated === 0) {
+    console.error(
+      `fetch: в плане было ${plan.length} ключей, обновлено 0. ` +
+        `Данные остались прежними — смотрите ошибки выше.`,
+    );
+    process.exitCode = 1;
+  }
 }
 
 main().catch((err) => {
