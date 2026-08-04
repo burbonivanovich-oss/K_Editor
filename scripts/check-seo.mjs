@@ -116,6 +116,42 @@ if (internalLinks.length === 0)
 if (!/^#{2,3}\s.*(?:FAQ|вопрос|частые)/im.test(body))
   p0.push('Нет FAQ-блока (H2/H3 с «FAQ» или «вопрос»)');
 
+// Промоблоки: id должен существовать в каталоге. Выдуманный номер ведёт
+// в никуда так же, как выдуманный НПА, — а на глаз это не отличить.
+const promoIds = [...body.matchAll(/^\[Промоблок:\s*([^\]]+)\]\s*$/gim)].map((m) => m[1].trim());
+// От расположения скрипта, а не от cwd: скрипт зовут и из git-хука,
+// и из корня, и с произвольным путём к статье.
+const CPA_FILE = path.join(
+  path.dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', 'cpa-blocks.json',
+);
+
+if (promoIds.length && fs.existsSync(CPA_FILE)) {
+  const catalog = JSON.parse(fs.readFileSync(CPA_FILE, 'utf8'));
+  const byId = new Map((catalog.blocks ?? []).map((b) => [String(b.id), b]));
+
+  const unknown = promoIds.filter((id) => !byId.has(id));
+  if (unknown.length)
+    p0.push(`Промоблоки не найдены в cpa-blocks.json: ${unknown.join(', ')}`);
+
+  // Блок из чужого кластера — не ошибка формата, но повод посмотреть:
+  // читателю предлагают оффер не по теме статьи.
+  const articleCluster = fm._categories[0];
+  if (articleCluster) {
+    const mismatched = [...new Set(promoIds)]
+      .filter((id) => byId.has(id))
+      .filter((id) => byId.get(id).cluster && byId.get(id).cluster !== articleCluster);
+    if (mismatched.length)
+      p1.push(`Промоблоки из другого кластера (статья — ${articleCluster}): ${mismatched.join(', ')}`);
+  }
+
+  const dupes = promoIds.filter((id, i) => promoIds.indexOf(id) !== i);
+  if (dupes.length)
+    p1.push(`Один и тот же промоблок повторяется: ${[...new Set(dupes)].join(', ')}`);
+}
+
+if (promoIds.length && promoIds.length !== 3)
+  p1.push(`Подводок к промоблокам: ${promoIds.length} (норма 3)`);
+
 // ── P1 — предупреждения ───────────────────────────────────────────────────────
 
 if (fm.description && fm.description.length < 140)
