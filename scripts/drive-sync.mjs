@@ -15,6 +15,8 @@
  *
  * Подкоманды:
  *   init-cycle   --cycle 2026-08 --plan plan.json   создать папку + таблицу
+ *   init-backlog --week 2026-08-04 --items b.json  таблица бэклога тем (A0)
+ *   pull-backlog --sheet-id <id>                   решения по бэклогу
  *   push-plan    --cycle 2026-08                    перезалить строки плана
  *   pull         --cycle 2026-08                    прочитать решения редактора
  *   make-doc     --title "..." --md article.md      создать Doc из markdown
@@ -211,6 +213,28 @@ const COL = Object.fromEntries(COLS.map((c, i) => [c.key, colLetter(i)]));
 
 const DECISIONS = ['', 'одобрено', 'убрать', 'пишем сами'];
 const STATUSES = ['в плане', 'пишется', 'на вычитке', 'принято', 'выпущено', 'снято'];
+
+/* ─────────────────────────────────────────────────── бэклог тем (A0) ──── */
+// Отдельная таблица от контент-плана: у бэклога недельный ритм, у плана
+// месячный. Живёт в корневой папке рядом с планом, папки цикла не трогает —
+// в бэклоге ещё нет статей, только кандидаты в темы.
+
+const BACKLOG_HEADER_ROW = 3;
+const BACKLOG_FIRST_DATA_ROW = 4;
+
+const BACKLOG_COLS = [
+  { key: 'n',        title: '#',              width: 40  },
+  { key: 'topic',    title: 'Тема',           width: 340 },
+  { key: 'cluster',  title: 'Кластер',        width: 120 },
+  { key: 'why',      title: 'Зачем сейчас',   width: 320 },
+  { key: 'source',   title: 'Источник',       width: 140 },
+  { key: 'decision', title: 'Решение',        width: 150 },  // ← редактор
+  { key: 'who',      title: 'Кто пишет',      width: 150 },  // ← редактор
+  { key: 'reason',   title: 'Причина отказа', width: 280 },  // ← редактор
+];
+
+const BACKLOG_DECISIONS = ['согласовано', 'не согласовано'];
+const BACKLOG_WHO = ['AI', 'пишем сами', 'пока неактуально'];
 
 /* ─────────────────────────────────────────────────── markdown → Docs ──── */
 /** Разбирает markdown в плоский текст + диапазоны стилей для Docs API. */
@@ -525,6 +549,129 @@ async function writePlanRows(sheetId, plan) {
   });
 }
 
+/** Шапка, заголовки, ширины и выпадающие списки таблицы бэклога. */
+async function formatBacklogSheet(sheetId, weekId, rowCount) {
+  const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId,title))`);
+  const gid = meta.sheets[0].properties.sheetId;
+  const lastRow = BACKLOG_FIRST_DATA_ROW + rowCount - 1;
+
+  const requests = [
+    {
+      updateCells: {
+        rows: [
+          { values: [{ userEnteredValue: { stringValue: `Бэклог тем — неделя ${weekId}` },
+                       userEnteredFormat: { textFormat: { bold: true, fontSize: 14 } } }] },
+          { values: [{ userEnteredValue: { stringValue: 'Проставьте решение по каждой теме. При «не согласовано» причина обязательна — иначе тема вернётся на следующей неделе.' },
+                       userEnteredFormat: {
+                         textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
+                       } }] },
+        ],
+        fields: 'userEnteredValue,userEnteredFormat',
+        start: { sheetId: gid, rowIndex: 0, columnIndex: 0 },
+      },
+    },
+    {
+      updateCells: {
+        rows: [{
+          values: BACKLOG_COLS.map((c) => ({
+            userEnteredValue: { stringValue: c.title },
+            userEnteredFormat: {
+              textFormat: { bold: true },
+              backgroundColor: { red: 0.93, green: 0.91, blue: 0.87 },
+            },
+          })),
+        }],
+        fields: 'userEnteredValue,userEnteredFormat',
+        start: { sheetId: gid, rowIndex: BACKLOG_HEADER_ROW - 1, columnIndex: 0 },
+      },
+    },
+    {
+      updateSheetProperties: {
+        properties: { sheetId: gid, gridProperties: { frozenRowCount: BACKLOG_HEADER_ROW } },
+        fields: 'gridProperties.frozenRowCount',
+      },
+    },
+  ];
+
+  BACKLOG_COLS.forEach((c, i) => {
+    requests.push({
+      updateDimensionProperties: {
+        range: { sheetId: gid, dimension: 'COLUMNS', startIndex: i, endIndex: i + 1 },
+        properties: { pixelSize: c.width },
+        fields: 'pixelSize',
+      },
+    });
+  });
+
+  if (rowCount > 0) {
+    const dropdown = (key, values) => ({
+      setDataValidation: {
+        range: {
+          sheetId: gid,
+          startRowIndex: BACKLOG_FIRST_DATA_ROW - 1,
+          endRowIndex: lastRow,
+          startColumnIndex: BACKLOG_COLS.findIndex((c) => c.key === key),
+          endColumnIndex: BACKLOG_COLS.findIndex((c) => c.key === key) + 1,
+        },
+        rule: {
+          condition: { type: 'ONE_OF_LIST', values: values.map((v) => ({ userEnteredValue: v })) },
+          showCustomUi: true, strict: false,
+        },
+      },
+    });
+    requests.push(dropdown('decision', BACKLOG_DECISIONS));
+    requests.push(dropdown('who', BACKLOG_WHO));
+  }
+
+  await sheets(`${sheetId}:batchUpdate`, { method: 'POST', body: JSON.stringify({ requests }) });
+  return gid;
+}
+
+async function writeBacklogRows(sheetId, items) {
+  const values = items.map((t, i) => [
+    i + 1,
+    t.topic || t.title || '',
+    t.cluster || '',
+    t.note || t.rationale || '',
+    t.source || '',
+    '',  // Решение — редактору
+    '',  // Кто пишет — редактору
+    '',  // Причина отказа — редактору
+  ]);
+  const range =
+    `A${BACKLOG_FIRST_DATA_ROW}:${colLetter(BACKLOG_COLS.length - 1)}` +
+    `${BACKLOG_FIRST_DATA_ROW + values.length - 1}`;
+  await sheets(`${sheetId}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
+    method: 'PUT',
+    body: JSON.stringify({ values }),
+  });
+}
+
+/** Решения редактора из таблицы бэклога — вход для шага 3 рутины A0. */
+async function readBacklog(sheetId) {
+  const range = `A1:${colLetter(BACKLOG_COLS.length - 1)}1000`;
+  const r = await sheets(`${sheetId}/values/${encodeURIComponent(range)}`);
+  const rows = r.values || [];
+  const out = [];
+
+  for (let i = BACKLOG_FIRST_DATA_ROW - 1; i < rows.length; i++) {
+    const row = rows[i] || [];
+    const topic = (row[1] || '').trim();
+    if (!topic) continue;
+    out.push({
+      row: i + 1,
+      topic,
+      cluster: (row[2] || '').trim(),
+      why: (row[3] || '').trim(),
+      source: (row[4] || '').trim(),
+      decision: (row[5] || '').trim(),
+      who: (row[6] || '').trim(),
+      reason: (row[7] || '').trim(),
+    });
+  }
+  return { sheetId, items: out };
+}
+
 async function readSheet(sheetId) {
   const range = `A1:${colLetter(COLS.length - 1)}1000`;
   const r = await sheets(`${sheetId}/values/${encodeURIComponent(range)}`);
@@ -592,6 +739,44 @@ try {
       const sheetId = arg('sheet-id');
       if (!sheetId) die('нужен --sheet-id');
       console.log(JSON.stringify(await readSheet(sheetId), null, 2));
+      break;
+    }
+
+    case 'init-backlog': {
+      const week = arg('week') || new Date().toISOString().slice(0, 10);
+      const itemsPath = arg('items');
+      if (!ROOT_FOLDER) die('GOOGLE_DOCS_FOLDER_ID не задан');
+      if (!itemsPath || !existsSync(itemsPath)) die('нужен --items <файл с темами>');
+      const items = JSON.parse(readFileSync(itemsPath, 'utf8'));
+      if (!Array.isArray(items) || !items.length) die('бэклог пуст');
+
+      if (DRY_RUN) {
+        console.log(JSON.stringify({ dryRun: true, week, items: items.length, rootFolder: ROOT_FOLDER }, null, 2));
+        break;
+      }
+
+      // Таблица бэклога лежит в корневой папке рядом с контент-планом:
+      // это ещё не статьи, папку цикла заводить не под что.
+      const sheetName = `Бэклог тем ${week}`;
+      let sheet = await findInFolder(sheetName, ROOT_FOLDER, 'application/vnd.google-apps.spreadsheet');
+      if (!sheet) sheet = await createSheet(sheetName, ROOT_FOLDER);
+
+      await formatBacklogSheet(sheet.id, week, items.length);
+      await writeBacklogRows(sheet.id, items);
+
+      console.log(JSON.stringify({
+        week,
+        sheetId: sheet.id,
+        sheetUrl: sheet.webViewLink || `https://docs.google.com/spreadsheets/d/${sheet.id}`,
+        items: items.length,
+      }, null, 2));
+      break;
+    }
+
+    case 'pull-backlog': {
+      const sheetId = arg('sheet-id');
+      if (!sheetId) die('нужен --sheet-id');
+      console.log(JSON.stringify(await readBacklog(sheetId), null, 2));
       break;
     }
 
