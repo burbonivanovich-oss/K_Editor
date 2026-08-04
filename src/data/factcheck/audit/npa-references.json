@@ -1,0 +1,16 @@
+{
+  "generatedAt": "2026-08-04T14:48:32.045Z",
+  "totals": {
+    "files": 0,
+    "unknownFz": 0,
+    "unknownPp": 0,
+    "unknownPrikaz": 0,
+    "topicMismatch": 0
+  },
+  "findings": {
+    "fz": [],
+    "pp": [],
+    "prikaz": [],
+    "topicMismatch": []
+  }
+}
