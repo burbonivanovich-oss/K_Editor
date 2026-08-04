@@ -22,7 +22,7 @@
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { isInformational } from "./relevance.mjs";
+import { isInformational, dedupeKey } from "./relevance.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
@@ -67,7 +67,10 @@ function collectPhrases() {
       }
       for (const p of payload.phrases ?? []) {
         if (p.count < MIN_COUNT || !isInformational(p.phrase, MIN_WORDS)) continue;
-        const key = p.phrase.toLowerCase().trim();
+        // Схлопываем переформулировки одного запроса: иначе «может ли
+        // самозанятый», «могут ли самозанятые» и «можно ли самозанятый»
+        // съедят три квоты и три места в бэклоге вместо одного.
+        const key = dedupeKey(p.phrase);
         // Один и тот же запрос приходит от разных сидов — оставляем
         // вариант с большей частотностью и первым встреченным кластером.
         const prev = seen.get(key);

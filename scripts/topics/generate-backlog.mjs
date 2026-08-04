@@ -23,7 +23,7 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isSuppressed, normalize, load as loadSuppressions } from "./suppressions.mjs";
-import { isInformational } from "../wordstat/relevance.mjs";
+import { isInformational, dedupeKey } from "../wordstat/relevance.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
@@ -328,7 +328,10 @@ const seen = new Set();
 const candidates = [];
 
 for (const item of raw.sort((a, b) => b.weight - a.weight)) {
-  const key = normalize(item.phrase);
+  // dedupeKey, а не normalize: normalize схлопывает только регистр и
+  // пробелы, из-за чего переформулировки одного запроса проходили как
+  // разные темы.
+  const key = dedupeKey(item.phrase);
   if (!key) continue;
 
   if (seen.has(key)) { stats.дубли++; continue; }
