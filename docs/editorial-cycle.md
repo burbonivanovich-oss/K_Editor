@@ -230,7 +230,7 @@ create_trigger(
   create_new_session_on_fire: true,
   environment_id: "env_01Y9bC1GR6r8J87kbPnMLQCA",
   notifications: { push: true, email: true },
-  prompt: "Выполни /cycle-batch. Репозиторий burbonivanovich-oss/TS_PIOT, ветка main.
+  prompt: "Выполни /cycle-batch. Репозиторий burbonivanovich-oss/K_Editor, ветка main.
            Следуй .claude/commands/cycle-batch.md. Сначала обязательно проверь
            can-start-batch — при ненулевом коде заверши работу молча."
 )
