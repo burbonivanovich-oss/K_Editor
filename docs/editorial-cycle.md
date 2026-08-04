@@ -192,7 +192,7 @@ DRY_RUN=1 node scripts/drive-sync.mjs ...           # без запросов к
 
 ## Секреты
 
-Всё уже настроено под `social-to-docs`, кроме одного пункта:
+Секреты те же, что у `drive-sync.mjs`. Настроено всё, кроме одного пункта:
 
 | Секрет | Для чего |
 |---|---|
@@ -211,7 +211,7 @@ DRY_RUN=1 node scripts/drive-sync.mjs ...           # без запросов к
 
 Сервисный аккаунт не имеет собственной квоты Drive: при
 `storageQuotaExceeded` скрипт сам переключается на OAuth
-`GSC_REFRESH_TOKEN` — тот же трюк, что в `social-to-docs.mjs`.
+`GSC_REFRESH_TOKEN` (`withQuotaFallback` в `drive-sync.mjs`).
 
 ## Как поставить рутины на расписание
 
