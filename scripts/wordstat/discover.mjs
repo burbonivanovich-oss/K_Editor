@@ -15,6 +15,10 @@
 //   REQUEST_DELAY_MS=200 — пауза между запросами (5 req/s, под лимитом 10)
 //   ONLY_CATEGORY=…      — если задано, фетчим только seeds этой категории
 //                          (entity, intent, audience, problem, system, seasonal)
+//   HOURLY_QUOTA=1000    — часовая квота Wordstat по тарифу аккаунта
+//   MAX_REQUESTS=…       — потолок запросов за прогон (по умолчанию 90% квоты).
+//                          Уже собранные сиды пропускаются, остаток добирается
+//                          следующим прогоном
 //
 // Чтение:  src/data/wordstat/discoveries/seeds.json
 // Запись:  src/data/wordstat/discoveries/<YYYY-MM-DD>/<slug>.json
@@ -45,9 +49,18 @@ const REGION_ID = String(process.env.REGION_ID || "225");
 const NUM_PHRASES = parseInt(process.env.NUM_PHRASES || "2000", 10);
 const REQUEST_DELAY_MS = parseInt(process.env.REQUEST_DELAY_MS || "200", 10);
 const ONLY_CATEGORY = process.env.ONLY_CATEGORY || "";
-// Search API даёт 100 запросов Wordstat в час. Лимит на прогон — держимся под квотой;
-// уже собранные сиды пропускаются (existsSync), остаток добирается следующим прогоном.
-const MAX_REQUESTS = parseInt(process.env.MAX_REQUESTS || "90", 10);
+// Часовая квота аккаунта в Yandex Cloud. Раньше здесь было зашито 100 —
+// значение из чужого тарифа, из-за которого прогон резал себя на 90
+// запросах и растягивал сбор 206 сидов на два дня. Реальная квота задаётся
+// тарифом, поэтому вынесена в переменную.
+const HOURLY_QUOTA = parseInt(process.env.HOURLY_QUOTA || "1000", 10);
+
+// Оставляем 10% запаса: квота считается на стороне Яндекса, и упереться в
+// неё на последнем сиде дороже, чем недобрать несколько.
+const MAX_REQUESTS = parseInt(
+  process.env.MAX_REQUESTS || String(Math.floor(HOURLY_QUOTA * 0.9)),
+  10,
+);
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -95,7 +108,7 @@ async function callTopRequests(phrase, attempt = 1) {
   if (!res.ok || grpcCode !== null) {
     const code = grpcCode ?? res.status;
     const msg = (data && data.message) || txt.slice(0, 200);
-    // Часовая квота Wordstat (100 req/час) — ретраи внутри часа бессмысленны, сигналим «стоп».
+    // Часовая квота Wordstat — ретраи внутри часа бессмысленны, сигналим «стоп».
     if (/wordstatRequestsPer|quota limit exceed/i.test(msg)) {
       const e = new Error(`quota: ${msg}`);
       e.quota = true;
@@ -166,7 +179,8 @@ async function main() {
     }
     if (done >= MAX_REQUESTS) {
       console.log(
-        `discover: лимит ${MAX_REQUESTS} запросов за прогон достигнут (квота 100/час) — ` +
+        `discover: лимит ${MAX_REQUESTS} запросов за прогон достигнут ` +
+          `(часовая квота ${HOURLY_QUOTA}) — ` +
           `остановка, остаток соберётся в следующий прогон.`,
       );
       break;
