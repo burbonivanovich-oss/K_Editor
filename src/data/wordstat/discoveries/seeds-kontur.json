@@ -1,0 +1,1036 @@
+{
+ "schemaVersion": 1,
+ "note": "Сиды Wordstat под Контур-фокус (Маркет/ОФД/госсистемы), углублённые по товарным группам, процессам, оборудованию и отраслям. Только ЦА-розница/общепит/услуги, без производителей. Активация: заменить seeds.json или подать через SEEDS_FILE в discover.mjs + отдельный workflow.",
+ "seeds": [
+  {
+   "phrase": "ТС ПИоТ",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "что такое ТС ПИоТ",
+   "category": "intent",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ подключить",
+   "category": "intent",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ с 1 июля 2026",
+   "category": "seasonal",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ для Эвотор",
+   "category": "audience",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ для АТОЛ",
+   "category": "audience",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ на кассе Windows",
+   "category": "audience",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ фискальный регистратор",
+   "category": "audience",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ провайдеры",
+   "category": "intent",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ стоимость",
+   "category": "intent",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ токен",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "локальный модуль Честного знака",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "кто освобождён от ТС ПИоТ",
+   "category": "intent",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ для общепита",
+   "category": "audience",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ не работает",
+   "category": "problem",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "онлайн-касса",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "контрольно-кассовая техника",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "виды ККТ",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "смарт-терминал",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "фискальный регистратор",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "автономная касса",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "облачная касса",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса для курьера",
+   "category": "audience",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса в аренду",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "как выбрать онлайн-кассу",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "как зарегистрировать кассу в налоговой",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "перерегистрация ККТ",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "снять кассу с учёта",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "кто освобождён от онлайн-кассы",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса для самозанятого",
+   "category": "audience",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "нужна ли касса для ИП",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса для интернет-магазина",
+   "category": "audience",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса при оплате на сайте",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса для пункта выдачи заказов",
+   "category": "audience",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "чек коррекции",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "реквизиты кассового чека",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "как проверить чек на подлинность",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "кассовая дисциплина",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "закрытие смены на кассе",
+   "category": "problem",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "признак способа расчёта в чеке",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса при безналичной оплате",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "штраф за непробитый чек",
+   "category": "problem",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "штраф за неприменение ККТ",
+   "category": "problem",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "проверка ККТ налоговой",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "реестр ККТ ФНС",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "ФФД 1.2",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса не отправляет данные в ФНС",
+   "category": "problem",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "чек не найден в ФНС",
+   "category": "problem",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "фискальный накопитель",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "срок действия фискального накопителя",
+   "category": "intent",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "фискальный накопитель на 15 месяцев",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "фискальный накопитель на 36 месяцев",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "замена фискального накопителя",
+   "category": "intent",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "ФН для УСН",
+   "category": "audience",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "ФН для подакцизных товаров",
+   "category": "audience",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "ошибка фискального накопителя",
+   "category": "problem",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "истёк фискальный накопитель",
+   "category": "problem",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "ОФД оператор фискальных данных",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "как выбрать ОФД",
+   "category": "intent",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "сменить ОФД",
+   "category": "intent",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "договор с ОФД",
+   "category": "intent",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "стоимость ОФД",
+   "category": "intent",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "ОФД для маркировки",
+   "category": "audience",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "не приходит чек в ОФД",
+   "category": "problem",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "электронная подпись для кассы",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "маркировка Честный знак",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "как зарегистрироваться в Честном знаке",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка обуви",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка одежды",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка парфюмерии",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка косметики",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка БАДов",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка антисептиков",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка воды",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка молочной продукции",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка безалкогольных напитков",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка табака",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка вейпов",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка икры",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка консервов",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка бакалеи",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка кормов для животных",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка шин",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка велосипедов",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка медизделий",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка бытовой химии",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "приёмка маркированного товара",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "объёмно-сортовой учёт маркировки",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "поэкземплярный учёт маркировки",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "вывод из оборота маркировки",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "частичный вывод из оборота",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "списание маркированного товара",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "возврат маркированного товара",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "работа с остатками маркировки",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "перемаркировка товара",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "ЭДО для маркировки",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "сверка кодов маркировки в УПД",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "статусы кодов маркировки",
+   "category": "problem",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "разрешительный режим",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "онлайн-проверка кодов маркировки",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "продажа маркированного разливного",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка в общепите",
+   "category": "audience",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "штраф за продажу немаркированного товара",
+   "category": "problem",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "не проходит код маркировки на кассе",
+   "category": "problem",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "касса блокирует продажу маркировки",
+   "category": "problem",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "сроки маркировки 2026",
+   "category": "seasonal",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "новые категории маркировки 2026",
+   "category": "seasonal",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "этапы разрешительного режима 2026",
+   "category": "seasonal",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "ЕГАИС",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "регистрация в ЕГАИС",
+   "category": "intent",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "как подключить ЕГАИС",
+   "category": "intent",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "УТМ ЕГАИС",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "установка УТМ",
+   "category": "intent",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "не подключается УТМ",
+   "category": "problem",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "журнал учёта розничной продажи алкоголя",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "помарочный учёт алкоголя",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "акцизная марка",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "продажа пива через ЕГАИС",
+   "category": "audience",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "маркировка пива в рознице",
+   "category": "audience",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "ЕГАИС для общепита",
+   "category": "audience",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "списание алкоголя в ЕГАИС",
+   "category": "intent",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "возврат алкоголя ЕГАИС",
+   "category": "intent",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "алкодекларация",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "лицензия на розничную продажу алкоголя",
+   "category": "intent",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "продажа слабоалкогольных напитков",
+   "category": "audience",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "ошибка ЕГАИС при продаже",
+   "category": "problem",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "новые правила ЕГАИС 2026",
+   "category": "seasonal",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "Меркурий ВетИС",
+   "category": "entity",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "регистрация в Меркурии",
+   "category": "intent",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "гашение ВСД",
+   "category": "intent",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "оформление ВСД",
+   "category": "intent",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "Меркурий для магазина",
+   "category": "audience",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "Меркурий для общепита",
+   "category": "audience",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "Меркурий и Честный знак",
+   "category": "intent",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "списание в Меркурии",
+   "category": "intent",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "инвентаризация в Меркурии",
+   "category": "intent",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "ошибка гашения ВСД",
+   "category": "problem",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "торговый эквайринг",
+   "category": "entity",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "как подключить эквайринг",
+   "category": "intent",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "эквайринг тарифы",
+   "category": "intent",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "эквайринг для ИП",
+   "category": "audience",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "мобильный эквайринг",
+   "category": "entity",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "интернет-эквайринг",
+   "category": "entity",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "оплата по СБП",
+   "category": "entity",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "приём оплаты по QR СБП",
+   "category": "intent",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "комиссия СБП для бизнеса",
+   "category": "intent",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "эквайринг для общепита",
+   "category": "audience",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "оплата чаевых",
+   "category": "audience",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "возврат по эквайрингу",
+   "category": "problem",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "эквайринг не проходит оплата",
+   "category": "problem",
+   "cluster": "ekvairing"
+  },
+  {
+   "phrase": "2D сканер штрихкода",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "сканер для маркировки",
+   "category": "intent",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "сканер для ЕГАИС",
+   "category": "intent",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "беспроводной сканер штрихкода",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "не считывается Data Matrix",
+   "category": "problem",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "принтер этикеток",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "весы с печатью этикеток",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "денежный ящик для кассы",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "дисплей покупателя",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "что нужно для автоматизации магазина",
+   "category": "intent",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "товароучёт для магазина",
+   "category": "entity",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "касса для розничного магазина",
+   "category": "audience",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "касса для продуктового магазина",
+   "category": "audience",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "касса для магазина одежды",
+   "category": "audience",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "касса для цветочного магазина",
+   "category": "audience",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "касса для табачного магазина",
+   "category": "audience",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "касса для магазина у дома",
+   "category": "audience",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "касса для зоомагазина",
+   "category": "audience",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "учёт остатков в магазине",
+   "category": "intent",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "касса для кафе",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "касса для бара",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "автоматизация ресторана",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "касса для кофейни",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "касса для пекарни",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "касса для столовой",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "касса для фудтрака",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "касса для доставки еды",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "учёт в общепите",
+   "category": "intent",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "касса для аптеки",
+   "category": "audience",
+   "cluster": "apteka"
+  },
+  {
+   "phrase": "маркировка лекарств в аптеке",
+   "category": "audience",
+   "cluster": "apteka"
+  },
+  {
+   "phrase": "вывод лекарств из оборота",
+   "category": "intent",
+   "cluster": "apteka"
+  },
+  {
+   "phrase": "касса для автосервиса",
+   "category": "audience",
+   "cluster": "avtoservis"
+  },
+  {
+   "phrase": "заказ-наряд для автосервиса",
+   "category": "audience",
+   "cluster": "avtoservis"
+  },
+  {
+   "phrase": "учёт запчастей автосервис",
+   "category": "intent",
+   "cluster": "avtoservis"
+  },
+  {
+   "phrase": "касса для сферы услуг",
+   "category": "audience",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "маркировка для салона красоты",
+   "category": "audience",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "касса для барбершопа",
+   "category": "audience",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "списание расходников в услугах",
+   "category": "intent",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "НДС для УСН 2026 касса",
+   "category": "intent",
+   "cluster": "nalogi-kassa"
+  },
+  {
+   "phrase": "ставка НДС в кассовом чеке",
+   "category": "intent",
+   "cluster": "nalogi-kassa"
+  },
+  {
+   "phrase": "перепрошивка кассы под НДС",
+   "category": "problem",
+   "cluster": "nalogi-kassa"
+  },
+  {
+   "phrase": "как выдавать чеки на УСН",
+   "category": "intent",
+   "cluster": "nalogi-kassa"
+  },
+  {
+   "phrase": "реформа НДС для бизнеса",
+   "category": "seasonal",
+   "cluster": "nalogi-kassa"
+  },
+  {
+   "phrase": "первая касса для ИП",
+   "category": "intent",
+   "cluster": "start"
+  },
+  {
+   "phrase": "что нужно для открытия магазина",
+   "category": "intent",
+   "cluster": "start"
+  },
+  {
+   "phrase": "оборудование для старта розницы",
+   "category": "intent",
+   "cluster": "start"
+  },
+  {
+   "phrase": "подключение к госсистемам на старте",
+   "category": "intent",
+   "cluster": "start"
+  },
+  {
+   "phrase": "Контур Маркет",
+   "category": "system",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "Контур ОФД",
+   "category": "system",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "Контур Эльба",
+   "category": "system",
+   "cluster": "start"
+  },
+  {
+   "phrase": "Эвотор касса",
+   "category": "system",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "АТОЛ касса",
+   "category": "system",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "Дримкас касса",
+   "category": "system",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "МойСклад товароучёт",
+   "category": "system",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "1С Розница",
+   "category": "system",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "Штрих-М касса",
+   "category": "system",
+   "cluster": "kkt"
+  }
+ ]
+}

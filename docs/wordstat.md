@@ -221,6 +221,13 @@ Wordstat больше **не отдельный сервис**. С 2026 года
 
 ## Где править seeds
 
+> Два файла seeds — `seeds.json` (176 фраз, weekly) и `seeds-kontur.json`
+> (206 фраз, kontur-контур) — лежат в `discoveries/` рядом с дампами
+> прогонов, но дампами **не являются**: это рукописные входные данные
+> обоих workflow. Чистка `discoveries/` от старых прогонов не должна их
+> трогать — без них `discover.mjs` падает на чтении файла, а оба cron'а
+> валятся.
+
 `src/data/wordstat/discoveries/seeds.json` — JSON-массив с полями `phrase`,
 `category`, `cluster`. Категории: `entity` (узкая сущность), `intent`
 (паттерн запроса), `audience` (срез), `problem` (боль/ошибка), `system`
