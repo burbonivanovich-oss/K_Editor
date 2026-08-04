@@ -183,7 +183,7 @@ Frontmatter:
 [ ] description: 140–160 символов
 [ ] reviewDate: через 6 месяцев от pubDate
 [ ] tags: 4–7 штук, строчные
-[ ] categories: одна из [ts-piot, kkt, markirovka, egais, zakonodatelstvo]
+[ ] categories: одна из 25 кластеров (канонический список — docs/content-rules.md)
 
 Стиль (редполитика kontur.ru):
 [ ] Нет слов-паразитов: является, осуществляет, в целях, таким образом, данный

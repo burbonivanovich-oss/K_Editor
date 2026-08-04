@@ -23,12 +23,14 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isSuppressed, normalize, load as loadSuppressions } from "./suppressions.mjs";
+import { isInformational, dedupeKey } from "../wordstat/relevance.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
 const PLAN_FILE = join(ROOT, "src", "data", "editorial-plan.json");
 const BLOG_DIR = join(ROOT, "src", "content", "blog");
 const OUT = join(ROOT, "src", "data", "topic-backlog.json");
+const DYNAMICS_FILE = join(ROOT, "src", "data", "wordstat", "candidate-dynamics.json");
 
 const arg = (name, fallback = null) => {
   const i = process.argv.indexOf(`--${name}`);
@@ -37,6 +39,14 @@ const arg = (name, fallback = null) => {
 const DRY_RUN = process.argv.includes("--dry-run");
 const LIMIT = parseInt(arg("limit", "15"), 10);
 const MIN_COUNT = parseInt(arg("min-count", "50"), 10);
+// Во сколько раз строже порог для абсолютной частотности, чем для diff-а.
+// Рост с 40 до 300 показов — событие; 300 показов сами по себе — фон.
+const DUMP_FLOOR_FACTOR = parseInt(arg("dump-floor-factor", "10"), 10);
+// Минимум слов во фразе из выгрузки. Сортировка по абсолютной частоте
+// иначе поднимает наверх навигационные однословники — «wildberries»,
+// «ozon», «маркировка»: у них миллионы показов и нулевая пригодность как
+// тема статьи. Информационный запрос почти всегда длиннее трёх слов.
+const DUMP_MIN_WORDS = parseInt(arg("dump-min-words", "3"), 10);
 
 /* ────────────────────────────────────────────── что уже покрыто ──── */
 
@@ -110,6 +120,15 @@ function reasonFor(item) {
   if (item.kind === "rising") {
     return `рост частотности: ${item.prev} → ${item.now} показов в месяц (×${item.ratio.toFixed(1)})`;
   }
+  if (item.kind === "growing") {
+    const pct = Math.round((item.ratio - 1) * 100);
+    return `спрос растёт: ${Math.round(item.prev)} → ${Math.round(item.now)} показов в месяц (+${pct}% за квартал)`;
+  }
+  if (item.kind === "demand") {
+    // Формулировка намеренно скромнее, чем у diff-кандидатов: здесь нет
+    // сравнения с прошлой неделей, и выдавать «выросло» было бы неправдой.
+    return `спрос ${item.count} показов в месяц, темы нет ни в плане, ни в блоге`;
+  }
   return `новая фраза в выдаче, ${item.count} показов в месяц`;
 }
 
@@ -141,6 +160,108 @@ function candidatesFromDiffs(diffs) {
   return rows;
 }
 
+/**
+ * Кандидаты из последней выгрузки, без сравнения с прошлой неделей.
+ *
+ * Diff даёт лучший сигнал — «спрос вырос именно сейчас», — но требует двух
+ * снапшотов, то есть недели ожидания. На первом прогоне и после любой
+ * чистки истории diff-ов нет, а выгрузка на сотни сидов уже лежит. Без
+ * этого источника рутина A0 в такие недели молчит, хотя данные есть.
+ *
+ * Сигнал слабее: берём абсолютную частотность, поэтому и порог выше —
+ * иначе в бэклог польётся длинный хвост из десятков тысяч фраз.
+ */
+function candidatesFromDump() {
+  if (!existsSync(DISC_DIR)) return [];
+  const rows = [];
+  const floor = MIN_COUNT * DUMP_FLOOR_FACTOR;
+
+  const collect = (base, ns) => {
+    const dated = readdirSync(base)
+      .filter((f) => /^\d{4}-\d{2}-\d{2}$/.test(f))
+      .sort();
+    if (!dated.length) return;
+    const dir = join(base, dated[dated.length - 1]);
+
+    for (const file of readdirSync(dir).filter((f) => f.endsWith(".json"))) {
+      let payload;
+      try {
+        payload = JSON.parse(readFileSync(join(dir, file), "utf8"));
+      } catch {
+        continue;
+      }
+      for (const p of payload.phrases ?? []) {
+        if (p.count < floor) continue;
+        if (!isInformational(p.phrase, DUMP_MIN_WORDS)) continue;
+        rows.push({
+          phrase: p.phrase,
+          cluster: payload.cluster || null,
+          seed: payload.seed,
+          ns,
+          kind: "demand",
+          count: p.count,
+          weight: p.count,
+        });
+      }
+    }
+  };
+
+  collect(DISC_DIR, null);
+  for (const name of readdirSync(DISC_DIR)) {
+    if (name === "diffs" || /^\d{4}-\d{2}-\d{2}$/.test(name)) continue;
+    const p = join(DISC_DIR, name);
+    try {
+      readdirSync(p);
+      collect(p, name);
+    } catch {
+      /* не каталог — пропускаем */
+    }
+  }
+  return rows;
+}
+
+/**
+ * Кандидаты с посчитанной динамикой (enrich-candidates.mjs).
+ *
+ * Лучший источник, когда diff-ов ещё нет: рост берётся из 12 месяцев
+ * помесячной истории, а не из разницы двух недельных срезов. Растущая тема
+ * поднимается наверх, даже если по абсолютной частоте она далеко не первая,
+ * — а именно это редактору и нужно знать.
+ */
+function candidatesFromDynamics() {
+  if (!existsSync(DYNAMICS_FILE)) return [];
+  let payload;
+  try {
+    payload = JSON.parse(readFileSync(DYNAMICS_FILE, "utf8"));
+  } catch {
+    return [];
+  }
+  const rows = [];
+  for (const it of payload.items ?? []) {
+    if (!it.growth || !Number.isFinite(it.growth)) continue;
+    const now = it.recent ?? it.count;
+    const prev = it.growth > 0 ? now / it.growth : 0;
+    // Падающие и стоящие на месте не нужны: бэклог отвечает на вопрос
+    // «почему сейчас», а не «что вообще спрашивают».
+    if (it.growth < 1.15) continue;
+    rows.push({
+      phrase: it.phrase,
+      cluster: it.cluster || null,
+      seed: it.seed,
+      ns: it.ns,
+      kind: "growing",
+      ratio: it.growth,
+      prev,
+      now,
+      count: it.count,
+      // Вес — прирост в показах: рост в полтора раза на сотне запросов
+      // слабее роста на четверть у десяти тысяч.
+      weight: (now - prev) * Math.min(it.growth, 3),
+    });
+  }
+  return rows;
+}
+
 /* ─────────────────────────────────────────────────────── сборка ──── */
 
 const signalsPath = arg("signals");
@@ -158,9 +279,28 @@ if (signalsPath) {
 }
 
 const diffs = latestDiffs();
-if (!diffs.length && !extraSignals.length) {
+
+// Diff — основной источник. Выгрузка — запасной, включается когда diff-ов
+// ещё нет: на первой неделе и после чистки истории.
+const dynamics = diffs.length ? [] : candidatesFromDynamics();
+// Сырая выгрузка — последний рубеж: она сортируется по абсолютной
+// частоте и «почему сейчас» не объясняет. Берём, только если ни diff-ов,
+// ни обогащённых кандидатов нет.
+const dump = diffs.length || dynamics.length ? [] : candidatesFromDump();
+
+if (dynamics.length) {
+  console.log(`Diff-ов нет — беру рост из помесячной динамики: ${dynamics.length} растущих фраз.`);
+}
+if (!diffs.length && !dynamics.length && dump.length) {
   console.log(
-    "Нет ни одного diff-json и ни одного внешнего сигнала.\n" +
+    `Diff-ов нет (нужны два снапшота) — беру спрос из последней выгрузки: ` +
+      `${dump.length} фраз от ${MIN_COUNT * DUMP_FLOOR_FACTOR} показов.`,
+  );
+}
+
+if (!diffs.length && !dynamics.length && !dump.length && !extraSignals.length) {
+  console.log(
+    "Нет ни diff-ов, ни выгрузки, ни внешних сигналов.\n" +
       "Дождитесь прогона wordstat-workflow или передайте --signals.",
   );
   process.exit(0);
@@ -171,6 +311,8 @@ const suppressionData = loadSuppressions();
 
 const raw = [
   ...candidatesFromDiffs(diffs),
+  ...dynamics,
+  ...dump,
   ...extraSignals.map((s) => ({
     phrase: s.topic || s.phrase,
     cluster: s.cluster || null,
@@ -186,7 +328,10 @@ const seen = new Set();
 const candidates = [];
 
 for (const item of raw.sort((a, b) => b.weight - a.weight)) {
-  const key = normalize(item.phrase);
+  // dedupeKey, а не normalize: normalize схлопывает только регистр и
+  // пробелы, из-за чего переформулировки одного запроса проходили как
+  // разные темы.
+  const key = dedupeKey(item.phrase);
   if (!key) continue;
 
   if (seen.has(key)) { stats.дубли++; continue; }

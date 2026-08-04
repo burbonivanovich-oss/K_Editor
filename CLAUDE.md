@@ -153,7 +153,7 @@ description: "Краткое описание, до 160 символов."
 pubDate: "YYYY-MM-DD"
 reviewDate: "YYYY-MM-DD"   # pubDate + 6 месяцев
 tags: [тег1, тег2]         # 4–7 штук
-categories: [ts-piot]   # ровно одна из 18 — список в docs/content-rules.md
+categories: [ts-piot]   # ровно одна из 25 — список в docs/content-rules.md
 draft: false
 seo:
   keywords: [целевой ключ]

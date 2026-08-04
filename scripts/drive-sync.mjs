@@ -632,7 +632,7 @@ async function writeBacklogRows(sheetId, items) {
     i + 1,
     t.topic || t.title || '',
     t.cluster || '',
-    t.note || t.rationale || '',
+    t.why || t.note || t.rationale || '',
     t.source || '',
     '',  // Решение — редактору
     '',  // Кто пишет — редактору

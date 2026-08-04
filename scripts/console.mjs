@@ -291,6 +291,8 @@ const MENU = [
       { k: "33", label: "Diff последних выгрузок", type: "run", cmd: ["node", "scripts/wordstat/diff-snapshots.mjs"] },
       { k: "34", label: "Кандидаты на пересмотр по изменившейся нормативке", type: "run", cmd: ["node", "scripts/npa-change-candidates.mjs"] },
       { k: "35", label: "Поиск новых тем", type: "claude", cmd: "/find-topics" },
+      { k: "36", label: "Динамика по кандидатам (нужны ключи Wordstat)", type: "run", cmd: ["node", "scripts/wordstat/enrich-candidates.mjs"] },
+      { k: "37", label: "Собрать бэклог тем", type: "run", cmd: ["node", "scripts/topics/generate-backlog.mjs"] },
     ],
   },
   {
