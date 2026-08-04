@@ -89,15 +89,21 @@ function pruneDiffs(base, nsLabel) {
   const diffsDir = join(base, "diffs");
   if (!existsSync(diffsDir)) return;
 
-  const files = readdirSync(diffsDir)
-    .filter((f) => f.endsWith(".md"))
-    .sort();
+  // На каждую дату diff-snapshots кладёт пару файлов: .md для человека и
+  // .json для generate-backlog. Считаем именно даты, иначе лимит съест
+  // половину истории — а удалять надо всю пару разом.
+  const files = readdirSync(diffsDir).filter((f) => /^\d{4}-\d{2}-\d{2}\.(md|json)$/.test(f));
+  const dates = [...new Set(files.map((f) => f.slice(0, 10)))].sort();
 
-  const excess = files.slice(0, Math.max(0, files.length - KEEP_DIFFS));
+  const excess = dates.slice(0, Math.max(0, dates.length - KEEP_DIFFS));
   if (!excess.length) return;
 
-  console.log(`${nsLabel}/diffs: ${files.length} отчётов, оставляем ${KEEP_DIFFS}`);
-  for (const f of excess) remove(join(diffsDir, f), `${nsLabel}/diffs/${f}`);
+  console.log(`${nsLabel}/diffs: ${dates.length} отчётов, оставляем ${KEEP_DIFFS}`);
+  for (const d of excess) {
+    for (const f of files.filter((f) => f.startsWith(d))) {
+      remove(join(diffsDir, f), `${nsLabel}/diffs/${f}`);
+    }
+  }
 }
 
 function pruneSnapshots() {

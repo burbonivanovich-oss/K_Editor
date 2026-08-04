@@ -249,6 +249,26 @@ function main() {
   if (!existsSync(DIFFS_DIR)) mkdirSync(DIFFS_DIR, { recursive: true });
   const outFile = join(DIFFS_DIR, `${currDate}.md`);
   writeFileSync(outFile, report);
+
+  // Рядом с отчётом для человека — те же данные машиночитаемо.
+  // generate-backlog.mjs строит по ним кандидатов в темы: разбирать
+  // markdown-таблицы регулярками ради этого было бы хрупко.
+  const jsonFile = join(DIFFS_DIR, `${currDate}.json`);
+  writeFileSync(
+    jsonFile,
+    JSON.stringify(
+      {
+        prevDate,
+        currDate,
+        namespace: WS_NS || null,
+        thresholds: { rise: RISE_THRESHOLD, minCount: MIN_COUNT },
+        seeds: perSeed,
+      },
+      null,
+      2,
+    ) + "\n",
+  );
+
   console.log(
     `diff: сравнили ${perSeed.length} seeds (${prevDate} → ${currDate}) → ${outFile}`,
   );
