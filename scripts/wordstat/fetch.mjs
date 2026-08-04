@@ -89,10 +89,19 @@ function rfc3339FirstDayMonthsAgo(months) {
   return d.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
-function rfc3339FirstDayThisMonth() {
+// Правый край периода. Yandex Cloud требует ровно последний день месяца:
+// на любую другую дату /dynamics отвечает InvalidArgument «The to field
+// value should be the last day of the month». Здесь стоял первый день
+// текущего месяца, из-за чего невалиден был каждый запрос без исключения.
+//
+// Берём последний день ПРЕДЫДУЩЕГО месяца: текущий ещё не закончился, и
+// его частотность всё равно неполная — сравнивать её с полными месяцами
+// значит каждый раз видеть ложное падение спроса.
+function rfc3339LastDayPrevMonth() {
   const d = new Date();
   d.setUTCDate(1);
   d.setUTCHours(0, 0, 0, 0);
+  d.setUTCDate(0); // нулевой день = последний день предыдущего месяца
   return d.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
 
@@ -157,7 +166,7 @@ async function getDynamics(phrase) {
     phrase,
     period: "PERIOD_MONTHLY",
     fromDate: rfc3339FirstDayMonthsAgo(12),
-    toDate: rfc3339FirstDayThisMonth(),
+    toDate: rfc3339LastDayPrevMonth(),
     regions: [REGION_ID],
   });
   const arr = Array.isArray(data?.results) ? data.results : [];
