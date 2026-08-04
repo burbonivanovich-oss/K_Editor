@@ -139,6 +139,8 @@ Pre-commit гейт: **factcheck-guard** — статья с `draft: false` об
 | Подсистема | Workflow | Документация |
 |---|---|---|
 | Wordstat: тренды и частотность | `wordstat-weekly.yml`, `wordstat-kontur.yml` | `docs/wordstat.md` |
+| Пульт: запуск скриптов из вкладки Actions | `ops.yml` | `docs/tools.md` |
+| Кнопка редактора в Google-таблице | `editor-request.yml` | `docs/editor-button.md` |
 
 Секреты GitHub — `docs/SECRETS.md` (что есть, как получить, сроки).
 
@@ -157,6 +159,7 @@ Pre-commit гейт: **factcheck-guard** — статья с `draft: false` об
 | `docs/editorial-policy.md` | Редполитика, классы решений |
 | `docs/factcheck.md` | Pipeline проверки фактов, классы A/B/C |
 | `docs/factcheck-history.md` | История прогонов факт-чека |
+| `docs/editor-button.md` | Кнопка редактора в Google-таблице |
 | `docs/wordstat.md` | Wordstat API, частотность ключей |
 
 ## Лицензия

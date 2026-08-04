@@ -46,6 +46,7 @@
 | **`docs/content-rules.md`** | Правила контента, frontmatter, стиль речи, паразиты, запрещённые слова |
 | **`docs/tools.md`** | Инструменты QA: factcheck, check-ai, оценка статьи, скрипты |
 | **`docs/editorial-cycle.md`** | Автоматический цикл с редактором-человеком: рутины A/B/C, машина состояний, рабочее место редактора в Google Drive (таблица + доки) |
+| **`docs/editor-button.md`** | Кнопка редактора в Google-таблице: меню «Контур», токен, очередь запросов |
 | **`docs/SECRETS.md`** | Все секреты GitHub: что есть, как получить, как обновлять |
 | **`docs/google-api-setup.md`** | Подключение Google API под цикл: Sheets API, скоупы, переполучение refresh_token, разбор ошибок |
 | `docs/content-types.md` | Как добавить статью, термин, pillar |
