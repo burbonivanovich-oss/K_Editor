@@ -18,6 +18,7 @@
  *   node scripts/npa-change-candidates.mjs --since 2026-04-01
  */
 import { readFileSync, existsSync, readdirSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -72,15 +73,31 @@ for (const file of files) {
   if (!norms.size) continue;
 
   // Маркер фактчека — единственный след того, что нормы вообще сверяли.
+  // Формат — JSON {date, hash}: hash считает scripts/factcheck/write-marker.mjs
+  // от содержимого статьи на момент проверки. Несовпадение с текущим
+  // содержимым — статью правили после факчека, маркер больше не действует.
   const marker = join(MARKERS, slug);
   let checkedAt = null;
+  let staleHash = false;
   if (existsSync(marker)) {
-    const txt = readFileSync(marker, "utf8").trim();
-    checkedAt = (txt.match(/\d{4}-\d{2}-\d{2}/) ?? [])[0] ?? null;
+    let markerData = null;
+    try {
+      markerData = JSON.parse(readFileSync(marker, "utf8"));
+    } catch {
+      /* повреждённый или до-хешевый маркер — ниже как «не проводился» */
+    }
+    if (markerData?.date) {
+      checkedAt = markerData.date;
+      if (markerData.hash) {
+        const currentHash = createHash("sha256").update(raw).digest("hex");
+        staleHash = markerData.hash !== currentHash;
+      }
+    }
   }
 
   const flags = [];
   if (!checkedAt) flags.push("фактчек не проводился");
+  else if (staleHash) flags.push("статья изменена после факчека");
   else if (daysBetween(checkedAt, today) > 180) flags.push(`фактчек ${daysBetween(checkedAt, today)} дн. назад`);
   if (reviewDate && reviewDate < today) flags.push(`reviewDate просрочен (${reviewDate})`);
   if (!reviewDate) flags.push("нет reviewDate");

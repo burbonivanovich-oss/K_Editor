@@ -93,7 +93,7 @@ scripts/
   audit/                    перелинковка, даты ревизии
   factcheck/                извлечение claims, аудит ссылок на НПА
   wordstat/                 частотность ключей
-  git-hooks/                pre-commit: гейт факт-чека
+  git-hooks/                pre-commit: гейты факт-чека и SEO
 
 .github/workflows/
   wordstat-weekly, wordstat-kontur   частотность и тренды

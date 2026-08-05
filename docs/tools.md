@@ -29,13 +29,15 @@
   `factcheck/audit-npa-references.mjs` или `audit/check-blog-links.mjs`.
 - **`scripts/check-ai-markers.mjs`** — AI-маркеры в тексте: шаблонные
   фразы, пассивные конструкции, структурные признаки. Порог — 6/10.
-- **`scripts/check-seo.mjs`** — ключ в title, первом абзаце, H2 и
-  description; длина description.
+- **`scripts/check-seo.mjs`** — P0 (блокирует): title/description
+  заполнены и в пределах длины, категория и 4+ тега, `seo.keywords`,
+  хотя бы одна внутренняя ссылка, FAQ-блок. P1 (предупреждение): ключ
+  из `seo.keywords` в title, число H2, промоблоки не по кластеру.
 - **`scripts/check-stale-content.mjs`** — статьи, где даты и сроки могли
   устареть. Основа для `/maintain-content`.
-- **Pre-commit hook** (`scripts/git-hooks/`) блокирует коммит статьи с
-  `draft: false` без маркера `.claude/factchecked/<slug>`. Установка:
-  `bash scripts/git-hooks/install.sh`.
+- **Pre-commit hook** (`scripts/git-hooks/`) для статьи с `draft: false`
+  блокирует коммит без маркера `.claude/factchecked/<slug>` и при
+  P0-ошибках `check-seo.mjs`. Установка: `bash scripts/git-hooks/install.sh`.
 
 Факт-чек обязателен до передачи статьи редактору. Подробности —
 `docs/factcheck.md`, `docs/factcheck-history.md`, `docs/editorial-policy.md`.

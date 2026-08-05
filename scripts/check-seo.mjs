@@ -27,15 +27,16 @@ if (args[0]) {
   content = fs.readFileSync(abs, 'utf8');
   label   = args[0];
 } else {
-  // stdin
-  content = fs.readFileSync('/dev/stdin', 'utf8');
+  // stdin — fd 0, не путь '/dev/stdin': путь не всегда открывается, если
+  // stdin — анонимный pipe от child_process (а не shell-пайп терминала).
+  content = fs.readFileSync(0, 'utf8');
   label   = flags.label ?? '<stdin>';
 }
 
 // Парсинг frontmatter
 function parseFrontmatter(src) {
   const m = src.match(/^---\n([\s\S]*?)\n---\n?([\s\S]*)$/);
-  if (!m) return { fm: {}, body: src };
+  if (!m) return { fm: { _categories: [], _tags: [], _keywords: [] }, body: src };
   const raw  = m[1];
   const body = m[2];
   const fm   = {};

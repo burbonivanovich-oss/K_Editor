@@ -67,17 +67,27 @@ API, запись в папку цикла. Настройка — `docs/google-
 
 ## Pre-commit гейт (локально)
 
-При `git commit` срабатывает **factcheck-guard** — статья с
-`draft: false` должна иметь маркер `.claude/factchecked/<slug>`.
+При `git commit` срабатывают два гейта для статьи с `draft: false`:
+
+- **factcheck-guard** — маркер `.claude/factchecked/<slug>` должен
+  существовать, а его хеш совпадать с текущим содержимым статьи (правка
+  после факчека маркер аннулирует).
+- **seo-guard** — P0-ошибки `check-seo.mjs` (нет title/description,
+  категории, тегов, `seo.keywords`, внутренних ссылок, FAQ-блока).
 
 Установка (один раз):
 ```bash
 bash scripts/git-hooks/install.sh
 ```
 
-Bypass (срочные правки):
+Bypass factcheck-guard отдельно (срочные правки, SEO всё равно проверяется):
 ```bash
 SKIP_FACTCHECK_GUARD=1 git commit ...
+```
+
+Bypass обоих гейтов сразу:
+```bash
+git commit --no-verify ...
 ```
 
 ## Если что-то горит
