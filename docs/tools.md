@@ -35,6 +35,10 @@
   из `seo.keywords` в title, число H2, промоблоки не по кластеру.
 - **`scripts/check-stale-content.mjs`** — статьи, где даты и сроки могли
   устареть. Основа для `/maintain-content`.
+- **`scripts/maintain-content-queue.mjs`** — детерминированная сборка
+  очереди `/maintain-content`: `maintain-queue.md` + reviewDate/маркер
+  факчека + динамика спроса по Wordstat (recent3/baseline6). Раньше эта
+  арифметика считалась в промпте вручную.
 - **Pre-commit hook** (`scripts/git-hooks/`) для статьи с `draft: false`
   блокирует коммит без маркера `.claude/factchecked/<slug>` и при
   P0-ошибках `check-seo.mjs`. Установка: `bash scripts/git-hooks/install.sh`.
@@ -93,6 +97,7 @@
 | `check-ai-markers.mjs` | AI-маркеры в тексте, скор 0–10 |
 | `check-seo.mjs` | SEO-проверка текста статьи |
 | `check-stale-content.mjs` | Поиск статей с потенциально устаревшими сроками |
+| `maintain-content-queue.mjs` | Очередь `/maintain-content`: сроки + динамика спроса |
 | `cycle-state.mjs` | Машина состояний редакционного цикла |
 | `drive-sync.mjs` | Google Drive: таблица плана, доки статей, комментарии |
 | `wordstat/extract-keys.mjs` | Кандидаты из блога и контент-плана |
