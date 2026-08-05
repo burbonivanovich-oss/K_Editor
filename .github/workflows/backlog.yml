@@ -75,9 +75,17 @@ jobs:
 
       - name: Сборка бэклога
         id: gen
+        env:
+          # Через env, не ${{ }} внутри run: — тот же класс риска, что и
+          # в editor-request.yml: значение подставляется в текст скрипта до
+          # того, как его увидит shell. Здесь inputs.limit заполняет владелец
+          # репозитория через Actions UI, риск ниже, но паттерн один на все
+          # workflow — держим его единообразно, а не только там, где ввод
+          # внешний.
+          LIMIT: ${{ inputs.limit || '15' }}
         run: |
           set -euo pipefail
-          node scripts/topics/generate-backlog.mjs --limit "${{ inputs.limit || '15' }}" | tee /tmp/backlog.log
+          node scripts/topics/generate-backlog.mjs --limit "${LIMIT}" | tee /tmp/backlog.log
           COUNT=$(node -e "const j=require('./src/data/topic-backlog.json');console.log((j.candidates||[]).length)")
           echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
 
