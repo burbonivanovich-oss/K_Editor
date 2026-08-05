@@ -144,9 +144,15 @@ jobs:
 
       - name: Отчёт в Summary
         if: always()
+        env:
+          # task — type: choice, но это ограничение только веб-формы; через
+          # REST API (POST .../dispatches) значение не валидируется. Через
+          # env, не ${{ }} внутри run:, тем же способом, что и в
+          # editor-request.yml — см. пояснение там.
+          TASK: ${{ inputs.task }}
         run: |
           {
-            echo "## ${{ inputs.task }}"
+            echo "## ${TASK}"
             echo ""
             echo '```'
             # Скрипты красят вывод даже без терминала — в Summary эти
@@ -163,6 +169,8 @@ jobs:
 
       - name: Коммит изменений
         if: inputs.commit
+        env:
+          TASK: ${{ inputs.task }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -171,7 +179,7 @@ jobs:
             echo "изменений нет — коммитить нечего"
             exit 0
           fi
-          git commit -m "ops(${{ inputs.task }}): обновление данных"
+          git commit -m "ops(${TASK}): обновление данных"
           for i in 1 2 3 4 5; do
             if git push origin HEAD:${{ github.ref_name }}; then
               echo "push ok (попытка $i)"
