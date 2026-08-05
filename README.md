@@ -89,6 +89,7 @@ scripts/
   check-ai-markers.mjs      проверка текста на AI-маркеры
   check-seo.mjs             SEO-качество текста
   check-stale-content.mjs   поиск устаревших статей
+  release-article.mjs       финальный шлюз: снимает draft после гейтов
   health-check.mjs          сводка состояния модуля
   audit/                    перелинковка, даты ревизии
   factcheck/                извлечение claims, аудит ссылок на НПА

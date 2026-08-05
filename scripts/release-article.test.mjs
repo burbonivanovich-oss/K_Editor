@@ -1,0 +1,263 @@
+// Тесты release-article.mjs через реальный CLI (subprocess) на временной
+// фикстуре (RELEASE_DATA_ROOT). Гейты SEO и AI-маркеры полностью
+// изолированы — они получают абсолютный путь к статье и не зависят от
+// cwd. Гейты npa-audit и check-blog-links всегда идут по РЕАЛЬНОМУ
+// репозиторию (у них нет своих оверрайдов путей) — сейчас блог в
+// репозитории пуст, поэтому они всегда проходят чисто; появление
+// незнакомых НПА или битых ссылок в реальном src/content/blog/ проявится
+// в CI отдельными шагами (audit-npa-references.mjs --strict,
+// check-blog-links.mjs), не здесь.
+
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'release-article.mjs');
+
+const GOOD_BODY = `Текст статьи со ссылкой [сюда](/blog/other-article) на другую тему.
+
+## Вопрос-ответ
+
+Что-то конкретное.
+`;
+
+const GOOD_FM = {
+  title: 'Тестовая статья про ТС ПИоТ и штрафы',
+  description:
+    'Описание статьи достаточной длины для прохождения проверки SEO, не короче ста символов и не длиннее ста шестидесяти пяти символов ровно.',
+  draft: 'true',
+  pubDate: '2026-01-01',
+};
+
+function withFixture(fn) {
+  const dir = mkdtempSync(join(tmpdir(), 'release-article-test-'));
+  mkdirSync(join(dir, 'src/content/blog'), { recursive: true });
+  mkdirSync(join(dir, 'src/data/analyze'), { recursive: true });
+  mkdirSync(join(dir, '.claude/factchecked'), { recursive: true });
+  execFileSync('git', ['init', '-q'], { cwd: dir });
+  execFileSync('git', ['config', 'user.email', 't@t.com'], { cwd: dir });
+  execFileSync('git', ['config', 'user.name', 't'], { cwd: dir });
+  try {
+    return fn(dir);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+function writeArticle(dir, slug, { fm = GOOD_FM, body = GOOD_BODY, extra = '' } = {}) {
+  const lines = ['---'];
+  for (const [k, v] of Object.entries(fm)) {
+    lines.push(k === 'draft' ? `draft: ${v}` : `${k}: "${v}"`);
+  }
+  const text = `${lines.join('\n')}\ncategories:\n  - ts-piot\ntags:\n  - тег1\n  - тег2\n  - тег3\n  - тег4\nseo:\n  keywords:\n    - тестовый ключ\n${extra}---\n${body}`;
+  const p = join(dir, 'src/content/blog', `${slug}.md`);
+  writeFileSync(p, text);
+  execFileSync('git', ['add', '-A'], { cwd: dir });
+  execFileSync('git', ['commit', '-qm', 'article'], { cwd: dir });
+  return p;
+}
+
+function writeAnalysis(dir, slug, { score = 85, blocker = false, checkedAt = today() } = {}) {
+  writeFileSync(join(dir, 'src/data/analyze', `${slug}.json`), JSON.stringify({ score, blocker, checkedAt }));
+}
+
+function writeMarker(dir, slug, { date = today(), hashOf = null } = {}) {
+  const content = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
+  const hash = createHash('sha256').update(hashOf ?? content).digest('hex');
+  writeFileSync(join(dir, '.claude/factchecked', slug), JSON.stringify({ date, hash }));
+}
+
+function writeAccepted(dir, slug) {
+  writeFileSync(
+    join(dir, 'src/data/editorial-cycle.json'),
+    JSON.stringify({ cycleId: 't', state: 'running', plan: [{ slug, status: 'accepted' }], batches: [], log: [] }),
+  );
+}
+
+function today(offsetDays = 0) {
+  const d = new Date();
+  d.setUTCDate(d.getUTCDate() + offsetDays);
+  return d.toISOString().slice(0, 10);
+}
+
+function run(dir, args, { expectFail = false } = {}) {
+  const env = { ...process.env, RELEASE_DATA_ROOT: dir };
+  try {
+    const out = execFileSync('node', [SCRIPT, ...args, '--json'], { encoding: 'utf8', env });
+    if (expectFail) assert.fail('ожидался ненулевой exit code');
+    return JSON.parse(out);
+  } catch (e) {
+    if (!expectFail) throw e;
+    return JSON.parse(e.stdout || '{}');
+  }
+}
+
+/** Полностью готовая к выпуску фикстура — используется как база в тестах. */
+function fullyReady(dir, slug = 'a') {
+  writeArticle(dir, slug);
+  writeAccepted(dir, slug);
+  writeAnalysis(dir, slug);
+  writeMarker(dir, slug);
+  return slug;
+}
+
+test('нет статьи — ошибка', () => {
+  withFixture((dir) => {
+    const env = { ...process.env, RELEASE_DATA_ROOT: dir };
+    assert.throws(() => execFileSync('node', [SCRIPT, 'nope', '--json'], { encoding: 'utf8', env }));
+  });
+});
+
+test('уже draft: false — ALREADY_RELEASED, ничего не трогает', () => {
+  withFixture((dir) => {
+    writeArticle(dir, 'a', { fm: { ...GOOD_FM, draft: 'false' } });
+    const out = run(dir, ['a']);
+    assert.equal(out.status, 'ALREADY_RELEASED');
+  });
+});
+
+test('темы нет в цикле — блокер без --confirm-no-cycle, проходит с флагом', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    // Затираем cycle-state, чтобы темы там не было вообще.
+    writeFileSync(join(dir, 'src/data/editorial-cycle.json'), JSON.stringify({ plan: [] }));
+
+    const blocked = run(dir, [slug], { expectFail: true });
+    assert.equal(blocked.status, 'BLOCKED');
+    assert.ok(blocked.blockers.some((b) => b.includes('--confirm-no-cycle')));
+
+    const ok = run(dir, [slug, '--confirm-no-cycle']);
+    assert.equal(ok.status, 'RELEASED');
+  });
+});
+
+test('тема в цикле, но не accepted — блокер', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeFileSync(
+      join(dir, 'src/data/editorial-cycle.json'),
+      JSON.stringify({ plan: [{ slug, status: 'review' }] }),
+    );
+    const out = run(dir, [slug], { expectFail: true });
+    assert.equal(out.status, 'BLOCKED');
+    assert.ok(out.blockers.some((b) => b.startsWith('Приёмка редактором') && b.includes('review')));
+  });
+});
+
+test('нет оценки /analyze-article — блокер', () => {
+  withFixture((dir) => {
+    const slug = 'a';
+    writeArticle(dir, slug);
+    writeAccepted(dir, slug);
+    writeMarker(dir, slug);
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Оценка')));
+  });
+});
+
+test('оценка старше 30 дней — блокер', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeAnalysis(dir, slug, { checkedAt: today(-31) });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Оценка') && b.includes('устарела')));
+  });
+});
+
+test('score < 70 — блокер', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeAnalysis(dir, slug, { score: 55 });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Оценка')));
+  });
+});
+
+test('нет маркера факчека — блокер', () => {
+  withFixture((dir) => {
+    const slug = 'a';
+    writeArticle(dir, slug);
+    writeAccepted(dir, slug);
+    writeAnalysis(dir, slug);
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('нет маркера')));
+  });
+});
+
+test('статья менялась после факчека (хеш не совпал) — блокер', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeMarker(dir, slug, { hashOf: 'совсем другое содержимое' });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('менялась после факчека')));
+  });
+});
+
+test('маркер факчека старше 180 дней — блокер', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeMarker(dir, slug, { date: today(-181) });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('старше')));
+  });
+});
+
+test('SEO P0-ошибка (нет категории/тегов) — блокер', () => {
+  withFixture((dir) => {
+    const slug = 'a';
+    const p = join(dir, 'src/content/blog', `${slug}.md`);
+    writeFileSync(p, `---\ntitle: "T"\ndraft: true\n---\nПусто.\n`);
+    execFileSync('git', ['add', '-A'], { cwd: dir });
+    execFileSync('git', ['commit', '-qm', 'x'], { cwd: dir });
+    writeAccepted(dir, slug);
+    writeAnalysis(dir, slug);
+    writeMarker(dir, slug);
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('SEO')));
+  });
+});
+
+test('AI-маркеры выше порога — блокер', () => {
+  withFixture((dir) => {
+    const slug = 'a';
+    // rawScore = min(10, round(totalWeight/3)); порог по умолчанию 6.
+    // Каждое повторение «важно отметить» / «следует отметить» — вес 2,
+    // семи повторов (14 общим весом ×2 фразы = 28) с запасом хватает.
+    const cliche = 'Важно отметить, что необходимо отметить это. '.repeat(7);
+    const aiHeavyBody = `${GOOD_BODY}\n${cliche}\n`;
+    writeArticle(dir, slug, { body: aiHeavyBody });
+    writeAccepted(dir, slug);
+    writeAnalysis(dir, slug);
+    writeMarker(dir, slug, { hashOf: readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8') });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('AI-маркеры')));
+  });
+});
+
+test('--dry-run проходит все гейты, но файл не меняет', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    const before = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
+    const out = run(dir, [slug, '--dry-run']);
+    assert.equal(out.status, 'WOULD_RELEASE');
+    const after = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
+    assert.equal(before, after);
+  });
+});
+
+test('все гейты пройдены — RELEASED, draft снят без кавычек, reviewDate пересчитан', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    const out = run(dir, [slug]);
+    assert.equal(out.status, 'RELEASED');
+    const text = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
+    assert.match(text, /^draft: false$/m);
+    assert.doesNotMatch(text, /draft: "false"/);
+    assert.match(text, /^reviewDate: "\d{4}-\d{2}-\d{2}"$/m);
+  });
+});

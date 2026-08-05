@@ -24,6 +24,11 @@
 
 ### Шлюзы качества
 
+- **`scripts/release-article.mjs <slug>`** — финальный шлюз перед
+  снятием `draft`. Детерминированный CLI (не промпт): приёмка в
+  `editorial-cycle.json`, все аудиты, свежесть `/analyze-article`, хеш
+  и возраст факчек-маркера — всё в одном месте и в одном порядке. Флаги
+  `--dry-run`, `--json`, `--confirm-no-cycle` (для статей вне цикла).
 - **`/analyze-article <slug>`** — оценка 0–100 по 6 категориям. Блокер,
   если балл < 70, маркер факт-чека старше 180 дней, либо упали
   `factcheck/audit-npa-references.mjs` или `audit/check-blog-links.mjs`.
@@ -96,6 +101,7 @@
 | `generate-editorial-plan.mjs` | `content-plan-2026.md` → `editorial-plan.json` |
 | `check-ai-markers.mjs` | AI-маркеры в тексте, скор 0–10 |
 | `check-seo.mjs` | SEO-проверка текста статьи |
+| `release-article.mjs` | Финальный шлюз: снимает draft после проверки всех гейтов |
 | `check-stale-content.mjs` | Поиск статей с потенциально устаревшими сроками |
 | `maintain-content-queue.mjs` | Очередь `/maintain-content`: сроки + динамика спроса |
 | `cycle-state.mjs` | Машина состояний редакционного цикла |
