@@ -24,6 +24,7 @@ on:
           - status                 # панель консоли
           - console-check          # целостность меню консоли
           - drive-check            # доступ к Google API
+          - drive-init-root        # создать корневую папку редакции в Drive
           - cycle-get              # где сейчас цикл
           - can-start-batch        # можно ли стартовать батч
           - stale-content          # статьи с истёкшим reviewDate
@@ -98,6 +99,7 @@ jobs:
             status)           CMD="node scripts/console.mjs status" ;;
             console-check)    CMD="node scripts/console.mjs check" ;;
             drive-check)      CMD="node scripts/drive-sync.mjs check" ;;
+            drive-init-root)  CMD="node scripts/drive-sync.mjs init-root" ;;
             cycle-get)        CMD="node scripts/cycle-state.mjs get" ;;
             can-start-batch)  CMD="node scripts/cycle-state.mjs can-start-batch" ;;
             stale-content)    CMD="node scripts/check-stale-content.mjs" ;;
