@@ -327,13 +327,16 @@ async function main() {
   const merged = new Map(known);
   for (const it of out) merged.set(it.phrase.toLowerCase().trim(), it);
 
+  const periodTo = lastClosedSunday();
+  const periodFrom = weeksBeforeMonday(periodTo, HISTORY_WEEKS);
+
   mkdirSync(dirname(OUT), { recursive: true });
   writeFileSync(
     OUT,
     JSON.stringify(
       {
         generatedAt: new Date().toISOString(),
-        period: { from: periodFrom(12), to: periodTo() },
+        period: { from: rfc3339(periodFrom), to: rfc3339(periodTo) },
         coverage: { measured: merged.size, pool: all.length },
         items: [...merged.values()],
       },
