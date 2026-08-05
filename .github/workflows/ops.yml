@@ -72,6 +72,11 @@ jobs:
         env:
           TASK: ${{ inputs.task }}
           SLUG: ${{ inputs.slug }}
+          # Путь по умолчанию — OAuth от имени владельца Диска. Сервисный
+          # аккаунт без общего диска создавать файлы не может: своей квоты
+          # Drive у него нет. Задано явно, чтобы наличие GOOGLE_DOCS_KEY в
+          # секретах не уводило прогон обратно на неработающий путь.
+          DRIVE_AUTH: oauth
           GOOGLE_DOCS_KEY: ${{ secrets.GOOGLE_DOCS_KEY }}
           GOOGLE_DOCS_FOLDER_ID: ${{ secrets.GOOGLE_DOCS_FOLDER_ID }}
           GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
