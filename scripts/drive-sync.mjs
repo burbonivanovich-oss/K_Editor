@@ -279,6 +279,11 @@ const COLS = [
   { key: 'note',     title: 'Правка',         width: 300 },  // ← редактор
   { key: 'status',   title: 'Статус',         width: 120 },  // ← бот
   { key: 'doc',      title: 'Документ',       width: 200 },  // ← бот
+  // Скрытый от смысла редактора id темы. apply-decisions в cycle-state.mjs
+  // раньше сопоставлял строки таблицы с планом по номеру строки —
+  // добавление или удаление строки редактором сдвигает нумерацию, и решение
+  // может молча применить к чужой теме. Slug стабилен, номер строки — нет.
+  { key: 'slug',     title: 'ID (не менять)', width: 160 },  // ← бот
 ];
 
 const colLetter = (i) => String.fromCharCode(65 + i);
@@ -614,6 +619,7 @@ async function writePlanRows(sheetId, plan) {
     '',                        // Правка — редактору
     t.status || 'в плане',
     t.docUrl || '',
+    t.slug || '',
   ]);
   const range = `A${FIRST_DATA_ROW}:${colLetter(COLS.length - 1)}${FIRST_DATA_ROW + values.length - 1}`;
   await sheets(`${sheetId}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
@@ -766,6 +772,7 @@ async function readSheet(sheetId) {
       note: (row[7] || '').trim(),
       status: (row[8] || '').trim(),
       docUrl: row[9] || '',
+      slug: (row[10] || '').trim(),
     });
   }
   return { approval, topics };

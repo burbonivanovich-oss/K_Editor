@@ -196,8 +196,19 @@ switch (cmd) {
     if (/^отклон/i.test(pull.approval || '')) changes.rejected = true;
 
     for (const row of pull.topics || []) {
-      // Сопоставляем по номеру строки, при расхождении — по заголовку
-      let t = s.plan.find((x) => x.row === row.row) || s.plan.find((x) => x.title === row.title);
+      // Сопоставляем по стабильному slug (скрытая колонка K, пишет только
+      // бот) — это первичный ключ. Номер строки после вставки/удаления
+      // строки редактором сдвигается: у темы, которая физически осталась
+      // на месте, row.row в новом чтении может совпасть с t.row другой
+      // темы, и решение применится не туда. Slug такого сдвига не знает.
+      // Если slug в строке есть, но ни на одну тему не сматчился — это
+      // не повод падать на row/title: тот же класс ошибки, только через
+      // чужой (протухший) slug вместо номера строки. Row/title — только
+      // для строк без slug вообще: тема только что добавлена редактором
+      // и не прошла sheet-sync, либо это цикл, начатый до колонки K.
+      let t = row.slug
+        ? s.plan.find((x) => x.slug === row.slug)
+        : s.plan.find((x) => x.row === row.row) || s.plan.find((x) => x.title === row.title);
 
       if (!t) {
         // Редактор дописал тему прямо в таблицу
@@ -237,12 +248,18 @@ switch (cmd) {
       }
     }
 
-    // Темы, которые есть в состоянии, но пропали из таблицы
+    // Темы, которые есть в состоянии, но пропали из таблицы. Если у темы
+    // есть slug — это единственный источник истины: row/title как
+    // fallback здесь недопустимы, иначе после удаления чужой строки выше
+    // эта тема «находится» по номеру строки, который теперь занимает
+    // другая тема, и реально пропавшая тема остаётся незамеченной. Row/
+    // title — только для тем без slug (циклы, начатые до колонки K).
     for (const t of s.plan) {
       if (['released', 'dropped'].includes(t.status)) continue;
-      if (!(pull.topics || []).some((r) => r.row === t.row || r.title === t.title)) {
-        changes.missing.push(t.title);
-      }
+      const stillThere = t.slug
+        ? (pull.topics || []).some((r) => r.slug === t.slug)
+        : (pull.topics || []).some((r) => r.row === t.row || r.title === t.title);
+      if (!stillThere) changes.missing.push(t.title);
     }
 
     const live = s.plan.filter((t) => !['released', 'dropped'].includes(t.status));
@@ -392,13 +409,16 @@ switch (cmd) {
   }
 
   /* --------------------------------------------------------- sheet-sync */
-  /* Готовит обновления ячеек «Статус» и «Документ» для drive-sync set-cells. */
+  /* Готовит обновления ячеек «Статус», «Документ» и скрытого ID (колонка
+   * K — apply-decisions сопоставляет по нему строки, см. там) для
+   * drive-sync set-cells. */
   case 'sheet-sync': {
     const updates = [];
     for (const t of s.plan) {
       if (!t.row) continue;
       updates.push({ range: `I${t.row}`, value: RU_STATUS[t.status] || t.status });
       if (t.docUrl) updates.push({ range: `J${t.row}`, value: t.docUrl });
+      if (t.slug) updates.push({ range: `K${t.row}`, value: t.slug });
     }
     console.log(JSON.stringify(updates));
     break;
