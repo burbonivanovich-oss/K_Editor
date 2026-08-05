@@ -108,6 +108,53 @@ const count = (s, st) => s.plan.filter((t) => t.status === st).length;
 const byStatus = (s, st) => s.plan.filter((t) => t.status === st);
 const find = (s, slug) => s.plan.find((t) => t.slug === slug);
 
+// Разрешённые переходы статуса темы. Раньше status менялся напрямую
+// (t.status = ...) в пяти разных местах — легко добавить шестое и забыть
+// про инвариант очереди, что и произошло: to-review для тем «пишем сами»
+// никогда не проверял потолок вообще, а start-batch проверял только
+// review, не writing (можно было запустить два батча подряд, пока первый
+// ещё не дошёл до review, и превысить maxInReview в момент, когда оба
+// одновременно попадут в review).
+const ALLOWED_TRANSITIONS = {
+  planned: new Set(['writing', 'review', 'dropped']),
+  writing: new Set(['review', 'dropped']),
+  review: new Set(['accepted', 'released', 'dropped']),
+  accepted: new Set(['released', 'dropped']),
+  released: new Set(),
+  dropped: new Set(),
+};
+
+/**
+ * Единственная точка, где меняется t.status. Проверяет допустимость
+ * перехода и инвариант очереди редактора: writing + review не должно
+ * превышать maxInReview. Возврат в writing/review — единственные
+ * переходы, увеличивающие эту сумму (writing→review сумму не меняет:
+ * тема покидает writing и занимает review тем же слотом), поэтому
+ * проверка нужна только после входа в один из этих двух статусов.
+ * При нарушении — откат и { ok: false, error }.
+ */
+function transitionTopic(s, slug, target) {
+  const t = find(s, slug);
+  if (!t) return { ok: false, error: `темы "${slug}" нет в плане` };
+  if (!TOPIC_STATUSES.includes(target)) return { ok: false, error: `неизвестный статус "${target}"` };
+  if (!ALLOWED_TRANSITIONS[t.status]?.has(target)) {
+    return { ok: false, error: `тема "${slug}": переход ${t.status} → ${target} не разрешён` };
+  }
+  const from = t.status;
+  t.status = target;
+  if (target === 'writing' || target === 'review') {
+    const occupied = count(s, 'writing') + count(s, 'review');
+    if (occupied > s.maxInReview) {
+      t.status = from;
+      return {
+        ok: false,
+        error: `тема "${slug}": потолок очереди — пишется+на вычитке стало бы ${occupied}/${s.maxInReview}`,
+      };
+    }
+  }
+  return { ok: true, from, to: target };
+}
+
 /** Транслитерация заголовка в slug — для тем, добавленных редактором. */
 const MAP = { а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',
   н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'c',ч:'ch',ш:'sh',щ:'sch',ъ:'',ы:'y',
@@ -234,8 +281,10 @@ switch (cmd) {
 
       const d = (row.decision || '').toLowerCase();
       if (d === 'убрать' && t.status !== 'dropped') {
-        t.status = 'dropped';
-        changes.dropped.push(t.title);
+        // Переход может быть недопустим (например, тема уже released) —
+        // тогда просто не трогаем: снимать уже выпущенную статью через
+        // колонку решения не должно получаться молча.
+        if (transitionTopic(s, t.slug, 'dropped').ok) changes.dropped.push(t.title);
       } else if (d === 'пишем сами' && t.owner !== 'editor') {
         t.owner = 'editor';
         changes.toEditor.push(t.title);
@@ -322,11 +371,23 @@ switch (cmd) {
     }
     if (bad.length) die(`нельзя брать в батч:\n  ${bad.join('\n  ')}`);
 
-    const room = s.maxInReview - count(s, 'review');
-    if (slugs.length > room) die(`в батче ${slugs.length} тем, а у редактора влезет ещё ${room}`);
+    // По одной теме за раз через transitionTopic — она же проверяет
+    // потолок writing+review на каждом шаге. Батч атомарный: если потолок
+    // не влез на середине списка, откатываем уже применённые темы назад,
+    // чтобы не оставить батч в наполовину стартовавшем состоянии.
+    const applied = [];
+    let failure = null;
+    for (const sl of slugs) {
+      const r = transitionTopic(s, sl, 'writing');
+      if (!r.ok) { failure = r.error; break; }
+      applied.push(sl);
+    }
+    if (failure) {
+      for (const sl of applied) find(s, sl).status = 'planned';
+      die(`батч не стартовал: ${failure}`);
+    }
 
     const n = s.batches.length + 1;
-    for (const sl of slugs) find(s, sl).status = 'writing';
     s.batches.push({ n, slugs, startedAt: new Date().toISOString(), state: 'writing' });
     save(s, `батч ${n} начат: ${slugs.join(', ')}`);
     console.log(`✅ Батч ${n}: ${slugs.length} тем в работе`);
@@ -336,10 +397,10 @@ switch (cmd) {
   /* ----------------------------------------------------------- to-review */
   case 'to-review': {
     const slug = arg('slug');
-    const t = slug && find(s, slug);
-    if (!t) die(`темы "${slug}" нет в плане`);
-    if (!['writing', 'planned'].includes(t.status)) die(`тема "${slug}" в статусе ${t.status}`);
-    t.status = 'review';
+    if (!slug) die('нужен --slug');
+    const r = transitionTopic(s, slug, 'review');
+    if (!r.ok) die(r.error);
+    const t = find(s, slug);
     t.docId = arg('doc-id', t.docId);
     t.docUrl = arg('doc-url', t.docUrl);
     const b = s.batches.find((x) => x.slugs.includes(slug) && x.state === 'writing');
@@ -353,12 +414,10 @@ switch (cmd) {
   case 'accept':
   case 'release': {
     const slug = arg('slug') || process.argv[3];
-    const t = slug && find(s, slug);
-    if (!t) die(`темы "${slug}" нет в плане`);
+    if (!slug) die('нужен --slug');
     const to = cmd === 'accept' ? 'accepted' : 'released';
-    if (cmd === 'accept' && t.status !== 'review') die(`тема "${slug}" в статусе ${t.status}, ожидался review`);
-    if (cmd === 'release' && !['accepted', 'review'].includes(t.status)) die(`тема "${slug}" в статусе ${t.status}`);
-    t.status = to;
+    const r = transitionTopic(s, slug, to);
+    if (!r.ok) die(r.error);
 
     for (const b of s.batches) {
       if (b.slugs.includes(slug) && b.slugs.every((sl) => ['accepted', 'released', 'dropped'].includes(find(s, sl)?.status))) {
