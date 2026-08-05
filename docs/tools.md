@@ -132,6 +132,7 @@
 | Wordstat API, частотность ключей | `docs/wordstat.md` |
 | Factcheck pipeline, `extract-claims`, `sources.json`, аудит НПА | `docs/factcheck.md` |
 | Backfill истории и системные паттерны факт-чека | `docs/factcheck-history.md` |
+| CI, юнит-тесты | `docs/operations.md` (раздел «CI») |
 | Редполитика, классы решений | `docs/editorial-policy.md` |
 | Правила контента и стиля, frontmatter | `docs/content-rules.md` |
 | Как добавить статью, термин, pillar | `docs/content-types.md` |

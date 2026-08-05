@@ -46,6 +46,24 @@ API, запись в папку цикла. Настройка — `docs/google-
 |---|---|---|
 | Wordstat: точечный + discovery | `wordstat-weekly.yml`, `wordstat-kontur.yml` | `docs/wordstat.md` |
 | Редакционный цикл (план → батч → приёмка) | `/cycle-plan`, `/cycle-listen`, `/cycle-batch` | `docs/editorial-cycle.md` |
+| CI на каждый PR: синтаксис, юнит-тесты, аудиты | `.github/workflows/ci.yml` | ниже |
+
+## CI
+
+`.github/workflows/ci.yml` — без секретов, гоняется на любом PR и push в
+`main`:
+
+1. `node --check` по всем `scripts/**/*.mjs` — синтаксис.
+2. `node --test scripts/*.test.mjs` (= `npm test`) — юнит-тесты машины
+   состояний `cycle-state.mjs` (переходы, потолок очереди редактора,
+   регрессия на сдвиг строк в apply-decisions).
+3. `audit-npa-references.mjs --strict` и `check-blog-links.mjs` —
+   регрессионные аудиты контента, те же, что в `ops.yml` вручную.
+
+Новый тест на машину состояний — рядом со скриптом:
+`scripts/cycle-state.test.mjs`. Гоняет реальный CLI сабпроцессом на
+временном файле состояния (`CYCLE_STATE_PATH`), не трогает
+`src/data/editorial-cycle.json`.
 
 ## Карта команд (slash-команды)
 
