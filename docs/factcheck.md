@@ -20,6 +20,8 @@ scripts/factcheck/
   extract-claims.mjs       # regex-парсер: даты, суммы, ст. КоАП, № ФЗ, ссылки
                             # запуск: node scripts/factcheck/extract-claims.mjs <slug>
                             #        node scripts/factcheck/extract-claims.mjs --all
+  write-marker.mjs         # маркер .claude/factchecked/<slug> с хешем статьи
+                            # запуск: node scripts/factcheck/write-marker.mjs <slug>
 
 src/data/factcheck/
   sources.json             # маппинг типов claims на первоисточники +
@@ -30,7 +32,9 @@ src/data/factcheck/
 
 .claude/
   commands/factcheck.md    # /factcheck <slug> — скилл проверки
-  factchecked/<slug>       # маркер «статья проверена» (файл с датой)
+  factchecked/<slug>       # маркер «статья проверена» — JSON {date, hash},
+                            # hash sha256 статьи на момент проверки
+                            # (scripts/factcheck/write-marker.mjs)
 ```
 
 ## Поддерживаемые типы claims
@@ -126,7 +130,7 @@ src/data/factcheck/
    │
    ├── 4. записать results/<slug>.json
    │
-   ├── 5. поставить маркер .claude/factchecked/<slug>
+   ├── 5. node scripts/factcheck/write-marker.mjs <slug>
    │
    └── 6. вывести summary в чат:
          🔴 critical N → блокировка публикации, draft: true

@@ -34,7 +34,9 @@ argument-hint: "<slug>"
 
 ### 3. E-E-A-T и фактчек (20)
 
-- **10** Маркер `.claude/factchecked/<slug>` существует и не старше 90 дней
+- **10** Маркер `.claude/factchecked/<slug>` существует, хеш совпадает с
+  текущим содержимым статьи (иначе статью правили после факчека — маркер
+  недействителен) и `date` не старше 90 дней
 - **5** ≥ 1 ссылка на НПА с указанием статьи и даты
 - **5** Все упоминания ПП/Приказов/ФЗ в `audit-npa-references.mjs` whitelist
   (прогон `node scripts/factcheck/audit-npa-references.mjs --strict`)

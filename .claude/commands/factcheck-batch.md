@@ -59,7 +59,8 @@ const candidates = readBlogDir()
 4. Если class C — точечная правка статьи, `updatedDate: 2026-05-19`,
    `draft: false` сохраняется
 5. Записывает `src/data/factcheck/results/<slug>.json`
-6. Создаёт `.claude/factchecked/<slug>` с датой
+6. `node scripts/factcheck/write-marker.mjs <slug>` — маркер с хешем
+   текущего содержимого статьи
 
 Тип агента: `general-purpose`.
 
@@ -106,8 +107,8 @@ notification по мере завершения каждого батча.
 5. Если class C: обновить статью точечно, updatedDate: <сегодня>,
    draft: false сохранить
 6. Записать src/data/factcheck/results/<slug>.json
-7. Создать .claude/factchecked/<slug> с <сегодня>. Если sandbox
-   блокирует — пропусти.
+7. node scripts/factcheck/write-marker.mjs <slug> — маркер с хешем
+   текущего содержимого. Если sandbox блокирует — пропусти.
 
 Твой батч — 4 статьи [категория]:
 - slug-1

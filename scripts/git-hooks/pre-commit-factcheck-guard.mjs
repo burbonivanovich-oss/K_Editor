@@ -6,14 +6,24 @@
 //   1. git diff --cached --name-only — получить файлы в коммите
 //   2. Для каждого .md в src/content/blog/ проверить frontmatter draft
 //   3. Если draft: false → требуется маркер .claude/factchecked/<slug>
-//   4. Если маркера нет — exit 1 с понятным сообщением
+//   4. Маркер — JSON {date, hash}, hash — sha256 статьи на момент факчека
+//      (scripts/factcheck/write-marker.mjs). Сверяем со staged-содержимым:
+//      несовпадение значит, что статью правили после факчека, и это та
+//      же по духу проблема, что и отсутствие маркера — пропускать нельзя.
+//   5. Если маркера нет или хеш не совпал — exit 1 с понятным сообщением
 //
 // Установка: scripts/git-hooks/install.sh
 // Bypass (только при крайней необходимости): git commit --no-verify
 
 import { execSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+
+if (process.env.SKIP_FACTCHECK_GUARD === '1') {
+  console.log('SKIP_FACTCHECK_GUARD=1 — factcheck-guard пропущен.');
+  process.exit(0);
+}
 
 const REPO_ROOT = execSync('git rev-parse --show-toplevel', { encoding: 'utf8' }).trim();
 process.chdir(REPO_ROOT);
@@ -33,7 +43,8 @@ const blogFiles = staged.filter(
 
 if (blogFiles.length === 0) process.exit(0);
 
-const violations = [];
+const missing = [];
+const stale = [];
 
 for (const f of blogFiles) {
   let staged_content;
@@ -53,22 +64,48 @@ for (const f of blogFiles) {
   const slug = path.basename(f).replace(/\.(md|mdx)$/, '');
   const marker = path.join(REPO_ROOT, '.claude', 'factchecked', slug);
   if (!fs.existsSync(marker)) {
-    violations.push({ file: f, slug });
+    missing.push({ file: f, slug });
+    continue;
+  }
+
+  let markerData;
+  try {
+    markerData = JSON.parse(fs.readFileSync(marker, 'utf8'));
+  } catch {
+    missing.push({ file: f, slug });
+    continue;
+  }
+
+  const stagedHash = createHash('sha256').update(staged_content).digest('hex');
+  if (markerData.hash !== stagedHash) {
+    stale.push({ file: f, slug });
   }
 }
 
-if (violations.length === 0) process.exit(0);
+if (missing.length === 0 && stale.length === 0) process.exit(0);
 
 console.error('');
-console.error('✗ Pre-commit guard: factcheck-маркер обязателен для draft: false');
-console.error('');
-for (const v of violations) {
-  console.error(`  ${v.file}`);
-  console.error(`     отсутствует .claude/factchecked/${v.slug}`);
+if (missing.length) {
+  console.error('✗ Pre-commit guard: factcheck-маркер обязателен для draft: false');
+  console.error('');
+  for (const v of missing) {
+    console.error(`  ${v.file}`);
+    console.error(`     отсутствует или повреждён .claude/factchecked/${v.slug}`);
+  }
+  console.error('');
 }
-console.error('');
+if (stale.length) {
+  console.error('✗ Pre-commit guard: статья менялась после факчека');
+  console.error('');
+  for (const v of stale) {
+    console.error(`  ${v.file}`);
+    console.error(`     хеш .claude/factchecked/${v.slug} не совпадает с текущим содержимым`);
+  }
+  console.error('');
+}
 console.error('Варианты:');
-console.error('  1. Прогнать фактчек: /factcheck <slug>');
+console.error('  1. Прогнать фактчек заново: /factcheck <slug>');
+console.error('     (перезапишет маркер: node scripts/factcheck/write-marker.mjs <slug>)');
 console.error('  2. Если статья ещё в работе — поставить draft: true');
 console.error('  3. Срочное исключение: git commit --no-verify (запиши причину в сообщение)');
 console.error('');
