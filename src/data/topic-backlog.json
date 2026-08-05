@@ -1,0 +1,765 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-05",
+  "sources": [],
+  "limit": 50,
+  "minCount": 50,
+  "stats": {
+    "всего": 82,
+    "дубли": 17,
+    "покрыто": 0,
+    "заглушено": 0
+  },
+  "candidates": [
+    {
+      "topic": "маркировка честный код",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 7233 → 21121 показов в месяц (+192% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 7233.333333333333,
+        "now": 21121.333333333332,
+        "ratio": 2.92
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "модуль честный знак",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 15695 → 33274 показов в месяц (+112% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 15695.283018867924,
+        "now": 33274,
+        "ratio": 2.12
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "локальный честный знак",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 13895 → 30569 показов в месяц (+120% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 13894.999999999998,
+        "now": 30569,
+        "ratio": 2.2
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "маркировка канистры для бензина",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 149 → 5992 показов в месяц (+3913% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 149.31472713680537,
+        "now": 5992,
+        "ratio": 40.13
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "отчетность за 2 квартал",
+      "cluster": "otchetnost-edo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 375 → 5647 показов в месяц (+1407% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 374.740101747401,
+        "now": 5647.333333333333,
+        "ratio": 15.07
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "этрн с 1 сентября",
+      "cluster": "logistika",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1625 → 6856 показов в месяц (+322% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1624.6445497630332,
+        "now": 6856,
+        "ratio": 4.22
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "самозанятый 2026 для пособий",
+      "cluster": "uslugi",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 4290 → 10166 показов в месяц (+137% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 4289.592123769339,
+        "now": 10166.333333333334,
+        "ratio": 2.37
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "8 мрот 2026 для единого",
+      "cluster": "kadry",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 4122 → 9892 показов в месяц (+140% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 4121.527777777777,
+        "now": 9891.666666666666,
+        "ratio": 2.4
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "сколько самозанятых в 2026",
+      "cluster": "uslugi",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 4957 → 10111 показов в месяц (+104% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 4956.535947712418,
+        "now": 10111.333333333334,
+        "ratio": 2.04
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "калуга астрал офд",
+      "cluster": "ofd-fn",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 4331 → 8921 показов в месяц (+106% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 4330.582524271845,
+        "now": 8921,
+        "ratio": 2.06
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "товар в обороте честный знак",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1698 → 4923 показов в месяц (+190% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1697.7011494252872,
+        "now": 4923.333333333333,
+        "ratio": 2.9
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "эдо с сентября",
+      "cluster": "otchetnost-edo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 917 → 3466 показов в месяц (+278% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 916.931216931217,
+        "now": 3466,
+        "ratio": 3.78
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "оператор ис эпд",
+      "cluster": "logistika",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1575 → 4332 показов в месяц (+175% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1575.1515151515152,
+        "now": 4331.666666666667,
+        "ratio": 2.75
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "усн за 2 квартал 2026 срок уплаты",
+      "cluster": "nalogi",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 45 → 2400 показов в месяц (+5193% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 45.33660809874677,
+        "now": 2399.6666666666665,
+        "ratio": 52.93
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "этрн в 1с",
+      "cluster": "logistika",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 591 → 2688 показов в месяц (+355% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 590.6959706959707,
+        "now": 2687.6666666666665,
+        "ratio": 4.55
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "размер отрицательного сальдо енс",
+      "cluster": "zakonodatelstvo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1018 → 3106 показов в месяц (+205% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1018.360655737705,
+        "now": 3106,
+        "ratio": 3.05
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "честный знак бытовая химия",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1453 → 3733 показов в месяц (+157% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1452.6588845654994,
+        "now": 3733.3333333333335,
+        "ratio": 2.57
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "переход на этрн",
+      "cluster": "logistika",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 770 → 2678 показов в месяц (+248% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 769.5402298850574,
+        "now": 2678,
+        "ratio": 3.48
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "пришел чек но деньги не пришли",
+      "cluster": "kkt",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 232 → 2095 показов в месяц (+804% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 231.7109144542773,
+        "now": 2094.6666666666665,
+        "ratio": 9.04
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "оплата усн за 2 квартал 2026",
+      "cluster": "nalogi",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 24 → 1823 показов в месяц (+7497% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 24.000702031503664,
+        "now": 1823.3333333333333,
+        "ratio": 75.97
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "маркировка на пластиковой канистре",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 106 → 1899 показов в месяц (+1692% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 105.98958333333331,
+        "now": 1899.3333333333333,
+        "ratio": 17.92
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "договор с самозанятым образец 2026",
+      "cluster": "uslugi",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1584 → 3691 показов в месяц (+133% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1584.2632331902719,
+        "now": 3691.3333333333335,
+        "ratio": 2.33
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "почему пришел штраф",
+      "cluster": "zakonodatelstvo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 4768 → 7772 показов в месяц (+63% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 4767.893660531698,
+        "now": 7771.666666666667,
+        "ratio": 1.63
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "калуга астрал эдо",
+      "cluster": "otchetnost-edo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 12957 → 16585 показов в месяц (+28% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 12957.03125,
+        "now": 16585,
+        "ratio": 1.28
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "маркировка бытовой химии",
+      "cluster": "markirovka-2026",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1906 → 4042 показов в месяц (+112% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1906.4465408805029,
+        "now": 4041.6666666666665,
+        "ratio": 2.12
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "авансовый платеж по усн за 2",
+      "cluster": "nalogi",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 157 → 1561 показов в месяц (+892% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 157.32526881720432,
+        "now": 1560.6666666666667,
+        "ratio": 9.92
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "честный знак косметика",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 2689 → 4894 показов в месяц (+82% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 2688.827838827839,
+        "now": 4893.666666666667,
+        "ratio": 1.82
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "маркировка в детском саду",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 5273 → 7804 показов в месяц (+48% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 5272.747747747748,
+        "now": 7803.666666666667,
+        "ratio": 1.48
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "онлайн касса бесплатно",
+      "cluster": "kkt",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1209 → 2563 показов в месяц (+112% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1208.8050314465409,
+        "now": 2562.6666666666665,
+        "ratio": 2.12
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "честный знак игрушки",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 3100 → 4867 показов в месяц (+57% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 3100,
+        "now": 4867,
+        "ratio": 1.57
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "проверка кода маркировки",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 4777 → 6448 показов в месяц (+35% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 4776.543209876542,
+        "now": 6448.333333333333,
+        "ratio": 1.35
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "налог сальдо енс",
+      "cluster": "zakonodatelstvo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 2222 → 3577 показов в месяц (+61% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 2221.7391304347825,
+        "now": 3577,
+        "ratio": 1.61
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "честный знак какие группы",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 3202 → 4610 показов в месяц (+44% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 3201.6203703703704,
+        "now": 4610.333333333333,
+        "ratio": 1.44
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "лимиты патента для ип",
+      "cluster": "nalogi",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 3319 → 4614 показов в месяц (+39% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 3319.184652278178,
+        "now": 4613.666666666667,
+        "ratio": 1.39
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "честный знак в 1с",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 10081 → 11593 показов в месяц (+15% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 10080.869565217392,
+        "now": 11593,
+        "ratio": 1.15
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "честный знак тн вэд",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 8661 → 10134 показов в месяц (+17% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 8661.253561253561,
+        "now": 10133.666666666666,
+        "ratio": 1.17
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "какая маркировка должна быть",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 6360 → 7760 показов в месяц (+22% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 6360.382513661202,
+        "now": 7759.666666666667,
+        "ratio": 1.22
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "1 с эдо",
+      "cluster": "otchetnost-edo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 9026 → 10380 показов в месяц (+15% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 9025.797101449276,
+        "now": 10379.666666666666,
+        "ratio": 1.15
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "честный знак код тн",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 5435 → 6685 показов в месяц (+23% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 5435.2303523035225,
+        "now": 6685.333333333333,
+        "ratio": 1.23
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "декларация водный налог 2026",
+      "cluster": "otchetnost-edo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1963 → 2964 показов в месяц (+51% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1962.9139072847681,
+        "now": 2964,
+        "ratio": 1.51
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "код маркировки в 1с",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 5573 → 6799 показов в месяц (+22% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 5572.6775956284155,
+        "now": 6798.666666666667,
+        "ratio": 1.22
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "расчетный счет открыть ип банки",
+      "cluster": "start",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 4181 → 5309 показов в месяц (+27% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 4180.577427821522,
+        "now": 5309.333333333333,
+        "ratio": 1.27
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "1с эдо астрал",
+      "cluster": "otchetnost-edo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 2823 → 3867 показов в месяц (+37% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 2822.627737226277,
+        "now": 3867,
+        "ratio": 1.37
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "1с эдо калуга",
+      "cluster": "otchetnost-edo",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 2717 → 3749 показов в месяц (+38% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 2716.908212560387,
+        "now": 3749.3333333333335,
+        "ratio": 1.38
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "маркировка мебели в детском",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1533 → 2391 показов в месяц (+56% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1532.905982905983,
+        "now": 2391.3333333333335,
+        "ratio": 1.56
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "блокировка счета налоговой",
+      "cluster": "banki",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 7720 → 8878 показов в месяц (+15% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 7720.000000000001,
+        "now": 8878,
+        "ratio": 1.15
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "маркировка мебели в саду",
+      "cluster": "markirovka",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 1517 → 2336 показов в месяц (+54% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 1516.8831168831168,
+        "now": 2336,
+        "ratio": 1.54
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "сотрудник яндекс маркета",
+      "cluster": "marketplace",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 2484 → 3404 показов в месяц (+37% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 2484.428223844282,
+        "now": 3403.6666666666665,
+        "ratio": 1.37
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "7 закон 115 фз",
+      "cluster": "banki",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 3634 → 4615 показов в месяц (+27% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 3634.120734908136,
+        "now": 4615.333333333333,
+        "ratio": 1.27
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "карта для самозанятых",
+      "cluster": "uslugi",
+      "source": "wordstat:root",
+      "why": "спрос растёт: 4229 → 5159 показов в месяц (+22% за квартал)",
+      "metrics": {
+        "kind": "growing",
+        "prev": 4228.688524590164,
+        "now": 5159,
+        "ratio": 1.22
+      },
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    }
+  ]
+}
