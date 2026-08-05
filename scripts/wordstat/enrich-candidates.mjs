@@ -25,7 +25,7 @@
 //   MIN_WORDS=3              — минимум слов во фразе
 //   RECENT_WEEKS=3           — короткое окно: последние N недель против
 //                              предыдущих N (что тронулось только сейчас)
-//   TREND_WEEKS=12            — длинное окно: последние N недель против
+//   TREND_WEEKS=16            — длинное окно: последние N недель против
 //                              предыдущих N (устойчивый структурный рост,
 //                              который короткое окно смазывает шумом)
 //
@@ -53,7 +53,7 @@ const MIN_WORDS = parseInt(process.env.MIN_WORDS || "3", 10);
 const REGION_ID = String(process.env.REGION_ID || "225");
 const REQUEST_DELAY_MS = parseInt(process.env.REQUEST_DELAY_MS || "200", 10);
 const RECENT_WEEKS = parseInt(process.env.RECENT_WEEKS || "3", 10);
-const TREND_WEEKS = parseInt(process.env.TREND_WEEKS || "12", 10);
+const TREND_WEEKS = parseInt(process.env.TREND_WEEKS || "16", 10);
 // Через сколько дней измерение считается протухшим. Недельная динамика
 // сдвигается каждую неделю — семи дней вполне достаточно, чтобы не мерить
 // то же самое чаще, чем оно вообще может измениться.
