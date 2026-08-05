@@ -184,19 +184,46 @@ node scripts/drive-sync.mjs set-cells --sheet-id <sheetId> --updates "$(cat /tmp
 node scripts/drive-sync.mjs export-doc --doc-id <id> --out /tmp/<slug>.md
 ```
 
-Дальше:
+Дальше — путь зависит от того, кто тему писал (`owner` в состоянии):
 
-1. Восстановить frontmatter (из состояния: title, description, tags,
-   categories, seo.keywords, `draft: true`).
+**Тема `owner: bot`.** Файл `src/content/blog/YYYY-MM-DD-<slug>.md` уже
+существует и уже закоммичен — его создал `/create-article` в рутине C
+(шаг 4 `/cycle-batch`), с полным frontmatter (title, description, tags,
+categories, seo.keywords) и `draft: true`. **Не восстанавливать
+frontmatter заново** — состояние цикла эти поля не хранит, а
+придумывать их заново на этом шаге значит терять то, что уже подобрал
+`seo-optimizer` при написании, и рискует не пройти P0-проверки
+`check-seo.mjs` (pre-commit гейт). Вместо этого:
+
+1. Взять существующий файл, заменить **только тело** на экспорт из дока
+   (это правки редактора) — frontmatter из файла не трогать, кроме:
+   `draft: true → false`, и `updatedDate` — если тело менялось.
+2. Сохранить поверх того же пути.
+
+**Тема `owner: editor`** («пишем сами», см. шаг 4) — файла ещё нет,
+только бриф. Frontmatter здесь действительно нужно построить с нуля:
+
+1. Собрать frontmatter по шаблону `docs/content-rules.md` (title из
+   дока или брифа, `draft: true` временно).
 2. Сохранить в `src/content/blog/YYYY-MM-DD-<slug>.md`.
-3. Прогнать `node scripts/check-ai-markers.mjs` и
+3. `/optimize-seo post <slug>` — не угадывать description/tags/
+   categories/seo.keywords вручную, агент `seo-optimizer` для этого и
+   существует.
+
+Дальше — общее для обоих путей:
+
+4. Прогнать `node scripts/check-ai-markers.mjs` и
    `node scripts/factcheck/audit-npa-references.mjs --strict` — редактор мог
    поправить формулировки так, что поехали ссылки на НПА.
-4. `/analyze-article <slug>` — если < 70, не блокировать выпуск (решение
+5. `/analyze-article <slug>` — если < 70, не блокировать выпуск (решение
    редактора выше оценки), но отметить в отчёте.
-5. `node scripts/cycle-state.mjs accept --slug <slug>`.
-6. Закоммитить: `content: <заголовок> (принято редактором)`.
-7. `node scripts/social-state.mjs get <slug>` — если по статье не
+6. `draft: false`, `node scripts/factcheck/write-marker.mjs <slug>` —
+   без этого замена тела не пройдёт pre-commit factcheck-guard: хеш
+   маркера, поставленного при написании, больше не совпадёт с
+   отредактированным телом.
+7. `node scripts/cycle-state.mjs accept --slug <slug>`.
+8. Закоммитить: `content: <заголовок> (принято редактором)`.
+9. `node scripts/social-state.mjs get <slug>` — если по статье не
    сделано ни одной площадки, добавить строку в отчёт: «рерайт под
    соцканалы не делали, запустить `/social-rewrite <slug>`». Именно
    напомнить, а не запустить: рерайт нужен не каждой статье, решение
