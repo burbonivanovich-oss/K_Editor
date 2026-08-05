@@ -45,6 +45,10 @@ function getState(statePath) {
   return JSON.parse(readFileSync(statePath, 'utf8'));
 }
 
+function find(s, slug) {
+  return s.plan.find((t) => t.slug === slug);
+}
+
 function writePlan(dir, topics) {
   const p = join(dir, 'plan.json');
   writeFileSync(p, JSON.stringify(topics));
@@ -198,12 +202,56 @@ test('can-start-batch: потолок очереди блокирует новы
   });
 });
 
+// Регрессия из аудита (п.5): can-start-batch/start-batch раньше считали
+// только review, не writing. Второй батч мог стартовать, пока первый ещё
+// пишется, и оба одновременно доходили до review, превышая потолок.
+test('start-batch: второй батч не стартует, пока первый ещё writing (учёт writing+review)', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [
+      { title: 'A' }, { title: 'B' }, { title: 'C' }, { title: 'D' },
+    ], ['--max-in-review', '3', '--batch-size', '3']);
+    run(statePath, ['set-state', 'running']);
+
+    run(statePath, ['start-batch', '--slugs', 'a,b,c']); // 3 writing, потолок 3 — впритык
+    const err = runFail(statePath, ['start-batch', '--slugs', 'd']);
+    assert.match(err.stderr, /потолок очереди/);
+
+    const s = getState(statePath);
+    assert.deepEqual(
+      s.plan.filter((t) => t.status === 'writing').map((t) => t.slug).sort(),
+      ['a', 'b', 'c'],
+    );
+    assert.equal(find(s, 'd').status, 'planned');
+  });
+});
+
+// Регрессия из аудита (п.5): to-review для тем owner:editor («пишем
+// сами») никогда не проверял потолок вообще — можно было отправить на
+// вычитку сколько угодно тем в обход start-batch.
+test('to-review: тема owner:editor тоже упирается в потолок очереди', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'A' }, { title: 'B' }, { title: 'C' }], ['--max-in-review', '2']);
+    run(statePath, ['set-state', 'running']);
+
+    run(statePath, ['to-review', '--slug', 'a']);
+    run(statePath, ['to-review', '--slug', 'b']);
+    const err = runFail(statePath, ['to-review', '--slug', 'c']);
+    assert.match(err.stderr, /потолок очереди/);
+
+    const s = getState(statePath);
+    assert.equal(find(s, 'c').status, 'planned');
+  });
+});
+
 test('start-batch отказывает, если тем в батче больше, чем есть места в очереди', () => {
   withTmp((statePath, dir) => {
     initCycle(statePath, dir, [{ title: 'A' }, { title: 'B' }, { title: 'C' }], ['--max-in-review', '2']);
     run(statePath, ['set-state', 'running']);
     const err = runFail(statePath, ['start-batch', '--slugs', 'a,b,c']);
-    assert.match(err.stderr, /влезет ещё 2/);
+    assert.match(err.stderr, /потолок очереди/);
+    // Атомарность: неудавшийся батч не должен оставлять темы в writing.
+    const s = getState(statePath);
+    assert.ok(s.plan.every((t) => t.status === 'planned'), 'откат должен вернуть все темы в planned');
   });
 });
 
@@ -215,7 +263,7 @@ test('accept требует статус review, release закрывает ба
     run(statePath, ['set-state', 'running']);
 
     const early = runFail(statePath, ['accept', '--slug', 'a']);
-    assert.match(early.stderr, /ожидался review/);
+    assert.match(early.stderr, /переход planned → accepted не разрешён/);
 
     run(statePath, ['start-batch', '--slugs', 'a']);
     run(statePath, ['to-review', '--slug', 'a']);
