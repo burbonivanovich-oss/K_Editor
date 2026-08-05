@@ -14,6 +14,7 @@
  *         📄 ...
  *
  * Подкоманды:
+ *   init-root    [--name "Контур — редакция"]      создать корневую папку
  *   init-cycle   --cycle 2026-08 --plan plan.json   создать папку + таблицу
  *   init-backlog --week 2026-08-04 --items b.json  таблица бэклога тем (A0)
  *   pull-backlog --sheet-id <id>                   решения по бэклогу
@@ -741,6 +742,41 @@ const cmd = process.argv[2];
 
 try {
   switch (cmd) {
+    case 'init-root': {
+      // Корневую папку создаёт само приложение, и это не прихоть.
+      //
+      // На пути OAuth скоуп drive.file даёт доступ только к файлам, которые
+      // приложение создало. Папку, сделанную человеком руками, оно не видит:
+      // попытка создать что-то внутри неё возвращает 404, будто её нет.
+      // Поэтому папку заводит бот, а человек просто открывает её по ссылке
+      // и работает как обычно — владелец файлов всё равно владелец токена.
+      const name = arg('name', 'Контур — редакция');
+
+      if (DRY_RUN) {
+        console.log(JSON.stringify({ dryRun: true, name }, null, 2));
+        break;
+      }
+
+      const folder = await withQuotaFallback(() =>
+        drive('files?fields=id,name,webViewLink', {
+          method: 'POST',
+          body: JSON.stringify({
+            name,
+            mimeType: 'application/vnd.google-apps.folder',
+          }),
+        })
+      );
+
+      console.log(JSON.stringify({
+        folderId: folder.id,
+        folderUrl: folder.webViewLink,
+        name: folder.name,
+      }, null, 2));
+      console.log('\nПоложите folderId в секрет GOOGLE_DOCS_FOLDER_ID,');
+      console.log('а ссылку отдайте редактору — папка уже в его аккаунте.');
+      break;
+    }
+
     case 'init-cycle': {
       const cycle = arg('cycle') || new Date().toISOString().slice(0, 7);
       const planPath = arg('plan');
