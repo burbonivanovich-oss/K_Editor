@@ -75,9 +75,13 @@ function parseCategories(frontmatter) {
 
 const FZ_RE = /(?<!\d)(\d{1,4})[\-‑]ФЗ/g;
 const PP_RE = /(?:[Пп]остановлен[а-я]+\s+[Пп]равительства(?:\s+РФ)?|ПП(?:\s+РФ)?)\s*(?:от\s+\d{1,2}[.\/]\d{1,2}[.\/]\d{4}\s+)?№\s*(\d{1,4})/giu;
-const PRIKAZ_RE = /[Пп]риказ[а-я]*\s+(?:Минфина|ФНС|Минпромторга|Роспотребнадзора|Минцифры|Минтруда|ЦБ\s+РФ|Минсельхоза)[а-я\s]*(?:№|N)\s*([\w\-\/]+)/giu;
+// Ведомство — отдельная захватывающая группа, не (?:...). Номер приказа не
+// уникален между ведомствами: приказ № 2044 у ФНС (2017, реестр ОФД) и у
+// Минпромторга (2025, правила совместимости ТС ПИоТ) — разные документы под
+// одним номером. Без ведомства whitelist не может их различить.
+const PRIKAZ_RE = /[Пп]риказ[а-я]*\s+(Минфина|ФНС|Минпромторга|Роспотребнадзора|Минцифры|Минтруда|ЦБ\s+РФ|Минсельхоза)[а-я\s]*(?:№|N)\s*([\w\-\/]+)/giu;
 
-const findings = { fz: [], pp: [], prikaz: [], topicMismatch: [] };
+const findings = { fz: [], pp: [], prikaz: [], topicMismatch: [], ambiguousPrikaz: [] };
 const seenByType = { fz: new Set(), pp: new Set(), prikaz: new Set() };
 
 function parseBody(text) {
@@ -98,10 +102,8 @@ for (const f of files) {
 
   // Номер есть в whitelist, но норма из чужой темы — не ошибка номера,
   // а повод для ручной проверки: тот ли НПА процитирован.
-  function checkTopic(type, num) {
-    if (!categories.length) return;
-    const entry = WHITELIST_BY_TYPE[type]?.[num];
-    if (!entry || typeof entry !== 'object' || !entry.topic) return;
+  function checkTopicEntry(type, num, entry) {
+    if (!categories.length || !entry?.topic) return;
     if (allowed.has(entry.topic)) return;
     findings.topicMismatch.push({
       slug,
@@ -111,6 +113,11 @@ for (const f of files) {
       title: entry.title,
       categories,
     });
+  }
+  function checkTopic(type, num) {
+    const entry = WHITELIST_BY_TYPE[type]?.[num];
+    if (!entry || typeof entry !== 'object' || Array.isArray(entry)) return;
+    checkTopicEntry(type, num, entry);
   }
 
   for (const m of body.matchAll(FZ_RE)) {
@@ -126,10 +133,32 @@ for (const f of files) {
     else checkTopic('pp', num);
   }
   for (const m of body.matchAll(PRIKAZ_RE)) {
-    const num = m[1];
+    const issuerRaw = m[1];
+    const num = m[2];
     seenByType.prikaz.add(num);
-    if (!knownPrikaz.has(num)) findings.prikaz.push({ slug, num, raw: m[0] });
-    else checkTopic('prikaz', num);
+    if (!knownPrikaz.has(num)) {
+      findings.prikaz.push({ slug, num, raw: m[0] });
+      continue;
+    }
+    const entry = WHITELIST_BY_TYPE.prikaz[num];
+    if (!Array.isArray(entry)) {
+      checkTopic('prikaz', num);
+      continue;
+    }
+    // Номер общий на несколько ведомств — сопоставляем по ведомству, которое
+    // сама статья и назвала. Регэксп ведомства фиксированный список, поэтому
+    // точное совпадение (без учёта регистра), а не догадка по подстроке.
+    const match = entry.find((e) => e.issuer.toLowerCase() === issuerRaw.toLowerCase());
+    if (!match) {
+      // Не должно происходить: issuerRaw пришёл из той же альтернативы, что
+      // и entry.issuer. Если всё же не совпало — не глотаем молча.
+      findings.ambiguousPrikaz.push({
+        slug, num, issuer: issuerRaw, raw: m[0],
+        candidates: entry.map((e) => `${e.issuer} — ${e.title}`),
+      });
+      continue;
+    }
+    checkTopicEntry('prikaz', num, match);
   }
 }
 
@@ -184,6 +213,14 @@ if (uniqueMismatch.length) {
   }
 }
 
+if (findings.ambiguousPrikaz.length) {
+  console.log(`\n=== needs-decision: ведомство не сматчилось со whitelist (${findings.ambiguousPrikaz.length}) ===`);
+  for (const it of findings.ambiguousPrikaz) {
+    console.log(`  ${it.slug}: «${it.raw}» — ведомство «${it.issuer}» не найдено среди вариантов номера ${it.num}:`);
+    for (const c of it.candidates) console.log(`    - ${c}`);
+  }
+}
+
 fs.mkdirSync('src/data/factcheck/audit', { recursive: true });
 fs.writeFileSync(
   'src/data/factcheck/audit/npa-references.json',
@@ -196,6 +233,7 @@ fs.writeFileSync(
         unknownPp: findings.pp.length,
         unknownPrikaz: findings.prikaz.length,
         topicMismatch: uniqueMismatch.length,
+        ambiguousPrikaz: findings.ambiguousPrikaz.length,
       },
       findings: { ...findings, topicMismatch: uniqueMismatch },
     },

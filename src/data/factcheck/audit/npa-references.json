@@ -1,16 +1,18 @@
 {
-  "generatedAt": "2026-08-04T14:48:32.045Z",
+  "generatedAt": "2026-08-05T16:41:58.328Z",
   "totals": {
     "files": 0,
     "unknownFz": 0,
     "unknownPp": 0,
     "unknownPrikaz": 0,
-    "topicMismatch": 0
+    "topicMismatch": 0,
+    "ambiguousPrikaz": 0
   },
   "findings": {
     "fz": [],
     "pp": [],
     "prikaz": [],
-    "topicMismatch": []
+    "topicMismatch": [],
+    "ambiguousPrikaz": []
   }
 }
