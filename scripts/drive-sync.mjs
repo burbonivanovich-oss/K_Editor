@@ -148,11 +148,26 @@ async function withQuotaFallback(fn) {
   try {
     return await fn();
   } catch (e) {
-    if (AUTH_MODE === 'sa' && OAUTH_ID && OAUTH_REFRESH && /storageQuota|storage quota/i.test(e.message)) {
+    const isQuota = /storageQuota|storage quota/i.test(e.message);
+    if (AUTH_MODE === 'sa' && isQuota && OAUTH_ID && OAUTH_REFRESH) {
       console.warn('⚠ Сервисный аккаунт упёрся в квоту Drive, переключаюсь на OAuth.');
       TOKEN = await tokenOAuth();
       AUTH_MODE = 'oauth';
       return await fn();
+    }
+    // Голый 403 storageQuotaExceeded не подсказывает ничего: выглядит как
+    // «кончилось место», хотя место ни при чём. У сервисного аккаунта своей
+    // квоты Drive нет вообще, и починка — не освободить место, а завести
+    // OAuth-откат. Без этой подсказки диагноз ищут в чужом направлении.
+    if (AUTH_MODE === 'sa' && isQuota) {
+      throw new Error(
+        'storageQuotaExceeded: у сервисного аккаунта нет собственной квоты Drive, ' +
+          'и файл создать он не может. Это не «кончилось место».\n' +
+          '  Откат на OAuth не сработал: не заданы GSC_CLIENT_ID / GSC_CLIENT_SECRET / ' +
+          'GSC_REFRESH_TOKEN.\n' +
+          '  Как получить refresh_token — docs/google-api-setup.md, путь A.\n' +
+          `  Исходная ошибка: ${e.message.slice(0, 200)}`,
+      );
     }
     throw e;
   }

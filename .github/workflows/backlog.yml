@@ -81,6 +81,26 @@ jobs:
           COUNT=$(node -e "const j=require('./src/data/topic-backlog.json');console.log((j.candidates||[]).length)")
           echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
 
+      - name: Коммит
+        # Строго до выкладки в Drive. Прогон стоит 700 квот Wordstat, а
+        # Drive — внешний сервис и падает по своим причинам: в прошлый раз
+        # на storageQuotaExceeded шаг коммита не выполнился, и все
+        # измерения пропали. Данные сохраняем раньше, чем публикуем.
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/
+          if git diff --cached --quiet; then
+            echo "изменений нет"
+            exit 0
+          fi
+          git commit -m "backlog: сборка $(date -u +%Y-%m-%d)"
+          for i in 1 2 3 4 5; do
+            git push origin HEAD:${{ github.ref_name }} && exit 0
+            git pull --rebase --autostash origin ${{ github.ref_name }} || exit 1
+          done
+          exit 1
+
       - name: Таблица редактору в Drive
         id: drive
         if: ${{ inputs.publish != false }}
@@ -106,22 +126,6 @@ jobs:
             --week "$(date -u +%F)" --items /tmp/items.json | tee /tmp/drive.json
           URL=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('/tmp/drive.json','utf8')).sheetUrl)}catch{console.log('')}")
           echo "url=${URL}" >> "$GITHUB_OUTPUT"
-
-      - name: Коммит
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add src/data/
-          if git diff --cached --quiet; then
-            echo "изменений нет"
-            exit 0
-          fi
-          git commit -m "backlog: сборка $(date -u +%Y-%m-%d)"
-          for i in 1 2 3 4 5; do
-            git push origin HEAD:${{ github.ref_name }} && exit 0
-            git pull --rebase --autostash origin ${{ github.ref_name }} || exit 1
-          done
-          exit 1
 
       - name: Отчёт
         if: always()
