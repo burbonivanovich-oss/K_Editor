@@ -23,7 +23,7 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isSuppressed, normalize, load as loadSuppressions } from "./suppressions.mjs";
-import { isInformational, dedupeKey } from "../wordstat/relevance.mjs";
+import { isInformational, dedupeKey, stemTokens } from "../wordstat/relevance.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
@@ -325,7 +325,24 @@ const raw = [
 
 const stats = { всего: raw.length, дубли: 0, покрыто: 0, заглушено: 0 };
 const seen = new Set();
+// Наборы основ уже принятых тем — для отсева вложенных формулировок.
+const acceptedSets = [];
 const candidates = [];
+
+/**
+ * Вложенный дубль: набор основ одной темы целиком содержится в другой.
+ * «модуль честный знак» ⊂ «локальный модуль честный знак» — это одна тема
+ * в трёх видах, и в прошлом прогоне она заняла три места из сорока.
+ * Ключ схлопывания такое не ловит: наборы слов разные.
+ */
+function isNested(tokens) {
+  const a = new Set(tokens);
+  return acceptedSets.some((b) => {
+    const [small, big] = a.size <= b.size ? [a, b] : [b, a];
+    for (const t of small) if (!big.has(t)) return false;
+    return true;
+  });
+}
 
 for (const item of raw.sort((a, b) => b.weight - a.weight)) {
   // dedupeKey, а не normalize: normalize схлопывает только регистр и
@@ -335,7 +352,12 @@ for (const item of raw.sort((a, b) => b.weight - a.weight)) {
   if (!key) continue;
 
   if (seen.has(key)) { stats.дубли++; continue; }
+
+  const tokens = stemTokens(item.phrase);
+  if (isNested(tokens)) { stats.дубли++; continue; }
+
   seen.add(key);
+  acceptedSets.push(new Set(tokens));
 
   if (covered.has(key)) { stats.покрыто++; continue; }
 
