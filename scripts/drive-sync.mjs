@@ -50,22 +50,28 @@ const OAUTH_SECRET = process.env.GSC_CLIENT_SECRET || '';
 const OAUTH_REFRESH = process.env.GSC_REFRESH_TOKEN || '';
 const DRY_RUN = process.env.DRY_RUN === '1';
 
-// Хватило бы одного drive.file: Sheets и Docs принимают его для файлов,
-// созданных самим приложением, а таблицу и доки создаёт бот. Это
-// non-sensitive скоуп — верификация приложения в Google не требуется.
-// Полный drive брать нельзя: он restricted и тянет верификацию.
-// spreadsheets и documents оставлены запасными на случай, если Google
-// откажет per-file доступу; они sensitive, и для Production их надо убрать.
+// Скоуп сервисного аккаунта — полный drive, и это не расточительство.
+//
+// Рабочая схема — общий диск (Shared Drive): файлы там принадлежат самому
+// диску, а не создателю, поэтому у сервисного аккаунта не спрашивают его
+// личную квоту Drive, которой у него нет. Именно это снимает
+// storageQuotaExceeded, и при этом ключ SA бессрочный — никаких
+// семидневных отзывов токена, как на пути OAuth.
+//
+// Но папку общего диска приложение не создавало, а drive.file даёт доступ
+// только к своим файлам: создание внутри чужой папки упрётся в 404.
+// Отсюда полный drive.
+//
+// Требование верификации Google на restricted-скоупы к сервисному аккаунту
+// не относится: у него нет экрана согласия, права выдаёт владелец проекта,
+// а доступ к данным ограничен членством в конкретном общем диске.
 //
 // ВНИМАНИЕ: список действует ТОЛЬКО для сервисного аккаунта. На пути OAuth
-// права зашиты в refresh_token в момент выдачи — добавить скоуп можно
-// только переполучением токена с prompt=consent.
+// права зашиты в refresh_token в момент выдачи; там наоборот нужен узкий
+// drive.file — он non-sensitive и позволяет опубликовать приложение в
+// Production, что снимает отзыв токена через 7 дней.
 // См. docs/google-api-setup.md
-const SCOPES = [
-  'https://www.googleapis.com/auth/drive.file',
-  'https://www.googleapis.com/auth/documents',
-  'https://www.googleapis.com/auth/spreadsheets',
-].join(' ');
+const SCOPES = ['https://www.googleapis.com/auth/drive'].join(' ');
 
 /* ────────────────────────────────────────────────────── аутентификация ── */
 const b64url = (s) =>
@@ -189,7 +195,24 @@ async function api(url, opts = {}) {
   return text ? JSON.parse(text) : {};
 }
 
-const drive = (path, opts) => api(`https://www.googleapis.com/drive/v3/${path}`, opts);
+// Drive API по умолчанию делает вид, что общих дисков не существует:
+// файлы в них не находятся поиском и не создаются, пока в запросе нет
+// supportsAllDrives. Добавляем флаги централизованно — иначе один
+// забытый вызов ломает всю схему, а ошибка выглядит как «файл не найден».
+function withDriveFlags(path) {
+  // Дописываем строкой, а не через URLSearchParams: тот перекодирует уже
+  // готовый параметр q, превращая пробелы в «+». В поисковом запросе Drive
+  // это ломает имена с пробелами — «Бэклог тем» перестаёт находиться.
+  const sep = path.includes('?') ? '&' : '?';
+  let out = `${path}${sep}supportsAllDrives=true`;
+  if (path.startsWith('files?') && path.includes('q=')) {
+    out += '&includeItemsFromAllDrives=true';
+  }
+  return out;
+}
+
+const drive = (path, opts) =>
+  api(`https://www.googleapis.com/drive/v3/${withDriveFlags(path)}`, opts);
 const docs = (path, opts) => api(`https://docs.googleapis.com/v1/${path}`, opts);
 const sheets = (path, opts) => api(`https://sheets.googleapis.com/v4/spreadsheets/${path}`, opts);
 
@@ -995,6 +1018,44 @@ try {
         }
       }
 
+      // Общие диски — рабочая схема для сервисного аккаунта.
+      //
+      // Файл на общем диске принадлежит диску, а не создателю, поэтому
+      // личную квоту у сервисного аккаунта никто не спрашивает — а её у
+      // него и нет. Если папка цикла лежит в «Моём диске», storageQuota
+      // будет вылезать снова и снова, поэтому проверяем это прямо.
+      try {
+        const dl = await drive('drives?pageSize=20&fields=drives(id,name)');
+        const drives = dl.drives ?? [];
+        console.log(`\nОбщие диски, видимые этим доступом: ${drives.length}`);
+        for (const d of drives) console.log(`  • ${d.name}  (${d.id})`);
+        if (!drives.length && AUTH_MODE === 'sa') {
+          console.log('  ⚠ Ни одного. Сервисный аккаунт нужно добавить участником');
+          console.log('    общего диска — по его client_email, роль «Менеджер контента».');
+        }
+      } catch (e) {
+        console.log(`\n⚠ Список общих дисков получить не вышло: ${e.message.slice(0, 120)}`);
+      }
+
+      if (ROOT_FOLDER) {
+        try {
+          const meta = await drive(
+            `files/${ROOT_FOLDER}?fields=id,name,driveId,capabilities(canAddChildren)`,
+          );
+          const onShared = Boolean(meta.driveId);
+          console.log(`\nПапка «${meta.name}»`);
+          console.log(`  ${onShared ? '✅' : '⚠ '} ${onShared ? 'на общем диске' : 'в «Моём диске», не на общем'}`);
+          console.log(`  ${meta.capabilities?.canAddChildren ? '✅' : '❌'} создавать файлы внутри`);
+          if (!onShared && AUTH_MODE === 'sa') {
+            console.log('     Сервисный аккаунт не сможет создать здесь файл: в «Моём диске»');
+            console.log('     владельцем становится он сам, а места у него нет. Перенесите');
+            console.log('     папку на общий диск — это снимает storageQuotaExceeded насовсем.');
+          }
+        } catch (e) {
+          console.log(`\n⚠ Метаданные папки недоступны: ${e.message.slice(0, 120)}`);
+        }
+      }
+
       // Можно ли писать в папку.
       //
       // Читать саму папку бесполезно: под drive.file бот её не видит, раз её
@@ -1018,7 +1079,10 @@ try {
           console.log(`\n❌ В папку ${ROOT_FOLDER} писать не выходит.`);
           if (/storageQuota/i.test(e.message)) {
             console.log('   storageQuotaExceeded: у сервисного аккаунта нет своего места в Drive.');
-            console.log('   Настрой OAuth (GSC_*) — скрипт будет откатываться на него.');
+            console.log('   Лучшее решение — перенести папку на общий диск: там владелец');
+            console.log('   файла сам диск, и личная квота не спрашивается. Ключ сервисного');
+            console.log('   аккаунта при этом бессрочный, обновлять нечего.');
+            console.log('   Запасное — OAuth (GSC_*), но его токен в статусе Testing живёт 7 дней.');
           } else if (/404|notFound/i.test(e.message)) {
             console.log(AUTH_MODE === 'sa'
               ? '   Расшарь папку на client_email сервисного аккаунта с ролью Редактор.'
