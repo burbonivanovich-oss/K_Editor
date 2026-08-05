@@ -18,9 +18,14 @@
   8–16 статей через параллельный subagent dispatch (×6 быстрее, чем по одной).
 - **`scripts/factcheck/audit-npa-references.mjs`** — регрессионный аудит
   упоминаний НПА против `sources.json.npaWhitelist`. Флаг `--strict` для CI.
+- **`scripts/factcheck/audit-marker-hashes.mjs`** — для каждой `draft:
+  false` статьи в закоммиченном дереве сверяет хеш маркера с
+  содержимым файла. Флаг `--strict` для CI — ловит правки после
+  факчека, которые проскочили мимо pre-commit-хука (`--no-verify`).
 - **Решения** принимаются по `docs/editorial-policy.md` — классы A/B/C.
-- **Результат:** `src/data/factcheck/results/<slug>.json` + маркер
-  `.claude/factchecked/<slug>` с датой.
+- **Результат:** `src/data/factcheck/results/<slug>.json`
+  (`{claims, summary}`) + маркер `.claude/factchecked/<slug>`
+  (`{date, hash, result, criticalMismatches, rulesVersion, report}`).
 
 ### Шлюзы качества
 
@@ -112,6 +117,8 @@
 | `wordstat/diff-snapshots.mjs` | Сравнение discovery-выгрузок неделя к неделе |
 | `factcheck/extract-claims.mjs` | Regex-парсер дат, сумм, статей КоАП |
 | `factcheck/audit-npa-references.mjs` | Регрессионный аудит ссылок на НПА |
+| `factcheck/audit-marker-hashes.mjs` | Хеш факчек-маркера ↔ содержимое статьи в закоммиченном дереве |
+| `factcheck/write-marker.mjs` | Пишет `.claude/factchecked/<slug>` с хешем статьи |
 | `audit/linkgraph.mjs` | Граф перелинковки, сироты, кандидаты на ссылки |
 | `audit/check-blog-links.mjs` | Битые внутренние ссылки |
 | `audit/fix-broken-blog-links.mjs` | Автопочинка битых внутренних ссылок |

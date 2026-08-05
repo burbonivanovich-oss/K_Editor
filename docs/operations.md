@@ -54,16 +54,33 @@ API, запись в папку цикла. Настройка — `docs/google-
 `main`:
 
 1. `node --check` по всем `scripts/**/*.mjs` — синтаксис.
-2. `node --test scripts/*.test.mjs` (= `npm test`) — юнит-тесты машины
-   состояний `cycle-state.mjs` (переходы, потолок очереди редактора,
-   регрессия на сдвиг строк в apply-decisions).
+2. `npm test` — `find scripts -name '*.test.mjs' | xargs node --test`,
+   рекурсивно по всему дереву `scripts/` (тесты лежат рядом со своим
+   скриптом, не только на верхнем уровне). Каждый гоняет реальный CLI
+   сабпроцессом на временной фикстуре — ничего в `src/data/` не трогает.
 3. `audit-npa-references.mjs --strict` и `check-blog-links.mjs` —
    регрессионные аудиты контента, те же, что в `ops.yml` вручную.
+4. `audit-marker-hashes.mjs --strict` — для каждой `draft: false` статьи
+   в закоммиченном дереве хеш `.claude/factchecked/<slug>` должен
+   совпадать с содержимым файла. Дополняет `pre-commit-factcheck-guard.mjs`:
+   тот проверяет staged-содержимое при коммите и обходится
+   `--no-verify`, этот — закоммиченное дерево в CI, где обход уже не
+   работает.
 
-Новый тест на машину состояний — рядом со скриптом:
-`scripts/cycle-state.test.mjs`. Гоняет реальный CLI сабпроцессом на
-временном файле состояния (`CYCLE_STATE_PATH`), не трогает
-`src/data/editorial-cycle.json`.
+### Actions пины по SHA, не по плавающему тегу
+
+`actions/checkout`, `actions/setup-node` и подобные закреплены
+конкретным commit SHA (`uses: actions/checkout@11d5960a... # v4.4.0`),
+не `@v4`: тег можно переставить на другой коммит, SHA — нет. Комментарий
+после `#` — для человека, при обновлении версии смотреть SHA нужного
+тега:
+
+```bash
+git ls-remote --tags https://github.com/actions/checkout v4.5.0
+```
+
+и подставить и SHA, и комментарий во всех `.github/workflows/*.yml`, где
+используется тот же action.
 
 ## Карта команд (slash-команды)
 

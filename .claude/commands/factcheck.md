@@ -59,14 +59,29 @@ PERCENT. Каждый claim имеет `raw`, `context` (±80 символов),
 - `action` — `rewrite-lede` / `rewrite-bullet` / `expand-bullet` / `add-references` / `keep`
 - `actionDetail` — конкретный текст / правка
 
-Записать всё в `src/data/factcheck/results/<slug>.json`. Шаблон см. в
-`src/data/factcheck/results/2026-01-15-chto-takoe-ts-piot.json`.
+Плюс `summary` — агрегат по всем claims, его читают
+`/maintain-content` и `write-marker.mjs`:
+- `overallStatus` — `needs-rewrite`, если есть хоть один `mismatch` с
+  `severity: critical`; `good-with-minor-addition`, если есть
+  `mismatch`/`uncertain` только `moderate`/`minor`; иначе `match`.
+- `criticalIssues` — число claims с `severity: critical` и
+  `status: mismatch`.
+
+Записать в `src/data/factcheck/results/<slug>.json`:
+
+```json
+{
+  "claims": [ /* массив из шага выше */ ],
+  "summary": { "overallStatus": "match", "criticalIssues": 0 }
+}
+```
 
 ### Шаг 5 — Создать маркер фактчека
 
 `node scripts/factcheck/write-marker.mjs <slug>` — пишет
-`.claude/factchecked/<slug>` с датой и хешем текущего содержимого
-статьи. Используется `/maintain-content` как признак, что статья
+`.claude/factchecked/<slug>` с датой, хешем текущего содержимого статьи
+и (если `results/<slug>.json` уже записан на шаге 4) `result` и
+`criticalMismatches` из его `summary`. Используется `/maintain-content` как признак, что статья
 прошла проверку; хеш привязывает маркер к конкретной версии текста —
 правка после факчека делает маркер недействительным (pre-commit guard
 это проверяет).
