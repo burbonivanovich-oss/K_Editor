@@ -122,7 +122,9 @@ function reasonFor(item) {
   }
   if (item.kind === "growing") {
     const pct = Math.round((item.ratio - 1) * 100);
-    return `спрос растёт: ${Math.round(item.prev)} → ${Math.round(item.now)} показов в месяц (+${pct}% за квартал)`;
+    const weeks = item.windowWeeks || 3;
+    return `спрос растёт: ${Math.round(item.prev)} → ${Math.round(item.now)} показов в неделю ` +
+      `(+${pct}% за последние ${weeks} нед. к предыдущим ${weeks})`;
   }
   if (item.kind === "demand") {
     // Формулировка намеренно скромнее, чем у diff-кандидатов: здесь нет
@@ -223,10 +225,16 @@ function candidatesFromDump() {
 /**
  * Кандидаты с посчитанной динамикой (enrich-candidates.mjs).
  *
- * Лучший источник, когда diff-ов ещё нет: рост берётся из 12 месяцев
- * помесячной истории, а не из разницы двух недельных срезов. Растущая тема
- * поднимается наверх, даже если по абсолютной частоте она далеко не первая,
- * — а именно это редактору и нужно знать.
+ * Лучший источник, когда diff-ов ещё нет: рост берётся из недельной
+ * динамики (последние incoming windowWeeks недель против предыдущих
+ * windowWeeks), а не из разницы двух недельных срезов плана. Тема, которая
+ * тронулась две-три недели назад, здесь видна сразу — при квартальном
+ * усреднении она тонула бы в общем тренде.
+ *
+ * cacheVersion фильтрует записи в устаревшем формате: до перехода на
+ * недельную гранулярность рост считался за квартал, и число «+192%»
+ * оттуда несравнимо с недельным «+80%» рядом. Не отфильтровать — значит
+ * показать в одном бэклоге проценты за разные периоды без предупреждения.
  */
 function candidatesFromDynamics() {
   if (!existsSync(DYNAMICS_FILE)) return [];
@@ -238,6 +246,7 @@ function candidatesFromDynamics() {
   }
   const rows = [];
   for (const it of payload.items ?? []) {
+    if (it.cacheVersion !== 2) continue;
     if (!it.growth || !Number.isFinite(it.growth)) continue;
     const now = it.recent ?? it.count;
     const prev = it.growth > 0 ? now / it.growth : 0;
@@ -254,6 +263,7 @@ function candidatesFromDynamics() {
       prev,
       now,
       count: it.count,
+      windowWeeks: it.windowWeeks || 3,
       // Вес — прирост в показах: рост в полтора раза на сотне запросов
       // слабее роста на четверть у десяти тысяч.
       weight: (now - prev) * Math.min(it.growth, 3),
