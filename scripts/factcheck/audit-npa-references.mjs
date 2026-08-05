@@ -192,7 +192,12 @@ for (const [name, items] of sections) {
   }
 }
 
-if (totalUnknown === 0) {
+if (files.length === 0) {
+  // Не «всё чисто» — проверять было нечего. На пустом src/content/blog/
+  // exit 0 в --strict молча проходит CI, ничего не подтвердив (см.
+  // docs/audit-2026-08-04.md — тот же класс ложно-зелёного результата).
+  console.log('\n⚠ Статей нет — аудит НПА ничего не проверил.');
+} else if (totalUnknown === 0) {
   console.log('\n✓ Все упоминания НПА в whitelist.');
 } else {
   console.log(`\n⚠ Незнакомых НПА: ${totalUnknown}. Проверь и добавь в src/data/factcheck/sources.json.npaWhitelist или исправь статьи.`);

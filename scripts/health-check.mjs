@@ -55,11 +55,20 @@ for (const f of blogFiles) {
 	if (!existsSync(join(ROOT, '.claude', 'factchecked', slug))) noFactcheck++;
 }
 ok('Блог: статей всего', `${blogFiles.length}`);
-if (drafts > 0) warn('Блог: черновики (draft: true)', `${drafts}`);
-else ok('Блог: черновиков нет', '0');
-if (future > 0) warn('Блог: статьи с будущим pubDate', `${future} (выйдут по auto-publish)`);
-if (noFactcheck > 0) warn('Блог: без маркера factchecked', `${noFactcheck}/${blogFiles.length}`);
-else ok('Блог: все статьи фактчекнуты', `${blogFiles.length}`);
+// Пустой блог — не «всё хорошо»: проверки черновиков и фактчека на нуле
+// статей проходят вхолостую и раньше писались как ok, что при первом
+// взгляде на отчёт читалось как «всё проверено» вместо честного «нечего
+// проверять» (см. docs/audit-2026-08-04.md — ложно-зелёные прогоны
+// npa-audit/check-blog-links по тому же классу причины).
+if (blogFiles.length === 0) {
+	warn('Блог: пуст', 'проверки черновиков и фактчека неприменимы — нечего проверять');
+} else {
+	if (drafts > 0) warn('Блог: черновики (draft: true)', `${drafts}`);
+	else ok('Блог: черновиков нет', '0');
+	if (future > 0) warn('Блог: статьи с будущим pubDate', `${future} (выйдут по auto-publish)`);
+	if (noFactcheck > 0) warn('Блог: без маркера factchecked', `${noFactcheck}/${blogFiles.length}`);
+	else ok('Блог: все статьи фактчекнуты', `${blogFiles.length}`);
+}
 
 
 // ─── 2. Workflows ────────────────────────────────────────────────────────────
