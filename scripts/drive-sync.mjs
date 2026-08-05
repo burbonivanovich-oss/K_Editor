@@ -27,14 +27,25 @@
  *   set-cells    --sheet-id <id> --updates '[{"range":"J5","value":"на вычитке"}]'
  *   check                                          диагностика доступа
  *
- * Аутентификация: сервисный аккаунт GOOGLE_DOCS_KEY, с откатом на OAuth
- * refresh_token при storageQuotaExceeded (у сервисного аккаунта нет своей
- * квоты Drive).
+ * Аутентификация: два независимых пути, порядок задаёт DRIVE_AUTH.
+ *
+ * Рекомендуемый — OAuth (DRIVE_AUTH=oauth): файлы создаются от имени
+ * владельца Диска, в его квоте. Без общего диска это единственный путь,
+ * который создаёт файлы автоматически. Подробности и настройка без
+ * семидневного отзыва токена — docs/google-api-setup.md.
+ *
+ * Сервисный аккаунт (DRIVE_AUTH=sa) работает только на общем диске: своей
+ * квоты Drive у него нет, и без общего диска любая попытка создать файл
+ * упирается в storageQuotaExceeded.
+ *
+ * Без DRIVE_AUTH — авто: сначала сервисный аккаунт, если задан
+ * GOOGLE_DOCS_KEY, иначе OAuth. Для однозначности лучше указывать явно.
  *
  * Окружение:
+ *   DRIVE_AUTH             oauth | sa — какой путь брать (см. выше)
+ *   GSC_CLIENT_ID / GSC_CLIENT_SECRET / GSC_REFRESH_TOKEN — OAuth
  *   GOOGLE_DOCS_KEY        сервисный аккаунт (JSON или base64)
  *   GOOGLE_DOCS_FOLDER_ID  корневая папка редакции в Drive
- *   GSC_CLIENT_ID / GSC_CLIENT_SECRET / GSC_REFRESH_TOKEN — запасной OAuth
  *   DRY_RUN=1              печатать план запросов и выйти
  *
  * ВАЖНО: в проекте Google Cloud должны быть включены Drive, Docs и Sheets
@@ -50,6 +61,14 @@ const OAUTH_ID = process.env.GSC_CLIENT_ID || '';
 const OAUTH_SECRET = process.env.GSC_CLIENT_SECRET || '';
 const OAUTH_REFRESH = process.env.GSC_REFRESH_TOKEN || '';
 const DRY_RUN = process.env.DRY_RUN === '1';
+// Какой путь аутентификации брать, когда настроены оба.
+//
+// По умолчанию побеждает сервисный аккаунт — так было исторически. Но без
+// общего диска он файлы создавать не может: своей квоты Drive у него нет,
+// и всё упирается в storageQuotaExceeded. Если общего диска нет, путь
+// должен быть OAuth, и лучше сказать это явно, чем удалять секрет и гадать,
+// почему снова взялся не тот доступ.
+const AUTH_PREF = (process.env.DRIVE_AUTH || '').toLowerCase();
 
 // Скоуп сервисного аккаунта — полный drive, и это не расточительство.
 //
@@ -138,6 +157,21 @@ let AUTH_MODE = null;
 
 async function auth() {
   if (TOKEN) return TOKEN;
+
+  const oauthReady = Boolean(OAUTH_ID && OAUTH_SECRET && OAUTH_REFRESH);
+  if (AUTH_PREF === 'oauth') {
+    if (!oauthReady) die('DRIVE_AUTH=oauth, но GSC_CLIENT_ID/SECRET/REFRESH_TOKEN заданы не полностью');
+    TOKEN = await tokenOAuth();
+    AUTH_MODE = 'oauth';
+    return TOKEN;
+  }
+  if (AUTH_PREF === 'sa') {
+    if (!RAW_KEY) die('DRIVE_AUTH=sa, но GOOGLE_DOCS_KEY не задан');
+    TOKEN = await tokenSA(parseKey(RAW_KEY));
+    AUTH_MODE = 'sa';
+    return TOKEN;
+  }
+
   if (RAW_KEY) {
     TOKEN = await tokenSA(parseKey(RAW_KEY));
     AUTH_MODE = 'sa';
@@ -977,6 +1011,11 @@ try {
       console.log(`  GSC_CLIENT_ID         ${OAUTH_ID ? 'задан' : '—'}`);
       console.log(`  GSC_REFRESH_TOKEN     ${OAUTH_REFRESH ? 'задан' : '—'}`);
       console.log(`  GOOGLE_DOCS_FOLDER_ID ${ROOT_FOLDER || '— НЕ ЗАДАН'}`);
+      console.log(`  DRIVE_AUTH            ${AUTH_PREF || '— (авто: сервисный аккаунт, если задан)'}`);
+      if (!AUTH_PREF && RAW_KEY && OAUTH_REFRESH) {
+        console.log('    ⚠ Настроены оба доступа, победит сервисный аккаунт.');
+        console.log('      Без общего диска он создать файл не сможет — ставьте DRIVE_AUTH=oauth.');
+      }
       if (!ROOT_FOLDER) bad++;
 
       const t = await auth();
