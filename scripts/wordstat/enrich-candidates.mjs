@@ -1,11 +1,18 @@
 #!/usr/bin/env node
-// Достаёт помесячную динамику для кандидатов из свежей выгрузки.
+// Достаёт недельную динамику для кандидатов из свежей выгрузки.
 //
 // Зачем: рост темы обычно считают diff-ом двух недельных снапшотов, но
 // второй снапшот появляется только через неделю, а topRequests не умеет
 // отдавать срез задним числом — у него нет параметра даты. Зато /dynamics
-// отдаёт 12 месяцев истории на любую фразу прямо сейчас. Так рост
-// считается в первый же день и по более длинному окну, чем неделя.
+// отдаёт историю на любую фразу прямо сейчас. Так рост виден в первый же
+// день, а не через неделю ожидания.
+//
+// Гранулярность — недели, не месяцы. Помесячное сравнение (три последних
+// месяца против трёх предыдущих) сглаживает ровно то, что нужно поймать:
+// тему, которая тронулась две-три недели назад, тонет в квартальном
+// среднем и всплывает как «рост» только когда уже полмесяца как растёт.
+// PERIOD_WEEKLY даёт то же окно наблюдения — 2-3 недели, — какое нужно
+// редактору для «почему именно сейчас».
 //
 // Отбор: из выгрузки берутся информационные фразы (навигационные и
 // брендовые отсеиваются), верхние по частотности идут в API.
@@ -16,6 +23,9 @@
 //   TOP_N=120                — сколько фраз отправить в /dynamics (= квоты)
 //   MIN_COUNT=500            — нижний порог частотности фразы
 //   MIN_WORDS=3              — минимум слов во фразе
+//   RECENT_WEEKS=3           — окно сравнения: последние N недель против
+//                              предыдущих N (2-3 — то, что нужно для
+//                              «начало расти», не квартальный тренд)
 //
 // Запись: src/data/wordstat/candidate-dynamics.json
 
@@ -37,9 +47,19 @@ const MIN_COUNT = parseInt(process.env.MIN_COUNT || "500", 10);
 const MIN_WORDS = parseInt(process.env.MIN_WORDS || "3", 10);
 const REGION_ID = String(process.env.REGION_ID || "225");
 const REQUEST_DELAY_MS = parseInt(process.env.REQUEST_DELAY_MS || "200", 10);
-// Через сколько дней измерение считается протухшим. Помесячная динамика
-// меняется раз в месяц, чаще мерить нечего.
-const REMEASURE_DAYS = parseInt(process.env.REMEASURE_DAYS || "30", 10);
+const RECENT_WEEKS = parseInt(process.env.RECENT_WEEKS || "3", 10);
+// Через сколько дней измерение считается протухшим. Недельная динамика
+// сдвигается каждую неделю — семи дней вполне достаточно, чтобы не мерить
+// то же самое чаще, чем оно вообще может измениться.
+const REMEASURE_DAYS = parseInt(process.env.REMEASURE_DAYS || "7", 10);
+
+// Версия формата данных. Меняли period с месяцев на недели — старые записи
+// хранят помесячную историю и растянутый на квартал growth; подмешать их к
+// новым как есть значит показать в одном бэклоге «+192% за квартал» рядом
+// с «+80% за 3 недели», где числа не сравнимы. Штамп в каждой записи не
+// даёт таким записям пройти как «уже измеренные»: несовпадение версии
+// приравнивается к отсутствию измерения, и следующий прогон их перемерит.
+const CACHE_VERSION = 2;
 
 const ageDays = (iso) =>
   iso ? (Date.now() - Date.parse(iso)) / 86400000 : Infinity;
@@ -101,28 +121,45 @@ function collectPhrases() {
   return [...seen.values()].sort((a, b) => b.count - a.count);
 }
 
-// Правый край периода — последний день прошлого месяца: текущий не
-// закончился, его частотность неполная. Требование API: ровно последний
-// день месяца, иначе InvalidArgument.
 function rfc3339(d) {
   return d.toISOString().replace(/\.\d{3}Z$/, "Z");
 }
-function periodTo() {
+
+// Неделя в Wordstat — понедельник–воскресенье (совпадает с ISO 8601).
+// Правый край периода — последнее полностью закрытое воскресенье: текущая
+// неделя не закончилась, её частотность неполная. По аналогии с
+// PERIOD_MONTHLY, где toDate обязан быть последним днём месяца, для
+// PERIOD_WEEKLY он обязан быть воскресеньем — иначе тот же InvalidArgument.
+function lastClosedSunday() {
   const d = new Date();
-  d.setUTCDate(1);
   d.setUTCHours(0, 0, 0, 0);
-  d.setUTCDate(0);
-  return rfc3339(d);
-}
-function periodFrom(months) {
-  const d = new Date();
-  d.setUTCDate(1);
-  d.setUTCHours(0, 0, 0, 0);
-  d.setUTCMonth(d.getUTCMonth() - months);
-  return rfc3339(d);
+  const day = d.getUTCDay(); // 0 = воскресенье
+  // Сегодняшняя неделя ещё не закрыта, даже если сегодня воскресенье —
+  // день не закончился. Всегда уходим минимум на прошлую неделю.
+  d.setUTCDate(d.getUTCDate() - (day === 0 ? 7 : day));
+  return d;
 }
 
+// Левый край — понедельник N недель назад от toDate. API не документирует
+// жёсткое требование к fromDate (в отличие от toDate), но выравниваем на
+// понедельник для чистоты интервала — иначе первая неделя истории окажется
+// обрублена с середины.
+function weeksBeforeMonday(toDate, weeks) {
+  const d = new Date(toDate);
+  d.setUTCDate(d.getUTCDate() - weeks * 7 + 1);
+  return d;
+}
+
+// Глубина истории. RECENT_WEEKS×4 даёт разом окно классификации тренда
+// (recent N против предыдущих N) с запасом, и достаточный интервал для
+// самого API — по документации Wordstat весь охват periods не должен быть
+// короче трёх недель.
+const HISTORY_WEEKS = Math.max(RECENT_WEEKS * 4, 12);
+
 async function getDynamics(phrase) {
+  const toDate = lastClosedSunday();
+  const fromDate = weeksBeforeMonday(toDate, HISTORY_WEEKS);
+
   const res = await fetch(`${API_BASE}/dynamics`, {
     method: "POST",
     headers: {
@@ -132,9 +169,9 @@ async function getDynamics(phrase) {
     body: JSON.stringify({
       folderId: FOLDER_ID,
       phrase,
-      period: "PERIOD_MONTHLY",
-      fromDate: periodFrom(12),
-      toDate: periodTo(),
+      period: "PERIOD_WEEKLY",
+      fromDate: rfc3339(fromDate),
+      toDate: rfc3339(toDate),
       regions: [REGION_ID],
     }),
     signal: AbortSignal.timeout(30000),
@@ -150,17 +187,20 @@ async function getDynamics(phrase) {
   if (!res.ok || grpcCode !== null) {
     throw new Error(`code ${grpcCode ?? res.status}: ${(data && data.message) || txt.slice(0, 160)}`);
   }
+  // Дата недели не режем срезом (как резался месяц до "YYYY-MM") — формат
+  // недельной точки не документирован так же чётко, и обрезка вслепую
+  // рискует обрубить его неверно. Берём как есть, на growth() это не влияет.
   return (Array.isArray(data?.results) ? data.results : []).map((d) => ({
-    date: typeof d.date === "string" ? d.date.slice(0, 7) : String(d.date),
+    date: typeof d.date === "string" ? d.date : String(d.date),
     count: parseInt(d.count, 10) || 0,
   }));
 }
 
-/** Рост последних трёх месяцев к трём предыдущим. */
+/** Рост последних RECENT_WEEKS недель к предыдущим RECENT_WEEKS. */
 function growth(history) {
-  if (history.length < 6) return null;
-  const recent = history.slice(-3).reduce((s, p) => s + p.count, 0) / 3;
-  const prev = history.slice(-6, -3).reduce((s, p) => s + p.count, 0) / 3;
+  if (history.length < RECENT_WEEKS * 2) return null;
+  const recent = history.slice(-RECENT_WEEKS).reduce((s, p) => s + p.count, 0) / RECENT_WEEKS;
+  const prev = history.slice(-RECENT_WEEKS * 2, -RECENT_WEEKS).reduce((s, p) => s + p.count, 0) / RECENT_WEEKS;
   if (prev === 0) return recent > 0 ? { ratio: Infinity, recent, prev } : null;
   return { ratio: recent / prev, recent, prev };
 }
@@ -183,18 +223,32 @@ async function main() {
 
   const fresh = [];
   const stale = [];
+  let outdated = 0;
   for (const p of all) {
     const seen = known.get(p.phrase.toLowerCase().trim());
-    if (!seen) fresh.push(p);
-    else if (ageDays(seen.measuredAt) >= REMEASURE_DAYS) stale.push({ ...p, prevMeasuredAt: seen.measuredAt });
+    if (!seen || seen.cacheVersion !== CACHE_VERSION) {
+      // Нет записи или она из старого формата (месяцы вместо недель) —
+      // в обоих случаях фраза для текущей схемы не измерена ни разу.
+      if (seen) outdated++;
+      fresh.push(p);
+    } else if (ageDays(seen.measuredAt) >= REMEASURE_DAYS) {
+      stale.push({ ...p, prevMeasuredAt: seen.measuredAt });
+    }
   }
   stale.sort((a, b) => String(a.prevMeasuredAt).localeCompare(String(b.prevMeasuredAt)));
 
   const plan = [...fresh, ...stale].slice(0, TOP_N);
 
+  if (outdated) {
+    console.log(
+      `enrich: ${outdated} записей из прежнего формата (по месяцам) — ` +
+        `считаю неизмеренными, буду перемерять по неделям.`,
+    );
+  }
+  const validMeasured = known.size - outdated;
   console.log(
     `enrich: ${all.length} тематических фраз от ${MIN_COUNT} показов; ` +
-      `уже измерено ${known.size}, не измерено ${fresh.length}, ` +
+      `в текущем формате измерено ${validMeasured}, не измерено ${fresh.length}, ` +
       `пора перемерить ${stale.length}`,
   );
   console.log(
@@ -221,6 +275,8 @@ async function main() {
         history,
         growth: g ? Number(g.ratio.toFixed(2)) : null,
         recent: g?.recent ?? null,
+        windowWeeks: RECENT_WEEKS,
+        cacheVersion: CACHE_VERSION,
         measuredAt: new Date().toISOString(),
       });
       await sleep(REQUEST_DELAY_MS);
