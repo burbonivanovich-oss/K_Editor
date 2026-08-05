@@ -120,11 +120,21 @@ function reasonFor(item) {
   if (item.kind === "rising") {
     return `рост частотности: ${item.prev} → ${item.now} показов в месяц (×${item.ratio.toFixed(1)})`;
   }
-  if (item.kind === "growing") {
-    const pct = Math.round((item.ratio - 1) * 100);
-    const weeks = item.windowWeeks || 3;
-    return `спрос растёт: ${Math.round(item.prev)} → ${Math.round(item.now)} показов в неделю ` +
-      `(+${pct}% за последние ${weeks} нед. к предыдущим ${weeks})`;
+  if (item.kind === "growing" || item.kind === "trending" || item.kind === "growing+trending") {
+    const fmt = (w) => {
+      const pct = Math.round((w.ratio - 1) * 100);
+      return `+${pct}% за последние ${w.weeks} нед. к предыдущим ${w.weeks}`;
+    };
+    if (item.short && item.trend) {
+      // Сильнейший случай: тема растёт и прямо сейчас, и весь квартал.
+      // Обе цифры важны отдельно — короткая доказывает срочность, длинная
+      // доказывает, что это не разовый всплеск, который погаснет к статье.
+      return `спрос растёт устойчиво: ${fmt(item.trend)}, и уже разгоняется — ${fmt(item.short)}`;
+    }
+    const w = item.short || item.trend;
+    const now = Math.round(w.now);
+    const label = item.short ? "спрос растёт" : "спрос растёт весь квартал";
+    return `${label}: ${Math.round(w.prev)} → ${now} показов в неделю (${fmt(w)})`;
   }
   if (item.kind === "demand") {
     // Формулировка намеренно скромнее, чем у diff-кандидатов: здесь нет
@@ -223,18 +233,33 @@ function candidatesFromDump() {
 }
 
 /**
- * Кандидаты с посчитанной динамикой (enrich-candidates.mjs).
+ * Порог роста, ниже которого не считаем сигналом. Одна планка для обоих
+ * окон: +15% и за 3 недели, и за 12 против предыдущих 12 — оба случая
+ * означают структурный сдвиг, а не шум недельных колебаний.
+ */
+const GROWTH_THRESHOLD = 1.15;
+
+/**
+ * Кандидаты с посчитанной динамикой (enrich-candidates.mjs) — два разреза
+ * одной истории, а не два запроса к API.
  *
- * Лучший источник, когда diff-ов ещё нет: рост берётся из недельной
- * динамики (последние incoming windowWeeks недель против предыдущих
- * windowWeeks), а не из разницы двух недельных срезов плана. Тема, которая
- * тронулась две-три недели назад, здесь видна сразу — при квартальном
- * усреднении она тонула бы в общем тренде.
+ * Короткое окно (windowWeeks, по умолчанию 3) ловит «тронулось прямо
+ * сейчас»: разослали письмо ФНС, вышло разъяснение, наступил сезон
+ * отчётности. Длинное (trendWeeks, по умолчанию 12) ловит устойчивый
+ * структурный рост, который короткое окно смазывает шумом — неделя-две
+ * спада внутри трёхмесячного роста на короткой дистанции выглядят как
+ * ничего не происходит. Тема с 5% роста в месяц три месяца подряд не даёт
+ * ни одного недельного скачка и без длинного окна не попала бы в бэклог
+ * никогда — а это как раз тема, где отставание от спроса накопилось
+ * дольше всего.
+ *
+ * Если сработали оба сигнала — это не два кандидата, а один и самый
+ * сильный: тема растёт и прямо сейчас, и весь квартал.
  *
  * cacheVersion фильтрует записи в устаревшем формате: до перехода на
- * недельную гранулярность рост считался за квартал, и число «+192%»
- * оттуда несравнимо с недельным «+80%» рядом. Не отфильтровать — значит
- * показать в одном бэклоге проценты за разные периоды без предупреждения.
+ * недельную гранулярность рост считался только за квартал, а число
+ * оттуда несравнимо с текущим. Не отфильтровать — значит показать в
+ * одном бэклоге проценты, посчитанные по-разному, без предупреждения.
  */
 function candidatesFromDynamics() {
   if (!existsSync(DYNAMICS_FILE)) return [];
@@ -246,27 +271,36 @@ function candidatesFromDynamics() {
   }
   const rows = [];
   for (const it of payload.items ?? []) {
-    if (it.cacheVersion !== 2) continue;
-    if (!it.growth || !Number.isFinite(it.growth)) continue;
-    const now = it.recent ?? it.count;
-    const prev = it.growth > 0 ? now / it.growth : 0;
-    // Падающие и стоящие на месте не нужны: бэклог отвечает на вопрос
-    // «почему сейчас», а не «что вообще спрашивают».
-    if (it.growth < 1.15) continue;
+    if (it.cacheVersion !== 3) continue;
+
+    const shortHit = it.growth && Number.isFinite(it.growth) && it.growth >= GROWTH_THRESHOLD;
+    const trendHit = it.growthTrend && Number.isFinite(it.growthTrend) && it.growthTrend >= GROWTH_THRESHOLD;
+    if (!shortHit && !trendHit) continue;
+
+    const short = shortHit
+      ? { ratio: it.growth, now: it.recent ?? it.count, prev: it.recent / it.growth, weeks: it.windowWeeks || 3 }
+      : null;
+    const trend = trendHit
+      ? { ratio: it.growthTrend, now: it.recentTrend, prev: it.recentTrend / it.growthTrend, weeks: it.trendWeeks || 12 }
+      : null;
+
+    // Вес — прирост в показах на более сильном из сигналов: рост в
+    // полтора раза на сотне запросов слабее роста на четверть у десяти
+    // тысяч, независимо от того, короткое это окно или длинное.
+    const strongest = short && trend
+      ? (short.ratio >= trend.ratio ? short : trend)
+      : (short || trend);
+
     rows.push({
       phrase: it.phrase,
       cluster: it.cluster || null,
       seed: it.seed,
       ns: it.ns,
-      kind: "growing",
-      ratio: it.growth,
-      prev,
-      now,
+      kind: short && trend ? "growing+trending" : short ? "growing" : "trending",
+      short,
+      trend,
       count: it.count,
-      windowWeeks: it.windowWeeks || 3,
-      // Вес — прирост в показах: рост в полтора раза на сотне запросов
-      // слабее роста на четверть у десяти тысяч.
-      weight: (now - prev) * Math.min(it.growth, 3),
+      weight: (strongest.now - strongest.prev) * Math.min(strongest.ratio, 3),
     });
   }
   return rows;

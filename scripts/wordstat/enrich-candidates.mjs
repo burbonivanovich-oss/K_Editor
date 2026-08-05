@@ -23,9 +23,14 @@
 //   TOP_N=120                — сколько фраз отправить в /dynamics (= квоты)
 //   MIN_COUNT=500            — нижний порог частотности фразы
 //   MIN_WORDS=3              — минимум слов во фразе
-//   RECENT_WEEKS=3           — окно сравнения: последние N недель против
-//                              предыдущих N (2-3 — то, что нужно для
-//                              «начало расти», не квартальный тренд)
+//   RECENT_WEEKS=3           — короткое окно: последние N недель против
+//                              предыдущих N (что тронулось только сейчас)
+//   TREND_WEEKS=12            — длинное окно: последние N недель против
+//                              предыдущих N (устойчивый структурный рост,
+//                              который короткое окно смазывает шумом)
+//
+// Считаем оба разреза из одной истории — это по-прежнему 1 квота на
+// фразу, глубина запроса просто взята с запасом на длинное окно.
 //
 // Запись: src/data/wordstat/candidate-dynamics.json
 
@@ -48,6 +53,7 @@ const MIN_WORDS = parseInt(process.env.MIN_WORDS || "3", 10);
 const REGION_ID = String(process.env.REGION_ID || "225");
 const REQUEST_DELAY_MS = parseInt(process.env.REQUEST_DELAY_MS || "200", 10);
 const RECENT_WEEKS = parseInt(process.env.RECENT_WEEKS || "3", 10);
+const TREND_WEEKS = parseInt(process.env.TREND_WEEKS || "12", 10);
 // Через сколько дней измерение считается протухшим. Недельная динамика
 // сдвигается каждую неделю — семи дней вполне достаточно, чтобы не мерить
 // то же самое чаще, чем оно вообще может измениться.
@@ -59,7 +65,11 @@ const REMEASURE_DAYS = parseInt(process.env.REMEASURE_DAYS || "7", 10);
 // с «+80% за 3 недели», где числа не сравнимы. Штамп в каждой записи не
 // даёт таким записям пройти как «уже измеренные»: несовпадение версии
 // приравнивается к отсутствию измерения, и следующий прогон их перемерит.
-const CACHE_VERSION = 2;
+//
+// Версия 3: история в записи стала глубже (под TREND_WEEKS), а вместе с
+// growth появился growthTrend — версия 2 хранит только короткое окно и
+// не даёт посчитать длинное задним числом без нового запроса к API.
+const CACHE_VERSION = 3;
 
 const ageDays = (iso) =>
   iso ? (Date.now() - Date.parse(iso)) / 86400000 : Infinity;
@@ -150,11 +160,11 @@ function weeksBeforeMonday(toDate, weeks) {
   return d;
 }
 
-// Глубина истории. RECENT_WEEKS×4 даёт разом окно классификации тренда
-// (recent N против предыдущих N) с запасом, и достаточный интервал для
-// самого API — по документации Wordstat весь охват periods не должен быть
-// короче трёх недель.
-const HISTORY_WEEKS = Math.max(RECENT_WEEKS * 4, 12);
+// Глубина истории должна перекрывать оба разреза разом: длинное окно
+// сравнивает TREND_WEEKS против предыдущих TREND_WEEKS, значит нужно
+// 2×TREND_WEEKS точек. Именно ради этого история и берётся с запасом —
+// короткое окно (RECENT_WEEKS) в неё укладывается тем более.
+const HISTORY_WEEKS = Math.max(TREND_WEEKS * 2, RECENT_WEEKS * 4, 12);
 
 async function getDynamics(phrase) {
   const toDate = lastClosedSunday();
@@ -196,13 +206,28 @@ async function getDynamics(phrase) {
   }));
 }
 
-/** Рост последних RECENT_WEEKS недель к предыдущим RECENT_WEEKS. */
-function growth(history) {
-  if (history.length < RECENT_WEEKS * 2) return null;
-  const recent = history.slice(-RECENT_WEEKS).reduce((s, p) => s + p.count, 0) / RECENT_WEEKS;
-  const prev = history.slice(-RECENT_WEEKS * 2, -RECENT_WEEKS).reduce((s, p) => s + p.count, 0) / RECENT_WEEKS;
+/** Рост последних N недель к предыдущим N — общая механика для обоих окон. */
+function growthOver(history, weeks) {
+  if (history.length < weeks * 2) return null;
+  const recent = history.slice(-weeks).reduce((s, p) => s + p.count, 0) / weeks;
+  const prev = history.slice(-weeks * 2, -weeks).reduce((s, p) => s + p.count, 0) / weeks;
   if (prev === 0) return recent > 0 ? { ratio: Infinity, recent, prev } : null;
   return { ratio: recent / prev, recent, prev };
+}
+
+// Короткое окно — «тронулось прямо сейчас»: разослали письмо ФНС, вышло
+// разъяснение, наступил сезон отчётности. Длинное — «растёт весь квартал
+// подряд»: то, что короткое окно смазывает шумом, потому что неделя-две
+// спада внутри устойчивого роста на короткой дистанции выглядит как
+// ничего не происходит. Тема с 5% роста в месяц три месяца подряд не даст
+// ни одного недельного скачка — без длинного окна она не попадёт в
+// бэклог никогда, хотя это ровно тот случай, где отставание от спроса
+// накопилось дольше всего.
+function growth(history) {
+  return growthOver(history, RECENT_WEEKS);
+}
+function growthTrend(history) {
+  return growthOver(history, TREND_WEEKS);
 }
 
 async function main() {
@@ -270,12 +295,16 @@ async function main() {
     try {
       const history = await getDynamics(p.phrase);
       const g = growth(history);
+      const t = growthTrend(history);
       out.push({
         ...p,
         history,
         growth: g ? Number(g.ratio.toFixed(2)) : null,
         recent: g?.recent ?? null,
         windowWeeks: RECENT_WEEKS,
+        growthTrend: t ? Number(t.ratio.toFixed(2)) : null,
+        recentTrend: t?.recent ?? null,
+        trendWeeks: TREND_WEEKS,
         cacheVersion: CACHE_VERSION,
         measuredAt: new Date().toISOString(),
       });
