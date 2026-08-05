@@ -47,7 +47,9 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
-const STATE_PATH = join(__dir, '..', 'src/data/editorial-cycle.json');
+// Переопределяется в тестах (cycle-state.test.mjs), чтобы гонять машину
+// состояний на временном файле, а не на реальном src/data/editorial-cycle.json.
+const STATE_PATH = process.env.CYCLE_STATE_PATH || join(__dir, '..', 'src/data/editorial-cycle.json');
 
 const STATES = ['idle', 'awaiting_review', 'running', 'done'];
 const TOPIC_STATUSES = ['planned', 'writing', 'review', 'accepted', 'released', 'dropped'];

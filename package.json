@@ -11,7 +11,8 @@
     "plan": "node scripts/generate-editorial-plan.mjs",
     "check:ai": "node scripts/check-ai-markers.mjs",
     "check:stale": "node scripts/check-stale-content.mjs",
-    "health": "node scripts/health-check.mjs"
+    "health": "node scripts/health-check.mjs",
+    "test": "node --test scripts/*.test.mjs"
   },
   "description": "Модуль-помощник редактора и копирайтеров: ресерч, написание и рерайт статей"
 }

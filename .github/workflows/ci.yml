@@ -1,0 +1,44 @@
+name: CI
+
+# Проверки без внешних зависимостей и секретов — синтаксис скриптов,
+# юнит-тесты машины состояний, регрессионные аудиты контента. Раньше
+# таких проверок при PR не было: битый скрипт или баг в cycle-state.mjs
+# обнаруживались только вручную, при запуске в Actions на реальных данных.
+#
+# Секретов (YC_API_KEY, GOOGLE_DOCS_KEY и т. п.) здесь нет и не нужно —
+# всё ниже работает на репозитории как есть.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Синтаксис всех скриптов (node --check)
+        run: |
+          set -euo pipefail
+          fail=0
+          while IFS= read -r -d '' f; do
+            node --check "$f" || fail=1
+          done < <(find scripts -name '*.mjs' -print0)
+          exit $fail
+
+      - name: Юнит-тесты машины состояний
+        run: node --test scripts/*.test.mjs
+
+      - name: Аудит НПА-ссылок (--strict)
+        run: node scripts/factcheck/audit-npa-references.mjs --strict
+
+      - name: Битые внутренние ссылки блога
+        run: node scripts/audit/check-blog-links.mjs
