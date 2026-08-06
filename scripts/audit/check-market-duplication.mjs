@@ -19,6 +19,7 @@
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
+import { tokenize, jaccard } from '../lib/text-similarity.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(__dir, '..', '..');
@@ -31,33 +32,6 @@ if (!query) {
 
 const CATALOG_PATH = join(ROOT, 'src/data/interlinking/market-articles.json');
 const catalog = JSON.parse(readFileSync(CATALOG_PATH, 'utf8'));
-
-// Минимальный стоп-лист — не претендует на полноту, только убирает самый
-// частый шум, который иначе раздувает пересечение между несвязанными темами.
-const STOPWORDS = new Set([
-  'и', 'в', 'на', 'с', 'по', 'для', 'от', 'до', 'из', 'к', 'о', 'об', 'у',
-  'а', 'но', 'или', 'не', 'же', 'ли', 'бы', 'то', 'это', 'эти', 'этот', 'эта',
-  'что', 'как', 'какой', 'какие', 'кто', 'кому', 'чего', 'все', 'всё', 'вся',
-  'при', 'за', 'уже', 'если', 'нужно', 'нужен', 'нужна', 'можно', 'года',
-  'году', 'год',
-]);
-
-function tokenize(text) {
-  return new Set(
-    text
-      .toLowerCase()
-      .replace(/[«»"'.,:;!?()–—/№]/g, ' ')
-      .split(/\s+/)
-      .filter((w) => w.length > 2 && !STOPWORDS.has(w)),
-  );
-}
-
-function jaccard(a, b) {
-  let intersection = 0;
-  for (const w of a) if (b.has(w)) intersection++;
-  const union = a.size + b.size - intersection;
-  return union === 0 ? 0 : intersection / union;
-}
 
 const queryTokens = tokenize(query);
 const THRESHOLD = 0.3;

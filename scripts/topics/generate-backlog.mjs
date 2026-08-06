@@ -24,6 +24,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isSuppressed, normalize, load as loadSuppressions } from "./suppressions.mjs";
 import { isInformational, dedupeKey, stemTokens } from "../wordstat/relevance.mjs";
+import { tokenize, jaccard } from "../lib/text-similarity.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
@@ -31,6 +32,113 @@ const PLAN_FILE = join(ROOT, "src", "data", "editorial-plan.json");
 const BLOG_DIR = join(ROOT, "src", "content", "blog");
 const OUT = join(ROOT, "src", "data", "topic-backlog.json");
 const DYNAMICS_FILE = join(ROOT, "src", "data", "wordstat", "candidate-dynamics.json");
+const PRODUCT_MAP_FILE = join(ROOT, "src", "data", "product-mapping.json");
+const SOURCES_FILE = join(ROOT, "src", "data", "factcheck", "sources.json");
+const MARKET_CATALOG_FILE = join(ROOT, "src", "data", "interlinking", "market-articles.json");
+
+/* ─────────────────────────────────── обогащение: продукт, НПА, дедуп ──── */
+// Три поля, которых не хватало в референс-таблице редактора (см. постмортем
+// 2026-08-06): Продукт, Норма/дата, Дедуп+Ссылка Контура. Все три собираются
+// детерминированно из уже существующих в репозитории справочников — без
+// обращения к ИИ и без сетевых вызовов, чтобы рутина A0 осталась бесплатным
+// Node-скриптом в GitHub Actions.
+
+const productMap = existsSync(PRODUCT_MAP_FILE)
+  ? JSON.parse(readFileSync(PRODUCT_MAP_FILE, "utf8")).clusters
+  : {};
+
+/** Кластер → продукт по справочнику product-mapping.json. Нет записи или
+ * низкая уверенность источника не помешает — просто вернём null: лучше
+ * пусто, чем угаданный продукт (тот же принцип, что у research-specialist
+ * с номерами НПА). */
+function productFor(cluster) {
+  const entry = cluster ? productMap[cluster] : null;
+  if (!entry || !entry.product) return { product: null, productLabel: null };
+  return { product: entry.product, productLabel: entry.productLabel };
+}
+
+// Кластер → topic в npaWhitelist (см. TOPICS_BY_CATEGORY в
+// audit-npa-references.mjs — тот же принцип, уже, потому что здесь только
+// однозначные соответствия: «зачем гадать между пятью налоговыми нормами».
+const CLUSTER_TO_NPA_TOPIC = {
+  "ts-piot": "ts-piot",
+  markirovka: "markirovka",
+  "markirovka-2026": "markirovka",
+  "ofd-fn": "kkt",
+  merkuriy: "merkuriy",
+  kkt: "kkt",
+  egais: "egais",
+  buhgalteriya: "buh",
+  "otchetnost-edo": "edo-kedo",
+  kadry: "kadry",
+  nalogi: "nalogi",
+  "nalogi-kassa": "kkt",
+  roznica: "kkt",
+  apteka: "markirovka",
+};
+
+let npaWhitelist = null;
+function loadNpaWhitelist() {
+  if (npaWhitelist !== null) return npaWhitelist;
+  npaWhitelist = existsSync(SOURCES_FILE)
+    ? JSON.parse(readFileSync(SOURCES_FILE, "utf8")).npaWhitelist
+    : {};
+  return npaWhitelist;
+}
+
+/** Предварительная норма для кластера — не замена research-specialist,
+ * а подсказка редактору «в эту сторону смотреть». Стадия 1 /create-article
+ * всё равно верифицирует номер заново перед тем, как он попадёт в статью. */
+function npaHintFor(cluster) {
+  const topic = CLUSTER_TO_NPA_TOPIC[cluster];
+  if (!topic) return null;
+  const wl = loadNpaWhitelist();
+  for (const type of ["pp", "fz", "prikaz"]) {
+    for (const [num, entry] of Object.entries(wl[type] ?? {})) {
+      if (num === "note") continue;
+      const candidates = Array.isArray(entry) ? entry : [entry];
+      const match = candidates.find((e) => e?.topic === topic);
+      if (match) {
+        const label = { pp: "ПП", fz: "ФЗ", prikaz: "Приказ" }[type];
+        return `${label} № ${num} (предв., уточнить в Стадии 1)`;
+      }
+    }
+  }
+  return null;
+}
+
+let marketCatalog = null;
+function loadMarketCatalog() {
+  if (marketCatalog !== null) return marketCatalog;
+  marketCatalog = existsSync(MARKET_CATALOG_FILE)
+    ? JSON.parse(readFileSync(MARKET_CATALOG_FILE, "utf8")).articles
+    : [];
+  return marketCatalog;
+}
+
+/** Дедуп против каталога kontur.ru/market — та же логика и порог, что у
+ * check-market-duplication.mjs (Стадия 1 /create-article, шаг 2а). */
+function marketDedupFor(topic) {
+  const catalog = loadMarketCatalog();
+  if (!catalog.length) return { dedup: "новая", konturLink: null };
+  const queryTokens = tokenize(topic);
+  let best = null;
+  for (const article of catalog) {
+    const score = jaccard(queryTokens, tokenize(article.title || ""));
+    if (score >= 0.3 && (!best || score > best.score)) best = { ...article, score };
+  }
+  if (!best) return { dedup: "новая", konturLink: null };
+  const verdict = best.score >= 0.6 ? "сузить угол" : "проверить пересечение";
+  return { dedup: `${verdict} (${best.score.toFixed(2)})`, konturLink: best.url };
+}
+
+// Триггеры «инфоповода» — конкретная дата/событие, которое устареет и
+// требует публикации к моменту, а не когда-нибудь. Без триггера считаем
+// evergreen: эвристика, не замена редакторскому суждению.
+const INFOPOVOD_RE = /\bс\s+\d{1,2}[.\s]|вступ|измен|нов(ые|ый|ая)\s+(правил|треб|закон|срок)|продли|отмен|перенес|штраф\s+вырос|повыс/i;
+function typeFor(topic) {
+  return INFOPOVOD_RE.test(topic) ? "infopovod" : "evergreen";
+}
 
 const arg = (name, fallback = null) => {
   const i = process.argv.indexOf(`--${name}`);
@@ -411,14 +519,25 @@ for (const item of raw.sort((a, b) => b.weight - a.weight)) {
     continue;
   }
 
+  const { product, productLabel } = productFor(item.cluster);
+  const { dedup, konturLink } = marketDedupFor(item.phrase);
+
   candidates.push({
     topic: item.phrase,
+    targetKeyword: item.phrase,
     cluster: item.cluster,
     source: item.kind === "signal" ? item.source : `wordstat:${item.ns ?? "root"}`,
     why: item.kind === "signal" ? (item.note ?? "сигнал мониторинга") : reasonFor(item),
     metrics: item.kind === "signal"
       ? null
       : { kind: item.kind, prev: item.prev ?? null, now: item.now ?? item.count, ratio: item.ratio ?? null },
+    wordstat: item.kind === "signal" ? null : (item.now ?? item.count ?? null),
+    product,
+    productLabel,
+    type: typeFor(item.phrase),
+    normHint: npaHintFor(item.cluster),
+    dedup,
+    konturLink,
     decision: "",
     author: "",
     declineReason: "",
