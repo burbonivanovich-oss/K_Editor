@@ -1,0 +1,2123 @@
+{
+  "prevDate": "2026-08-04",
+  "currDate": "2026-08-05",
+  "namespace": null,
+  "thresholds": {
+    "rise": 2,
+    "minCount": 10
+  },
+  "seeds": [
+    {
+      "seed": "115-ФЗ",
+      "slug": "115-фз",
+      "category": "entity",
+      "cluster": "banki",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "140-ФЗ",
+      "slug": "140-фз",
+      "category": "entity",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "1С Розница",
+      "slug": "1с-розница",
+      "category": "system",
+      "cluster": "buhgalteriya",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "1С УНФ",
+      "slug": "1с-унф",
+      "category": "system",
+      "cluster": "buhgalteriya",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Ozon",
+      "slug": "ozon",
+      "category": "entity",
+      "cluster": "marketplace",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Wildberries",
+      "slug": "wildberries",
+      "category": "entity",
+      "cluster": "marketplace",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "авансовый платёж УСН",
+      "slug": "авансовый-плат-ж-усн",
+      "category": "seasonal",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "акцизная марка",
+      "slug": "акцизная-марка",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "АТОЛ",
+      "slug": "атол",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "АУСН",
+      "slug": "аусн",
+      "category": "entity",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "блокировка ЕГАИС",
+      "slug": "блокировка-егаис",
+      "category": "problem",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "блокировка счёта",
+      "slug": "блокировка-сч-та",
+      "category": "entity",
+      "cluster": "banki",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "больничный 2026",
+      "slug": "больничный-2026",
+      "category": "entity",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "бухгалтерия для ИП",
+      "slug": "бухгалтерия-для-ип",
+      "category": "audience",
+      "cluster": "buhgalteriya",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "бухгалтерия для маркетплейса",
+      "slug": "бухгалтерия-для-маркетплейса",
+      "category": "audience",
+      "cluster": "buhgalteriya",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ветеринарный сертификат",
+      "slug": "ветеринарный-сертификат",
+      "category": "entity",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "возврат на маркетплейсе",
+      "slug": "возврат-на-маркетплейсе",
+      "category": "entity",
+      "cluster": "marketplace",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ВСД",
+      "slug": "всд",
+      "category": "entity",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "встречная проверка",
+      "slug": "встречная-проверка",
+      "category": "entity",
+      "cluster": "banki",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "выездная проверка",
+      "slug": "выездная-проверка",
+      "category": "entity",
+      "cluster": "banki",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ГИС МТ",
+      "slug": "гис-мт",
+      "category": "system",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ГИС ЭПД",
+      "slug": "гис-эпд",
+      "category": "system",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "годовая отчётность ИП",
+      "slug": "годовая-отч-тность-ип",
+      "category": "seasonal",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Госуслуги для ИП",
+      "slug": "госуслуги-для-ип",
+      "category": "system",
+      "cluster": "start",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ГПХ договор",
+      "slug": "гпх-договор",
+      "category": "entity",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "декларация 2026",
+      "slug": "декларация-2026",
+      "category": "seasonal",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "декларация по алкоголю",
+      "slug": "декларация-по-алкоголю",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Диадок Логистика",
+      "slug": "диадок-логистика",
+      "category": "system",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "договор-заявка перевозка",
+      "slug": "договор-заявка-перевозка",
+      "category": "entity",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Дримкас",
+      "slug": "дримкас",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "дробление бизнеса",
+      "slug": "дробление-бизнеса",
+      "category": "entity",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЕГАИС",
+      "slug": "егаис",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЕНП",
+      "slug": "енп",
+      "category": "entity",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЕНС",
+      "slug": "енс",
+      "category": "entity",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "изменения в маркировке 2026",
+      "slug": "изменения-в-маркировке-2026",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "изменения в патенте 2026",
+      "slug": "изменения-в-патенте-2026",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "изменения в УСН 2026",
+      "slug": "изменения-в-усн-2026",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "изменения для ИП 2026",
+      "slug": "изменения-для-ип-2026",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "изменения для ООО 2026",
+      "slug": "изменения-для-ооо-2026",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "импортная маркировка",
+      "slug": "импортная-маркировка",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как закрыть ИП",
+      "slug": "как-закрыть-ип",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как зарегистрировать кассу",
+      "slug": "как-зарегистрировать-кассу",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как открыть ИП 2026",
+      "slug": "как-открыть-ип-2026",
+      "category": "intent",
+      "cluster": "start",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как перейти на КЭДО",
+      "slug": "как-перейти-на-кэдо",
+      "category": "intent",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как перейти на патент",
+      "slug": "как-перейти-на-патент",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как перейти на УСН",
+      "slug": "как-перейти-на-усн",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как подключить маркировку",
+      "slug": "как-подключить-маркировку",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как подключить ТС ПИоТ",
+      "slug": "как-подключить-тс-пиот",
+      "category": "intent",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как продлить лицензию",
+      "slug": "как-продлить-лицензию",
+      "category": "intent",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как сменить ОФД",
+      "slug": "как-сменить-офд",
+      "category": "intent",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для интернет-магазина",
+      "slug": "касса-для-интернет-магазина",
+      "category": "audience",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для ИП",
+      "slug": "касса-для-ип",
+      "category": "audience",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для салона красоты",
+      "slug": "касса-для-салона-красоты",
+      "category": "audience",
+      "cluster": "uslugi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "когда вступает в силу закон",
+      "slug": "когда-вступает-в-силу-закон",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "комиссия маркетплейса",
+      "slug": "комиссия-маркетплейса",
+      "category": "entity",
+      "cluster": "marketplace",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Контур Эльба",
+      "slug": "контур-эльба",
+      "category": "system",
+      "cluster": "buhgalteriya",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "КУДиР",
+      "slug": "кудир",
+      "category": "entity",
+      "cluster": "start",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "КЭДО",
+      "slug": "кэдо",
+      "category": "entity",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "лимит дохода ИП",
+      "slug": "лимит-дохода-ип",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "лимит патента 2026",
+      "slug": "лимит-патента-2026",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "лимит самозанятого",
+      "slug": "лимит-самозанятого",
+      "category": "intent",
+      "cluster": "uslugi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "лимит УСН 2026",
+      "slug": "лимит-усн-2026",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "лицензия на алкоголь",
+      "slug": "лицензия-на-алкоголь",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "личный кабинет ФНС",
+      "slug": "личный-кабинет-фнс",
+      "category": "system",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка БАД",
+      "slug": "маркировка-бад",
+      "category": "entity",
+      "cluster": "markirovka-2026",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка бытовой химии",
+      "slug": "маркировка-бытовой-химии",
+      "category": "entity",
+      "cluster": "markirovka-2026",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка воды",
+      "slug": "маркировка-воды",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка кормов",
+      "slug": "маркировка-кормов",
+      "category": "entity",
+      "cluster": "markirovka-2026",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка лекарств",
+      "slug": "маркировка-лекарств",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка молочной продукции",
+      "slug": "маркировка-молочной-продукции",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка обуви",
+      "slug": "маркировка-обуви",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка одежды",
+      "slug": "маркировка-одежды",
+      "category": "entity",
+      "cluster": "markirovka-2026",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка парфюмерии",
+      "slug": "маркировка-парфюмерии",
+      "category": "entity",
+      "cluster": "markirovka-2026",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка пива",
+      "slug": "маркировка-пива",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка табака",
+      "slug": "маркировка-табака",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка",
+      "slug": "маркировка",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Меркурий",
+      "slug": "меркурий",
+      "category": "entity",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "МойСклад",
+      "slug": "мойсклад",
+      "category": "system",
+      "cluster": "buhgalteriya",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "МРОТ 2026",
+      "slug": "мрот-2026",
+      "category": "entity",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "МЧД",
+      "slug": "мчд",
+      "category": "entity",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налог за 1 квартал",
+      "slug": "налог-за-1-квартал",
+      "category": "seasonal",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налог на имущество ИП",
+      "slug": "налог-на-имущество-ип",
+      "category": "seasonal",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоги для аптеки",
+      "slug": "налоги-для-аптеки",
+      "category": "audience",
+      "cluster": "nichi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоги для ИП",
+      "slug": "налоги-для-ип",
+      "category": "audience",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоги для общепита",
+      "slug": "налоги-для-общепита",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоги для ООО",
+      "slug": "налоги-для-ооо",
+      "category": "audience",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоги для розницы",
+      "slug": "налоги-для-розницы",
+      "category": "audience",
+      "cluster": "nichi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоги для такси",
+      "slug": "налоги-для-такси",
+      "category": "audience",
+      "cluster": "uslugi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоги для фрилансера",
+      "slug": "налоги-для-фрилансера",
+      "category": "audience",
+      "cluster": "uslugi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоги самозанятых",
+      "slug": "налоги-самозанятых",
+      "category": "audience",
+      "cluster": "uslugi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоговый вычет ИП",
+      "slug": "налоговый-вычет-ип",
+      "category": "entity",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "налоговый календарь 2026",
+      "slug": "налоговый-календарь-2026",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "НДС на УСН",
+      "slug": "ндс-на-усн",
+      "category": "entity",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не выводится из оборота",
+      "slug": "не-выводится-из-оборота",
+      "category": "problem",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не выгружается в Честный знак",
+      "slug": "не-выгружается-в-честный-знак",
+      "category": "problem",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не приходит код маркировки",
+      "slug": "не-приходит-код-маркировки",
+      "category": "problem",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не приходит уведомление налоговой",
+      "slug": "не-приходит-уведомление-налоговой",
+      "category": "problem",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не приходит чек",
+      "slug": "не-приходит-чек",
+      "category": "problem",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не работает касса",
+      "slug": "не-работает-касса",
+      "category": "problem",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "новое в кадрах 2026",
+      "slug": "новое-в-кадрах-2026",
+      "category": "intent",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "новый закон для бизнеса 2026",
+      "slug": "новый-закон-для-бизнеса-2026",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "новый закон ИП",
+      "slug": "новый-закон-ип",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "новый закон о маркировке",
+      "slug": "новый-закон-о-маркировке",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "новый закон ООО",
+      "slug": "новый-закон-ооо",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "обязательная ЭТрН 2026",
+      "slug": "обязательная-этрн-2026",
+      "category": "seasonal",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "онлайн-касса",
+      "slug": "онлайн-касса",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "операторы ЭПД",
+      "slug": "операторы-эпд",
+      "category": "entity",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ответственность за работу без маркировки",
+      "slug": "ответственность-за-работу-без-маркировки",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "отказали в патенте",
+      "slug": "отказали-в-патенте",
+      "category": "problem",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "открыть ИП",
+      "slug": "открыть-ип",
+      "category": "entity",
+      "cluster": "start",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "открыть ООО",
+      "slug": "открыть-ооо",
+      "category": "entity",
+      "cluster": "start",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "отпуск 2026",
+      "slug": "отпуск-2026",
+      "category": "entity",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "отчётность для ИП",
+      "slug": "отч-тность-для-ип",
+      "category": "audience",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "отчётность за 2 квартал",
+      "slug": "отч-тность-за-2-квартал",
+      "category": "seasonal",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "отчётность за год",
+      "slug": "отч-тность-за-год",
+      "category": "seasonal",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ОФД Я",
+      "slug": "офд-я",
+      "category": "system",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ОФД",
+      "slug": "офд",
+      "category": "entity",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ошибка в декларации",
+      "slug": "ошибка-в-декларации",
+      "category": "problem",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ошибка маркировки",
+      "slug": "ошибка-маркировки",
+      "category": "problem",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ошибка ОФД",
+      "slug": "ошибка-офд",
+      "category": "problem",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "патент ИП",
+      "slug": "патент-ип",
+      "category": "entity",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "первая касса для ИП",
+      "slug": "первая-касса-для-ип",
+      "category": "entity",
+      "cluster": "start",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "письмо ФНС",
+      "slug": "письмо-фнс",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Платформа ОФД",
+      "slug": "платформа-офд",
+      "category": "system",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "постановление правительства 2026",
+      "slug": "постановление-правительства-2026",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "почему заблокировали счёт",
+      "slug": "почему-заблокировали-сч-т",
+      "category": "problem",
+      "cluster": "banki",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "почему пришёл штраф",
+      "slug": "почему-приш-л-штраф",
+      "category": "problem",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "поэкземплярный учёт",
+      "slug": "поэкземплярный-уч-т",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "пропал интернет на кассе",
+      "slug": "пропал-интернет-на-кассе",
+      "category": "problem",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "разрешительный режим",
+      "slug": "разрешительный-режим",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "разъяснение Минфина",
+      "slug": "разъяснение-минфина",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "расчётный счёт ИП",
+      "slug": "расч-тный-сч-т-ип",
+      "category": "entity",
+      "cluster": "banki",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "самозанятый",
+      "slug": "самозанятый",
+      "category": "entity",
+      "cluster": "uslugi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "СБИС",
+      "slug": "сбис",
+      "category": "system",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сбой Меркурий",
+      "slug": "сбой-меркурий",
+      "category": "problem",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сдать декларацию ИП",
+      "slug": "сдать-декларацию-ип",
+      "category": "seasonal",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сопроводительная ведомость",
+      "slug": "сопроводительная-ведомость",
+      "category": "entity",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "срок ТС ПИоТ",
+      "slug": "срок-тс-пиот",
+      "category": "intent",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сроки маркировки 2026",
+      "slug": "сроки-маркировки-2026",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сроки отчётности 2026",
+      "slug": "сроки-отч-тности-2026",
+      "category": "intent",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сроки уплаты налогов 2026",
+      "slug": "сроки-уплаты-налогов-2026",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "страховые взносы за сотрудников",
+      "slug": "страховые-взносы-за-сотрудников",
+      "category": "entity",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Тензор",
+      "slug": "тензор",
+      "category": "system",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "транспортная накладная",
+      "slug": "транспортная-накладная",
+      "category": "entity",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "транспортный налог ИП",
+      "slug": "транспортный-налог-ип",
+      "category": "seasonal",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ",
+      "slug": "тс-пиот",
+      "category": "entity",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "уведомление ЕНП",
+      "slug": "уведомление-енп",
+      "category": "seasonal",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "увольнение по соглашению сторон",
+      "slug": "увольнение-по-соглашению-сторон",
+      "category": "entity",
+      "cluster": "kadry",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "УКЭП",
+      "slug": "укэп",
+      "category": "entity",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "УСН 2026",
+      "slug": "усн-2026",
+      "category": "entity",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ФБО ФБС",
+      "slug": "фбо-фбс",
+      "category": "entity",
+      "cluster": "marketplace",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "фиксированные взносы",
+      "slug": "фиксированные-взносы",
+      "category": "entity",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "фискальный накопитель",
+      "slug": "фискальный-накопитель",
+      "category": "entity",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ФФД 1.2",
+      "slug": "ффд-1-2",
+      "category": "entity",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Честный знак",
+      "slug": "честный-знак",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "что меняется для бизнеса",
+      "slug": "что-меняется-для-бизнеса",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "что меняется для ИП",
+      "slug": "что-меняется-для-ип",
+      "category": "intent",
+      "cluster": "zakonodatelstvo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф ЕГАИС",
+      "slug": "штраф-егаис",
+      "category": "intent",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за маркировку",
+      "slug": "штраф-за-маркировку",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за Меркурий",
+      "slug": "штраф-за-меркурий",
+      "category": "intent",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за неуплату налогов",
+      "slug": "штраф-за-неуплату-налогов",
+      "category": "intent",
+      "cluster": "nalogi",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за отсутствие ОФД",
+      "slug": "штраф-за-отсутствие-офд",
+      "category": "intent",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за отсутствие ЭТрН",
+      "slug": "штраф-за-отсутствие-этрн",
+      "category": "problem",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за просрочку отчётности",
+      "slug": "штраф-за-просрочку-отч-тности",
+      "category": "intent",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за ТС ПИоТ",
+      "slug": "штраф-за-тс-пиот",
+      "category": "intent",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф ИП без кассы",
+      "slug": "штраф-ип-без-кассы",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Штрих-М",
+      "slug": "штрих-м",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Эвотор",
+      "slug": "эвотор",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЭДО",
+      "slug": "эдо",
+      "category": "entity",
+      "cluster": "otchetnost-edo",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "эквайринг для бизнеса",
+      "slug": "эквайринг-для-бизнеса",
+      "category": "audience",
+      "cluster": "banki",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "электронная транспортная накладная",
+      "slug": "электронная-транспортная-накладная",
+      "category": "entity",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "электронный путевой лист",
+      "slug": "электронный-путевой-лист",
+      "category": "entity",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЭПД для грузоперевозчика",
+      "slug": "эпд-для-грузоперевозчика",
+      "category": "audience",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЭТрН с 1 сентября 2026",
+      "slug": "этрн-с-1-сентября-2026",
+      "category": "seasonal",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЭТрН",
+      "slug": "этрн",
+      "category": "entity",
+      "cluster": "logistika",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Яндекс Маркет",
+      "slug": "яндекс-маркет",
+      "category": "entity",
+      "cluster": "marketplace",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    }
+  ]
+}
