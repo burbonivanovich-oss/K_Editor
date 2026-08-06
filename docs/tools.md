@@ -126,6 +126,7 @@
 | `audit/linkgraph.mjs` | Граф перелинковки, сироты, кандидаты на ссылки |
 | `audit/check-blog-links.mjs` | Битые внутренние ссылки |
 | `audit/fix-broken-blog-links.mjs` | Автопочинка битых внутренних ссылок |
+| `audit/check-market-duplication.mjs` | Стадия 1 `/create-article`: пересечение темы с каталогом kontur.ru/market (`src/data/interlinking/market-articles.json`) — не блокер, сигнал сузить угол и добавить перелинковку |
 | `audit/set-review-dates.mjs` | Проставление `reviewDate` в frontmatter |
 
 Запуск: `node scripts/<имя>.mjs`. Внешних зависимостей нет — только
