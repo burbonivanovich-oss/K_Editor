@@ -1,0 +1,15 @@
+{
+  "generatedAt": "2026-08-06T11:48:47.334Z",
+  "totals": {
+    "total": 1,
+    "published": 0,
+    "drafts": 1,
+    "orphans": 0,
+    "weak": 0,
+    "deadends": 0
+  },
+  "orphans": [],
+  "weak": [],
+  "deadends": [],
+  "topInbound": []
+}
