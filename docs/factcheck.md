@@ -28,12 +28,18 @@ src/data/factcheck/
                             # список доменов, заблокированных для WebFetch
   inventory.json           # сводка claims по всем 83 статьям (с --all)
   claims/<slug>.json       # claims одной статьи
-  results/<slug>.json      # отчёт проверки: status, severity, action
+  results/<slug>.json      # { claims: [...], summary: {overallStatus, criticalIssues} }
 
 .claude/
   commands/factcheck.md    # /factcheck <slug> — скилл проверки
-  factchecked/<slug>       # маркер «статья проверена» — JSON {date, hash},
-                            # hash sha256 статьи на момент проверки
+  factchecked/<slug>       # маркер «статья проверена» — JSON:
+                            #   {date, hash, result, criticalMismatches,
+                            #    rulesVersion, report}
+                            # hash — sha256 статьи на момент проверки;
+                            # result/criticalMismatches — из summary
+                            # results/<slug>.json, если он есть;
+                            # rulesVersion — дата последнего изменения
+                            # docs/editorial-policy.md (git-история)
                             # (scripts/factcheck/write-marker.mjs)
 ```
 
