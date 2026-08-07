@@ -29,11 +29,17 @@
 
 ### Шлюзы качества
 
-- **`scripts/release-article.mjs <slug>`** — финальный шлюз перед
-  снятием `draft`. Детерминированный CLI (не промпт): приёмка в
-  `editorial-cycle.json`, все аудиты, свежесть `/analyze-article`, хеш
-  и возраст факчек-маркера — всё в одном месте и в одном порядке. Флаги
-  `--dry-run`, `--json`, `--confirm-no-cycle` (для статей вне цикла).
+- **`scripts/release-article.mjs <slug>`** — единственный способ снять
+  `draft` (в т.ч. из `/cycle-listen` — второго пути нет). Детерминированный
+  CLI (не промпт): приёмка в `editorial-cycle.json`, все аудиты, свежесть
+  `/analyze-article`, хеш и возраст факчек-маркера — всё в одном месте и
+  в одном порядке. После успешного выпуска переводит строку темы в
+  `content-plan-2026.md` на `done` и перегенерирует `editorial-plan.json`,
+  если тема там была. Флаги: `--dry-run`, `--json`, `--confirm-no-cycle
+  "<причина>"` (для статей вне цикла — причина обязательна, попадает в
+  `analyze/<slug>.json.cycleReleaseOverride`), `--override-score
+  "<причина>"` (принять балл `/analyze-article` < 70 — причина попадает в
+  `analyze/<slug>.json.releaseOverride`; остальные гейты не снимает).
 - **`/analyze-article <slug>`** — оценка 0–100 по 6 категориям. Блокер,
   если балл < 70, маркер факт-чека старше 180 дней, либо упали
   `factcheck/audit-npa-references.mjs` или `audit/check-blog-links.mjs`.

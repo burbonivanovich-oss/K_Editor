@@ -345,3 +345,45 @@ test('после RELEASED маркер факчека обновлён под н
     assert.equal(rerun.status, 'ALREADY_RELEASED');
   });
 });
+
+function writeContentPlan(dir, rows) {
+  mkdirSync(join(dir, 'src/content/wiki'), { recursive: true });
+  const header = '| Slug | Заголовок | Priority | Целевой запрос | Status | Blocker |\n|---|---|---|---|---|---|\n';
+  const body = rows.map((r) => `| ${r.slug} | Т | ${r.priority ?? 'P0'} | ключ | ${r.status} | — |`).join('\n');
+  writeFileSync(join(dir, 'src/content/wiki/content-plan-2026.md'), header + body + '\n');
+}
+
+test('F-02: release переводит строку темы в контент-плане в done', () => {
+  withFixture((dir) => {
+    // fullyReady пишет полный slug с датой — контент-план хранит короткий.
+    const slug = fullyReady(dir, 'a');
+    writeContentPlan(dir, [{ slug: 'a', status: 'planned' }, { slug: 'b', status: 'planned' }]);
+
+    const out = run(dir, [slug]);
+    assert.equal(out.status, 'RELEASED');
+    assert.ok(out.findings.some((f) => f.name === 'Контент-план' && f.detail.includes('done')));
+
+    const plan = readFileSync(join(dir, 'src/content/wiki/content-plan-2026.md'), 'utf8');
+    assert.match(plan, /\| a \| Т \| P0 \| ключ \| done \| — \|/);
+    assert.match(plan, /\| b \| Т \| P0 \| ключ \| planned \| — \|/, 'чужая строка не тронута');
+  });
+});
+
+test('F-02: темы нет в контент-плане — RELEASED без заметки, файл не создаётся', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir, 'a');
+    const out = run(dir, [slug]);
+    assert.equal(out.status, 'RELEASED');
+    assert.ok(!out.findings.some((f) => f.name === 'Контент-план'));
+  });
+});
+
+test('F-02: тема уже done в плане — не трогаем, заметки нет', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir, 'a');
+    writeContentPlan(dir, [{ slug: 'a', status: 'done' }]);
+    const out = run(dir, [slug]);
+    assert.equal(out.status, 'RELEASED');
+    assert.ok(!out.findings.some((f) => f.name === 'Контент-план'));
+  });
+});

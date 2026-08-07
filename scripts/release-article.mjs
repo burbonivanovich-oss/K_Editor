@@ -124,6 +124,42 @@ function setField(fm, key, value) {
   return `${fm.trimEnd()}\n${key}: ${literal}\n`;
 }
 
+/**
+ * F-02 (git-локальная синхронизация статуса). Если тема была в
+ * контент-плане — переводит её строку в done. Не про Google Sheets:
+ * тот путь остаётся за drive-sync.mjs/cycle-state.mjs, здесь нет
+ * credentials и не должно быть. Возвращает null, если темы в плане
+ * нет или она уже done — писать нечего.
+ */
+function syncContentPlanStatus(dataRoot, articleSlug) {
+  const planPath = join(dataRoot, 'src/content/wiki/content-plan-2026.md');
+  if (!existsSync(planPath)) return null;
+  const shortSlug = articleSlug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+  const escaped = shortSlug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const rowRe = new RegExp(
+    `^(\\|\\s*${escaped}\\s*\\|[^|]*\\|[^|]*\\|[^|]*\\|\\s*)(done|draft|planned|deprioritized)(\\s*\\|.*)$`,
+    'm',
+  );
+  const text = readFileSync(planPath, 'utf8');
+  const m = text.match(rowRe);
+  if (!m || m[2] === 'done') return null;
+  writeFileSync(planPath, text.replace(rowRe, '$1done$3'));
+
+  // editorial-plan.json — производный артефакт. Регенерируем только в
+  // реальном репозитории: generate-editorial-plan.mjs не умеет
+  // override-путей и в тестовой фикстуре писал бы поверх настоящего
+  // репозитория, а не DATA_ROOT теста.
+  if (dataRoot === REPO_ROOT) {
+    try {
+      execFileSync('node', ['scripts/generate-editorial-plan.mjs'], { cwd: REPO_ROOT });
+      return `${shortSlug}: planned/draft → done, editorial-plan.json перегенерирован`;
+    } catch {
+      return `${shortSlug}: planned/draft → done, editorial-plan.json перегенерировать не удалось — прогнать вручную`;
+    }
+  }
+  return `${shortSlug}: planned/draft → done`;
+}
+
 function runGate(cmd, cmdArgs) {
   try {
     const out = execFileSync(cmd, cmdArgs, { encoding: 'utf8', cwd: REPO_ROOT });
@@ -329,6 +365,15 @@ if ((scoreOverride || cycleOverride) && existsSync(analyzePath)) {
   if (cycleOverride) analysis.cycleReleaseOverride = cycleOverride;
   writeFileSync(analyzePath, JSON.stringify(analysis, null, 2) + '\n');
 }
+
+// F-02 (git-локальная часть — Google Sheets вне досягаемости этого
+// скрипта). Без этого шага health-check (F-05) находит расхождение
+// после каждого релиза темы, которая была в контент-плане: план
+// показывает planned/draft, статья уже вышла. Лучше не дать
+// расхождению случиться, чем полагаться только на то, что кто-то
+// прочитает предупреждение.
+const contentPlanSync = syncContentPlanStatus(DATA_ROOT, slug);
+if (contentPlanSync) note('Контент-план', contentPlanSync);
 
 report({ status: 'RELEASED' });
 process.exit(0);
