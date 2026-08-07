@@ -121,7 +121,7 @@ test('уже draft: false — ALREADY_RELEASED, ничего не трогает
   });
 });
 
-test('темы нет в цикле — блокер без --confirm-no-cycle, проходит с флагом', () => {
+test('темы нет в цикле — блокер без --confirm-no-cycle, проходит с флагом+причиной', () => {
   withFixture((dir) => {
     const slug = fullyReady(dir);
     // Затираем cycle-state, чтобы темы там не было вообще.
@@ -131,8 +131,19 @@ test('темы нет в цикле — блокер без --confirm-no-cycle, 
     assert.equal(blocked.status, 'BLOCKED');
     assert.ok(blocked.blockers.some((b) => b.includes('--confirm-no-cycle')));
 
-    const ok = run(dir, [slug, '--confirm-no-cycle']);
+    // Без причины — ошибка использования, не молчаливый проход.
+    assert.throws(() =>
+      execFileSync('node', [SCRIPT, slug, '--confirm-no-cycle', '--json'], {
+        encoding: 'utf8',
+        env: { ...process.env, RELEASE_DATA_ROOT: dir },
+      }),
+    );
+
+    const ok = run(dir, [slug, '--confirm-no-cycle', 'тема написана вне Drive-цикла, обкатка пайплайна']);
     assert.equal(ok.status, 'RELEASED');
+
+    const analysis = JSON.parse(readFileSync(join(dir, 'src/data/analyze', `${slug}.json`), 'utf8'));
+    assert.equal(analysis.cycleReleaseOverride.reason, 'тема написана вне Drive-цикла, обкатка пайплайна');
   });
 });
 

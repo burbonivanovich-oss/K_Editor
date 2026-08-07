@@ -101,7 +101,7 @@ status: published
 | ts-piot-oshibki-kassira | ТС ПИоТ: сценарии отказа и что говорить покупателю | P1 | ТС ПИоТ ошибка кассира | planned | — |
 | ts-piot-mojsklad | Настройка ТС ПИоТ в МойСклад | P2 | ТС ПИоТ МойСклад | planned | — |
 | ts-piot-data-matrix | ТС ПИоТ и Data Matrix: что сканирует касса | P1 | ТС ПИоТ Data Matrix | planned | wordstat-2026-05 |
-| chto-takoe-ts-piot | ТС ПИоТ: что это, кому нужен и как подключить | P0 | что такое ТС ПИоТ | planned | — |
+| chto-takoe-ts-piot | ТС ПИоТ: что это, кому нужен и как подключить | P0 | что такое ТС ПИоТ | done | — |
 | ts-piot-podklyuchenie-instrukciya | Подключение ТС ПИоТ к кассе: пошаговая инструкция | P0 | подключить ТС ПИоТ | planned | — |
 | ts-piot-evotor-atol-shtrih | ТС ПИоТ на кассах Эвотор, Атол, Штрих и Дримкас | P0 | ТС ПИоТ касса какая | planned | — |
 | ts-piot-shtrafy | Штраф за работу без ТС ПИоТ в 2026 | P0 | штраф ТС ПИоТ | planned | — |

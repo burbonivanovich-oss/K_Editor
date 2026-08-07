@@ -1,10 +1,11 @@
 {
-  "_generated": "2026-08-06",
+  "_generated": "2026-08-07",
   "_source": "src/content/wiki/content-plan-2026.md",
   "stats": {
     "total": 244,
     "byStatus": {
-      "planned": 244
+      "planned": 243,
+      "done": 1
     },
     "byPriority": {
       "P0": 80,
@@ -72,7 +73,7 @@
       "title": "ТС ПИоТ: что это, кому нужен и как подключить",
       "priority": "P0",
       "targetKeyword": "что такое ТС ПИоТ",
-      "status": "planned",
+      "status": "done",
       "blocker": null,
       "cluster": "ТС ПИоТ"
     },

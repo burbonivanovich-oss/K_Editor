@@ -14,9 +14,10 @@
 //   node scripts/release-article.mjs <slug>
 //   node scripts/release-article.mjs <slug> --json
 //   node scripts/release-article.mjs <slug> --dry-run       # только отчёт, файл не трогать
-//   node scripts/release-article.mjs <slug> --confirm-no-cycle
+//   node scripts/release-article.mjs <slug> --confirm-no-cycle "<причина>"
 //     # темы нет в editorial-cycle.json (написана вне цикла) — явное
-//     # подтверждение, что вычитка человеком всё равно была
+//     # подтверждение, что вычитка человеком всё равно была; причина
+//     # записывается в src/data/analyze/<slug>.json.cycleReleaseOverride
 //   node scripts/release-article.mjs <slug> --override-score "<причина>"
 //     # редактор принимает статью с баллом /analyze-article < 70 —
 //     # решение записывается в src/data/analyze/<slug>.json.releaseOverride,
@@ -50,7 +51,19 @@ const args = process.argv.slice(2);
 const slug = args.find((a) => !a.startsWith('--'));
 const AS_JSON = args.includes('--json');
 const DRY_RUN = args.includes('--dry-run');
-const CONFIRM_NO_CYCLE = args.includes('--confirm-no-cycle');
+const CONFIRM_NO_CYCLE_IDX = args.indexOf('--confirm-no-cycle');
+const CONFIRM_NO_CYCLE = CONFIRM_NO_CYCLE_IDX !== -1;
+// Причина обязательна по той же логике, что у --override-score: это
+// исключение из канонического пути (тема не была в редакторском
+// цикле), и health-check (F-05) должен уметь отличить записанное
+// исключение от статьи, которую кто-то выпустил в обход скрипта
+// вообще — а для этого исключение обязано где-то остаться, не только
+// мелькнуть в консоли текущего запуска.
+const CONFIRM_NO_CYCLE_REASON = CONFIRM_NO_CYCLE ? args[CONFIRM_NO_CYCLE_IDX + 1] : null;
+if (CONFIRM_NO_CYCLE && (!CONFIRM_NO_CYCLE_REASON || CONFIRM_NO_CYCLE_REASON.startsWith('--'))) {
+  console.error('--confirm-no-cycle требует причину: --confirm-no-cycle "<почему тема вне цикла, но вычитка была>"');
+  process.exit(2);
+}
 
 // Редактор может принять статью с баллом ниже 70 — это решение
 // человека, не техническая ошибка (docs/tools.md: «/analyze-article —
@@ -71,7 +84,7 @@ if (OVERRIDE_SCORE_IDX !== -1 && (!OVERRIDE_SCORE_REASON || OVERRIDE_SCORE_REASO
 if (!slug) {
   console.error(
     'Использование: node scripts/release-article.mjs <slug> [--json] [--dry-run] ' +
-      '[--confirm-no-cycle] [--override-score "<причина>"]',
+      '[--confirm-no-cycle "<причина>"] [--override-score "<причина>"]',
   );
   process.exit(2);
 }
@@ -132,6 +145,7 @@ function lastGitModified(path) {
 const findings = [];
 const blockers = [];
 let scoreOverride = null;
+let cycleOverride = null;
 function pass(name, detail = '') { findings.push({ status: 'ok', name, detail }); }
 function block(name, detail) { findings.push({ status: 'fail', name, detail }); blockers.push(`${name}: ${detail}`); }
 function note(name, detail = '') { findings.push({ status: 'info', name, detail }); }
@@ -176,11 +190,12 @@ if (cycleTopic) {
     block('Приёмка редактором', `тема в статусе ${cycleTopic.status}, ожидался accepted`);
   }
 } else if (CONFIRM_NO_CYCLE) {
-  note('Приёмка редактором', 'темы нет в цикле — подтверждено флагом --confirm-no-cycle');
+  note('Приёмка редактором', `темы нет в цикле — подтверждено: ${CONFIRM_NO_CYCLE_REASON}`);
+  cycleOverride = { reason: CONFIRM_NO_CYCLE_REASON, at: today() };
 } else {
   block(
     'Приёмка редактором',
-    'темы нет в editorial-cycle.json (написана вне цикла) — нужно явное подтверждение: --confirm-no-cycle',
+    'темы нет в editorial-cycle.json (написана вне цикла) — нужно явное подтверждение: --confirm-no-cycle "<причина>"',
   );
 }
 
@@ -302,12 +317,16 @@ writeFileSync(articlePath, newContent);
 const newHash = createHash('sha256').update(newContent).digest('hex');
 writeFileSync(markerPath, JSON.stringify({ ...marker, hash: newHash }));
 
-// Аудит-трейл переопределения — «кто, что и почему» из F-01. Живёт в
-// src/data/analyze/<slug>.json, а не в отдельном логе: это уже
-// коммитящийся, per-slug файл ровно про эту оценку.
-if (scoreOverride && existsSync(analyzePath)) {
+// Аудит-трейл переопределений — «кто, что и почему» из F-01/F-05. Живёт
+// в src/data/analyze/<slug>.json, а не в отдельном логе: это уже
+// коммитящийся, per-slug файл ровно про эту оценку. health-check.mjs
+// читает cycleReleaseOverride, чтобы отличить записанное исключение
+// (--confirm-no-cycle с причиной) от статьи, выпущенной в обход
+// скрипта вообще — прямой правкой draft:false мимо release-article.mjs.
+if ((scoreOverride || cycleOverride) && existsSync(analyzePath)) {
   const analysis = JSON.parse(readFileSync(analyzePath, 'utf8'));
-  analysis.releaseOverride = scoreOverride;
+  if (scoreOverride) analysis.releaseOverride = scoreOverride;
+  if (cycleOverride) analysis.cycleReleaseOverride = cycleOverride;
   writeFileSync(analyzePath, JSON.stringify(analysis, null, 2) + '\n');
 }
 

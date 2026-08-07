@@ -23,8 +23,9 @@ import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+const ROOT = process.env.HEALTH_CHECK_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..');
 const args = new Set(process.argv.slice(2));
 const JSON_OUT = args.has('--json');
 const STRICT = args.has('--strict');
@@ -45,11 +46,14 @@ const today = new Date();
 
 let drafts = 0, future = 0, noFactcheck = 0;
 const slugs = new Set();
+const released = []; // draft:false статьи — вход для секции 5 (бизнес-инварианты)
 for (const f of blogFiles) {
 	const content = readFileSync(join(blogDir, f), 'utf8');
 	const slug = f.replace(/\.(md|mdx)$/, '');
 	slugs.add(slug);
-	if (/^draft:\s*true/m.test(content)) drafts++;
+	const isDraft = /^draft:\s*true/m.test(content);
+	if (isDraft) drafts++;
+	else released.push({ slug, content });
 	const pd = content.match(/^pubDate:\s*"?(\d{4}-\d{2}-\d{2})/m);
 	if (pd && new Date(pd[1]) > today) future++;
 	if (!existsSync(join(ROOT, '.claude', 'factchecked', slug))) noFactcheck++;
@@ -118,6 +122,76 @@ const missingDocs = requiredDocs.filter(d => !existsSync(join(ROOT, d)));
 if (missingDocs.length === 0) ok('Документация: ключевые файлы на месте', `${requiredDocs.length}`);
 else fail('Документация: пропущено', missingDocs.join(', '));
 
+// ─── 5. Бизнес-инварианты выпуска (F-05) ──────────────────────────────────────
+// Раньше health-check проверял системы по отдельности (блог, workflow,
+// документация) — но не сочетания их состояний. Именно сочетания и
+// прячут реальные проблемы: статья опубликована, а план думает, что
+// она ещё пишется; маркер факчека существует, но не про эту версию
+// текста; статья вышла в обход release-article.mjs и никто не
+// подтверждал вычитку. Каждая проверка ниже смотрит минимум на два
+// источника разом — то, что не видно, если проверять их порознь.
+function auditReleaseInvariants() {
+	if (released.length === 0) {
+		ok('Бизнес-инварианты: нечего проверять', 'released-статей нет');
+		return;
+	}
+
+	// A. Маркер факчека существует, но хеш — не про текущее содержимое
+	// (release-article.mjs это же проверяет перед выпуском; здесь —
+	// повторно, на случай правки после выпуска в обход самого скрипта).
+	const staleMarkers = [];
+	for (const { slug, content } of released) {
+		const markerPath = join(ROOT, '.claude', 'factchecked', slug);
+		if (!existsSync(markerPath)) continue; // это уже noFactcheck выше
+		try {
+			const marker = JSON.parse(readFileSync(markerPath, 'utf8'));
+			const hash = createHash('sha256').update(content).digest('hex');
+			if (marker.hash && marker.hash !== hash) staleMarkers.push(slug);
+		} catch {
+			staleMarkers.push(slug); // маркер повреждён — тоже недействителен
+		}
+	}
+	if (staleMarkers.length > 0) {
+		fail(`Бизнес-инварианты: маркер факчека не про текущий текст`,
+			`${staleMarkers.length}: ${staleMarkers.slice(0, 3).join(', ')}${staleMarkers.length > 3 ? ', …' : ''} — статья правилась после факчека`);
+	} else {
+		ok('Бизнес-инварианты: маркеры факчека согласованы с текстом');
+	}
+
+	// B. Released, но выпуск нигде не подтверждён — ни статусом
+	// released в editorial-cycle.json, ни записанным исключением
+	// (--confirm-no-cycle) в src/data/analyze/<slug>.json. Не
+	// доказывает, что draft:false поставили в обход release-
+	// article.mjs — но это единственный способ это заподозрить без
+	// git blame по каждой статье.
+	let cyclePlan = [];
+	const cycleStatePath = join(ROOT, 'src', 'data', 'editorial-cycle.json');
+	if (existsSync(cycleStatePath)) {
+		try { cyclePlan = JSON.parse(readFileSync(cycleStatePath, 'utf8')).plan ?? []; } catch { /* ниже — как пустой план */ }
+	}
+	const unconfirmed = [];
+	for (const { slug } of released) {
+		const cycleTopic = cyclePlan.find((t) => t.slug === slug);
+		if (cycleTopic?.status === 'released') continue;
+		const analyzePath = join(ROOT, 'src', 'data', 'analyze', `${slug}.json`);
+		if (existsSync(analyzePath)) {
+			try {
+				const a = JSON.parse(readFileSync(analyzePath, 'utf8'));
+				if (a.cycleReleaseOverride?.reason) continue;
+			} catch { /* повреждённый analyze — считаем неподтверждённым */ }
+		}
+		unconfirmed.push(slug);
+	}
+	if (unconfirmed.length > 0) {
+		warn(`Бизнес-инварианты: выпуск без записанного пути`,
+			`${unconfirmed.length}: ${unconfirmed.slice(0, 3).join(', ')}${unconfirmed.length > 3 ? ', …' : ''} — ` +
+			`ни status:released в editorial-cycle.json, ни cycleReleaseOverride в analyze/<slug>.json`);
+	} else {
+		ok('Бизнес-инварианты: у каждого выпуска записан путь (цикл или подтверждённое исключение)');
+	}
+}
+auditReleaseInvariants();
+
 // ─── Контент-план: статусы тем ───────────────────────────────────────────────
 // Парсит таблицы кластеров в content-plan-2026.md, сверяет с blog/, выводит
 // статистику done/draft/planned + первые расхождения.
@@ -178,6 +252,20 @@ function analyzeContentPlan() {
 			ghostDone.slice(0, 3).map(t => t.slug).join(', ') + (ghostDone.length > 3 ? ', …' : ''));
 	} else {
 		ok('Контент-план: все done/draft сверены 1:1 с blog/');
+	}
+
+	// 3. draft:false в blog/, но план всё ещё думает planned/draft (F-05:
+	// то самое расхождение, которое ghostDone (проверка выше) не ловит —
+	// та смотрит только на «done без файла», не на «файл вышел, план не
+	// узнал». Обе стороны одного и того же класса рассинхрона статусов.
+	const releasedShortSlugs = new Set(released.map(({ slug }) => slug.replace(/^\d{4}-\d{2}-\d{2}-/, '')));
+	const planNotCaughtUp = themes.filter(t => releasedShortSlugs.has(t.slug) && t.status !== 'done');
+	if (planNotCaughtUp.length > 0) {
+		warn(`Контент-план: ${planNotCaughtUp.length} статей вышли, план не обновлён`,
+			planNotCaughtUp.slice(0, 3).map(t => `${t.slug} (план: ${t.status})`).join(', ') +
+			(planNotCaughtUp.length > 3 ? ', …' : ''));
+	} else if (released.length > 0) {
+		ok('Контент-план: у всех вышедших статей план отмечен done');
 	}
 
 	if (orphanArticles.length > 0) {
