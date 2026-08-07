@@ -178,6 +178,56 @@ test('score < 70 — блокер', () => {
   });
 });
 
+test('--override-score без причины — ошибка использования, ничего не трогает', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeAnalysis(dir, slug, { score: 55 });
+    assert.throws(() =>
+      execFileSync('node', [SCRIPT, slug, '--override-score', '--json'], {
+        encoding: 'utf8',
+        env: { ...process.env, RELEASE_DATA_ROOT: dir },
+      }),
+    );
+    const text = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
+    assert.match(text, /^draft: true$/m, 'без валидной причины файл не должен меняться');
+  });
+});
+
+test('score < 70, но --override-score с причиной — RELEASED, причина записана в audit-trail', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeAnalysis(dir, slug, { score: 55, blocker: true });
+
+    const out = run(dir, [slug, '--override-score', 'редактор: короткая тема, глубже раскрывать некуда']);
+    assert.equal(out.status, 'RELEASED');
+    assert.ok(out.findings.some((f) => f.status === 'info' && f.name === 'Оценка /analyze-article'));
+
+    const analysis = JSON.parse(readFileSync(join(dir, 'src/data/analyze', `${slug}.json`), 'utf8'));
+    assert.equal(analysis.releaseOverride.reason, 'редактор: короткая тема, глубже раскрывать некуда');
+    assert.equal(analysis.releaseOverride.score, 55);
+    assert.equal(analysis.releaseOverride.blocker, true);
+
+    const text = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
+    assert.match(text, /^draft: false$/m);
+  });
+});
+
+test('--override-score не снимает остальные гейты (SEO P0 всё равно блокирует)', () => {
+  withFixture((dir) => {
+    const slug = 'a';
+    const p = join(dir, 'src/content/blog', `${slug}.md`);
+    writeFileSync(p, `---\ntitle: "T"\ndraft: true\n---\nПусто.\n`);
+    execFileSync('git', ['add', '-A'], { cwd: dir });
+    execFileSync('git', ['commit', '-qm', 'x'], { cwd: dir });
+    writeAccepted(dir, slug);
+    writeAnalysis(dir, slug, { score: 55 });
+    writeMarker(dir, slug);
+    const out = run(dir, [slug, '--override-score', 'причина'], { expectFail: true });
+    assert.equal(out.status, 'BLOCKED');
+    assert.ok(out.blockers.some((b) => b.startsWith('SEO')));
+  });
+});
+
 test('нет маркера факчека — блокер', () => {
   withFixture((dir) => {
     const slug = 'a';

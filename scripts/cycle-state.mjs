@@ -108,6 +108,14 @@ const count = (s, st) => s.plan.filter((t) => t.status === st).length;
 const byStatus = (s, st) => s.plan.filter((t) => t.status === st);
 const find = (s, slug) => s.plan.find((t) => t.slug === slug);
 
+// Единственное определение занятости очереди редактора — writing+review.
+// Раньше can-start-batch/next-batch считали ёмкость только по review
+// (см. историю ALLOWED_TRANSITIONS ниже), а transitionTopic — по
+// writing+review: can-start-batch мог честно пообещать место, которое
+// start-batch затем отклонял, потому что писавшиеся темы (writing) уже
+// заняли часть потолка, а предварительная проверка их не видела.
+const occupiedCount = (s) => count(s, 'writing') + count(s, 'review');
+
 // Разрешённые переходы статуса темы. Раньше status менялся напрямую
 // (t.status = ...) в пяти разных местах — легко добавить шестое и забыть
 // про инвариант очереди, что и произошло: to-review для тем «пишем сами»
@@ -143,7 +151,7 @@ function transitionTopic(s, slug, target) {
   const from = t.status;
   t.status = target;
   if (target === 'writing' || target === 'review') {
-    const occupied = count(s, 'writing') + count(s, 'review');
+    const occupied = occupiedCount(s);
     if (occupied > s.maxInReview) {
       t.status = from;
       return {
@@ -179,10 +187,11 @@ switch (cmd) {
     console.log(`Тем:        ${s.plan.length}`);
     console.log(`  в плане    ${count(s, 'planned')}`);
     console.log(`  пишется    ${count(s, 'writing')}`);
-    console.log(`  на вычитке ${count(s, 'review')} (потолок ${s.maxInReview})`);
+    console.log(`  на вычитке ${count(s, 'review')}`);
     console.log(`  принято    ${count(s, 'accepted')}`);
     console.log(`  выпущено   ${count(s, 'released')}`);
     console.log(`  снято      ${count(s, 'dropped')}`);
+    console.log(`Очередь редактора: пишется+на вычитке ${occupiedCount(s)}/${s.maxInReview} — именно эта сумма ограничена потолком, не «на вычитке» отдельно.`);
     if (own) console.log(`Пишет редактор сам: ${own}`);
     break;
   }
@@ -327,11 +336,11 @@ switch (cmd) {
     if (s.state === 'awaiting_review') { console.log('НЕТ — план ещё не одобрен в таблице'); process.exit(1); }
     if (['idle', 'done'].includes(s.state)) { console.log(`НЕТ — цикл в состоянии ${s.state}`); process.exit(1); }
 
-    const inReview = count(s, 'review');
+    const occupied = occupiedCount(s);
     const pending = s.plan.filter((t) => t.status === 'planned' && t.owner === 'bot');
 
-    if (inReview >= s.maxInReview) {
-      console.log(`НЕТ — у редактора на вычитке ${inReview} статей (потолок ${s.maxInReview}). Ждём, пока примет.`);
+    if (occupied >= s.maxInReview) {
+      console.log(`НЕТ — потолок очереди: пишется+на вычитке ${occupied}/${s.maxInReview}. Ждём, пока редактор примет или дописываются темы.`);
       process.exit(1);
     }
     if (!pending.length) {
@@ -339,14 +348,14 @@ switch (cmd) {
       console.log(`НЕТ — botских тем в очереди нет${own ? ` (${own} пишет редактор сам)` : ''}`);
       process.exit(1);
     }
-    const room = s.maxInReview - inReview;
-    console.log(`ДА — ${pending.length} тем в очереди, у редактора ${inReview}/${s.maxInReview}, влезет ещё ${room}`);
+    const room = s.maxInReview - occupied;
+    console.log(`ДА — ${pending.length} тем в очереди, пишется+на вычитке ${occupied}/${s.maxInReview}, влезет ещё ${room}`);
     break;
   }
 
   /* ---------------------------------------------------------- next-batch */
   case 'next-batch': {
-    const room = Math.max(0, s.maxInReview - count(s, 'review'));
+    const room = Math.max(0, s.maxInReview - occupiedCount(s));
     const size = Math.min(Number(arg('size', s.batchSize)), room);
     const order = { P0: 0, P1: 1, P2: 2 };
     const picked = s.plan
@@ -406,7 +415,7 @@ switch (cmd) {
     const b = s.batches.find((x) => x.slugs.includes(slug) && x.state === 'writing');
     if (b && b.slugs.every((sl) => find(s, sl).status !== 'writing')) b.state = 'review';
     save(s, `${slug} → на вычитке`);
-    console.log(`✅ ${slug} → на вычитке · ${t.docUrl || 'без ссылки'} · у редактора ${count(s, 'review')}/${s.maxInReview}`);
+    console.log(`✅ ${slug} → на вычитке · ${t.docUrl || 'без ссылки'} · очередь ${occupiedCount(s)}/${s.maxInReview}`);
     break;
   }
 
@@ -429,7 +438,7 @@ switch (cmd) {
     if (s.state === 'running' && !live.length) s.state = 'done';
 
     save(s, `${slug} → ${RU_STATUS[to]}`);
-    console.log(`✅ ${slug} → ${RU_STATUS[to]} · у редактора ${count(s, 'review')}/${s.maxInReview} · состояние ${s.state}`);
+    console.log(`✅ ${slug} → ${RU_STATUS[to]} · очередь ${occupiedCount(s)}/${s.maxInReview} · состояние ${s.state}`);
     break;
   }
 

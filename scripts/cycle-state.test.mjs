@@ -202,6 +202,35 @@ test('can-start-batch: потолок очереди блокирует новы
   });
 });
 
+// Находка из внешнего ревью (F-03): can-start-batch/next-batch считали
+// ёмкость только по review, в то время как реальный гейт (transitionTopic,
+// внутри start-batch) считает writing+review. can-start-batch мог честно
+// сказать «ДА, влезет ещё N», пока start-batch эту же партию отклонял —
+// потому что писавшиеся (writing) темы уже заняли часть потолка, а
+// предварительная проверка их не видела.
+test('can-start-batch/next-batch учитывают writing, а не только review', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [
+      { title: 'A' }, { title: 'B' }, { title: 'C' },
+    ], ['--max-in-review', '2', '--batch-size', '2']);
+    run(statePath, ['set-state', 'running']);
+
+    // Один батч уже пишется (writing), в review пока никого нет.
+    run(statePath, ['start-batch', '--slugs', 'a,b']);
+
+    // can-start-batch должен видеть потолок исчерпанным (2 writing = 2/2),
+    // а не свободным (0 review = 0/2), иначе он врёт про доступную ёмкость.
+    const err = runFail(statePath, ['can-start-batch']);
+    assert.match(err.stdout, /потолок/);
+    assert.match(err.stdout, /2\/2/);
+
+    // next-batch должен вернуть пустой список — комнаты нет вообще,
+    // а не size=Math.min(batchSize, 2) по старой (неверной) формуле.
+    const picked = JSON.parse(run(statePath, ['next-batch']));
+    assert.deepEqual(picked, []);
+  });
+});
+
 // Регрессия из аудита (п.5): can-start-batch/start-batch раньше считали
 // только review, не writing. Второй батч мог стартовать, пока первый ещё
 // пишется, и оба одновременно доходили до review, превышая потолок.

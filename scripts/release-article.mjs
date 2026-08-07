@@ -17,6 +17,12 @@
 //   node scripts/release-article.mjs <slug> --confirm-no-cycle
 //     # темы нет в editorial-cycle.json (написана вне цикла) — явное
 //     # подтверждение, что вычитка человеком всё равно была
+//   node scripts/release-article.mjs <slug> --override-score "<причина>"
+//     # редактор принимает статью с баллом /analyze-article < 70 —
+//     # решение записывается в src/data/analyze/<slug>.json.releaseOverride,
+//     # остальные гейты (НПА, ссылки, SEO P0, AI-маркеры, факчек-хеш)
+//     # override не снимает — это единственный канонический путь
+//     # снять draft, включая случай осознанного отступления от балла
 //
 // Выход: 0 — выпущена (или уже была draft: false), 1 — заблокирована.
 
@@ -46,8 +52,27 @@ const AS_JSON = args.includes('--json');
 const DRY_RUN = args.includes('--dry-run');
 const CONFIRM_NO_CYCLE = args.includes('--confirm-no-cycle');
 
+// Редактор может принять статью с баллом ниже 70 — это решение
+// человека, не техническая ошибка (docs/tools.md: «/analyze-article —
+// не публиковать статью с баллом < 70 без явного решения пользователя»,
+// не «никогда»). Раньше единственный способ был обойти весь release-
+// article.mjs целиком (см. cycle-listen.md, шаг 5 — прямая правка
+// draft:false в обход этого скрипта: то самое расхождение путей
+// выпуска из внешнего ревью). Здесь — то же самое решение, но через
+// тот же CLI и с обязательной причиной, записанной в audit-trail
+// (src/data/analyze/<slug>.json), а не молча.
+const OVERRIDE_SCORE_IDX = args.indexOf('--override-score');
+const OVERRIDE_SCORE_REASON = OVERRIDE_SCORE_IDX !== -1 ? args[OVERRIDE_SCORE_IDX + 1] : null;
+if (OVERRIDE_SCORE_IDX !== -1 && (!OVERRIDE_SCORE_REASON || OVERRIDE_SCORE_REASON.startsWith('--'))) {
+  console.error('--override-score требует причину: --override-score "<почему редактор принял балл ниже 70>"');
+  process.exit(2);
+}
+
 if (!slug) {
-  console.error('Использование: node scripts/release-article.mjs <slug> [--json] [--dry-run] [--confirm-no-cycle]');
+  console.error(
+    'Использование: node scripts/release-article.mjs <slug> [--json] [--dry-run] ' +
+      '[--confirm-no-cycle] [--override-score "<причина>"]',
+  );
   process.exit(2);
 }
 
@@ -106,6 +131,7 @@ function lastGitModified(path) {
 
 const findings = [];
 const blockers = [];
+let scoreOverride = null;
 function pass(name, detail = '') { findings.push({ status: 'ok', name, detail }); }
 function block(name, detail) { findings.push({ status: 'fail', name, detail }); blockers.push(`${name}: ${detail}`); }
 function note(name, detail = '') { findings.push({ status: 'info', name, detail }); }
@@ -193,7 +219,19 @@ if (!existsSync(analyzePath)) {
     if (age === null || age > ANALYZE_STALE_DAYS) {
       block('Оценка /analyze-article', `устарела (${age ?? '?'} дн.) — перезапустить /analyze-article ${slug}`);
     } else if (analysis.blocker || (analysis.score ?? 0) < 70) {
-      block('Оценка /analyze-article', `${analysis.score}/100, blocker: ${Boolean(analysis.blocker)}`);
+      if (OVERRIDE_SCORE_REASON) {
+        note(
+          'Оценка /analyze-article',
+          `${analysis.score}/100, blocker: ${Boolean(analysis.blocker)} — переопределено редактором: ${OVERRIDE_SCORE_REASON}`,
+        );
+        scoreOverride = { reason: OVERRIDE_SCORE_REASON, score: analysis.score, blocker: Boolean(analysis.blocker), at: today() };
+      } else {
+        block(
+          'Оценка /analyze-article',
+          `${analysis.score}/100, blocker: ${Boolean(analysis.blocker)} — форсировать может только редактор: ` +
+            '--override-score "<причина>"',
+        );
+      }
     } else {
       pass('Оценка /analyze-article', `${analysis.score}/100 (проверена ${analysis.checkedAt})`);
     }
@@ -263,6 +301,15 @@ writeFileSync(articlePath, newContent);
 // это дата, когда факты были реально проверены, не дата этого релиза.
 const newHash = createHash('sha256').update(newContent).digest('hex');
 writeFileSync(markerPath, JSON.stringify({ ...marker, hash: newHash }));
+
+// Аудит-трейл переопределения — «кто, что и почему» из F-01. Живёт в
+// src/data/analyze/<slug>.json, а не в отдельном логе: это уже
+// коммитящийся, per-slug файл ровно про эту оценку.
+if (scoreOverride && existsSync(analyzePath)) {
+  const analysis = JSON.parse(readFileSync(analyzePath, 'utf8'));
+  analysis.releaseOverride = scoreOverride;
+  writeFileSync(analyzePath, JSON.stringify(analysis, null, 2) + '\n');
+}
 
 report({ status: 'RELEASED' });
 process.exit(0);
