@@ -81,7 +81,8 @@ function stripMarkdown(text) {
 // ── Regex-анализ ──────────────────────────────────────────────────────────────
 
 function analyzeRegex(text, filename) {
-  const body = stripMarkdown(stripFrontmatter(text));
+  const withoutFrontmatter = stripFrontmatter(text);
+  const body = stripMarkdown(withoutFrontmatter);
 
   const hits = [];
   let totalWeight = 0;
@@ -103,7 +104,73 @@ function analyzeRegex(text, filename) {
   const uniformParagraphs = variance < 0.8 && paragraphs.length > 4;
 
   const rawScore = Math.min(10, Math.round(totalWeight / 3));
-  return { filename, hits, totalWeight, rawScore, uniformParagraphs, body };
+  // sectionSymmetry ищет заголовки ## — stripMarkdown их уже вырезал
+  // (нужно для чистых regex-совпадений клише), поэтому считаем секции
+  // по тексту без frontmatter, но с исходной markdown-разметкой.
+  const structure = {
+    rhythm: sentenceRhythm(body),
+    sections: sectionSymmetry(withoutFrontmatter),
+    ngrams: ngramRepetition(body),
+  };
+  return { filename, hits, totalWeight, rawScore, uniformParagraphs, structure, body };
+}
+
+// ── Структурные измерения (без клише, без внешнего корпуса) ──────────────
+//
+// Внешний аудит проекта (2026-08-05) предложил многомерную оценку
+// «AI-likeness» с калибровкой на размеченном редакторами корпусе. Блог
+// пока пуст — калибровать не на чем. Эти три измерения посчитаны, но
+// сознательно НЕ участвуют в rawScore/threshold и не несут вердикт
+// «это AI»: без корпуса любой порог — угадывание, а не измерение.
+// Печатаются как справочные числа; когда наберётся корпус статей,
+// здесь можно подобрать пороги и завести их в общий скор.
+
+function mean(arr) { return arr.reduce((a, b) => a + b, 0) / (arr.length || 1); }
+function stdDev(arr) {
+  const m = mean(arr);
+  return Math.sqrt(mean(arr.map((x) => (x - m) ** 2)));
+}
+function splitSentences(text) {
+  return text.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+}
+
+/** Однородность длины предложений (в словах) — коэффициент вариации. */
+function sentenceRhythm(body) {
+  const sentences = splitSentences(body).filter((s) => s.split(/\s+/).filter(Boolean).length >= 3);
+  if (sentences.length < 8) return null;
+  const lengths = sentences.map((s) => s.split(/\s+/).filter(Boolean).length);
+  const m = mean(lengths);
+  const sd = stdDev(lengths);
+  return { sentenceCount: sentences.length, meanWords: Number(m.toFixed(1)), cv: Number((m > 0 ? sd / m : 0).toFixed(2)) };
+}
+
+/** Структурная симметрия H2-секций: разброс объёма между соседними разделами. */
+function sectionSymmetry(body) {
+  const parts = body.split(/^##\s+.+$/m).slice(1);
+  if (parts.length < 4) return null;
+  const wordCounts = parts.map((p) => p.trim().split(/\s+/).filter(Boolean).length);
+  const m = mean(wordCounts);
+  const sd = stdDev(wordCounts);
+  return { sectionCount: parts.length, meanWords: Math.round(m), cv: Number((m > 0 ? sd / m : 0).toFixed(2)) };
+}
+
+/** Повтор словосочетаний (n-грамм из n слов) — дословные клише-переходы. */
+function ngramRepetition(body, n = 4) {
+  const words = body.toLowerCase().replace(/[«»"'.,:;!?()]/g, '').split(/\s+/).filter(Boolean);
+  if (words.length < n * 10) return null;
+  const counts = new Map();
+  for (let i = 0; i <= words.length - n; i++) {
+    const g = words.slice(i, i + n).join(' ');
+    counts.set(g, (counts.get(g) || 0) + 1);
+  }
+  const total = words.length - n + 1;
+  const repeatedOccurrences = [...counts.values()].filter((c) => c > 1).reduce((a, b) => a + b, 0);
+  const topRepeats = [...counts.entries()]
+    .filter(([, c]) => c > 1)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([phrase, count]) => ({ phrase, count }));
+  return { totalNgrams: total, uniqueRatio: Number((1 - repeatedOccurrences / total).toFixed(2)), topRepeats };
 }
 
 // ── LLM-анализ через OpenRouter ───────────────────────────────────────────────
@@ -194,6 +261,11 @@ function scoreLabel(s) {
 }
 
 // ── CLI ───────────────────────────────────────────────────────────────────────
+// Обёрнуто в main() и запускается только при прямом вызове, не при
+// импорте — тесты импортируют analyzeRegex/sentenceRhythm/etc. напрямую,
+// без побочных эффектов вроде process.exit() или чтения файлов по argv.
+
+async function main() {
 
 const args  = process.argv.slice(2).filter(a => !a.startsWith('--'));
 const flags = Object.fromEntries(
@@ -258,6 +330,7 @@ if (AS_JSON) {
     finalScore: r.finalScore,
     verdict: r.llm?.verdict ?? null,
     hits: r.regex.hits.length,
+    structure: r.regex.structure, // справочно, не в finalScore — см. комментарий в analyzeRegex
   })), null, 2));
   process.exit(results.some(r => r.finalScore >= THRESHOLD) ? 1 : 0);
 }
@@ -281,6 +354,18 @@ for (const { label, regex, llm, finalScore } of results) {
 
   if (regex.uniformParagraphs) {
     console.log('Структура:   абзацы однородной длины (признак AI)');
+  }
+
+  // Справочные метрики без порога — см. комментарий у analyzeRegex.
+  const { rhythm, sections, ngrams } = regex.structure;
+  if (rhythm || sections || ngrams) {
+    console.log('\nСтруктурные метрики (не откалибровано, справочно):');
+    if (rhythm) console.log(`  Ритм предложений:  cv=${rhythm.cv}, ${rhythm.sentenceCount} предл., в среднем ${rhythm.meanWords} слов`);
+    if (sections) console.log(`  Симметрия секций:  cv=${sections.cv}, ${sections.sectionCount} секций, в среднем ${sections.meanWords} слов`);
+    if (ngrams) {
+      console.log(`  Повтор словосочетаний: уникальность ${ngrams.uniqueRatio} (1.0 = повторов нет)`);
+      for (const t of ngrams.topRepeats) console.log(`    ×${t.count}  «${t.phrase}»`);
+    }
   }
 
   // Regex-хиты
@@ -311,3 +396,11 @@ for (const { label, regex, llm, finalScore } of results) {
 
 console.log('');
 process.exit(anyAboveThreshold ? 1 : 0);
+
+}
+
+export { analyzeRegex, sentenceRhythm, sectionSymmetry, ngramRepetition, scoreLabel };
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  await main();
+}
