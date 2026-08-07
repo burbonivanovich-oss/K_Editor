@@ -261,3 +261,26 @@ test('все гейты пройдены — RELEASED, draft снят без к�
     assert.match(text, /^reviewDate: "\d{4}-\d{2}-\d{2}"$/m);
   });
 });
+
+test('после RELEASED маркер факчека обновлён под новый хеш статьи (draft:false её меняет)', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    const before = JSON.parse(readFileSync(join(dir, '.claude/factchecked', slug), 'utf8'));
+
+    const out = run(dir, [slug]);
+    assert.equal(out.status, 'RELEASED');
+
+    const articleText = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
+    const actualHash = createHash('sha256').update(articleText).digest('hex');
+    const after = JSON.parse(readFileSync(join(dir, '.claude/factchecked', slug), 'utf8'));
+
+    assert.equal(after.hash, actualHash, 'маркер должен указывать на пост-релизное содержимое статьи');
+    assert.notEqual(before.hash, after.hash, 'draft:true→false меняет файл, значит и хеш обязан смениться');
+    assert.equal(after.date, before.date, 'дата факчека — когда проверялись факты, релиз это не переверяет');
+
+    // Если файл больше не тронуть, повторный прогон гейта фактчека
+    // (тот же код, что в pre-commit guard) обязан пройти чисто.
+    const rerun = run(dir, [slug]);
+    assert.equal(rerun.status, 'ALREADY_RELEASED');
+  });
+});

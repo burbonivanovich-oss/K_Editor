@@ -12,7 +12,7 @@ tags:
   - малый бизнес
 categories:
   - ts-piot
-draft: true
+draft: false
 seo:
   keywords:
     - что такое ТС ПИоТ

@@ -203,10 +203,10 @@ if (!existsSync(analyzePath)) {
 // ── Шаг 5 — фактчек не протух ────────────────────────────────────────────
 
 const markerPath = join(MARKERS_DIR, slug);
+let marker = null;
 if (!existsSync(markerPath)) {
   block('Фактчек', `нет маркера .claude/factchecked/${slug} — нужен /factcheck ${slug}`);
 } else {
-  let marker = null;
   try {
     marker = JSON.parse(readFileSync(markerPath, 'utf8'));
   } catch {
@@ -252,7 +252,17 @@ if (pubDate) {
   fmAfter = setField(fmAfter, 'reviewDate', reviewDate);
 }
 
-writeFileSync(articlePath, `---\n${fmAfter.trim()}\n---\n${body}`);
+const newContent = `---\n${fmAfter.trim()}\n---\n${body}`;
+writeFileSync(articlePath, newContent);
+
+// Снятие draft (и, возможно, updatedDate/reviewDate) само меняет хеш
+// статьи — тот самый хеш, который маркер только что подтвердил. Не
+// обновить маркер здесь значит гарантированно сломать его при следующей
+// же проверке (pre-commit guard, /analyze-article): факты не менялись,
+// маркер лишь не знает о собственном флаге draft. `date` не трогаем —
+// это дата, когда факты были реально проверены, не дата этого релиза.
+const newHash = createHash('sha256').update(newContent).digest('hex');
+writeFileSync(markerPath, JSON.stringify({ ...marker, hash: newHash }));
 
 report({ status: 'RELEASED' });
 process.exit(0);
