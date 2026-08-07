@@ -32,7 +32,11 @@ import { readdirSync, statSync, rmSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
+// WORDSTAT_ROOT — тот же паттерн, что RELEASE_DATA_ROOT/HEALTH_CHECK_ROOT:
+// позволяет тестам подставить временную директорию вместо настоящего
+// репозитория (T-01 — тесты не должны трогать рабочее дерево, а этот
+// скрипт рекурсивно удаляет каталоги).
+const ROOT = process.env.WORDSTAT_ROOT || join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const WS_DIR = join(ROOT, "src", "data", "wordstat");
 const DISC_DIR = join(WS_DIR, "discoveries");
 const SNAP_DIR = join(WS_DIR, "snapshots");

@@ -132,6 +132,8 @@
 | `wordstat/fetch.mjs` | `/v1/dynamics` + `/v1/topRequests` (контур A) |
 | `wordstat/discover.mjs` | Trend discovery: `/v1/topRequests` на 162 seed-а (контур B) |
 | `wordstat/diff-snapshots.mjs` | Сравнение discovery-выгрузок неделя к неделе |
+| `wordstat/prune-history.mjs` | Ретенция дампов (D-01): чистит discoveries/snapshots/diffs по лимитам, не даёт репозиторию расти неограниченно |
+| `wordstat/cleanup-orphans.mjs` | Удаляет из `keys.json` фразы, которых нет в текущих источниках и старше `--age` дней |
 | `factcheck/extract-claims.mjs` | Regex-парсер дат, сумм, статей КоАП |
 | `factcheck/audit-npa-references.mjs` | Регрессионный аудит ссылок на НПА |
 | `factcheck/audit-marker-hashes.mjs` | Хеш факчек-маркера ↔ содержимое статьи в закоммиченном дереве |
