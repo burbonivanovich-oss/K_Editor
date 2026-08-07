@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// Регрессионный аудит: пробегает по всем опубликованным статьям и сравнивает
-// упоминания НПА (ПП, Приказы, ФЗ) с whitelist из sources.json. Помечает
-// незнакомые номера для ручной проверки. Это страховка против повторения
-// случая с фейковыми ПП (№ 257, № 2456, № 2457).
+// Регрессионный аудит: пробегает по всем статьям (включая черновики — см.
+// ниже, почему) и сравнивает упоминания НПА (ПП, Приказы, ФЗ) с whitelist
+// из sources.json. Помечает незнакомые номера для ручной проверки. Это
+// страховка против повторения случая с фейковыми ПП (№ 257, № 2456, № 2457).
 //
 // Использование:
 //   node scripts/factcheck/audit-npa-references.mjs           # отчёт
@@ -94,7 +94,10 @@ const files = fs.readdirSync(BLOG_DIR).filter((f) => f.endsWith('.md') || f.ends
 for (const f of files) {
   const text = fs.readFileSync(path.join(BLOG_DIR, f), 'utf8');
   const fmMatch = text.match(/^---\n([\s\S]*?)\n---/);
-  if (fmMatch && /^draft:\s*true/m.test(fmMatch[1])) continue;
+  // Черновики не пропускаем: /create-article Стадия 3 гоняет этот же
+  // скрипт на статье, которая ещё draft: true, — пропуск драфтов делал
+  // бы этот шлюз молчаливым no-op именно там, где он нужнее всего:
+  // до публикации, пока номер ещё можно поправить без второго коммита.
   const body = parseBody(text);
   const slug = f.replace(/\.(md|mdx)$/, '');
   const categories = fmMatch ? parseCategories(fmMatch[1]) : [];

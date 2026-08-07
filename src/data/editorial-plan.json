@@ -1,5 +1,5 @@
 {
-  "_generated": "2026-08-03",
+  "_generated": "2026-08-06",
   "_source": "src/content/wiki/content-plan-2026.md",
   "stats": {
     "total": 244,
@@ -146,7 +146,7 @@
       "targetKeyword": "маркировка табака 2026",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-bad-2026",
@@ -155,7 +155,7 @@
       "targetKeyword": "маркировка БАД 2026",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-vody-2026",
@@ -164,7 +164,7 @@
       "targetKeyword": "маркировка воды",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-ostatkov",
@@ -173,7 +173,7 @@
       "targetKeyword": "маркировка остатков",
       "status": "planned",
       "blocker": "wordstat-2026-05",
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "poexzemplyarnyj-uchet",
@@ -182,7 +182,7 @@
       "targetKeyword": "поэкземплярный учёт",
       "status": "planned",
       "blocker": "wordstat-2026-05",
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-tabaka-novye-proverki-2026",
@@ -191,7 +191,7 @@
       "targetKeyword": "маркировка табака новые правила",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "razreshitelnyj-rezhim-onlayn-offlayn",
@@ -200,7 +200,7 @@
       "targetKeyword": "онлайн и офлайн проверки маркировки",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "gis-mt-kak-rabotaet",
@@ -209,7 +209,7 @@
       "targetKeyword": "ГИС МТ что это",
       "status": "planned",
       "blocker": "wordstat-2026-05",
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "sroki-markirovki-2026",
@@ -218,7 +218,7 @@
       "targetKeyword": "сроки маркировки 2026",
       "status": "planned",
       "blocker": "wordstat-2026-05",
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "data-matrix-chto-eto",
@@ -227,16 +227,16 @@
       "targetKeyword": "Data Matrix маркировка",
       "status": "planned",
       "blocker": "wordstat-2026-05",
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "kategorii-markirovki-2026",
-      "title": "Маркировка «Честный знак» 2026: категории и сроки",
+      "title": "Маркировка Честный знак 2026: категории и сроки",
       "priority": "P0",
       "targetKeyword": "категории маркировки 2026",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-piva-roznica",
@@ -245,7 +245,7 @@
       "targetKeyword": "маркировка пиво розница",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-molochki-msb",
@@ -254,7 +254,7 @@
       "targetKeyword": "маркировка молочной продукции",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-obuvi-2026",
@@ -263,7 +263,7 @@
       "targetKeyword": "маркировка обуви",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-importerov",
@@ -272,7 +272,7 @@
       "targetKeyword": "маркировка импорт",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-cherez-marketplace",
@@ -281,7 +281,7 @@
       "targetKeyword": "маркировка маркетплейс",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "shtraf-za-markirovku",
@@ -290,7 +290,7 @@
       "targetKeyword": "штраф за маркировку",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "razreshitelnyj-rezhim-markirovka",
@@ -299,16 +299,16 @@
       "targetKeyword": "разрешительный режим",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "chestny-znak-registraciya",
-      "title": "Регистрация в «Честном знаке»: пошаговая инструкция для ИП и ООО",
+      "title": "Регистрация в Честном знаке: пошаговая инструкция для ИП и ООО",
       "priority": "P0",
       "targetKeyword": "регистрация в Честном знаке",
       "status": "planned",
       "blocker": null,
-      "cluster": "Маркировка «Честный знак»"
+      "cluster": "Маркировка Честный знак"
     },
     {
       "slug": "markirovka-kosmetiki-2026",
