@@ -1,12 +1,12 @@
 ---
-description: "Шаблон структуры тела статьи. Frontmatter-шаблон — в CLAUDE.md."
+description: "Шаблон структуры тела статьи. Frontmatter-шаблон — в AGENTS.md."
 ---
 
 # Шаблон статьи
 
 Используется агентом `content-writer` и при ручном создании материалов.
 
-**Frontmatter-шаблон (единый источник истины) — в `CLAUDE.md`, раздел «Frontmatter-шаблон».**
+**Frontmatter-шаблон (единый источник истины) — в `AGENTS.md`, раздел «Frontmatter».**
 Обязательные поля: `title`, `description`, `pubDate`, `reviewDate`, `tags`, `categories`, `draft`, `seo.keywords`.
 
 ---

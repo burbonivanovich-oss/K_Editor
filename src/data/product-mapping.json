@@ -1,0 +1,31 @@
+{
+  "_source": "docs/cpa-storefront-roadmap.md и src/content/wiki/cpa-products.md из истории burbonivanovich-oss/TS_PIOT (до сужения проекта до модуля-помощника, коммит 60211bf) — реальная линейка продуктов Контура с маппингом на кластеры, тиры S/A/B/C.",
+  "_note": "Не претендует на полноту по всем 25 кластерам: там, где в источнике не было прямого соответствия (маркетплейсы, эквайринг, оборудование), product оставлен null — лучше пусто, чем угаданный продукт.",
+  "clusters": {
+    "ts-piot":          { "product": "market",      "productLabel": "Контур.Маркет",     "confidence": "high" },
+    "markirovka":       { "product": "markirovka",  "productLabel": "Контур.Маркировка", "confidence": "high" },
+    "zakonodatelstvo":  { "product": "elba",         "productLabel": "Контур.Эльба",      "confidence": "medium" },
+    "ofd-fn":           { "product": "ofd",          "productLabel": "Контур.ОФД",        "confidence": "high" },
+    "merkuriy":         { "product": "merkuriy",     "productLabel": "Контур.Меркурий",   "confidence": "high" },
+    "kkt":              { "product": "market",       "productLabel": "Контур.Маркет",     "confidence": "high" },
+    "markirovka-2026":  { "product": "markirovka",   "productLabel": "Контур.Маркировка", "confidence": "medium" },
+    "egais":            { "product": "market",       "productLabel": "Контур.Маркет",     "confidence": "medium" },
+    "buhgalteriya":     { "product": "elba",         "productLabel": "Контур.Эльба",      "confidence": "high" },
+    "otchetnost-edo":   { "product": "diadoc",       "productLabel": "Контур.Диадок",     "confidence": "medium" },
+    "uslugi":           { "product": "elba",         "productLabel": "Контур.Эльба",      "confidence": "medium" },
+    "horeca":           { "product": "market",       "productLabel": "Контур.Маркет: Общепит", "confidence": "high" },
+    "start":            { "product": "market",       "productLabel": "Контур.Маркет",     "confidence": "low" },
+    "marketplace":       { "product": null,          "productLabel": null,                "confidence": "none" },
+    "kadry":            { "product": "diadoc",       "productLabel": "Диадок: КЭДО",       "confidence": "medium" },
+    "banki":            { "product": "focus",        "productLabel": "Контур.Фокус",       "confidence": "low" },
+    "nichi":            { "product": "market",       "productLabel": "Контур.Маркет",     "confidence": "low" },
+    "nalogi":           { "product": "elba",         "productLabel": "Контур.Эльба",      "confidence": "medium" },
+    "logistika":        { "product": "diadoc",       "productLabel": "Диадок: Логистика", "confidence": "high" },
+    "ekvairing":        { "product": null,           "productLabel": null,                "confidence": "none" },
+    "oborudovanie":     { "product": null,           "productLabel": null,                "confidence": "none" },
+    "roznica":          { "product": "market",       "productLabel": "Контур.Маркет",     "confidence": "high" },
+    "apteka":           { "product": "market",       "productLabel": "Контур.Маркет",     "confidence": "medium" },
+    "avtoservis":       { "product": "market",       "productLabel": "Контур.Маркет",     "confidence": "low" },
+    "nalogi-kassa":     { "product": "ofd",          "productLabel": "Контур.ОФД",        "confidence": "medium" }
+  }
+}

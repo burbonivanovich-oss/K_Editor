@@ -150,7 +150,8 @@ Pre-commit гейт: **factcheck-guard** — статья с `draft: false` об
 
 | Файл | Что внутри |
 |---|---|
-| **`CLAUDE.md`** | Инструкции и правила для Claude Code |
+| **`AGENTS.md`** | Тоол-агностичные правила проекта — читает любой агентный ИИ-инструмент, не только Claude Code |
+| **`CLAUDE.md`** | Специфика Claude Code (субагенты, slash-команды, MCP); импортирует `AGENTS.md` |
 | **`docs/operations.md`** | Карта подсистем, ритуалы, «что делать когда горит» |
 | **`docs/content-rules.md`** | Правила контента, frontmatter, стиль речи |
 | **`docs/tools.md`** | Инструменты QA и скрипты |

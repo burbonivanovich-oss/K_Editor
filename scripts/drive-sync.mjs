@@ -300,15 +300,26 @@ const STATUSES = ['в плане', 'пишется', 'на вычитке', 'п�
 const BACKLOG_HEADER_ROW = 3;
 const BACKLOG_FIRST_DATA_ROW = 4;
 
+// Схема расширена 2026-08-06: продукт/тип/норма-дата/дедуп собираются
+// детерминированно в generate-backlog.mjs (справочник product-mapping.json +
+// npaWhitelist из sources.json + сверка с market-articles.json — та же
+// логика, что у check-market-duplication.mjs). Источник (wordstat:<ns>)
+// убран из таблицы — низкая информативность для редактора, остаётся в
+// topic-backlog.json для отладки.
 const BACKLOG_COLS = [
-  { key: 'n',        title: '#',              width: 40  },
-  { key: 'topic',    title: 'Тема',           width: 340 },
-  { key: 'cluster',  title: 'Кластер',        width: 120 },
-  { key: 'why',      title: 'Зачем сейчас',   width: 320 },
-  { key: 'source',   title: 'Источник',       width: 140 },
-  { key: 'decision', title: 'Решение',        width: 150 },  // ← редактор
-  { key: 'who',      title: 'Кто пишет',      width: 150 },  // ← редактор
-  { key: 'reason',   title: 'Причина отказа', width: 280 },  // ← редактор
+  { key: 'n',          title: '#',              width: 40  },
+  { key: 'topic',      title: 'Тема / запрос',  width: 300 },
+  { key: 'wordstat',   title: 'Wordstat',       width: 90  },
+  { key: 'cluster',    title: 'Кластер',        width: 110 },
+  { key: 'product',    title: 'Продукт',        width: 150 },
+  { key: 'type',       title: 'Тип',            width: 90  },
+  { key: 'why',        title: 'Зачем сейчас',   width: 260 },
+  { key: 'normHint',   title: 'Норма/дата',     width: 200 },
+  { key: 'dedup',      title: 'Дедуп',          width: 170 },
+  { key: 'konturLink', title: 'Ссылка Маркета', width: 220 },
+  { key: 'decision',   title: 'Решение',        width: 150 },  // ← редактор
+  { key: 'who',        title: 'Кто пишет',      width: 150 },  // ← редактор
+  { key: 'reason',     title: 'Причина отказа', width: 280 },  // ← редактор
 ];
 
 const BACKLOG_DECISIONS = ['согласовано', 'не согласовано'];
@@ -706,17 +717,25 @@ async function formatBacklogSheet(sheetId, weekId, rowCount) {
   return gid;
 }
 
+// Значение для ключа колонки из объекта кандидата — по BACKLOG_COLS, а не
+// по жёстко зашитой позиции. Позиционный маппинг (значение под индексом N
+// значит колонку N) — ровно тот класс бага, из-за которого правка схемы в
+// одном месте (BACKLOG_COLS) молча расходится с чтением/записью в другом;
+// после этой правки и то, и другое выводится из одного списка.
+const BACKLOG_ALIASES = { topic: ['title'], why: ['note', 'rationale'] };
+function backlogCellValue(key, t) {
+  if (key === 'n') return null; // проставляется отдельно, номер строки
+  if (t[key] != null && t[key] !== '') return t[key];
+  for (const alias of BACKLOG_ALIASES[key] ?? []) {
+    if (t[alias] != null && t[alias] !== '') return t[alias];
+  }
+  return '';
+}
+
 async function writeBacklogRows(sheetId, items) {
-  const values = items.map((t, i) => [
-    i + 1,
-    t.topic || t.title || '',
-    t.cluster || '',
-    t.why || t.note || t.rationale || '',
-    t.source || '',
-    '',  // Решение — редактору
-    '',  // Кто пишет — редактору
-    '',  // Причина отказа — редактору
-  ]);
+  const values = items.map((t, i) =>
+    BACKLOG_COLS.map((c) => (c.key === 'n' ? i + 1 : backlogCellValue(c.key, t))),
+  );
   const range =
     `A${BACKLOG_FIRST_DATA_ROW}:${colLetter(BACKLOG_COLS.length - 1)}` +
     `${BACKLOG_FIRST_DATA_ROW + values.length - 1}`;
@@ -732,21 +751,18 @@ async function readBacklog(sheetId) {
   const r = await sheets(`${sheetId}/values/${encodeURIComponent(range)}`);
   const rows = r.values || [];
   const out = [];
+  const topicIdx = BACKLOG_COLS.findIndex((c) => c.key === 'topic');
 
   for (let i = BACKLOG_FIRST_DATA_ROW - 1; i < rows.length; i++) {
     const row = rows[i] || [];
-    const topic = (row[1] || '').trim();
+    const topic = (row[topicIdx] || '').trim();
     if (!topic) continue;
-    out.push({
-      row: i + 1,
-      topic,
-      cluster: (row[2] || '').trim(),
-      why: (row[3] || '').trim(),
-      source: (row[4] || '').trim(),
-      decision: (row[5] || '').trim(),
-      who: (row[6] || '').trim(),
-      reason: (row[7] || '').trim(),
+    const item = { row: i + 1 };
+    BACKLOG_COLS.forEach((c, idx) => {
+      if (c.key === 'n') return;
+      item[c.key] = (row[idx] || '').trim();
     });
+    out.push(item);
   }
   return { sheetId, items: out };
 }

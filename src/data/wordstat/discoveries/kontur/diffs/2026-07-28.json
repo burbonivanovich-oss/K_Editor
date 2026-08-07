@@ -1,0 +1,2171 @@
+{
+  "prevDate": "2026-07-27",
+  "currDate": "2026-07-28",
+  "namespace": "kontur",
+  "thresholds": {
+    "rise": 2,
+    "minCount": 10
+  },
+  "seeds": [
+    {
+      "seed": "2D сканер штрихкода",
+      "slug": "2d-сканер-штрихкода",
+      "category": "entity",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "автоматизация ресторана",
+      "slug": "автоматизация-ресторана",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "автономная касса",
+      "slug": "автономная-касса",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "акцизная марка",
+      "slug": "акцизная-марка",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "алкодекларация",
+      "slug": "алкодекларация",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "беспроводной сканер штрихкода",
+      "slug": "беспроводной-сканер-штрихкода",
+      "category": "entity",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "весы с печатью этикеток",
+      "slug": "весы-с-печатью-этикеток",
+      "category": "entity",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "виды ККТ",
+      "slug": "виды-ккт",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "возврат алкоголя ЕГАИС",
+      "slug": "возврат-алкоголя-егаис",
+      "category": "intent",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "возврат маркированного товара",
+      "slug": "возврат-маркированного-товара",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "возврат по эквайрингу",
+      "slug": "возврат-по-эквайрингу",
+      "category": "problem",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "вывод из оборота маркировки",
+      "slug": "вывод-из-оборота-маркировки",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "гашение ВСД",
+      "slug": "гашение-всд",
+      "category": "intent",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "денежный ящик для кассы",
+      "slug": "денежный-ящик-для-кассы",
+      "category": "entity",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "дисплей покупателя",
+      "slug": "дисплей-покупателя",
+      "category": "entity",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "договор с ОФД",
+      "slug": "договор-с-офд",
+      "category": "intent",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЕГАИС для общепита",
+      "slug": "егаис-для-общепита",
+      "category": "audience",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЕГАИС",
+      "slug": "егаис",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "журнал учёта розничной продажи алкоголя",
+      "slug": "журнал-уч-та-розничной-продажи-алкоголя",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "закрытие смены на кассе",
+      "slug": "закрытие-смены-на-кассе",
+      "category": "problem",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "замена фискального накопителя",
+      "slug": "замена-фискального-накопителя",
+      "category": "intent",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "инвентаризация в Меркурии",
+      "slug": "инвентаризация-в-меркурии",
+      "category": "intent",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "интернет-эквайринг",
+      "slug": "интернет-эквайринг",
+      "category": "entity",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "истёк фискальный накопитель",
+      "slug": "ист-к-фискальный-накопитель",
+      "category": "problem",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как выбрать онлайн-кассу",
+      "slug": "как-выбрать-онлайн-кассу",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как выбрать ОФД",
+      "slug": "как-выбрать-офд",
+      "category": "intent",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как зарегистрировать кассу в налоговой",
+      "slug": "как-зарегистрировать-кассу-в-налоговой",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как зарегистрироваться в Честном знаке",
+      "slug": "как-зарегистрироваться-в-честном-знаке",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как подключить ЕГАИС",
+      "slug": "как-подключить-егаис",
+      "category": "intent",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как подключить эквайринг",
+      "slug": "как-подключить-эквайринг",
+      "category": "intent",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "как проверить чек на подлинность",
+      "slug": "как-проверить-чек-на-подлинность",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса блокирует продажу маркировки",
+      "slug": "касса-блокирует-продажу-маркировки",
+      "category": "problem",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса в аренду",
+      "slug": "касса-в-аренду",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для аптеки",
+      "slug": "касса-для-аптеки",
+      "category": "audience",
+      "cluster": "apteka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для бара",
+      "slug": "касса-для-бара",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для доставки еды",
+      "slug": "касса-для-доставки-еды",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для зоомагазина",
+      "slug": "касса-для-зоомагазина",
+      "category": "audience",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для интернет-магазина",
+      "slug": "касса-для-интернет-магазина",
+      "category": "audience",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для кафе",
+      "slug": "касса-для-кафе",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для кофейни",
+      "slug": "касса-для-кофейни",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для курьера",
+      "slug": "касса-для-курьера",
+      "category": "audience",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для магазина одежды",
+      "slug": "касса-для-магазина-одежды",
+      "category": "audience",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для магазина у дома",
+      "slug": "касса-для-магазина-у-дома",
+      "category": "audience",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для пекарни",
+      "slug": "касса-для-пекарни",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для продуктового магазина",
+      "slug": "касса-для-продуктового-магазина",
+      "category": "audience",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для пункта выдачи заказов",
+      "slug": "касса-для-пункта-выдачи-заказов",
+      "category": "audience",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для розничного магазина",
+      "slug": "касса-для-розничного-магазина",
+      "category": "audience",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для самозанятого",
+      "slug": "касса-для-самозанятого",
+      "category": "audience",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для столовой",
+      "slug": "касса-для-столовой",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для табачного магазина",
+      "slug": "касса-для-табачного-магазина",
+      "category": "audience",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для фудтрака",
+      "slug": "касса-для-фудтрака",
+      "category": "audience",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса для цветочного магазина",
+      "slug": "касса-для-цветочного-магазина",
+      "category": "audience",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса не отправляет данные в ФНС",
+      "slug": "касса-не-отправляет-данные-в-фнс",
+      "category": "problem",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса при безналичной оплате",
+      "slug": "касса-при-безналичной-оплате",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "касса при оплате на сайте",
+      "slug": "касса-при-оплате-на-сайте",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "кассовая дисциплина",
+      "slug": "кассовая-дисциплина",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "комиссия СБП для бизнеса",
+      "slug": "комиссия-сбп-для-бизнеса",
+      "category": "intent",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "контрольно-кассовая техника",
+      "slug": "контрольно-кассовая-техника",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "кто освобождён от онлайн-кассы",
+      "slug": "кто-освобожд-н-от-онлайн-кассы",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "кто освобождён от ТС ПИоТ",
+      "slug": "кто-освобожд-н-от-тс-пиот",
+      "category": "intent",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "лицензия на розничную продажу алкоголя",
+      "slug": "лицензия-на-розничную-продажу-алкоголя",
+      "category": "intent",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "локальный модуль Честного знака",
+      "slug": "локальный-модуль-честного-знака",
+      "category": "entity",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка антисептиков",
+      "slug": "маркировка-антисептиков",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка БАДов",
+      "slug": "маркировка-бадов",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка бакалеи",
+      "slug": "маркировка-бакалеи",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка безалкогольных напитков",
+      "slug": "маркировка-безалкогольных-напитков",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка бытовой химии",
+      "slug": "маркировка-бытовой-химии",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка в общепите",
+      "slug": "маркировка-в-общепите",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка вейпов",
+      "slug": "маркировка-вейпов",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка велосипедов",
+      "slug": "маркировка-велосипедов",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка воды",
+      "slug": "маркировка-воды",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка икры",
+      "slug": "маркировка-икры",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка консервов",
+      "slug": "маркировка-консервов",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка кормов для животных",
+      "slug": "маркировка-кормов-для-животных",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка косметики",
+      "slug": "маркировка-косметики",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка лекарств в аптеке",
+      "slug": "маркировка-лекарств-в-аптеке",
+      "category": "audience",
+      "cluster": "apteka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка медизделий",
+      "slug": "маркировка-медизделий",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка молочной продукции",
+      "slug": "маркировка-молочной-продукции",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка обуви",
+      "slug": "маркировка-обуви",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка одежды",
+      "slug": "маркировка-одежды",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка парфюмерии",
+      "slug": "маркировка-парфюмерии",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка пива в рознице",
+      "slug": "маркировка-пива-в-рознице",
+      "category": "audience",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка табака",
+      "slug": "маркировка-табака",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка Честный знак",
+      "slug": "маркировка-честный-знак",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "маркировка шин",
+      "slug": "маркировка-шин",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Меркурий ВетИС",
+      "slug": "меркурий-ветис",
+      "category": "entity",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Меркурий для магазина",
+      "slug": "меркурий-для-магазина",
+      "category": "audience",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Меркурий для общепита",
+      "slug": "меркурий-для-общепита",
+      "category": "audience",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "Меркурий и Честный знак",
+      "slug": "меркурий-и-честный-знак",
+      "category": "intent",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "мобильный эквайринг",
+      "slug": "мобильный-эквайринг",
+      "category": "entity",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не подключается УТМ",
+      "slug": "не-подключается-утм",
+      "category": "problem",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не приходит чек в ОФД",
+      "slug": "не-приходит-чек-в-офд",
+      "category": "problem",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не проходит код маркировки на кассе",
+      "slug": "не-проходит-код-маркировки-на-кассе",
+      "category": "problem",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "не считывается Data Matrix",
+      "slug": "не-считывается-data-matrix",
+      "category": "problem",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "новые категории маркировки 2026",
+      "slug": "новые-категории-маркировки-2026",
+      "category": "seasonal",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "новые правила ЕГАИС 2026",
+      "slug": "новые-правила-егаис-2026",
+      "category": "seasonal",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "нужна ли касса для ИП",
+      "slug": "нужна-ли-касса-для-ип",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "облачная касса",
+      "slug": "облачная-касса",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "объёмно-сортовой учёт маркировки",
+      "slug": "объ-мно-сортовой-уч-т-маркировки",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "онлайн-касса",
+      "slug": "онлайн-касса",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "онлайн-проверка кодов маркировки",
+      "slug": "онлайн-проверка-кодов-маркировки",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "оплата по СБП",
+      "slug": "оплата-по-сбп",
+      "category": "entity",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "оплата чаевых",
+      "slug": "оплата-чаевых",
+      "category": "audience",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ОФД для маркировки",
+      "slug": "офд-для-маркировки",
+      "category": "audience",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ОФД оператор фискальных данных",
+      "slug": "офд-оператор-фискальных-данных",
+      "category": "entity",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "оформление ВСД",
+      "slug": "оформление-всд",
+      "category": "intent",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ошибка гашения ВСД",
+      "slug": "ошибка-гашения-всд",
+      "category": "problem",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ошибка ЕГАИС при продаже",
+      "slug": "ошибка-егаис-при-продаже",
+      "category": "problem",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ошибка фискального накопителя",
+      "slug": "ошибка-фискального-накопителя",
+      "category": "problem",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "перемаркировка товара",
+      "slug": "перемаркировка-товара",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "перерегистрация ККТ",
+      "slug": "перерегистрация-ккт",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "помарочный учёт алкоголя",
+      "slug": "помарочный-уч-т-алкоголя",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "поэкземплярный учёт маркировки",
+      "slug": "поэкземплярный-уч-т-маркировки",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "приём оплаты по QR СБП",
+      "slug": "при-м-оплаты-по-qr-сбп",
+      "category": "intent",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "приёмка маркированного товара",
+      "slug": "при-мка-маркированного-товара",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "признак способа расчёта в чеке",
+      "slug": "признак-способа-расч-та-в-чеке",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "принтер этикеток",
+      "slug": "принтер-этикеток",
+      "category": "entity",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "проверка ККТ налоговой",
+      "slug": "проверка-ккт-налоговой",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "продажа маркированного разливного",
+      "slug": "продажа-маркированного-разливного",
+      "category": "audience",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "продажа пива через ЕГАИС",
+      "slug": "продажа-пива-через-егаис",
+      "category": "audience",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "продажа слабоалкогольных напитков",
+      "slug": "продажа-слабоалкогольных-напитков",
+      "category": "audience",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "работа с остатками маркировки",
+      "slug": "работа-с-остатками-маркировки",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "разрешительный режим",
+      "slug": "разрешительный-режим",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "регистрация в ЕГАИС",
+      "slug": "регистрация-в-егаис",
+      "category": "intent",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "регистрация в Меркурии",
+      "slug": "регистрация-в-меркурии",
+      "category": "intent",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "реестр ККТ ФНС",
+      "slug": "реестр-ккт-фнс",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "реквизиты кассового чека",
+      "slug": "реквизиты-кассового-чека",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сверка кодов маркировки в УПД",
+      "slug": "сверка-кодов-маркировки-в-упд",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сканер для ЕГАИС",
+      "slug": "сканер-для-егаис",
+      "category": "intent",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сканер для маркировки",
+      "slug": "сканер-для-маркировки",
+      "category": "intent",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "смарт-терминал",
+      "slug": "смарт-терминал",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сменить ОФД",
+      "slug": "сменить-офд",
+      "category": "intent",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "снять кассу с учёта",
+      "slug": "снять-кассу-с-уч-та",
+      "category": "intent",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "списание алкоголя в ЕГАИС",
+      "slug": "списание-алкоголя-в-егаис",
+      "category": "intent",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "списание в Меркурии",
+      "slug": "списание-в-меркурии",
+      "category": "intent",
+      "cluster": "merkuriy",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "списание маркированного товара",
+      "slug": "списание-маркированного-товара",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "срок действия фискального накопителя",
+      "slug": "срок-действия-фискального-накопителя",
+      "category": "intent",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "сроки маркировки 2026",
+      "slug": "сроки-маркировки-2026",
+      "category": "seasonal",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "статусы кодов маркировки",
+      "slug": "статусы-кодов-маркировки",
+      "category": "problem",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "стоимость ОФД",
+      "slug": "стоимость-офд",
+      "category": "intent",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "товароучёт для магазина",
+      "slug": "товароуч-т-для-магазина",
+      "category": "entity",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "торговый эквайринг",
+      "slug": "торговый-эквайринг",
+      "category": "entity",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ для АТОЛ",
+      "slug": "тс-пиот-для-атол",
+      "category": "audience",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ для общепита",
+      "slug": "тс-пиот-для-общепита",
+      "category": "audience",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ для Эвотор",
+      "slug": "тс-пиот-для-эвотор",
+      "category": "audience",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ на кассе Windows",
+      "slug": "тс-пиот-на-кассе-windows",
+      "category": "audience",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ не работает",
+      "slug": "тс-пиот-не-работает",
+      "category": "problem",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ подключить",
+      "slug": "тс-пиот-подключить",
+      "category": "intent",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ провайдеры",
+      "slug": "тс-пиот-провайдеры",
+      "category": "intent",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ с 1 июля 2026",
+      "slug": "тс-пиот-с-1-июля-2026",
+      "category": "seasonal",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ стоимость",
+      "slug": "тс-пиот-стоимость",
+      "category": "intent",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ токен",
+      "slug": "тс-пиот-токен",
+      "category": "entity",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ фискальный регистратор",
+      "slug": "тс-пиот-фискальный-регистратор",
+      "category": "audience",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ТС ПИоТ",
+      "slug": "тс-пиот",
+      "category": "entity",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "установка УТМ",
+      "slug": "установка-утм",
+      "category": "intent",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "УТМ ЕГАИС",
+      "slug": "утм-егаис",
+      "category": "entity",
+      "cluster": "egais",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "учёт в общепите",
+      "slug": "уч-т-в-общепите",
+      "category": "intent",
+      "cluster": "horeca",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "учёт остатков в магазине",
+      "slug": "уч-т-остатков-в-магазине",
+      "category": "intent",
+      "cluster": "roznica",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "фискальный накопитель на 15 месяцев",
+      "slug": "фискальный-накопитель-на-15-месяцев",
+      "category": "entity",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "фискальный накопитель на 36 месяцев",
+      "slug": "фискальный-накопитель-на-36-месяцев",
+      "category": "entity",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "фискальный накопитель",
+      "slug": "фискальный-накопитель",
+      "category": "entity",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "фискальный регистратор",
+      "slug": "фискальный-регистратор",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ФН для подакцизных товаров",
+      "slug": "фн-для-подакцизных-товаров",
+      "category": "audience",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ФН для УСН",
+      "slug": "фн-для-усн",
+      "category": "audience",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ФФД 1.2",
+      "slug": "ффд-1-2",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "частичный вывод из оборота",
+      "slug": "частичный-вывод-из-оборота",
+      "category": "intent",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "чек коррекции",
+      "slug": "чек-коррекции",
+      "category": "entity",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "чек не найден в ФНС",
+      "slug": "чек-не-найден-в-фнс",
+      "category": "problem",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "что нужно для автоматизации магазина",
+      "slug": "что-нужно-для-автоматизации-магазина",
+      "category": "intent",
+      "cluster": "oborudovanie",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "что такое ТС ПИоТ",
+      "slug": "что-такое-тс-пиот",
+      "category": "intent",
+      "cluster": "ts-piot",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за неприменение ККТ",
+      "slug": "штраф-за-неприменение-ккт",
+      "category": "problem",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за непробитый чек",
+      "slug": "штраф-за-непробитый-чек",
+      "category": "problem",
+      "cluster": "kkt",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "штраф за продажу немаркированного товара",
+      "slug": "штраф-за-продажу-немаркированного-товара",
+      "category": "problem",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "ЭДО для маркировки",
+      "slug": "эдо-для-маркировки",
+      "category": "entity",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "эквайринг для ИП",
+      "slug": "эквайринг-для-ип",
+      "category": "audience",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "эквайринг для общепита",
+      "slug": "эквайринг-для-общепита",
+      "category": "audience",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "эквайринг не проходит оплата",
+      "slug": "эквайринг-не-проходит-оплата",
+      "category": "problem",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "эквайринг тарифы",
+      "slug": "эквайринг-тарифы",
+      "category": "intent",
+      "cluster": "ekvairing",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "электронная подпись для кассы",
+      "slug": "электронная-подпись-для-кассы",
+      "category": "entity",
+      "cluster": "ofd-fn",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    },
+    {
+      "seed": "этапы разрешительного режима 2026",
+      "slug": "этапы-разрешительного-режима-2026",
+      "category": "seasonal",
+      "cluster": "markirovka",
+      "diff": {
+        "NEW": [],
+        "RISING": [],
+        "FALLING": [],
+        "DROPPED": []
+      }
+    }
+  ]
+}
