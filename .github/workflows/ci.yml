@@ -37,6 +37,21 @@ jobs:
       - name: Юнит-тесты
         run: npm test
 
+      - name: Тесты не меняют рабочее дерево (T-01)
+        # До фикса runGate(cwd) в release-article.mjs npa-audit и
+        # check-blog-links гонялись тестами по настоящему репозиторию
+        # (у них не было своих оверрайдов путей) — каждый npm test
+        # переписывал src/data/factcheck/audit/npa-references.json
+        # свежим таймстампом. Явная проверка вместо того, чтобы
+        # полагаться на то, что это заметят при ревью diff'а.
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "npm test изменил рабочее дерево — тест не герметичен:"
+            git status --porcelain
+            git diff | head -100
+            exit 1
+          fi
+
       - name: Аудит НПА-ссылок (--strict)
         run: node scripts/factcheck/audit-npa-references.mjs --strict
 

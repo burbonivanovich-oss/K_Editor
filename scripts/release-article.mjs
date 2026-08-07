@@ -160,9 +160,17 @@ function syncContentPlanStatus(dataRoot, articleSlug) {
   return `${shortSlug}: planned/draft → done`;
 }
 
-function runGate(cmd, cmdArgs) {
+// cwd по умолчанию REPO_ROOT (гейт-скрипты сами по себе, без RELEASE_
+// DATA_ROOT, всегда смотрят в настоящий репозиторий) — но npa-audit и
+// check-blog-links читают src/content/blog/ и src/data/factcheck/
+// **относительно cwd**, у них своих оверрайдов путей нет (T-01: раньше
+// это делало их нетестируемыми — тесты этого файла молча гоняли их по
+// реальному репозиторию, а не по DATA_ROOT фикстуры). Абсолютный путь
+// к скрипту — иначе смена cwd на DATA_ROOT сломает поиск самого файла.
+function runGate(cmd, cmdArgs, cwd = REPO_ROOT) {
+  const absArgs = cmdArgs.map((a) => (a.startsWith('scripts/') ? join(REPO_ROOT, a) : a));
   try {
-    const out = execFileSync(cmd, cmdArgs, { encoding: 'utf8', cwd: REPO_ROOT });
+    const out = execFileSync(cmd, absArgs, { encoding: 'utf8', cwd });
     return { ok: true, output: out };
   } catch (e) {
     return { ok: false, output: (e.stdout || '') + (e.stderr || '') };
@@ -237,11 +245,11 @@ if (cycleTopic) {
 
 // ── Шаг 3 — гейты ────────────────────────────────────────────────────────
 
-const npa = runGate('node', ['scripts/factcheck/audit-npa-references.mjs', '--strict']);
+const npa = runGate('node', ['scripts/factcheck/audit-npa-references.mjs', '--strict'], DATA_ROOT);
 if (npa.ok) pass('НПА-аудит (--strict)');
 else block('НПА-аудит (--strict)', 'незнакомые номера НПА — см. node scripts/factcheck/audit-npa-references.mjs');
 
-const links = runGate('node', ['scripts/audit/check-blog-links.mjs']);
+const links = runGate('node', ['scripts/audit/check-blog-links.mjs'], DATA_ROOT);
 if (links.ok) pass('Внутренние ссылки');
 else block('Внутренние ссылки', 'битые /blog/ ссылки — см. node scripts/audit/check-blog-links.mjs');
 

@@ -19,7 +19,14 @@ import { fileURLToPath } from 'node:url';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'release-article.mjs');
 
-const GOOD_BODY = `Текст статьи со ссылкой [сюда](/blog/other-article) на другую тему.
+// /category/ — не /blog/: этой ссылки check-blog-links.mjs не проверяет
+// вообще (только /blog/<slug>/), а check-seo.mjs (P0: ≥1 внутренняя
+// ссылка) принимает оба. Раньше ссылка была на /blog/other-article —
+// несуществующий файл, который до T-01 никто не замечал: npa-audit и
+// check-blog-links всегда гонялись по настоящему репозиторию, не по
+// фикстуре, поэтому битая ссылка внутри временной директории теста не
+// попадала в поле зрения гейта вообще.
+const GOOD_BODY = `Текст статьи со ссылкой [сюда](/category/kkt) на другую тему.
 
 ## Вопрос-ответ
 
@@ -39,6 +46,15 @@ function withFixture(fn) {
   mkdirSync(join(dir, 'src/content/blog'), { recursive: true });
   mkdirSync(join(dir, 'src/data/analyze'), { recursive: true });
   mkdirSync(join(dir, '.claude/factchecked'), { recursive: true });
+  // npa-audit и check-blog-links (T-01) теперь реально гоняются по
+  // DATA_ROOT фикстуры, не по настоящему репозиторию — но npa-audit
+  // читает src/data/factcheck/sources.json безусловно, файл обязан
+  // существовать хотя бы в минимальной форме.
+  mkdirSync(join(dir, 'src/data/factcheck'), { recursive: true });
+  writeFileSync(
+    join(dir, 'src/data/factcheck/sources.json'),
+    JSON.stringify({ npaWhitelist: { fz: {}, pp: {}, prikaz: {} } }),
+  );
   execFileSync('git', ['init', '-q'], { cwd: dir });
   execFileSync('git', ['config', 'user.email', 't@t.com'], { cwd: dir });
   execFileSync('git', ['config', 'user.name', 't'], { cwd: dir });
@@ -98,8 +114,8 @@ function run(dir, args, { expectFail = false } = {}) {
 }
 
 /** Полностью готовая к выпуску фикстура — используется как база в тестах. */
-function fullyReady(dir, slug = 'a') {
-  writeArticle(dir, slug);
+function fullyReady(dir, slug = 'a', articleOpts = {}) {
+  writeArticle(dir, slug, articleOpts);
   writeAccepted(dir, slug);
   writeAnalysis(dir, slug);
   writeMarker(dir, slug);
@@ -236,6 +252,31 @@ test('--override-score не снимает остальные гейты (SEO P0
     const out = run(dir, [slug, '--override-score', 'причина'], { expectFail: true });
     assert.equal(out.status, 'BLOCKED');
     assert.ok(out.blockers.some((b) => b.startsWith('SEO')));
+  });
+});
+
+// T-01: npa-audit и check-blog-links теперь реально гоняются по фикстуре
+// (DATA_ROOT), а не по настоящему репозиторию — эти два теста были
+// физически невозможны до фикса runGate(cwd).
+test('битая /blog/ ссылка в статье фикстуры — блокирует (check-blog-links реально по фикстуре)', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir, 'a', {
+      body: 'Ссылка на [несуществующую статью](/blog/no-such-slug-here) внутри фикстуры.',
+    });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.equal(out.status, 'BLOCKED');
+    assert.ok(out.blockers.some((b) => b.startsWith('Внутренние ссылки')));
+  });
+});
+
+test('незнакомый номер ПП в тексте статьи — блокирует npa-audit по фикстуре, не по реальному sources.json', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir, 'a', {
+      body: 'Согласно постановлению Правительства № 8765 это разрешено.',
+    });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.equal(out.status, 'BLOCKED');
+    assert.ok(out.blockers.some((b) => b.startsWith('НПА-аудит')));
   });
 });
 
