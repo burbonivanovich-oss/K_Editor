@@ -1,6 +1,19 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { analyzeRegex, sentenceRhythm, sectionSymmetry, ngramRepetition } from './check-ai-markers.mjs';
+import { execFileSync } from 'node:child_process';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import {
+  analyzeRegex,
+  sentenceRhythm,
+  sectionSymmetry,
+  ngramRepetition,
+  structuralSuggestions,
+} from './check-ai-markers.mjs';
+
+const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'check-ai-markers.mjs');
 
 /* ------------------------------------------------------------ sentenceRhythm */
 
@@ -94,4 +107,131 @@ test('analyzeRegex: structure не влияет на totalWeight/rawScore (сп�
   const { rawScore, hits } = analyzeRegex(clean, 'test.md');
   assert.equal(hits.length, 0);
   assert.equal(rawScore, 0);
+});
+
+/* ------------------------------------------------------- structuralSuggestions */
+
+test('structuralSuggestions: пустой массив, если метрики null или выше порога', () => {
+  assert.deepEqual(structuralSuggestions({ rhythm: null, sections: null, ngrams: null }), []);
+  assert.deepEqual(
+    structuralSuggestions({
+      rhythm: { cv: 0.5, sentenceCount: 10, meanWords: 12 },
+      sections: { cv: 0.5, sectionCount: 5, meanWords: 100 },
+      ngrams: { uniqueRatio: 1, topRepeats: [] },
+    }),
+    [],
+  );
+});
+
+test('structuralSuggestions: низкий cv ритма даёт совет по предложениям', () => {
+  const out = structuralSuggestions({
+    rhythm: { cv: 0.05, sentenceCount: 10, meanWords: 12 },
+    sections: null,
+    ngrams: null,
+  });
+  assert.equal(out.length, 1);
+  assert.equal(out[0].signal, 'ритм предложений');
+});
+
+test('structuralSuggestions: низкий cv секций даёт совет по разделам', () => {
+  const out = structuralSuggestions({
+    rhythm: null,
+    sections: { cv: 0.1, sectionCount: 5, meanWords: 100 },
+    ngrams: null,
+  });
+  assert.equal(out.length, 1);
+  assert.equal(out[0].signal, 'симметрия секций');
+});
+
+test('structuralSuggestions: низкая уникальность n-грамм с повторами даёт совет по фразам', () => {
+  const out = structuralSuggestions({
+    rhythm: null,
+    sections: null,
+    ngrams: { uniqueRatio: 0.8, topRepeats: [{ phrase: 'важно отметить что бизнес', count: 3 }] },
+  });
+  assert.equal(out.length, 1);
+  assert.equal(out[0].signal, 'повтор словосочетаний');
+  assert.match(out[0].action, /важно отметить что бизнес/);
+});
+
+test('structuralSuggestions: низкая уникальность без topRepeats не даёт совет (нечего процитировать)', () => {
+  const out = structuralSuggestions({
+    rhythm: null,
+    sections: null,
+    ngrams: { uniqueRatio: 0.8, topRepeats: [] },
+  });
+  assert.equal(out.length, 0);
+});
+
+/* --------------------------------------------------------------- --save-profile */
+
+const ARTICLE_MD = `---
+title: "T"
+---
+## Раздел один
+
+${'Слово слово слово слово слово. '.repeat(6)}
+
+## Раздел два
+
+${'Слово слово слово слово слово. '.repeat(6)}
+
+## Раздел три
+
+${'Слово слово слово слово слово. '.repeat(6)}
+
+## Раздел четыре
+
+${'Слово слово слово слово слово. '.repeat(6)}
+`;
+
+function withProfileFixture(fn) {
+  const dir = mkdtempSync(join(tmpdir(), 'check-ai-markers-test-'));
+  try {
+    fn(dir);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+test('--save-profile: без флага src/data/ai-profile/ не создаётся', () => {
+  withProfileFixture((dir) => {
+    const file = join(dir, 'article.md');
+    writeFileSync(file, ARTICLE_MD);
+    execFileSync('node', [SCRIPT, file, '--json'], { env: { ...process.env, AI_PROFILE_ROOT: dir } });
+    assert.equal(existsSync(join(dir, 'src/data/ai-profile')), false);
+  });
+});
+
+test('--save-profile: с флагом пишет профиль ожидаемой формы', () => {
+  withProfileFixture((dir) => {
+    const file = join(dir, 'article.md');
+    writeFileSync(file, ARTICLE_MD);
+    execFileSync('node', [SCRIPT, file, '--json', '--save-profile'], {
+      env: { ...process.env, AI_PROFILE_ROOT: dir },
+    });
+    const profilePath = join(dir, 'src/data/ai-profile/article.json');
+    assert.ok(existsSync(profilePath));
+    const profile = JSON.parse(readFileSync(profilePath, 'utf8'));
+    assert.equal(profile.slug, 'article');
+    assert.equal(typeof profile.analyzerVersion, 'number');
+    assert.equal(typeof profile.finalScore, 'number');
+    assert.deepEqual(profile.history, []);
+  });
+});
+
+test('--save-profile: повторный запуск переносит предыдущий срез в history', () => {
+  withProfileFixture((dir) => {
+    const file = join(dir, 'article.md');
+    writeFileSync(file, ARTICLE_MD);
+    execFileSync('node', [SCRIPT, file, '--json', '--save-profile'], {
+      env: { ...process.env, AI_PROFILE_ROOT: dir },
+    });
+    execFileSync('node', [SCRIPT, file, '--json', '--save-profile'], {
+      env: { ...process.env, AI_PROFILE_ROOT: dir },
+    });
+    const profilePath = join(dir, 'src/data/ai-profile/article.json');
+    const profile = JSON.parse(readFileSync(profilePath, 'utf8'));
+    assert.equal(profile.history.length, 1);
+  });
 });

@@ -16,6 +16,11 @@ import fs   from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+// Меняется при смене формулы regex-скора, порогов structuralSuggestions
+// или схемы profile-файла — AI-01: профиль без версии анализатора
+// нельзя честно сравнить с прогоном после следующей правки скрипта.
+const ANALYZER_VERSION = 1;
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // ── Regex-маркеры: [regex, вес, замена] ──────────────────────────────────────
@@ -173,6 +178,96 @@ function ngramRepetition(body, n = 4) {
   return { totalNgrams: total, uniqueRatio: Number((1 - repeatedOccurrences / total).toFixed(2)), topRepeats };
 }
 
+// ── Редакторские действия по структурным сигналам (AI-05) ────────────────────
+//
+// Регэксп-хиты уже несут конкретное действие (поле fix — «удалить»,
+// «заменить конкретным выводом» и т.п.), структурные метрики раньше
+// были просто числами без совета. Пороги — эвристика, не калибровка:
+// та же оговорка, что у самих метрик (см. комментарий у sentenceRhythm
+// и соседей) — «справочно», не блокер, ничего не решают за автора.
+function structuralSuggestions({ rhythm, sections, ngrams }) {
+  const out = [];
+  if (rhythm && rhythm.cv < 0.2) {
+    out.push({
+      signal: 'ритм предложений',
+      action: 'перестроить: объединить часть коротких предложений и разбить часть длинных',
+      why: `сейчас cv=${rhythm.cv} — предложения почти одинаковой длины (${rhythm.sentenceCount} шт., в среднем ${rhythm.meanWords} слов); разброс поднимет cv выше 0.2`,
+    });
+  }
+  if (sections && sections.cv < 0.2) {
+    out.push({
+      signal: 'симметрия секций',
+      action: 'сжать одни H2-разделы и раскрыть другие конкретными примерами/кейсами',
+      why: `сейчас cv=${sections.cv} — все ${sections.sectionCount} секции почти одного объёма (в среднем ${sections.meanWords} слов), как будто написаны по шаблону`,
+    });
+  }
+  if (ngrams && ngrams.uniqueRatio < 0.9 && ngrams.topRepeats.length) {
+    const top = ngrams.topRepeats[0];
+    out.push({
+      signal: 'повтор словосочетаний',
+      action: `добавить авторское решение: заменить часть повторов «${top.phrase}» (×${top.count}) синонимом или конкретикой`,
+      why: `уникальность 4-грамм ${ngrams.uniqueRatio} (1.0 — повторов нет); частые дословные повторы читаются как шаблонность`,
+    });
+  }
+  return out;
+}
+
+// ── Профиль AI-маркеров по статье (AI-01) ─────────────────────────────────────
+//
+// Опционально, только по флагу --save-profile (main()). Нужен, чтобы сравнить
+// «до» и «после» редакторской правки одной и той же статьи — без сохранённой
+// истории каждый прогон видит только текущий срез и не может сказать, стало
+// ли лучше. ANALYZER_VERSION в профиле — чтобы после смены формулы скора
+// не сравнивать несравнимое между собой.
+
+function profilePath(root, slug) {
+  return path.join(root, 'src', 'data', 'ai-profile', `${slug}.json`);
+}
+
+// AI_PROFILE_ROOT — тот же паттерн, что RELEASE_DATA_ROOT/HEALTH_CHECK_ROOT/
+// CYCLE_STATE_PATH: позволяет тестам подставить временную директорию, чтобы
+// --save-profile не писал в src/data/ai-profile/ настоящего репозитория
+// (T-01 — тесты не должны трогать рабочее дерево).
+function saveProfile(file, { regex, llm, finalScore, suggestions }) {
+  const root = process.env.AI_PROFILE_ROOT || path.join(__dirname, '..');
+  const base = path.basename(file).replace(/\.mdx?$/, '');
+  const dir  = path.join(root, 'src', 'data', 'ai-profile');
+  const target = profilePath(root, base);
+
+  let history = [];
+  if (fs.existsSync(target)) {
+    try {
+      const prev = JSON.parse(fs.readFileSync(target, 'utf8'));
+      history = prev.history ?? [];
+      history.push({
+        checkedAt: prev.checkedAt,
+        analyzerVersion: prev.analyzerVersion,
+        finalScore: prev.finalScore,
+        regexScore: prev.regexScore,
+        llmScore: prev.llmScore,
+        hits: prev.hits,
+      });
+    } catch {
+      // Битый/несовместимый старый профиль — не блокируем сохранение нового,
+      // просто теряем историю до этой точки.
+    }
+  }
+
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(target, JSON.stringify({
+    slug: base,
+    analyzerVersion: ANALYZER_VERSION,
+    checkedAt: new Date().toISOString().slice(0, 10),
+    regexScore: regex.rawScore,
+    llmScore: llm?.score ?? null,
+    finalScore,
+    hits: regex.hits.length,
+    structure: regex.structure,
+    suggestions,
+    history,
+  }, null, 2) + '\n');
+}
+
 // ── LLM-анализ через OpenRouter ───────────────────────────────────────────────
 
 const LLM_SYSTEM = `Ты эксперт по редактуре русскоязычных деловых текстов.
@@ -279,6 +374,11 @@ const AS_JSON    = flags.json === true;
 const USE_LLM    = flags.llm === true;
 const LLM_MODEL  = flags.model ?? 'anthropic/claude-haiku-4-5';
 const API_KEY    = process.env.OPENROUTER_API_KEY;
+// Опционально (AI-01) — не по умолчанию: release-article.mjs гоняет
+// этот скрипт как P0-гейт на каждом релизе, и гейт не должен обзаводиться
+// побочными эффектами (запись в src/data/ai-profile/) без явного запроса.
+// /create-article Стадия 4 включает флаг сама, когда нужен профиль.
+const SAVE_PROFILE = flags['save-profile'] === true;
 
 if (!args[0]) {
   console.error('Использование: node scripts/check-ai-markers.mjs <файл.md или папка> [--llm]');
@@ -317,7 +417,13 @@ for (const file of files) {
     ? combineScores(regex.rawScore, llm.score)
     : regex.rawScore;
 
-  results.push({ label, regex, llm, finalScore });
+  const suggestions = structuralSuggestions(regex.structure);
+
+  results.push({ label, regex, llm, finalScore, suggestions });
+
+  if (SAVE_PROFILE) {
+    saveProfile(file, { regex, llm, finalScore, suggestions });
+  }
 }
 
 // ── Вывод ─────────────────────────────────────────────────────────────────────
@@ -331,13 +437,14 @@ if (AS_JSON) {
     verdict: r.llm?.verdict ?? null,
     hits: r.regex.hits.length,
     structure: r.regex.structure, // справочно, не в finalScore — см. комментарий в analyzeRegex
+    suggestions: r.suggestions,
   })), null, 2));
   process.exit(results.some(r => r.finalScore >= THRESHOLD) ? 1 : 0);
 }
 
 let anyAboveThreshold = false;
 
-for (const { label, regex, llm, finalScore } of results) {
+for (const { label, regex, llm, finalScore, suggestions } of results) {
   if (finalScore >= THRESHOLD) anyAboveThreshold = true;
 
   console.log(`\n${'═'.repeat(70)}`);
@@ -365,6 +472,14 @@ for (const { label, regex, llm, finalScore } of results) {
     if (ngrams) {
       console.log(`  Повтор словосочетаний: уникальность ${ngrams.uniqueRatio} (1.0 = повторов нет)`);
       for (const t of ngrams.topRepeats) console.log(`    ×${t.count}  «${t.phrase}»`);
+    }
+  }
+
+  if (suggestions.length > 0) {
+    console.log('\nЧто сделать по структурным сигналам (AI-05, эвристика, не блокер):');
+    for (const s of suggestions) {
+      console.log(`  → [${s.signal}] ${s.action}`);
+      console.log(`     ${s.why}`);
     }
   }
 
@@ -399,7 +514,7 @@ process.exit(anyAboveThreshold ? 1 : 0);
 
 }
 
-export { analyzeRegex, sentenceRhythm, sectionSymmetry, ngramRepetition, scoreLabel };
+export { analyzeRegex, sentenceRhythm, sectionSymmetry, ngramRepetition, scoreLabel, structuralSuggestions };
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   await main();
