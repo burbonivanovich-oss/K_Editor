@@ -1,0 +1,79 @@
+name: Бэклог тем — публикация в Drive
+
+# Вторая половина рутины A0 — публикация. Отделена от backlog.yml
+# (2026-08-08): тот собирает кандидатов детерминированно (без ИИ), а
+# заголовки («Тема») для реальной таблицы формулирует сессия Клода
+# (еженедельная Routine, читает src/data/topic-backlog.json, переписывает
+# topic в заголовок статьи, коммитит результат) — здесь она этого сделать
+# не может, языковой генерации в GitHub Actions нет. Секреты Google Drive
+# остаются только здесь, в Actions: интерактивная сессия их не получает,
+# только дёргает этот workflow через workflow_dispatch (тот же паттерн,
+# что editor-request.yml и остальные workflow_dispatch-триггеры проекта).
+#
+# Запускать вручную (Actions → эта страница → Run workflow) или из сессии
+# Клода через mcp__github__actions_run_trigger — только после того, как
+# topic-backlog.json на main уже содержит настоящие заголовки, не сырые
+# фразы Wordstat. Сам workflow это не проверяет: он публикует ровно то,
+# что лежит в файле на момент запуска.
+
+on:
+  workflow_dispatch:
+    inputs:
+      week:
+        description: "Неделя таблицы (YYYY-MM-DD). Пусто — сегодняшняя дата"
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "20"
+
+      - name: Таблица редактору в Drive
+        id: drive
+        env:
+          DRIVE_AUTH: oauth
+          GOOGLE_DOCS_KEY: ${{ secrets.GOOGLE_DOCS_KEY }}
+          GOOGLE_DOCS_FOLDER_ID: ${{ secrets.GOOGLE_DOCS_FOLDER_ID }}
+          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
+          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
+          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
+          WEEK: ${{ inputs.week }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GOOGLE_DOCS_KEY}" ] && [ -z "${GSC_REFRESH_TOKEN}" ]; then
+            echo "Учётных данных Google нет — публиковать нечем." >&2
+            exit 1
+          fi
+          if [ ! -f src/data/topic-backlog.json ]; then
+            echo "src/data/topic-backlog.json нет — сначала backlog.yml (сборка кандидатов)." >&2
+            exit 1
+          fi
+          WEEK_VAL="${WEEK:-$(date -u +%F)}"
+          # generate-backlog пишет {stats, candidates}, init-backlog ждёт
+          # массив тем — разворачиваем.
+          node -e "const j=require('./src/data/topic-backlog.json');require('fs').writeFileSync('/tmp/items.json',JSON.stringify(j.candidates||[]))"
+          node scripts/drive-sync.mjs init-backlog \
+            --week "${WEEK_VAL}" --items /tmp/items.json | tee /tmp/drive.json
+          URL=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('/tmp/drive.json','utf8')).sheetUrl)}catch{console.log('')}")
+          echo "url=${URL}" >> "$GITHUB_OUTPUT"
+
+      - name: Отчёт
+        if: always()
+        run: |
+          {
+            echo "## Бэклог тем — публикация"
+            echo ""
+            if [ -n "${{ steps.drive.outputs.url }}" ]; then
+              echo "Таблица редактору: ${{ steps.drive.outputs.url }}"
+            else
+              echo "Публикация не удалась — смотрите лог шага выше."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
