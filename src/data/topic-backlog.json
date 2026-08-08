@@ -1,762 +1,400 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-06",
-  "sources": [],
-  "limit": 50,
+  "generatedAt": "2026-08-08",
+  "sources": [
+    "root/2026-08-05.json",
+    "kontur/2026-08-04.json"
+  ],
+  "limit": 20,
   "minCount": 50,
   "stats": {
-    "всего": 313,
-    "дубли": 37,
+    "всего": 981,
+    "дубли": 0,
     "покрыто": 0,
-    "заглушено": 0
+    "заглушено": 0,
+    "droppedNoise": 4
   },
   "candidates": [
     {
-      "topic": "усн за 2 квартал 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 2499 → 7396 показов в неделю (+196% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 27095,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "налоги за 1 квартал",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +169% за последние 16 нед. к предыдущим 16, и уже разгоняется — +124% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 19773,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "декларация по налогу на прибыль 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +381% за последние 16 нед. к предыдущим 16, и уже разгоняется — +408% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 17753,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "декларация ндс 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +95% за последние 16 нед. к предыдущим 16, и уже разгоняется — +152% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 29767,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "усн доходы 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 10686 → 17846 показов в неделю (+67% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 69561,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "декларация за 1 квартал 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +314% за последние 16 нед. к предыдущим 16, и уже разгоняется — +70% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 7887,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "декларация за 2 квартал 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 1190 → 4867 показов в неделю (+309% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 17952,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "авансовые платежи по усн",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +52% за последние 16 нед. к предыдущим 16, и уже разгоняется — +118% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 30403,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "сдача декларации 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 1482 → 4418 показов в неделю (+198% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 16315,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "когда закончится меркурий",
-      "cluster": "merkuriy",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 1727 → 4835 показов в неделю (+180% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 18515,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "модуль честный знак",
-      "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 3009 → 6771 показов в неделю (+125% за последние 16 нед. к предыдущим 16)",
-      "metrics": {
-        "kind": "trending",
-        "prev": null,
-        "now": 24728,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "локальный честный знак",
-      "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 2638 → 6198 показов в неделю (+135% за последние 16 нед. к предыдущим 16)",
-      "metrics": {
-        "kind": "trending",
-        "prev": null,
-        "now": 22711,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "усн сроки 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 4849 → 9165 показов в неделю (+89% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 34933,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "этрн с сентября",
-      "cluster": "logistika",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 580 → 3163 показов в неделю (+445% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 12665,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "ндс на усн",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 22562 → 28429 показов в неделю (+26% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 115035,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "страховые усн 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +648% за последние 16 нед. к предыдущим 16, и уже разгоняется — +39% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 12574,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "самозанятый может работать самозанятым",
-      "cluster": "uslugi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 1143 → 3485 показов в неделю (+205% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 15510,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "усн в 2026 году",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 16487 → 21762 показов в неделю (+32% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 87180,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "кбк усн 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +447% за последние 16 нед. к предыдущим 16, и уже разгоняется — +288% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 17688,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "сколько самозанятых в 2026",
-      "cluster": "uslugi",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 207 → 2409 показов в неделю (+1066% за последние 16 нед. к предыдущим 16)",
-      "metrics": {
-        "kind": "trending",
-        "prev": null,
-        "now": 10727,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "ип усн 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 15022 → 19829 показов в неделю (+32% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 79508,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "8 мрот 2026 для единого",
-      "cluster": "kadry",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 170 → 2259 показов в неделю (+1231% за последние 16 нед. к предыдущим 16)",
-      "metrics": {
-        "kind": "trending",
-        "prev": null,
-        "now": 8662,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "пришел чек но деньги не пришли",
+      "topic": "Чек коррекции на кассе: когда пробивать и как избежать ошибок",
+      "targetKeyword": "касса чеки коррекции",
       "cluster": "kkt",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +653% за последние 16 нед. к предыдущим 16, и уже разгоняется — +3184% за последние 3 нед. к предыдущим 3",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 4863 показов в месяц",
       "metrics": {
-        "kind": "growing+trending",
+        "kind": "new",
         "prev": null,
-        "now": 6297,
+        "now": 4863,
         "ratio": null
       },
+      "wordstat": 4863,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "усн 1 квартал 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +109% за последние 16 нед. к предыдущим 16, и уже разгоняется — +34% за последние 3 нед. к предыдущим 3",
+      "topic": "Личный кабинет онлайн-кассы: как войти и что там настраивать",
+      "targetKeyword": "личный кабинет онлайн кассы",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 4821 показов в месяц",
       "metrics": {
-        "kind": "growing+trending",
+        "kind": "new",
         "prev": null,
-        "now": 5456,
+        "now": 4821,
         "ratio": null
       },
+      "wordstat": 4821,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "мрот 8 2026 пособие",
-      "cluster": "kadry",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 652 → 2452 показов в неделю (+276% за последние 16 нед. к предыдущим 16)",
+      "topic": "Касса от банка или отдельно: как банки предлагают онлайн-кассы бизнесу",
+      "targetKeyword": "онлайн кассы банк",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 2767 показов в месяц",
       "metrics": {
-        "kind": "trending",
+        "kind": "new",
         "prev": null,
-        "now": 9273,
+        "now": 2767,
         "ratio": null
       },
+      "wordstat": 2767,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "декларация 2026 год",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 6158 → 9176 показов в неделю (+49% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 37466,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "уведомления по усн в 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +112% за последние 16 нед. к предыдущим 16, и уже разгоняется — +205% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 7705,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "отчетность 2 квартал 2026 сроки",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 485 → 1784 показов в неделю (+268% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 6722,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "маркировка канистры для бензина",
+      "topic": "Что нового в маркировке «Честного знака» в 2026 году",
+      "targetKeyword": "маркировка товара честный знак 2026",
       "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +4657% за последние 16 нед. к предыдущим 16, и уже разгоняется — +36% за последние 3 нед. к предыдущим 3",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 2574 показов в месяц",
       "metrics": {
-        "kind": "growing+trending",
+        "kind": "new",
         "prev": null,
-        "now": 14931,
+        "now": 2574,
         "ratio": null
       },
+      "wordstat": 2574,
+      "product": "markirovka",
+      "productLabel": "Контур.Маркировка",
+      "type": "evergreen",
+      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "код честный знак",
+      "topic": "Коррекция чека возврата на кассе: как правильно оформить",
+      "targetKeyword": "коррекция чека возврата",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 2555 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 2555,
+        "ratio": null
+      },
+      "wordstat": 2555,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "Маркировка шин в 2026 году: что обязана делать розница",
+      "targetKeyword": "маркировка колес шин",
       "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 12662 → 15448 показов в неделю (+22% за последние 16 нед. к предыдущим 16)",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 2301 показов в месяц",
       "metrics": {
-        "kind": "trending",
+        "kind": "new",
         "prev": null,
-        "now": 69871,
+        "now": 2301,
         "ratio": null
       },
+      "wordstat": 2301,
+      "product": "markirovka",
+      "productLabel": "Контур.Маркировка",
+      "type": "evergreen",
+      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "сдача отчетности за 2 квартал 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 571 → 1679 показов в неделю (+194% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 6405,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "товары честный знак",
-      "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 17362 → 19966 показов в неделю (+15% за последние 16 нед. к предыдущим 16)",
-      "metrics": {
-        "kind": "trending",
-        "prev": null,
-        "now": 91802,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "аванс усн 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +729% за последние 16 нед. к предыдущим 16, и уже разгоняется — +106% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 5726,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "заполнение декларации 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +65% за последние 16 нед. к предыдущим 16, и уже разгоняется — +100% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 10515,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "маркировка звонка 1000",
-      "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +117% за последние 16 нед. к предыдущим 16, и уже разгоняется — +28% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 12480,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "усн 2026 платежи",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +100% за последние 16 нед. к предыдущим 16, и уже разгоняется — +91% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 13541,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "фиксированные страховые взносы в год",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 2708 → 4143 показов в неделю (+53% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 16521,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "фиксированные страховые взносы ип в 2026 году",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 2091 → 3408 показов в неделю (+63% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 13549,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "договор с самозанятыми 2026",
-      "cluster": "uslugi",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 257 → 936 показов в неделю (+264% за последние 16 нед. к предыдущим 16)",
-      "metrics": {
-        "kind": "trending",
-        "prev": null,
-        "now": 4714,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "калуга астрал офд",
+      "topic": "Отчёт о закрытии фискального накопителя: когда и как формировать",
+      "targetKeyword": "фискальный накопитель отчет",
       "cluster": "ofd-fn",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 884 → 1830 показов в неделю (+107% за последние 16 нед. к предыдущим 16)",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 2197 показов в месяц",
       "metrics": {
-        "kind": "trending",
+        "kind": "new",
         "prev": null,
-        "now": 5438,
+        "now": 2197,
         "ratio": null
       },
+      "wordstat": 2197,
+      "product": "ofd",
+      "productLabel": "Контур.ОФД",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://kontur.ru/market/spravka/46030-chto_takoe_fn",
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "декларация усн 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 2633 → 3923 показов в неделю (+49% за последние 3 нед. к предыдущим 3)",
+      "topic": "Интернет-эквайринг для онлайн-магазина: как выбрать банк и тариф",
+      "targetKeyword": "интернет эквайринг банк",
+      "cluster": "ekvairing",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 2110 показов в месяц",
       "metrics": {
-        "kind": "growing",
+        "kind": "new",
         "prev": null,
-        "now": 16167,
+        "now": 2110,
         "ratio": null
       },
+      "wordstat": 2110,
+      "product": null,
+      "productLabel": null,
+      "type": "evergreen",
+      "normHint": null,
+      "dedup": "новая",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "оператор ис эпд",
-      "cluster": "logistika",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +261% за последние 16 нед. к предыдущим 16, и уже разгоняется — +47% за последние 3 нед. к предыдущим 3",
+      "topic": "Как проверить акцизную марку онлайн через приложение «Честный знак»",
+      "targetKeyword": "акцизная марка онлайн",
+      "cluster": "egais",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1912 показов в месяц",
       "metrics": {
-        "kind": "growing+trending",
+        "kind": "new",
         "prev": null,
-        "now": 6403,
+        "now": 1912,
         "ratio": null
       },
+      "wordstat": 1912,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "1000 без маркировки",
+      "topic": "Акцизная марка и ЕГАИС: как сверить партию алкоголя перед продажей",
+      "targetKeyword": "марка егаис",
+      "cluster": "egais",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1909 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 1909,
+        "ratio": null
+      },
+      "wordstat": 1909,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.50)",
+      "konturLink": "https://support.kontur.ru/market/39621-egais",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "Как завести товар в ЕГАИС: пошаговая инструкция для розницы",
+      "targetKeyword": "товар егаис",
+      "cluster": "egais",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1760 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 1760,
+        "ratio": null
+      },
+      "wordstat": 1760,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.50)",
+      "konturLink": "https://support.kontur.ru/market/39621-egais",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "Облачная касса без физического аппарата: кому подходит и как подключить",
+      "targetKeyword": "онлайн касса без кассы",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1755 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 1755,
+        "ratio": null
+      },
+      "wordstat": 1755,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://kontur.ru/ofd/news/7645",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "Настройка сканера штрихкодов для маркировки: как считывать Data Matrix",
+      "targetKeyword": "настройка сканера для маркировки",
+      "cluster": "oborudovanie",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1698 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 1698,
+        "ratio": null
+      },
+      "wordstat": 1698,
+      "product": null,
+      "productLabel": null,
+      "type": "evergreen",
+      "normHint": null,
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "Продажа алкоголя через ЕГАИС: как провести чек без ошибок",
+      "targetKeyword": "продажи егаис",
+      "cluster": "egais",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1647 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 1647,
+        "ratio": null
+      },
+      "wordstat": 1647,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.50)",
+      "konturLink": "https://support.kontur.ru/market/39621-egais",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "Продажа алкоголя без акцизной марки: чем грозит и как проверить товар",
+      "targetKeyword": "без акцизной марки",
+      "cluster": "egais",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1604 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 1604,
+        "ratio": null
+      },
+      "wordstat": 1604,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "Разрешительный режим маркировки: как он работает и что проверяет касса",
+      "targetKeyword": "режим работы разрешительного",
       "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +81% за последние 16 нед. к предыдущим 16, и уже разгоняется — +28% за последние 3 нед. к предыдущим 3",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1597 показов в месяц",
       "metrics": {
-        "kind": "growing+trending",
+        "kind": "new",
         "prev": null,
-        "now": 13182,
+        "now": 1597,
         "ratio": null
       },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "маркировка в саду",
-      "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +32% за последние 16 нед. к предыдущим 16, и уже разгоняется — +56% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 13275,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "сроки сдачи отчетности в 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 2374 → 3560 показов в неделю (+50% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 14178,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "эдо с сентября",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +569% за последние 16 нед. к предыдущим 16, и уже разгоняется — +82% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 6335,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "ставки усн 2026",
-      "cluster": "nalogi",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 3598 → 4857 показов в неделю (+35% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 19900,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "честный знак проверить",
-      "cluster": "markirovka",
-      "source": "wordstat:root",
-      "why": "спрос растёт весь квартал: 5966 → 7338 показов в неделю (+23% за последние 16 нед. к предыдущим 16)",
-      "metrics": {
-        "kind": "trending",
-        "prev": null,
-        "now": 33565,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "ошибка в декларации",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт: 2059 → 3150 показов в неделю (+53% за последние 3 нед. к предыдущим 3)",
-      "metrics": {
-        "kind": "growing",
-        "prev": null,
-        "now": 12789,
-        "ratio": null
-      },
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "декларация водный налог 2026",
-      "cluster": "otchetnost-edo",
-      "source": "wordstat:root",
-      "why": "спрос растёт устойчиво: +342% за последние 16 нед. к предыдущим 16, и уже разгоняется — +70% за последние 3 нед. к предыдущим 3",
-      "metrics": {
-        "kind": "growing+trending",
-        "prev": null,
-        "now": 7684,
-        "ratio": null
-      },
+      "wordstat": 1597,
+      "product": "markirovka",
+      "productLabel": "Контур.Маркировка",
+      "type": "evergreen",
+      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
