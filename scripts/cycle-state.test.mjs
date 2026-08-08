@@ -178,6 +178,113 @@ test('apply-decisions: новая строка без slug подхватыва�
   });
 });
 
+// Регрессия: раньше сигнал приёмки читался только из ботовской колонки
+// «Статус» (STATUSES в drive-sync.mjs) — редактору приходилось писать
+// поверх клетки, помеченной «← бот» и защищённой protectedRange. Теперь
+// «принято» — значение редакторской колонки «Решение», и apply-decisions
+// обязан узнавать его сам, без похода в «Статус».
+test('apply-decisions: решение "принято" на теме review попадает в changes.accepted', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема раз' }]);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'tema-raz']);
+    run(statePath, ['to-review', '--slug', 'tema-raz']);
+
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [
+        { row: 5, title: 'Тема раз', decision: 'принято', slug: 'tema-raz' },
+      ],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.deepEqual(out.accepted, [{ slug: 'tema-raz', title: 'Тема раз' }]);
+    // apply-decisions только сигнализирует — сам переход planned→review→
+    // accepted делает отдельная команда accept, вызванная агентом после
+    // разбора приёмки (экспорт дока, факчек, /analyze-article, release).
+    assert.equal(getState(statePath).plan[0].status, 'review');
+  });
+});
+
+test('apply-decisions: "принято" на теме не в review игнорируется (не review — не готова к приёмке)', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема раз' }]);
+    run(statePath, ['set-state', 'running']);
+    // Тема ещё planned — не writing/review — «принято» до готовности дока
+    // не должно ничего запускать.
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [
+        { row: 5, title: 'Тема раз', decision: 'принято', slug: 'tema-raz' },
+      ],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.deepEqual(out.accepted, []);
+  });
+});
+
+test('apply-decisions: "принято" не засвечивается повторно после cycle-state accept', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема раз' }]);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'tema-raz']);
+    run(statePath, ['to-review', '--slug', 'tema-raz']);
+
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [
+        { row: 5, title: 'Тема раз', decision: 'принято', slug: 'tema-raz' },
+      ],
+    }));
+    run(statePath, ['apply-decisions', '--file', pull]);
+    run(statePath, ['accept', '--slug', 'tema-raz']);
+
+    // Тот же pull.json (редактор ничего не менял, значение в клетке то же
+    // «принято») прогоняется на следующем проходе рутины B — тема уже
+    // accepted, повторной засветки в changes.accepted быть не должно.
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.deepEqual(out.accepted, []);
+  });
+});
+
+// Регрессия: колонка «Решение» в таблице — showCustomUi/strict:false
+// (drive-sync.mjs), т.е. Sheets примет любой текст, не только значения
+// дропдауна. Опечатка или синоним раньше проходили бы бесследно — ни одна
+// ветка apply-decisions не совпадает, тема остаётся как была, и ни
+// редактор, ни рутина B не узнают, что решение не применилось.
+test('apply-decisions: нераспознанное значение "Решение" попадает в changes.unrecognized, тему не трогает', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема раз' }]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [
+        { row: 5, title: 'Тема раз', decision: 'удалить', slug: 'tema-raz' },
+      ],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.deepEqual(out.unrecognized, [{ slug: 'tema-raz', title: 'Тема раз', decision: 'удалить' }]);
+    assert.deepEqual(out.dropped, []);
+    assert.equal(getState(statePath).plan[0].status, 'planned');
+  });
+});
+
+test('apply-decisions: известные значения "Решение" не попадают в unrecognized', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'A' }, { title: 'B' }, { title: 'C' }]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [
+        { row: 5, title: 'A', decision: 'убрать', slug: 'a' },
+        { row: 6, title: 'B', decision: 'пишем сами', slug: 'b' },
+        { row: 7, title: 'C', decision: '', slug: 'c' },
+      ],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.deepEqual(out.unrecognized, []);
+  });
+});
+
 /* ---------------------------------------------- очередь редактора (review) */
 
 test('can-start-batch: потолок очереди блокирует новый батч', () => {

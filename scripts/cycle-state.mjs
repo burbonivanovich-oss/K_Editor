@@ -54,6 +54,11 @@ const STATE_PATH = process.env.CYCLE_STATE_PATH || join(__dir, '..', 'src/data/e
 const STATES = ['idle', 'awaiting_review', 'running', 'done'];
 const TOPIC_STATUSES = ['planned', 'writing', 'review', 'accepted', 'released', 'dropped'];
 
+// Значения колонки «Решение» в таблице (drive-sync.mjs DECISIONS), которые
+// apply-decisions умеет разбирать. Список должен совпадать с DECISIONS
+// там — источники разные, ручной синхронизации ничего не заменяет.
+const KNOWN_DECISIONS = new Set(['убрать', 'пишем сами', 'одобрено', 'принято']);
+
 /** Внутренний статус → надпись в колонке «Статус» таблицы. */
 const RU_STATUS = {
   planned: 'в плане',
@@ -244,7 +249,10 @@ switch (cmd) {
     const file = arg('file');
     if (!file || !existsSync(file)) die('нужен --file <вывод drive-sync pull>');
     const pull = JSON.parse(readFileSync(file, 'utf8'));
-    const changes = { approved: false, dropped: [], toEditor: [], toBot: [], notes: [], added: [], missing: [] };
+    const changes = {
+      approved: false, dropped: [], toEditor: [], toBot: [], accepted: [],
+      notes: [], added: [], missing: [], unrecognized: [],
+    };
 
     // Согласование плана целиком
     if (/^ОДОБРЕН/i.test(pull.approval || '') && s.state === 'awaiting_review') {
@@ -300,6 +308,26 @@ switch (cmd) {
       } else if (d === 'одобрено' && t.owner === 'editor') {
         t.owner = 'bot';
         changes.toBot.push(t.title);
+      } else if (d === 'принято' && t.status === 'review') {
+        // Сигнал приёмки статьи — в редакторской колонке «Решение», не в
+        // ботовской «Статус». Раньше «принято» было значением только в
+        // STATUSES (колонка «Статус», protectedRange, подпись «Заполняется
+        // автоматически»), и рутина B искала его именно там — редактору
+        // приходилось писать поверх клетки, помеченной как «не трогать»,
+        // без единой строки документации, что это и есть его способ
+        // одобрить статью. t.status === 'review' — гвард от повторной
+        // засветки той же темы на следующих проходах: как только рутина B
+        // обработает приёмку (cycle-state accept переводит в 'accepted'),
+        // условие перестаёт совпадать само.
+        changes.accepted.push({ slug: t.slug, title: t.title });
+      } else if (d && !KNOWN_DECISIONS.has(d)) {
+        // Колонка «Решение» в таблице — выпадающий список с showCustomUi/
+        // strict:false (drive-sync.mjs): Sheets ЛЮБОЕ значение примет как
+        // валидное, дропдаун только подсказывает. Опечатка вроде «убрать!»
+        // или синоним «удалить» раньше проходила бы полностью бесследно —
+        // ни одна ветка выше не совпадает, тема просто остаётся как была,
+        // и ни редактор, ни рутина B не узнают, что решение не применилось.
+        changes.unrecognized.push({ slug: t.slug, title: t.title, decision: row.decision });
       }
 
       if (row.note && row.note !== t.lastNote) {
