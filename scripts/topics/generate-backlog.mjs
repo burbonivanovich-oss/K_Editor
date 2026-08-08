@@ -25,6 +25,7 @@ import { fileURLToPath } from "node:url";
 import { isSuppressed, normalize, load as loadSuppressions } from "./suppressions.mjs";
 import { isInformational, dedupeKey, stemTokens } from "../wordstat/relevance.mjs";
 import { tokenize, jaccard } from "../lib/text-similarity.mjs";
+import { priorityMultiplier } from "./priority-clusters.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
@@ -496,7 +497,9 @@ function isNested(tokens) {
   });
 }
 
-for (const item of raw.sort((a, b) => b.weight - a.weight)) {
+for (const item of raw.sort(
+  (a, b) => b.weight * priorityMultiplier(b.cluster) - a.weight * priorityMultiplier(a.cluster),
+)) {
   // dedupeKey, а не normalize: normalize схлопывает только регистр и
   // пробелы, из-за чего переформулировки одного запроса проходили как
   // разные темы.
@@ -526,6 +529,11 @@ for (const item of raw.sort((a, b) => b.weight - a.weight)) {
     topic: item.phrase,
     targetKeyword: item.phrase,
     cluster: item.cluster,
+    // Кластеры Контур.Маркета (product-mapping.json + ekvairing/oborudovanie)
+    // весят в 1.5 раза больше при сортировке (priority-clusters.mjs) — поле
+    // видно и в JSON, чтобы это было заметно не только по итоговому
+    // порядку, но и при разборе кандидатов вручную или в рутине A0.
+    priorityCluster: priorityMultiplier(item.cluster) > 1,
     source: item.kind === "signal" ? item.source : `wordstat:${item.ns ?? "root"}`,
     why: item.kind === "signal" ? (item.note ?? "сигнал мониторинга") : reasonFor(item),
     metrics: item.kind === "signal"

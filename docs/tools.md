@@ -128,6 +128,8 @@
 | `maintain-content-queue.mjs` | Очередь `/maintain-content`: сроки + динамика спроса |
 | `cycle-state.mjs` | Машина состояний редакционного цикла |
 | `drive-sync.mjs` | Google Drive: таблица плана, доки статей, комментарии |
+| `topics/generate-backlog.mjs` | Рутина A0: отбор кандидатов недельного бэклога, скоринг с приоритетом кластеров Контур.Маркета (`topics/priority-clusters.mjs`). Без ИИ — заголовки («Тема») дописывает сессия Клода перед публикацией, см. `.claude/commands/cycle-backlog.md` |
+| `topics/priority-clusters.mjs` | Список кластеров Контур.Маркета и вес для скоринга бэклога |
 | `wordstat/extract-keys.mjs` | Кандидаты из блога и контент-плана |
 | `wordstat/fetch.mjs` | `/v1/dynamics` + `/v1/topRequests` (контур A) |
 | `wordstat/discover.mjs` | Trend discovery: `/v1/topRequests` на 162 seed-а (контур B) |

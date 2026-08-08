@@ -1,14 +1,21 @@
-name: Бэклог тем — ресерч и выкладка редактору
+name: Бэклог тем — ресерч и сборка кандидатов
 
-# Рутина A0 целиком, одной кнопкой: от сбора спроса до таблицы в папке
-# редактора. Раньше этапы существовали по отдельности и часть из них была
-# только на бумаге — таблицу бэклога создавать было нечем.
+# Часть рутины A0 — детерминированная половина: от сбора спроса до
+# topic-backlog.json в репозитории. НЕ публикует таблицу в Drive — до
+# 2026-08-08 этот workflow сам вызывал drive-sync.mjs init-backlog и клал
+# в реальную таблицу редактора сырые фразы Wordstat («локальный модуль
+# честный знак») как есть, в колонку «Тема»: скрипт (generate-backlog.mjs)
+# принципиально без ИИ и не может превратить фразу в заголовок статьи.
+# Публикацию с реальными заголовками делает сессия Клода (не этот
+# workflow) — еженедельная Routine, которая читает свежесобранный
+# topic-backlog.json, формулирует «Тема» по каждому кандидату и только
+# тогда вызывает drive-sync.mjs init-backlog. Устройство — Шаг 1–2
+# .claude/commands/cycle-backlog.md.
 #
-# Цепочка:
+# Цепочка (этот workflow):
 #   discover           свежая выгрузка Wordstat по сидам
 #   enrich-candidates  помесячная динамика по кандидатам (12 месяцев)
-#   generate-backlog   отбор тем с обоснованием «почему сейчас»
-#   drive-sync         таблица в папке редактора
+#   generate-backlog   отбор тем с обоснованием «почему сейчас», коммит
 #
 # Динамика вместо diff-а неделя-к-неделе: topRequests не отдаёт срез задним
 # числом, второй снапшот появился бы только через неделю. /dynamics отдаёт
@@ -27,11 +34,6 @@ on:
         required: false
         type: string
         default: "700"
-      publish:
-        description: "Выложить таблицу редактору в Google Drive"
-        required: false
-        type: boolean
-        default: true
   schedule:
     # Понедельник, 06:00 UTC — после weekly-обновления Wordstat в 04:00,
     # чтобы бэклог собирался на свежих данных, а не на прошлонедельных.
@@ -90,10 +92,6 @@ jobs:
           echo "count=${COUNT}" >> "$GITHUB_OUTPUT"
 
       - name: Коммит
-        # Строго до выкладки в Drive. Прогон стоит 700 квот Wordstat, а
-        # Drive — внешний сервис и падает по своим причинам: в прошлый раз
-        # на storageQuotaExceeded шаг коммита не выполнился, и все
-        # измерения пропали. Данные сохраняем раньше, чем публикуем.
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -109,37 +107,6 @@ jobs:
           done
           exit 1
 
-      - name: Таблица редактору в Drive
-        id: drive
-        if: ${{ inputs.publish != false }}
-        env:
-          # Путь по умолчанию — OAuth от имени владельца Диска. Сервисный
-          # аккаунт без общего диска создавать файлы не может: своей квоты
-          # Drive у него нет. Задано явно, чтобы наличие GOOGLE_DOCS_KEY в
-          # секретах не уводило прогон обратно на неработающий путь.
-          DRIVE_AUTH: oauth
-          GOOGLE_DOCS_KEY: ${{ secrets.GOOGLE_DOCS_KEY }}
-          GOOGLE_DOCS_FOLDER_ID: ${{ secrets.GOOGLE_DOCS_FOLDER_ID }}
-          GSC_CLIENT_ID: ${{ secrets.GSC_CLIENT_ID }}
-          GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
-          GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
-        run: |
-          set -uo pipefail
-          if [ -z "${GOOGLE_DOCS_KEY}" ] && [ -z "${GSC_REFRESH_TOKEN}" ]; then
-            # Явное сообщение вместо падения в недрах drive-sync: без
-            # учётных данных бэклог всё равно собран и лежит в репозитории.
-            echo "no-creds=1" >> "$GITHUB_OUTPUT"
-            echo "Учётных данных Google нет — таблица не выкладывается."
-            exit 0
-          fi
-          # generate-backlog пишет {stats, candidates}, init-backlog ждёт
-          # массив тем — разворачиваем.
-          node -e "const j=require('./src/data/topic-backlog.json');require('fs').writeFileSync('/tmp/items.json',JSON.stringify(j.candidates||[]))"
-          node scripts/drive-sync.mjs init-backlog \
-            --week "$(date -u +%F)" --items /tmp/items.json | tee /tmp/drive.json
-          URL=$(node -e "try{console.log(JSON.parse(require('fs').readFileSync('/tmp/drive.json','utf8')).sheetUrl)}catch{console.log('')}")
-          echo "url=${URL}" >> "$GITHUB_OUTPUT"
-
       - name: Отчёт
         if: always()
         run: |
@@ -148,12 +115,9 @@ jobs:
             echo ""
             echo "Тем отобрано: **${{ steps.gen.outputs.count || '—' }}**"
             echo ""
-            if [ -n "${{ steps.drive.outputs.url }}" ]; then
-              echo "Таблица редактору: ${{ steps.drive.outputs.url }}"
-            elif [ "${{ steps.drive.outputs.no-creds }}" = "1" ]; then
-              echo "> Таблица не выложена: в секретах нет \`GOOGLE_DOCS_KEY\`."
-              echo "> Бэклог собран и лежит в \`src/data/topic-backlog.json\`."
-            fi
+            echo "> Таблица в Drive не публикуется этим workflow — см. комментарий"
+            echo "> вверху файла. Публикацию с заголовками делает еженедельная"
+            echo "> Routine рутины A0 (.claude/commands/cycle-backlog.md)."
             echo ""
             echo '```'
             sed -r 's/\x1b\[[0-9;]*m//g' /tmp/backlog.log 2>/dev/null | tail -40 || echo "(лог пуст)"

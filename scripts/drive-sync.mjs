@@ -314,20 +314,30 @@ const BACKLOG_FIRST_DATA_ROW = 4;
 // логика, что у check-market-duplication.mjs). Источник (wordstat:<ns>)
 // убран из таблицы — низкая информативность для редактора, остаётся в
 // topic-backlog.json для отладки.
+//
+// Расширена ещё раз 2026-08-08: «Тема / запрос» разбита на «Тема» и
+// «Целевой запрос» — раньше это была одна колонка, и generate-backlog.mjs
+// писал туда сырую фразу Wordstat («локальный модуль честный знак»)
+// вместо заголовка темы («Локальный модуль «Честного знака»: что это,
+// зачем нужен»). targetKeyword в кандидате уже существовал отдельным
+// полем, но никогда не доходил до листа — только topic. Реальный заголовок
+// в topic формулирует не скрипт (тот принципиально без ИИ), а сессия
+// Клода в рутине A0 перед публикацией — см. .claude/commands/cycle-backlog.md.
 const BACKLOG_COLS = [
-  { key: 'n',          title: '#',              width: 40  },
-  { key: 'topic',      title: 'Тема / запрос',  width: 300 },
-  { key: 'wordstat',   title: 'Wordstat',       width: 90  },
-  { key: 'cluster',    title: 'Кластер',        width: 110 },
-  { key: 'product',    title: 'Продукт',        width: 150 },
-  { key: 'type',       title: 'Тип',            width: 90  },
-  { key: 'why',        title: 'Зачем сейчас',   width: 260 },
-  { key: 'normHint',   title: 'Норма/дата',     width: 200 },
-  { key: 'dedup',      title: 'Дедуп',          width: 170 },
-  { key: 'konturLink', title: 'Ссылка Маркета', width: 220 },
-  { key: 'decision',   title: 'Решение',        width: 150 },  // ← редактор
-  { key: 'who',        title: 'Кто пишет',      width: 150 },  // ← редактор
-  { key: 'reason',     title: 'Причина отказа', width: 280 },  // ← редактор
+  { key: 'n',            title: '#',              width: 40  },
+  { key: 'topic',        title: 'Тема',           width: 320 },
+  { key: 'targetKeyword', title: 'Целевой запрос', width: 200 },
+  { key: 'wordstat',     title: 'Wordstat',       width: 90  },
+  { key: 'cluster',      title: 'Кластер',        width: 110 },
+  { key: 'product',      title: 'Продукт',        width: 150 },
+  { key: 'type',         title: 'Тип',            width: 90  },
+  { key: 'why',          title: 'Зачем сейчас',   width: 260 },
+  { key: 'normHint',     title: 'Норма/дата',     width: 200 },
+  { key: 'dedup',        title: 'Дедуп',          width: 170 },
+  { key: 'konturLink',   title: 'Ссылка Маркета', width: 220 },
+  { key: 'decision',     title: 'Решение',        width: 150 },  // ← редактор
+  { key: 'who',          title: 'Кто пишет',      width: 150 },  // ← редактор
+  { key: 'reason',       title: 'Причина отказа', width: 280 },  // ← редактор
 ];
 
 const BACKLOG_DECISIONS = ['согласовано', 'не согласовано'];
