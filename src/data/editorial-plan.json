@@ -2,14 +2,14 @@
   "_generated": "2026-08-09",
   "_source": "src/content/wiki/content-plan-2026.md",
   "stats": {
-    "total": 249,
+    "total": 250,
     "byStatus": {
-      "planned": 247,
+      "planned": 248,
       "done": 2
     },
     "byPriority": {
       "P0": 81,
-      "P1": 129,
+      "P1": 130,
       "P2": 39
     }
   },
@@ -210,6 +210,15 @@
       "targetKeyword": "онлайн и офлайн проверки маркировки",
       "status": "planned",
       "blocker": null,
+      "cluster": "Маркировка Честный знак"
+    },
+    {
+      "slug": "razreshitelnyj-rezhim-kak-rabotaet",
+      "title": "Разрешительный режим маркировки: как он работает и что проверяет касса",
+      "priority": "P1",
+      "targetKeyword": "разрешительный режим маркировки",
+      "status": "planned",
+      "blocker": "backlog 2026-08-09",
       "cluster": "Маркировка Честный знак"
     },
     {

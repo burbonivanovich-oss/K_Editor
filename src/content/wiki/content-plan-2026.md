@@ -122,6 +122,7 @@ status: published
 | poexzemplyarnyj-uchet | Поэкземплярный учёт: что меняется для розницы | P1 | поэкземплярный учёт | planned | wordstat-2026-05 |
 | markirovka-tabaka-novye-proverki-2026 | Табак 2026: проверка цены ниже минимальной с 01.09.2026 | P0 | маркировка табака новые правила | planned | — |
 | razreshitelnyj-rezhim-onlayn-offlayn | Онлайн- и офлайн-проверки в разрешительном режиме | P1 | онлайн и офлайн проверки маркировки | planned | — |
+| razreshitelnyj-rezhim-kak-rabotaet | Разрешительный режим маркировки: как он работает и что проверяет касса | P1 | разрешительный режим маркировки | planned | backlog 2026-08-09 |
 | gis-mt-kak-rabotaet | ГИС МТ: как работает национальная система прослеживаемости | P1 | ГИС МТ что это | planned | wordstat-2026-05 |
 | sroki-markirovki-2026 | Полный календарь сроков маркировки 2026: даты и категории | P1 | сроки маркировки 2026 | planned | wordstat-2026-05 |
 | data-matrix-chto-eto | Data Matrix: что это, как читается и где взять | P1 | Data Matrix маркировка | planned | wordstat-2026-05 |

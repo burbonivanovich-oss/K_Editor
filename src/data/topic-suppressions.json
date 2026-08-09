@@ -1,4 +1,14 @@
 {
   "schemaVersion": 1,
-  "suppressions": []
+  "suppressions": [
+    {
+      "topic": "Интернет-эквайринг для онлайн-магазина: как выбрать банк и тариф",
+      "reason": "core",
+      "cluster": "ekvairing",
+      "note": "категорически не наше ядро — выбор банка и тарифов это не наша тема",
+      "declinedAt": "2026-08-09",
+      "suppressUntil": "2026-11-07",
+      "hits": 1
+    }
+  ]
 }

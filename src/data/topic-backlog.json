@@ -1,22 +1,45 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-08",
+  "generatedAt": "2026-08-09",
   "sources": [
     "root/2026-08-05.json",
     "kontur/2026-08-04.json"
   ],
-  "limit": 20,
+  "limit": 15,
   "minCount": 50,
   "stats": {
     "всего": 981,
     "дубли": 0,
     "покрыто": 0,
-    "заглушено": 0,
-    "droppedNoise": 4
+    "заглушено": 1
   },
   "candidates": [
     {
-      "topic": "Чек коррекции на кассе: когда пробивать и как избежать ошибок",
+      "topic": "кассы смотреть онлайн",
+      "targetKeyword": "кассы смотреть онлайн",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 5836 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 5836,
+        "ratio": null
+      },
+      "wordstat": 5836,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "касса чеки коррекции",
       "targetKeyword": "касса чеки коррекции",
       "cluster": "kkt",
       "priorityCluster": true,
@@ -34,13 +57,13 @@
       "type": "evergreen",
       "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "dedup": "новая",
-      "konturLink": "https://kontur.ru/market/spravka/22786-chek_korrekcii_ispravlyaem_oshibki_pravilno",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "Личный кабинет онлайн-кассы: как войти и что там настраивать",
+      "topic": "личный кабинет онлайн кассы",
       "targetKeyword": "личный кабинет онлайн кассы",
       "cluster": "kkt",
       "priorityCluster": true,
@@ -64,7 +87,31 @@
       "declineReason": ""
     },
     {
-      "topic": "Касса от банка или отдельно: как банки предлагают онлайн-кассы бизнесу",
+      "topic": "фильмы онлайн касс",
+      "targetKeyword": "фильмы онлайн касс",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 4343 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 4343,
+        "ratio": null
+      },
+      "wordstat": 4343,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "онлайн кассы банк",
       "targetKeyword": "онлайн кассы банк",
       "cluster": "kkt",
       "priorityCluster": true,
@@ -88,7 +135,7 @@
       "declineReason": ""
     },
     {
-      "topic": "Что нового в маркировке «Честного знака» в 2026 году",
+      "topic": "маркировка товара честный знак 2026",
       "targetKeyword": "маркировка товара честный знак 2026",
       "cluster": "markirovka",
       "priorityCluster": true,
@@ -112,7 +159,31 @@
       "declineReason": ""
     },
     {
-      "topic": "Коррекция чека возврата на кассе: как правильно оформить",
+      "topic": "кассы онлайн купить билет",
+      "targetKeyword": "кассы онлайн купить билет",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 2555 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 2555,
+        "ratio": null
+      },
+      "wordstat": 2555,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "коррекция чека возврата",
       "targetKeyword": "коррекция чека возврата",
       "cluster": "kkt",
       "priorityCluster": true,
@@ -130,13 +201,13 @@
       "type": "evergreen",
       "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "dedup": "новая",
-      "konturLink": "https://kontur.ru/articles/5611",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "Маркировка шин в 2026 году: что обязана делать розница",
+      "topic": "маркировка колес шин",
       "targetKeyword": "маркировка колес шин",
       "cluster": "markirovka",
       "priorityCluster": true,
@@ -154,13 +225,13 @@
       "type": "evergreen",
       "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
       "dedup": "новая",
-      "konturLink": "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "Отчёт о закрытии фискального накопителя: когда и как формировать",
+      "topic": "фискальный накопитель отчет",
       "targetKeyword": "фискальный накопитель отчет",
       "cluster": "ofd-fn",
       "priorityCluster": true,
@@ -184,31 +255,7 @@
       "declineReason": ""
     },
     {
-      "topic": "Интернет-эквайринг для онлайн-магазина: как выбрать банк и тариф",
-      "targetKeyword": "интернет эквайринг банк",
-      "cluster": "ekvairing",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче, 2110 показов в месяц",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 2110,
-        "ratio": null
-      },
-      "wordstat": 2110,
-      "product": null,
-      "productLabel": null,
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "Как проверить акцизную марку онлайн через приложение «Честный знак»",
+      "topic": "акцизная марка онлайн",
       "targetKeyword": "акцизная марка онлайн",
       "cluster": "egais",
       "priorityCluster": true,
@@ -226,13 +273,13 @@
       "type": "evergreen",
       "normHint": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "dedup": "новая",
-      "konturLink": "https://kontur.ru/market/spravka/22792-kto_i_zachem_proveryaet_akciznye_marki",
+      "konturLink": null,
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "Акцизная марка и ЕГАИС: как сверить партию алкоголя перед продажей",
+      "topic": "марка егаис",
       "targetKeyword": "марка егаис",
       "cluster": "egais",
       "priorityCluster": true,
@@ -256,7 +303,31 @@
       "declineReason": ""
     },
     {
-      "topic": "Как завести товар в ЕГАИС: пошаговая инструкция для розницы",
+      "topic": "касса 1 онлайн",
+      "targetKeyword": "касса 1 онлайн",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче, 1768 показов в месяц",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 1768,
+        "ratio": null
+      },
+      "wordstat": 1768,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://kontur.ru/market/spravka/31144-nuzhna_li_kassa_internetmagazinu",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "товар егаис",
       "targetKeyword": "товар егаис",
       "cluster": "egais",
       "priorityCluster": true,
@@ -280,7 +351,7 @@
       "declineReason": ""
     },
     {
-      "topic": "Облачная касса без физического аппарата: кому подходит и как подключить",
+      "topic": "онлайн касса без кассы",
       "targetKeyword": "онлайн касса без кассы",
       "cluster": "kkt",
       "priorityCluster": true,
@@ -299,102 +370,6 @@
       "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "dedup": "проверить пересечение (0.33)",
       "konturLink": "https://kontur.ru/ofd/news/7645",
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "Настройка сканера штрихкодов для маркировки: как считывать Data Matrix",
-      "targetKeyword": "настройка сканера для маркировки",
-      "cluster": "oborudovanie",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче, 1698 показов в месяц",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 1698,
-        "ratio": null
-      },
-      "wordstat": 1698,
-      "product": null,
-      "productLabel": null,
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "новая",
-      "konturLink": "https://kontur.ru/market/spravka/45925-vybrat_skaner_dlya_raboty_s_egais",
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "Продажа алкоголя через ЕГАИС: как провести чек без ошибок",
-      "targetKeyword": "продажи егаис",
-      "cluster": "egais",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче, 1647 показов в месяц",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 1647,
-        "ratio": null
-      },
-      "wordstat": 1647,
-      "product": "market",
-      "productLabel": "Контур.Маркет",
-      "type": "evergreen",
-      "normHint": "ФЗ № 108 (предв., уточнить в Стадии 1)",
-      "dedup": "проверить пересечение (0.50)",
-      "konturLink": "https://support.kontur.ru/market/39621-egais",
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "Продажа алкоголя без акцизной марки: чем грозит и как проверить товар",
-      "targetKeyword": "без акцизной марки",
-      "cluster": "egais",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче, 1604 показов в месяц",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 1604,
-        "ratio": null
-      },
-      "wordstat": 1604,
-      "product": "market",
-      "productLabel": "Контур.Маркет",
-      "type": "evergreen",
-      "normHint": "ФЗ № 108 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": "https://kontur.ru/market/spravka/22792-kto_i_zachem_proveryaet_akciznye_marki",
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "Разрешительный режим маркировки: как он работает и что проверяет касса",
-      "targetKeyword": "режим работы разрешительного",
-      "cluster": "markirovka",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче, 1597 показов в месяц",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 1597,
-        "ratio": null
-      },
-      "wordstat": 1597,
-      "product": "markirovka",
-      "productLabel": "Контур.Маркировка",
-      "type": "evergreen",
-      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": "https://kontur.ru/market/spravka/48979-kak_razreshitelnyj_rezhim_izmenit",
       "decision": "",
       "author": "",
       "declineReason": ""
