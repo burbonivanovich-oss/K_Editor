@@ -2,11 +2,11 @@
   "cycleId": "2026-08-test",
   "state": "awaiting_review",
   "createdAt": "2026-08-09T13:23:45.750Z",
-  "updatedAt": "2026-08-09T13:23:45.751Z",
+  "updatedAt": "2026-08-09T13:30:16.324Z",
   "drive": {
+    "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
     "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
     "sheetUrl": "https://docs.google.com/spreadsheets/d/1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw/edit?usp=drivesdk",
-    "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
     "folderUrl": "https://drive.google.com/drive/folders/1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89"
   },
   "batchSize": 2,
@@ -21,7 +21,7 @@
       "rationale": "Активные изменения сроков по категориям в 2026 году, спрос 2574/мес, в кластере нет сводного материала",
       "row": 5,
       "owner": "bot",
-      "status": "planned",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -34,7 +34,7 @@
       "targetKeyword": "касса чеки коррекции",
       "rationale": "Новая фраза в выдаче, 4863 показов в месяц, пересечение с Маркетом — сузить угол до ошибок кассира",
       "row": 6,
-      "owner": "bot",
+      "owner": "editor",
       "status": "planned",
       "docId": null,
       "docUrl": null,
@@ -43,7 +43,7 @@
     {
       "slug": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
       "title": "Личный кабинет онлайн-кассы: как войти и что там настраивать",
-      "priority": "P1",
+      "priority": "P0",
       "cluster": "kkt",
       "targetKeyword": "личный кабинет онлайн кассы",
       "rationale": "Новая фраза в выдаче, 4821 показов в месяц, покрытия в кластере нет",
@@ -52,11 +52,12 @@
       "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "lastNote": "подними приоритет, тема горит"
     },
     {
       "slug": "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu",
-      "title": "Касса от банка или отдельно: что выбрать малому бизнесу",
+      "title": "Касса от банка или своя: что выбрать рознице в 2026 году",
       "priority": "P1",
       "cluster": "kkt",
       "targetKeyword": "онлайн кассы банк",
@@ -81,6 +82,20 @@
       "docId": null,
       "docUrl": null,
       "seenComments": []
+    },
+    {
+      "slug": "kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
+      "title": "Как перейти на новую ставку НДС в кассовой программе",
+      "priority": "P1",
+      "cluster": "",
+      "targetKeyword": "",
+      "rationale": "добавлено редактором",
+      "row": 10,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
     }
   ],
   "batches": [],
@@ -88,6 +103,14 @@
     {
       "at": "2026-08-09T13:23:45.751Z",
       "event": "init 2026-08-test: 5 тем"
+    },
+    {
+      "at": "2026-08-09T13:28:41.322Z",
+      "event": "apply-decisions: 1 снято, 1 «пишем сами», 1 правок"
+    },
+    {
+      "at": "2026-08-09T13:30:16.324Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ]
 }
