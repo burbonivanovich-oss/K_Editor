@@ -2,7 +2,7 @@
   "cycleId": "2026-08-test",
   "state": "running",
   "createdAt": "2026-08-09T13:23:45.750Z",
-  "updatedAt": "2026-08-09T13:33:56.466Z",
+  "updatedAt": "2026-08-09T13:52:11.917Z",
   "drive": {
     "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
     "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
@@ -49,9 +49,9 @@
       "rationale": "Новая фраза в выдаче, 4821 показов в месяц, покрытия в кластере нет",
       "row": 7,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
+      "status": "review",
+      "docId": "1Mp7yXdWnpqfih9soPyPyVrRvWMYZVw35vF1sV9FG-AY",
+      "docUrl": "https://docs.google.com/document/d/1Mp7yXdWnpqfih9soPyPyVrRvWMYZVw35vF1sV9FG-AY/edit",
       "seenComments": [],
       "lastNote": "подними приоритет, тема горит"
     },
@@ -64,9 +64,9 @@
       "rationale": "Новая фраза в выдаче, 2767 показов в месяц, вопрос выбора решения — удобный вход в тему ТС ПИоТ",
       "row": 8,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
+      "status": "review",
+      "docId": "16MYq6XxuBBAy280xDV3PEJRnHyhQT0KnKhJhatRW2dg",
+      "docUrl": "https://docs.google.com/document/d/16MYq6XxuBBAy280xDV3PEJRnHyhQT0KnKhJhatRW2dg/edit",
       "seenComments": []
     },
     {
@@ -106,7 +106,7 @@
         "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu"
       ],
       "startedAt": "2026-08-09T13:33:56.465Z",
-      "state": "writing"
+      "state": "review"
     }
   ],
   "log": [
@@ -129,6 +129,14 @@
     {
       "at": "2026-08-09T13:33:56.466Z",
       "event": "батч 1 начат: lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat, kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu"
+    },
+    {
+      "at": "2026-08-09T13:52:11.883Z",
+      "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat → на вычитке"
+    },
+    {
+      "at": "2026-08-09T13:52:11.917Z",
+      "event": "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu → на вычитке"
     }
   ]
 }
