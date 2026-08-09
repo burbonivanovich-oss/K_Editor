@@ -45,7 +45,7 @@ API, запись в папку цикла. Настройка — `docs/google-
 | Подсистема | Где запускается | Документация |
 |---|---|---|
 | Wordstat: точечный + discovery | `wordstat-weekly.yml`, `wordstat-kontur.yml` | `docs/wordstat.md` |
-| Редакционный цикл (план → батч → приёмка) | `/cycle-plan`, `/cycle-listen`, `/cycle-batch` | `docs/editorial-cycle.md` |
+| Редакционный цикл (план → батч → приёмка) | `/cycle-plan`, `/cycle-listen`, `/cycle-batch` | `docs/editorial-cycle.md`, запуск с нуля — `docs/go-live.md` |
 | CI на каждый PR: синтаксис, юнит-тесты, аудиты | `.github/workflows/ci.yml` | ниже |
 
 ## CI
