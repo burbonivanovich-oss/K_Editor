@@ -109,6 +109,7 @@ status: published
 | ts-piot-vs-ofd | ТС ПИоТ и ОФД: в чём разница и нужны ли оба | P2 | ТС ПИоТ или ОФД | planned | — |
 | ts-piot-1c | ТС ПИоТ в 1С:Розница и УНФ: настройка пошагово | P1 | ТС ПИоТ 1С | planned | — |
 | ts-piot-provajdery-sravnenie | Провайдеры ТС ПИоТ: сравнение ЕСМ и Инвенты | P0 | провайдер ТС ПИоТ | planned | — |
+| kto-obyazan-podklyuchit-ts-piot-do-01-10-2026 | Кто обязан подключить ТС ПИоТ до 01.10.2026 | P2 | тс пиот кто обязан | planned | cycle-plan 2026-08-09 |
 
 ### Кластер 2. Маркировка Честный знак
 
@@ -183,6 +184,7 @@ status: published
 | psn-nds-2026 | ПСН и НДС в 2026: платит ли ИП на патенте | P0 | патент НДС 2026 ИП | planned | — |
 | sovmeschenie-usn-patent-2026 | Совмещение УСН и патента в 2026 | P1 | совмещение УСН и патента | planned | — |
 | 140-fz-epd-perehod-msb | 140-ФЗ: переход на ЭПД с 01.09.2026 для МСБ | P0 | 140 ФЗ ЭПД 2026 | planned | редактура |
+| kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme | Как перейти на новую ставку НДС в кассовой программе | P1 | новая ставка НДС касса | planned | cycle-plan 2026-08-09 |
 
 ### Кластер 5. ОФД и фискальные накопители
 
@@ -241,6 +243,9 @@ status: published
 | atol-27f-obzor | АТОЛ 27Ф: обзор и сценарии установки | P1 | АТОЛ 27Ф обзор | planned | — |
 | atol-30f-vs-27f | Сравнение АТОЛ 30Ф и АТОЛ 27Ф | P1 | АТОЛ 30Ф или 27Ф | planned | — |
 | kassa-dlya-internet-magazina | Касса для интернет-магазина в 2026 | P0 | касса для интернет-магазина | planned | — |
+| lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat | Личный кабинет онлайн-кассы: как войти и что там настраивать | P0 | личный кабинет онлайн кассы | planned | cycle-plan 2026-08-09 |
+| kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu | Касса от банка или своя: что выбрать рознице в 2026 году | P1 | онлайн кассы банк | planned | cycle-plan 2026-08-09 |
+| chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-oshibo | Чек коррекции на кассе: когда пробивать и как избежать ошибок | P1 | касса чеки коррекции | planned | cycle-plan 2026-08-09 |
 
 ### Кластер 8. ЕГАИС, общепит и розница алкоголя
 
