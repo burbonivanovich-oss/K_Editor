@@ -2,7 +2,7 @@
   "cycleId": "2026-08-test",
   "state": "running",
   "createdAt": "2026-08-09T13:23:45.750Z",
-  "updatedAt": "2026-08-09T14:00:02.968Z",
+  "updatedAt": "2026-08-09T14:05:25.605Z",
   "drive": {
     "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
     "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
@@ -49,10 +49,12 @@
       "rationale": "Новая фраза в выдаче, 4821 показов в месяц, покрытия в кластере нет",
       "row": 7,
       "owner": "bot",
-      "status": "review",
+      "status": "accepted",
       "docId": "1Mp7yXdWnpqfih9soPyPyVrRvWMYZVw35vF1sV9FG-AY",
       "docUrl": "https://docs.google.com/document/d/1Mp7yXdWnpqfih9soPyPyVrRvWMYZVw35vF1sV9FG-AY/edit",
-      "seenComments": [],
+      "seenComments": [
+        "AAACAO77oj4"
+      ],
       "lastNote": "подними приоритет, тема горит"
     },
     {
@@ -158,6 +160,18 @@
     {
       "at": "2026-08-09T14:00:02.968Z",
       "event": "kto-obyazan-podklyuchit-ts-piot-do-01-10-2026 → на вычитке"
+    },
+    {
+      "at": "2026-08-09T14:00:48.688Z",
+      "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat: отмечено 1 замечаний"
+    },
+    {
+      "at": "2026-08-09T14:03:53.761Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-09T14:05:25.605Z",
+      "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat → принято"
     }
   ]
 }
