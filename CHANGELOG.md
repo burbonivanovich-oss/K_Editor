@@ -170,9 +170,10 @@ src/content/wiki/maintain-queue.md     (новый)
 
 ### GitHub Issues
 
-* **Закрыты:** [#30](https://github.com/burbonivanovich-oss/TS_PIOT/issues/30)
-  (битые ссылки), [#31](https://github.com/burbonivanovich-oss/TS_PIOT/issues/31)
-  (research-specialist gate).
+Номера ниже — трекер предыдущего репозитория проекта, до импорта модуля
+в `K_Editor` 03.08.2026. Ссылок нет намеренно: это чужой репозиторий.
+
+* **Закрыты:** #30 (битые ссылки), #31 (research-specialist gate).
 * **Локальный backlog → done:** #22, #24, #41, #44, #48, #54,
   #58/#39, #59, #60, #61.
 

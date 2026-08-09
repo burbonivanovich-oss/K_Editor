@@ -4,37 +4,41 @@
 вывод — LLM-пайплайн без жёсткого `research-specialist` ненадёжен на
 правовых темах: за 75 проверенных статей пойманы 12 фейковых НПА.
 
+Номера задач в этом файле — трекер предыдущего репозитория проекта, до
+импорта модуля в `K_Editor` 03.08.2026. Ссылок нет намеренно: это чужой
+репозиторий, открыть их отсюда нельзя.
+
 ## Что закрыто
 
 ### Пайплайн и инфраструктура
-* [#41](https://github.com/burbonivanovich-oss/TS_PIOT/issues) re-factcheck
+* #41 re-factcheck
   в `/maintain-content` (quarterly cycle).
-* [#42](https://github.com/burbonivanovich-oss/TS_PIOT/issues) embeddings
+* #42 embeddings
   через Jina v3 multilingual + `similarity.mjs`. Monthly workflow.
   *(Отменено 2026-08-03: пайплайн фактически не использовался, убран
   вместе с ключами JINA/OPENAI — лексическая проверка остаётся
   единственным уровнем каннибализации.)*
-* [#44](https://github.com/burbonivanovich-oss/TS_PIOT/issues) пороги
+* #44 пороги
   дублей в `/monitor-rss` — три зоны (≥ 0.9, 0.6–0.9, < 0.6).
-* [#48](https://github.com/burbonivanovich-oss/TS_PIOT/issues) автоперелинковка
+* #48 автоперелинковка
   в `/create-article` Стадия 2а.
-* [#54](https://github.com/burbonivanovich-oss/TS_PIOT/issues) трендовый
+* #54 трендовый
   анализ Wordstat в `/maintain-content` (recent3 / baseline6).
 
 ### Контент-граф
-* [#22](https://github.com/burbonivanovich-oss/TS_PIOT/issues) reviewDate
+* #22 reviewDate
   проставлен в 67 статьях (`scripts/audit/set-review-dates.mjs`).
-* [#23 / #59](https://github.com/burbonivanovich-oss/TS_PIOT/issues)
+* #23 / #59
   применение linkgraph: **61 → 0 сирот**.
-* [#24](https://github.com/burbonivanovich-oss/TS_PIOT/issues) pillar-страницы
+* #24 pillar-страницы
   ссылаются на 46 weak-статей.
-* [#30 (GitHub) / #60](https://github.com/burbonivanovich-oss/TS_PIOT/issues/30)
+* #30 (GitHub) / #60
   битые внутренние ссылки `/blog/<без-даты>/` — 196 фиксов в 59 файлах.
 
 ### Качество контента
-* [#31 (GitHub) / #61](https://github.com/burbonivanovich-oss/TS_PIOT/issues/31)
+* #31 (GitHub) / #61
   research-specialist обязателен для тем с НПА.
-* [#39 / #58](https://github.com/burbonivanovich-oss/TS_PIOT/issues) backfill
+* #39 / #58 backfill
   factcheck: **8/83 → 83/83 (100%)**.
 
 ## Главный урок — LLM ненадёжен в номерах НПА
@@ -140,7 +144,7 @@
   раз в месяц вместе с embeddings. Подсветит «дрифт» — новые ссылки на
   незнакомые НПА.
 * **Расширить `extract-claims.mjs`** под нестандартные паттерны
-  ([#56](https://github.com/burbonivanovich-oss/TS_PIOT/issues)):
+  (#56):
   числа словами, контекстные даты.
 
 ### Стратегическое
