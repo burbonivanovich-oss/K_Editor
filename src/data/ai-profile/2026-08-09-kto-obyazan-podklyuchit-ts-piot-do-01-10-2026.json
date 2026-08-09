@@ -1,0 +1,41 @@
+{
+  "slug": "2026-08-09-kto-obyazan-podklyuchit-ts-piot-do-01-10-2026",
+  "analyzerVersion": 1,
+  "checkedAt": "2026-08-09",
+  "regexScore": 0,
+  "llmScore": null,
+  "finalScore": 0,
+  "hits": 0,
+  "structure": {
+    "rhythm": {
+      "sentenceCount": 63,
+      "meanWords": 15.9,
+      "cv": 0.52
+    },
+    "sections": {
+      "sectionCount": 7,
+      "meanWords": 131,
+      "cv": 0.26
+    },
+    "ngrams": {
+      "totalNgrams": 1005,
+      "uniqueRatio": 0.94,
+      "topRepeats": [
+        {
+          "phrase": "1 октября 2026 года",
+          "count": 3
+        },
+        {
+          "phrase": "обязанность применять тс пиот",
+          "count": 2
+        },
+        {
+          "phrase": "действует с 28 декабря",
+          "count": 2
+        }
+      ]
+    }
+  },
+  "suggestions": [],
+  "history": []
+}

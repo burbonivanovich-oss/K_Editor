@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-09T13:46:51.574Z",
+  "generatedAt": "2026-08-09T13:57:20.613Z",
   "totals": {
-    "files": 3,
+    "files": 5,
     "unknownFz": 0,
     "unknownPp": 0,
     "unknownPrikaz": 0,
-    "topicMismatch": 1,
+    "topicMismatch": 2,
     "ambiguousPrikaz": 0
   },
   "findings": {
@@ -13,6 +13,16 @@
     "pp": [],
     "prikaz": [],
     "topicMismatch": [
+      {
+        "slug": "2026-08-09-kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
+        "type": "fz",
+        "num": "425",
+        "topic": "nalogi",
+        "title": "О налоговой реформе 2026 (НДС 22%, лимиты УСН/ПСН)",
+        "categories": [
+          "kkt"
+        ]
+      },
       {
         "slug": "2026-08-09-kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu",
         "type": "fz",

@@ -1,0 +1,23 @@
+{
+  "slug": "2026-08-09-kto-obyazan-podklyuchit-ts-piot-do-01-10-2026",
+  "score": 84,
+  "blocker": false,
+  "categories": {
+    "quality": { "score": 19, "issues": ["Объём 1020 слов — сателлит, нижняя треть допустимого диапазона"] },
+    "seo": { "score": 19, "issues": ["Ключ «тс пиот кто обязан» вошёл в description и в H2 «Кто обязан подключить ТС ПИоТ» внутри FAQ; в title — в развёрнутой форме"] },
+    "eeat": { "score": 20, "issues": [] },
+    "graph": {
+      "score": 18,
+      "issues": [
+        "5 внутренних ссылок: /blog/2026-08-06-chto-takoe-ts-piot/, /slovar/chestnyi-znak/, /slovar/data-matrix/, /pillars/ts-piot/",
+        "Входящая ссылка добавлена в pillars/ts-piot.md; linkgraph.mjs учтёт её после снятия draft"
+      ]
+    },
+    "tech": {
+      "score": 20,
+      "issues": ["Кластер ts-piot не содержит ни одного промоблока в cpa-blocks.json — взяты 6375 (markirovka), 8530 и 7705 (kkt), как и в предыдущей статье кластера"]
+    },
+    "ai_citation": { "score": 6, "issues": ["Часть FAQ-ответов короче 40 слов"] }
+  },
+  "checkedAt": "2026-08-09"
+}

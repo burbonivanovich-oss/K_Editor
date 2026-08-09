@@ -2,7 +2,7 @@
   "cycleId": "2026-08-test",
   "state": "running",
   "createdAt": "2026-08-09T13:23:45.750Z",
-  "updatedAt": "2026-08-09T13:52:11.917Z",
+  "updatedAt": "2026-08-09T13:53:12.243Z",
   "drive": {
     "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
     "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
@@ -78,7 +78,7 @@
       "rationale": "Срочности нет — временный доступ по старой схеме закрывается 01.10.2026, но тема ядровая и понадобится к сентябрю",
       "row": 9,
       "owner": "bot",
-      "status": "planned",
+      "status": "writing",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -92,7 +92,7 @@
       "rationale": "добавлено редактором",
       "row": 10,
       "owner": "bot",
-      "status": "planned",
+      "status": "writing",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -107,6 +107,15 @@
       ],
       "startedAt": "2026-08-09T13:33:56.465Z",
       "state": "review"
+    },
+    {
+      "n": 2,
+      "slugs": [
+        "kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
+        "kto-obyazan-podklyuchit-ts-piot-do-01-10-2026"
+      ],
+      "startedAt": "2026-08-09T13:53:12.243Z",
+      "state": "writing"
     }
   ],
   "log": [
@@ -137,6 +146,10 @@
     {
       "at": "2026-08-09T13:52:11.917Z",
       "event": "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu → на вычитке"
+    },
+    {
+      "at": "2026-08-09T13:53:12.243Z",
+      "event": "батч 2 начат: kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme, kto-obyazan-podklyuchit-ts-piot-do-01-10-2026"
     }
   ]
 }

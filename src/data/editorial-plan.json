@@ -645,15 +645,6 @@
       "cluster": "Законодательство и налоги"
     },
     {
-      "slug": "kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
-      "title": "Как перейти на новую ставку НДС в кассовой программе",
-      "priority": "P1",
-      "targetKeyword": "новая ставка НДС касса",
-      "status": "planned",
-      "blocker": "cycle-plan 2026-08-09",
-      "cluster": "Законодательство и налоги"
-    },
-    {
       "slug": "smena-ofd-instrukciya",
       "title": "Смена ОФД: пошаговая инструкция без штрафов",
       "priority": "P1",
@@ -1063,6 +1054,15 @@
       "title": "Чек коррекции на кассе: когда пробивать и как избежать ошибок",
       "priority": "P1",
       "targetKeyword": "касса чеки коррекции",
+      "status": "planned",
+      "blocker": "cycle-plan 2026-08-09",
+      "cluster": "ККТ: выбор кассы"
+    },
+    {
+      "slug": "kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
+      "title": "Как перейти на новую ставку НДС в кассовой программе",
+      "priority": "P1",
+      "targetKeyword": "новая ставка НДС касса",
       "status": "planned",
       "blocker": "cycle-plan 2026-08-09",
       "cluster": "ККТ: выбор кассы"

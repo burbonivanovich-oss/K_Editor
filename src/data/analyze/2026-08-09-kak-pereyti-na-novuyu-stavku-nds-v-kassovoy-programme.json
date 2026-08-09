@@ -1,0 +1,26 @@
+{
+  "slug": "2026-08-09-kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
+  "score": 86,
+  "blocker": false,
+  "categories": {
+    "quality": { "score": 20, "issues": [] },
+    "seo": { "score": 19, "issues": ["Ключ «новая ставка НДС касса» входит в лид и description дословно, в title — в грамматичной форме «Новая ставка НДС на кассе»"] },
+    "eeat": {
+      "score": 19,
+      "issues": [
+        "audit-npa-references: needs-decision по 425-ФЗ (topic nalogi при кластере kkt). Цитирование корректно — закон приводится как источник ставки 22 %",
+        "Приказ ФНС об изменении форматов фискальных документов упомянут без номера: номер не подтверждён по первоисточнику и в whitelist его нет"
+      ]
+    },
+    "graph": {
+      "score": 17,
+      "issues": [
+        "4 внутренние ссылки: две на статьи батча, /slovar/ofd/, /slovar/fn/, /pillars/kkt/",
+        "Входящая ссылка есть из pillars/kkt.md; linkgraph.mjs её не учитывает, пока статья draft:true"
+      ]
+    },
+    "tech": { "score": 20, "issues": ["Промоблоки 8528, 8600, 8526 — из родного кластера kkt"] },
+    "ai_citation": { "score": 7, "issues": ["Citation capsule в лиде; FAQ-ответы на нижней границе целевой длины"] }
+  },
+  "checkedAt": "2026-08-09"
+}
