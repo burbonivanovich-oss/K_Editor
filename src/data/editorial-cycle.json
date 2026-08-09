@@ -2,7 +2,7 @@
   "cycleId": "2026-08-test",
   "state": "running",
   "createdAt": "2026-08-09T13:23:45.750Z",
-  "updatedAt": "2026-08-09T13:53:12.243Z",
+  "updatedAt": "2026-08-09T14:00:02.968Z",
   "drive": {
     "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
     "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
@@ -78,9 +78,9 @@
       "rationale": "Срочности нет — временный доступ по старой схеме закрывается 01.10.2026, но тема ядровая и понадобится к сентябрю",
       "row": 9,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
+      "status": "review",
+      "docId": "125KrFxI-1qMqvm0ifnZ-Vbt_vLdCBF2zk4D2gZlFXxs",
+      "docUrl": "https://docs.google.com/document/d/125KrFxI-1qMqvm0ifnZ-Vbt_vLdCBF2zk4D2gZlFXxs/edit",
       "seenComments": []
     },
     {
@@ -92,9 +92,9 @@
       "rationale": "добавлено редактором",
       "row": 10,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
+      "status": "review",
+      "docId": "1PXkiAbWhifJGw3M3N_cNmTI4qxNgqG4K75FZ-9uct9Q",
+      "docUrl": "https://docs.google.com/document/d/1PXkiAbWhifJGw3M3N_cNmTI4qxNgqG4K75FZ-9uct9Q/edit",
       "seenComments": []
     }
   ],
@@ -115,7 +115,7 @@
         "kto-obyazan-podklyuchit-ts-piot-do-01-10-2026"
       ],
       "startedAt": "2026-08-09T13:53:12.243Z",
-      "state": "writing"
+      "state": "review"
     }
   ],
   "log": [
@@ -150,6 +150,14 @@
     {
       "at": "2026-08-09T13:53:12.243Z",
       "event": "батч 2 начат: kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme, kto-obyazan-podklyuchit-ts-piot-do-01-10-2026"
+    },
+    {
+      "at": "2026-08-09T14:00:02.938Z",
+      "event": "kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme → на вычитке"
+    },
+    {
+      "at": "2026-08-09T14:00:02.968Z",
+      "event": "kto-obyazan-podklyuchit-ts-piot-do-01-10-2026 → на вычитке"
     }
   ]
 }
