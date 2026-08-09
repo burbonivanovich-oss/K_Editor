@@ -1,22 +1,93 @@
 {
-  "cycleId": null,
-  "state": "idle",
-  "createdAt": null,
-  "updatedAt": "2026-08-02T13:07:19.814Z",
+  "cycleId": "2026-08-test",
+  "state": "awaiting_review",
+  "createdAt": "2026-08-09T13:23:45.750Z",
+  "updatedAt": "2026-08-09T13:23:45.751Z",
   "drive": {
-    "folderId": null,
-    "sheetId": null,
-    "sheetUrl": null,
-    "folderUrl": null
+    "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
+    "sheetUrl": "https://docs.google.com/spreadsheets/d/1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw/edit?usp=drivesdk",
+    "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
+    "folderUrl": "https://drive.google.com/drive/folders/1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89"
   },
-  "batchSize": 3,
+  "batchSize": 2,
   "maxInReview": 6,
-  "plan": [],
+  "plan": [
+    {
+      "slug": "chto-novogo-v-markirovke-chestnogo-znaka-v-2026-godu",
+      "title": "Что нового в маркировке «Честного знака» в 2026 году",
+      "priority": "P0",
+      "cluster": "markirovka",
+      "targetKeyword": "маркировка товара честный знак 2026",
+      "rationale": "Активные изменения сроков по категориям в 2026 году, спрос 2574/мес, в кластере нет сводного материала",
+      "row": 5,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-oshibo",
+      "title": "Чек коррекции на кассе: когда пробивать и как избежать ошибок",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "касса чеки коррекции",
+      "rationale": "Новая фраза в выдаче, 4863 показов в месяц, пересечение с Маркетом — сузить угол до ошибок кассира",
+      "row": 6,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
+      "title": "Личный кабинет онлайн-кассы: как войти и что там настраивать",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "личный кабинет онлайн кассы",
+      "rationale": "Новая фраза в выдаче, 4821 показов в месяц, покрытия в кластере нет",
+      "row": 7,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu",
+      "title": "Касса от банка или отдельно: что выбрать малому бизнесу",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "онлайн кассы банк",
+      "rationale": "Новая фраза в выдаче, 2767 показов в месяц, вопрос выбора решения — удобный вход в тему ТС ПИоТ",
+      "row": 8,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "kto-obyazan-podklyuchit-ts-piot-do-01-10-2026",
+      "title": "Кто обязан подключить ТС ПИоТ до 01.10.2026",
+      "priority": "P2",
+      "cluster": "ts-piot",
+      "targetKeyword": "тс пиот кто обязан",
+      "rationale": "Срочности нет — временный доступ по старой схеме закрывается 01.10.2026, но тема ядровая и понадобится к сентябрю",
+      "row": 9,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    }
+  ],
   "batches": [],
   "log": [
     {
-      "at": "2026-08-02T13:07:19.814Z",
-      "event": "reset"
+      "at": "2026-08-09T13:23:45.751Z",
+      "event": "init 2026-08-test: 5 тем"
     }
   ]
 }
