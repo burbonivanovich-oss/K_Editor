@@ -1,0 +1,41 @@
+{
+  "slug": "2026-08-09-kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu",
+  "analyzerVersion": 1,
+  "checkedAt": "2026-08-09",
+  "regexScore": 0,
+  "llmScore": null,
+  "finalScore": 0,
+  "hits": 1,
+  "structure": {
+    "rhythm": {
+      "sentenceCount": 82,
+      "meanWords": 16.7,
+      "cv": 0.63
+    },
+    "sections": {
+      "sectionCount": 8,
+      "meanWords": 158,
+      "cv": 0.27
+    },
+    "ngrams": {
+      "totalNgrams": 1372,
+      "uniqueRatio": 0.94,
+      "topRepeats": [
+        {
+          "phrase": "% но не менее",
+          "count": 3
+        },
+        {
+          "phrase": "на вас фискальный накопитель",
+          "count": 2
+        },
+        {
+          "phrase": "за расчёт без применения",
+          "count": 2
+        }
+      ]
+    }
+  },
+  "suggestions": [],
+  "history": []
+}

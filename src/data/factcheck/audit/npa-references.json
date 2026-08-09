@@ -1,18 +1,29 @@
 {
-  "generatedAt": "2026-08-08T13:19:02.876Z",
+  "generatedAt": "2026-08-09T13:46:51.574Z",
   "totals": {
-    "files": 1,
+    "files": 3,
     "unknownFz": 0,
     "unknownPp": 0,
     "unknownPrikaz": 0,
-    "topicMismatch": 0,
+    "topicMismatch": 1,
     "ambiguousPrikaz": 0
   },
   "findings": {
     "fz": [],
     "pp": [],
     "prikaz": [],
-    "topicMismatch": [],
+    "topicMismatch": [
+      {
+        "slug": "2026-08-09-kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu",
+        "type": "fz",
+        "num": "425",
+        "topic": "nalogi",
+        "title": "О налоговой реформе 2026 (НДС 22%, лимиты УСН/ПСН)",
+        "categories": [
+          "kkt"
+        ]
+      }
+    ],
     "ambiguousPrikaz": []
   }
 }

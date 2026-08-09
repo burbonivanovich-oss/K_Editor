@@ -1,15 +1,36 @@
 {
-  "generatedAt": "2026-08-06T11:48:47.334Z",
+  "generatedAt": "2026-08-09T13:40:19.475Z",
   "totals": {
-    "total": 1,
-    "published": 0,
+    "total": 2,
+    "published": 1,
     "drafts": 1,
-    "orphans": 0,
+    "orphans": 1,
     "weak": 0,
-    "deadends": 0
+    "deadends": 1
   },
-  "orphans": [],
+  "orphans": [
+    {
+      "slug": "2026-08-06-chto-takoe-ts-piot",
+      "title": "Что такое ТС ПИоТ: кому нужен и как подключить в 2026 году",
+      "categories": [
+        "ts-piot"
+      ],
+      "outboundCount": 0,
+      "suggestions": []
+    }
+  ],
   "weak": [],
-  "deadends": [],
-  "topInbound": []
+  "deadends": [
+    {
+      "slug": "2026-08-06-chto-takoe-ts-piot",
+      "title": "Что такое ТС ПИоТ: кому нужен и как подключить в 2026 году"
+    }
+  ],
+  "topInbound": [
+    {
+      "slug": "2026-08-06-chto-takoe-ts-piot",
+      "title": "Что такое ТС ПИоТ: кому нужен и как подключить в 2026 году",
+      "inboundCount": 0
+    }
+  ]
 }

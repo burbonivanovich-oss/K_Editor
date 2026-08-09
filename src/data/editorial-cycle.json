@@ -2,7 +2,7 @@
   "cycleId": "2026-08-test",
   "state": "running",
   "createdAt": "2026-08-09T13:23:45.750Z",
-  "updatedAt": "2026-08-09T13:31:10.375Z",
+  "updatedAt": "2026-08-09T13:33:56.466Z",
   "drive": {
     "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
     "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
@@ -49,7 +49,7 @@
       "rationale": "Новая фраза в выдаче, 4821 показов в месяц, покрытия в кластере нет",
       "row": 7,
       "owner": "bot",
-      "status": "planned",
+      "status": "writing",
       "docId": null,
       "docUrl": null,
       "seenComments": [],
@@ -64,7 +64,7 @@
       "rationale": "Новая фраза в выдаче, 2767 показов в месяц, вопрос выбора решения — удобный вход в тему ТС ПИоТ",
       "row": 8,
       "owner": "bot",
-      "status": "planned",
+      "status": "writing",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -98,7 +98,17 @@
       "seenComments": []
     }
   ],
-  "batches": [],
+  "batches": [
+    {
+      "n": 1,
+      "slugs": [
+        "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
+        "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu"
+      ],
+      "startedAt": "2026-08-09T13:33:56.465Z",
+      "state": "writing"
+    }
+  ],
   "log": [
     {
       "at": "2026-08-09T13:23:45.751Z",
@@ -115,6 +125,10 @@
     {
       "at": "2026-08-09T13:31:10.375Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-09T13:33:56.466Z",
+      "event": "батч 1 начат: lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat, kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu"
     }
   ]
 }

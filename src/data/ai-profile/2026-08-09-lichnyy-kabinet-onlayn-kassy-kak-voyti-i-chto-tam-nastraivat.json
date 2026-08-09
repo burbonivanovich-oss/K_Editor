@@ -1,0 +1,41 @@
+{
+  "slug": "2026-08-09-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
+  "analyzerVersion": 1,
+  "checkedAt": "2026-08-09",
+  "regexScore": 0,
+  "llmScore": null,
+  "finalScore": 0,
+  "hits": 0,
+  "structure": {
+    "rhythm": {
+      "sentenceCount": 95,
+      "meanWords": 16.1,
+      "cv": 0.67
+    },
+    "sections": {
+      "sectionCount": 8,
+      "meanWords": 176,
+      "cv": 0.21
+    },
+    "ngrams": {
+      "totalNgrams": 1536,
+      "uniqueRatio": 0.94,
+      "topRepeats": [
+        {
+          "phrase": "1 марта 2025 года",
+          "count": 3
+        },
+        {
+          "phrase": "не позднее одного рабочего",
+          "count": 3
+        },
+        {
+          "phrase": "позднее одного рабочего дня",
+          "count": 3
+        }
+      ]
+    }
+  },
+  "suggestions": [],
+  "history": []
+}

@@ -1,0 +1,44 @@
+{
+  "slug": "2026-08-09-kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu",
+  "score": 86,
+  "blocker": false,
+  "categories": {
+    "quality": {
+      "score": 20,
+      "issues": []
+    },
+    "seo": {
+      "score": 18,
+      "issues": [
+        "Целевой ключ «онлайн кассы банк» — низкочастотная склейка; в title и первом абзаце использована грамматичная форма «Онлайн-кассы... от банка», точного вхождения словоформы нет"
+      ]
+    },
+    "eeat": {
+      "score": 19,
+      "issues": [
+        "audit-npa-references отметил needs-decision: 425-ФЗ отнесён к теме nalogi, статья в кластере kkt. Цитирование корректно — закон приводится только как источник базовой ставки НДС 22 % при сравнении тарифов"
+      ]
+    },
+    "graph": {
+      "score": 17,
+      "issues": [
+        "4 исходящих внутренних ссылки: /slovar/ekvayring/, /slovar/fn/, /slovar/ofd/, /pillars/kkt/ плюс две на парную статью батча",
+        "Входящие: из 2026-08-09-lichnyy-kabinet-onlayn-kassy и из pillars/kkt.md; linkgraph.mjs их не видит, пока обе статьи draft:true",
+        "Рыночный дедуп: совпадений ≥ 0.3 с каталогом Маркета нет"
+      ]
+    },
+    "tech": {
+      "score": 20,
+      "issues": [
+        "Промоблоки 8600, 8526, 8530 — из родного кластера kkt"
+      ]
+    },
+    "ai_citation": {
+      "score": 7,
+      "issues": [
+        "Citation capsule есть в лиде; часть FAQ-ответов на нижней границе 40 слов"
+      ]
+    }
+  },
+  "checkedAt": "2026-08-09"
+}
