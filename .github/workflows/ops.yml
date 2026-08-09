@@ -45,10 +45,10 @@ on:
         description: "Slug статьи — только для check-ai и check-seo"
         required: false
         type: string
-    sheet_id:
-      description: "ID Google-таблицы — только для backlog-decisions"
-      required: false
-      type: string
+      sheet_id:
+        description: "ID Google-таблицы — только для backlog-decisions"
+        required: false
+        type: string
       commit:
         description: "Закоммитить изменённые файлы обратно в ветку"
         required: false
