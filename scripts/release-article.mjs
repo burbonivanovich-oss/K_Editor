@@ -221,7 +221,15 @@ let cycleTopic = null;
 if (existsSync(CYCLE_STATE_PATH)) {
   try {
     const cycle = JSON.parse(readFileSync(CYCLE_STATE_PATH, 'utf8'));
-    cycleTopic = (cycle.plan || []).find((t) => t.slug === slug) || null;
+    // Имя файла статьи — YYYY-MM-DD-<slug>, а cycle-state.mjs хранит тему
+    // под голым slug без даты (он собирается транслитерацией заголовка ещё
+    // до того, как известна дата публикации). Сравнение «в лоб» поэтому не
+    // находило ни одну тему цикла, и гейт приёмки требовал
+    // --confirm-no-cycle даже для статьи, которую редактор только что
+    // принял в таблице. Сравниваем и с датой, и без неё.
+    const bare = slug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+    cycleTopic =
+      (cycle.plan || []).find((t) => t.slug === slug || t.slug === bare) || null;
   } catch {
     /* повреждённый cycle-state — ниже трактуем как «темы нет в цикле» */
   }

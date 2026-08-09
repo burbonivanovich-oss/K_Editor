@@ -2,7 +2,7 @@
   "cycleId": "2026-08-test",
   "state": "running",
   "createdAt": "2026-08-09T13:23:45.750Z",
-  "updatedAt": "2026-08-09T14:05:25.605Z",
+  "updatedAt": "2026-08-09T14:06:40.187Z",
   "drive": {
     "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
     "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
@@ -49,7 +49,7 @@
       "rationale": "Новая фраза в выдаче, 4821 показов в месяц, покрытия в кластере нет",
       "row": 7,
       "owner": "bot",
-      "status": "accepted",
+      "status": "released",
       "docId": "1Mp7yXdWnpqfih9soPyPyVrRvWMYZVw35vF1sV9FG-AY",
       "docUrl": "https://docs.google.com/document/d/1Mp7yXdWnpqfih9soPyPyVrRvWMYZVw35vF1sV9FG-AY/edit",
       "seenComments": [
@@ -172,6 +172,10 @@
     {
       "at": "2026-08-09T14:05:25.605Z",
       "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat → принято"
+    },
+    {
+      "at": "2026-08-09T14:06:40.187Z",
+      "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat → выпущено"
     }
   ]
 }

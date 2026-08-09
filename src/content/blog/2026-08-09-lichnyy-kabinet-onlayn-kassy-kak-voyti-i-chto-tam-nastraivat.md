@@ -12,7 +12,7 @@ tags:
   - малый бизнес
 categories:
   - kkt
-draft: true
+draft: false
 updatedDate: "2026-08-09"
 seo:
   keywords:

@@ -171,7 +171,11 @@ function auditReleaseInvariants() {
 	}
 	const unconfirmed = [];
 	for (const { slug } of released) {
-		const cycleTopic = cyclePlan.find((t) => t.slug === slug);
+		// Файл статьи называется YYYY-MM-DD-<slug>, а cycle-state хранит тему
+		// под голым slug без даты — сравниваем в обеих формах (та же причина,
+		// что и в release-article.mjs, шаг «Приёмка редактором»).
+		const bare = slug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
+		const cycleTopic = cyclePlan.find((t) => t.slug === slug || t.slug === bare);
 		if (cycleTopic?.status === 'released') continue;
 		const analyzePath = join(ROOT, 'src', 'data', 'analyze', `${slug}.json`);
 		if (existsSync(analyzePath)) {

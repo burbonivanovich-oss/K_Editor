@@ -242,7 +242,7 @@ status: published
 | atol-27f-obzor | АТОЛ 27Ф: обзор и сценарии установки | P1 | АТОЛ 27Ф обзор | planned | — |
 | atol-30f-vs-27f | Сравнение АТОЛ 30Ф и АТОЛ 27Ф | P1 | АТОЛ 30Ф или 27Ф | planned | — |
 | kassa-dlya-internet-magazina | Касса для интернет-магазина в 2026 | P0 | касса для интернет-магазина | planned | — |
-| lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat | Личный кабинет онлайн-кассы: как войти и что там настраивать | P0 | личный кабинет онлайн кассы | planned | cycle-plan 2026-08-09 |
+| lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat | Личный кабинет онлайн-кассы: как войти и что там настраивать | P0 | личный кабинет онлайн кассы | done | cycle-plan 2026-08-09 |
 | kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu | Касса от банка или своя: что выбрать рознице в 2026 году | P1 | онлайн кассы банк | planned | cycle-plan 2026-08-09 |
 | chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-oshibo | Чек коррекции на кассе: когда пробивать и как избежать ошибок | P1 | касса чеки коррекции | planned | cycle-plan 2026-08-09 |
 | kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme | Как перейти на новую ставку НДС в кассовой программе | P1 | новая ставка НДС касса | planned | cycle-plan 2026-08-09 |
