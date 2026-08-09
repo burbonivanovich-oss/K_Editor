@@ -40,10 +40,15 @@ on:
           - npa-changes            # кандидаты по изменившейся нормативке
           - cleanup-orphans        # чистка keys.json
           - prune-history          # ретенция выгрузок
+          - backlog-decisions      # решения редактора по таблице бэклога (нужен sheet_id)
       slug:
         description: "Slug статьи — только для check-ai и check-seo"
         required: false
         type: string
+    sheet_id:
+      description: "ID Google-таблицы — только для backlog-decisions"
+      required: false
+      type: string
       commit:
         description: "Закоммитить изменённые файлы обратно в ветку"
         required: false
@@ -72,6 +77,7 @@ jobs:
         env:
           TASK: ${{ inputs.task }}
           SLUG: ${{ inputs.slug }}
+          SHEET_ID: ${{ inputs.sheet_id }}
           # Путь по умолчанию — OAuth от имени владельца Диска. Сервисный
           # аккаунт без общего диска создавать файлы не может: своей квоты
           # Drive у него нет. Задано явно, чтобы наличие GOOGLE_DOCS_KEY в
@@ -120,6 +126,9 @@ jobs:
             npa-changes)      CMD="node scripts/npa-change-candidates.mjs" ;;
             cleanup-orphans)  CMD="node scripts/wordstat/cleanup-orphans.mjs" ;;
             prune-history)    CMD="node scripts/wordstat/prune-history.mjs" ;;
+            # Мост для рутины A0: Drive-секреты остаются здесь, в Actions,
+            # а рутина забирает вывод этого шага. sheet_id — id таблицы бэклога.
+            backlog-decisions) [ -n "${SHEET_ID}" ] || { echo "Задача backlog-decisions требует sheet_id (id таблицы бэклога)." >&2; exit 2; }; CMD="node scripts/drive-sync.mjs pull-backlog --sheet-id ${SHEET_ID}" ;;
             *)
               echo "Неизвестная задача: ${TASK}" >&2
               exit 2
