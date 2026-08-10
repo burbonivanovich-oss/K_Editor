@@ -573,6 +573,15 @@ async function formatSheet(sheetId, cycleId, topicCount) {
                 userEnteredFormat: {
                   textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
                 } },
+              { userEnteredValue: { stringValue: '' } },
+              // E2 — строка состояния цикла, её на каждом проходе
+              // переписывает cycle-state.mjs sheet-sync. Здесь только
+              // заглушка с подсказкой: до первого прохода ячейка пустая,
+              // и редактор не поймёт, что это место вообще живое.
+              { userEnteredValue: { stringValue: 'Состояние обновится после первого прохода' },
+                userEnteredFormat: {
+                  textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
+                } },
             ] },
         ],
         fields: 'userEnteredValue,userEnteredFormat',

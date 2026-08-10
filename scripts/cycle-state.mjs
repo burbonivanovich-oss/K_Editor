@@ -522,6 +522,27 @@ switch (cmd) {
    * drive-sync set-cells. */
   case 'sheet-sync': {
     const updates = [];
+
+    /* Строка состояния в шапке (E2). Молчание рутин по дизайну — «нового
+     * нет, не беспокоим», но со стороны редактора тишина неотличима от
+     * поломки: батч не пришёл, и понять почему можно только пересчитав
+     * строки руками (аудит 2026-08-08, находка №4). Одна строка в шапке
+     * снимает вопрос без письма и без похода к владельцу. */
+    const occupied = occupiedCount(s);
+    const pendingBot = s.plan.filter((t) => t.status === 'planned' && t.owner === 'bot').length;
+    const parts = [`Очередь: ${occupied}/${s.maxInReview}`];
+    if (s.state === 'awaiting_review') {
+      parts.push('план ждёт вашего «ОДОБРЕН» в B2 — до этого статьи не пишутся');
+    } else if (occupied >= s.maxInReview) {
+      parts.push('новые статьи не придут, пока вы не разберёте очередь — это защита, не сбой');
+    } else if (!pendingBot) {
+      parts.push('свободных тем для бота нет — пополните план или снимите «пишем сами»');
+    } else {
+      parts.push(`тем в работе у бота: ${pendingBot}, ближайший батч — понедельник или четверг`);
+    }
+    parts.push(`обновлено ${new Date().toISOString().slice(0, 10)}`);
+    updates.push({ range: 'E2', value: parts.join(' · ') });
+
     for (const t of s.plan) {
       if (!t.row) continue;
       updates.push({ range: `I${t.row}`, value: RU_STATUS[t.status] || t.status });
