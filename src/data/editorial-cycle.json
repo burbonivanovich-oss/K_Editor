@@ -1,181 +1,22 @@
 {
-  "cycleId": "2026-08-test",
-  "state": "running",
-  "createdAt": "2026-08-09T13:23:45.750Z",
-  "updatedAt": "2026-08-09T14:06:40.187Z",
+  "cycleId": null,
+  "state": "idle",
+  "createdAt": null,
+  "updatedAt": "2026-08-10T04:44:35.626Z",
   "drive": {
-    "folderId": "1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89",
-    "sheetId": "1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw",
-    "sheetUrl": "https://docs.google.com/spreadsheets/d/1vYLEFVwQ7u7Ld79vrTFTrfY2SV7S6FXDTi41vnR94zw/edit?usp=drivesdk",
-    "folderUrl": "https://drive.google.com/drive/folders/1d9Myiu_NBro4hfFSa3URYtwZvy1OJy89"
+    "folderId": null,
+    "sheetId": null,
+    "sheetUrl": null,
+    "folderUrl": null
   },
-  "batchSize": 2,
+  "batchSize": 3,
   "maxInReview": 6,
-  "plan": [
-    {
-      "slug": "chto-novogo-v-markirovke-chestnogo-znaka-v-2026-godu",
-      "title": "Что нового в маркировке «Честного знака» в 2026 году",
-      "priority": "P0",
-      "cluster": "markirovka",
-      "targetKeyword": "маркировка товара честный знак 2026",
-      "rationale": "Активные изменения сроков по категориям в 2026 году, спрос 2574/мес, в кластере нет сводного материала",
-      "row": 5,
-      "owner": "bot",
-      "status": "dropped",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
-    },
-    {
-      "slug": "chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-oshibo",
-      "title": "Чек коррекции на кассе: когда пробивать и как избежать ошибок",
-      "priority": "P1",
-      "cluster": "kkt",
-      "targetKeyword": "касса чеки коррекции",
-      "rationale": "Новая фраза в выдаче, 4863 показов в месяц, пересечение с Маркетом — сузить угол до ошибок кассира",
-      "row": 6,
-      "owner": "editor",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
-    },
-    {
-      "slug": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
-      "title": "Личный кабинет онлайн-кассы: как войти и что там настраивать",
-      "priority": "P0",
-      "cluster": "kkt",
-      "targetKeyword": "личный кабинет онлайн кассы",
-      "rationale": "Новая фраза в выдаче, 4821 показов в месяц, покрытия в кластере нет",
-      "row": 7,
-      "owner": "bot",
-      "status": "released",
-      "docId": "1Mp7yXdWnpqfih9soPyPyVrRvWMYZVw35vF1sV9FG-AY",
-      "docUrl": "https://docs.google.com/document/d/1Mp7yXdWnpqfih9soPyPyVrRvWMYZVw35vF1sV9FG-AY/edit",
-      "seenComments": [
-        "AAACAO77oj4"
-      ],
-      "lastNote": "подними приоритет, тема горит"
-    },
-    {
-      "slug": "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu",
-      "title": "Касса от банка или своя: что выбрать рознице в 2026 году",
-      "priority": "P1",
-      "cluster": "kkt",
-      "targetKeyword": "онлайн кассы банк",
-      "rationale": "Новая фраза в выдаче, 2767 показов в месяц, вопрос выбора решения — удобный вход в тему ТС ПИоТ",
-      "row": 8,
-      "owner": "bot",
-      "status": "review",
-      "docId": "16MYq6XxuBBAy280xDV3PEJRnHyhQT0KnKhJhatRW2dg",
-      "docUrl": "https://docs.google.com/document/d/16MYq6XxuBBAy280xDV3PEJRnHyhQT0KnKhJhatRW2dg/edit",
-      "seenComments": []
-    },
-    {
-      "slug": "kto-obyazan-podklyuchit-ts-piot-do-01-10-2026",
-      "title": "Кто обязан подключить ТС ПИоТ до 01.10.2026",
-      "priority": "P2",
-      "cluster": "ts-piot",
-      "targetKeyword": "тс пиот кто обязан",
-      "rationale": "Срочности нет — временный доступ по старой схеме закрывается 01.10.2026, но тема ядровая и понадобится к сентябрю",
-      "row": 9,
-      "owner": "bot",
-      "status": "review",
-      "docId": "125KrFxI-1qMqvm0ifnZ-Vbt_vLdCBF2zk4D2gZlFXxs",
-      "docUrl": "https://docs.google.com/document/d/125KrFxI-1qMqvm0ifnZ-Vbt_vLdCBF2zk4D2gZlFXxs/edit",
-      "seenComments": []
-    },
-    {
-      "slug": "kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
-      "title": "Как перейти на новую ставку НДС в кассовой программе",
-      "priority": "P1",
-      "cluster": "",
-      "targetKeyword": "",
-      "rationale": "добавлено редактором",
-      "row": 10,
-      "owner": "bot",
-      "status": "review",
-      "docId": "1PXkiAbWhifJGw3M3N_cNmTI4qxNgqG4K75FZ-9uct9Q",
-      "docUrl": "https://docs.google.com/document/d/1PXkiAbWhifJGw3M3N_cNmTI4qxNgqG4K75FZ-9uct9Q/edit",
-      "seenComments": []
-    }
-  ],
-  "batches": [
-    {
-      "n": 1,
-      "slugs": [
-        "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
-        "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu"
-      ],
-      "startedAt": "2026-08-09T13:33:56.465Z",
-      "state": "review"
-    },
-    {
-      "n": 2,
-      "slugs": [
-        "kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
-        "kto-obyazan-podklyuchit-ts-piot-do-01-10-2026"
-      ],
-      "startedAt": "2026-08-09T13:53:12.243Z",
-      "state": "review"
-    }
-  ],
+  "plan": [],
+  "batches": [],
   "log": [
     {
-      "at": "2026-08-09T13:23:45.751Z",
-      "event": "init 2026-08-test: 5 тем"
-    },
-    {
-      "at": "2026-08-09T13:28:41.322Z",
-      "event": "apply-decisions: 1 снято, 1 «пишем сами», 1 правок"
-    },
-    {
-      "at": "2026-08-09T13:30:16.324Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-09T13:31:10.375Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-09T13:33:56.466Z",
-      "event": "батч 1 начат: lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat, kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu"
-    },
-    {
-      "at": "2026-08-09T13:52:11.883Z",
-      "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat → на вычитке"
-    },
-    {
-      "at": "2026-08-09T13:52:11.917Z",
-      "event": "kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu → на вычитке"
-    },
-    {
-      "at": "2026-08-09T13:53:12.243Z",
-      "event": "батч 2 начат: kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme, kto-obyazan-podklyuchit-ts-piot-do-01-10-2026"
-    },
-    {
-      "at": "2026-08-09T14:00:02.938Z",
-      "event": "kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme → на вычитке"
-    },
-    {
-      "at": "2026-08-09T14:00:02.968Z",
-      "event": "kto-obyazan-podklyuchit-ts-piot-do-01-10-2026 → на вычитке"
-    },
-    {
-      "at": "2026-08-09T14:00:48.688Z",
-      "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat: отмечено 1 замечаний"
-    },
-    {
-      "at": "2026-08-09T14:03:53.761Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-09T14:05:25.605Z",
-      "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat → принято"
-    },
-    {
-      "at": "2026-08-09T14:06:40.187Z",
-      "event": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat → выпущено"
+      "at": "2026-08-10T04:44:35.626Z",
+      "event": "reset"
     }
   ]
 }
