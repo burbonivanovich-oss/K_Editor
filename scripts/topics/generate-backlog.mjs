@@ -14,7 +14,12 @@
  * Запуск:
  *   node scripts/topics/generate-backlog.mjs
  *   node scripts/topics/generate-backlog.mjs --limit 20 --signals /tmp/signals.json
+ *   node scripts/topics/generate-backlog.mjs --limit 40 --per-cluster 4
  *   node scripts/topics/generate-backlog.mjs --dry-run
+ *
+ * --per-cluster N (по умолчанию 3) — сколько тем одного кластера пускать в
+ * список. Без ограничения самый частотный кластер выбирает всю квоту, и
+ * редактор видит не обзор спроса, а один кластер в тридцати формулировках.
  *
  * Пишет src/data/topic-backlog.json. Решения редактора разбирает
  * cycle-listen, память об отказах ведёт suppressions.mjs.
@@ -250,7 +255,14 @@ function reasonFor(item) {
     // сравнения с прошлой неделей, и выдавать «выросло» было бы неправдой.
     return `спрос ${item.count} показов в месяц, темы нет ни в плане, ни в блоге`;
   }
-  return `новая фраза в выдаче, ${item.count} показов в месяц`;
+  // Кандидат сюда доходит только если не покрыт планом и блогом (проверка
+  // covered выше по коду), поэтому «статьи нет» — не догадка, а факт
+  // отбора. Раньше строка была голой («новая фраза в выдаче, N показов»),
+  // и в таблице все свежие фразы выглядели одинаково, хотя отличались и
+  // частотностью, и кластером.
+  return `новая фраза в выдаче: ${item.count} показов в месяц, статьи по запросу нет${
+    item.cluster ? `, кластер ${item.cluster}` : ""
+  }`;
 }
 
 function candidatesFromDiffs(diffs) {
@@ -260,6 +272,11 @@ function candidatesFromDiffs(diffs) {
       const cluster = seed.cluster || null;
       for (const n of seed.diff?.NEW ?? []) {
         if (n.count < MIN_COUNT) continue;
+        // Шумовой фильтр стоял только на пути дампов, а diff-кандидаты шли
+        // мимо него — так «кассы смотреть онлайн» и «фильмы онлайн касс»
+        // добрались до таблицы редактора. Порог слов здесь мягче (2):
+        // diff-фразы короче дампных, и minWords=3 срезал бы живые темы.
+        if (!isInformational(n.phrase, 2)) continue;
         rows.push({
           phrase: n.phrase, cluster, seed: seed.seed, ns,
           kind: "new", count: n.count, weight: n.count,
@@ -481,6 +498,13 @@ const seen = new Set();
 // Наборы основ уже принятых тем — для отсева вложенных формулировок.
 const acceptedSets = [];
 const candidates = [];
+// Сколько тем одного кластера пускаем в список. Сортировка идёт по весу, а
+// вес — это частотность; поэтому один урожайный кластер (в прогоне 09.08 —
+// kkt) занимал половину таблицы, а эквайринг, оборудование и общепит не
+// попадали вовсе. Редактору нужен обзор спроса, а не топ одного кластера.
+// 0 отключает ограничение.
+const PER_CLUSTER = parseInt(arg("per-cluster", "3"), 10);
+const perCluster = new Map();
 
 /**
  * Вложенный дубль: набор основ одной темы целиком содержится в другой.
@@ -510,6 +534,13 @@ for (const item of raw.sort(
 
   const tokens = stemTokens(item.phrase);
   if (isNested(tokens)) { stats.дубли++; continue; }
+
+  const ck = item.cluster || "—";
+  if (PER_CLUSTER > 0 && (perCluster.get(ck) ?? 0) >= PER_CLUSTER) {
+    stats["сверх квоты кластера"] = (stats["сверх квоты кластера"] ?? 0) + 1;
+    continue;
+  }
+  perCluster.set(ck, (perCluster.get(ck) ?? 0) + 1);
 
   seen.add(key);
   acceptedSets.push(new Set(tokens));
