@@ -84,7 +84,7 @@ jobs:
           # репозитория через Actions UI, риск ниже, но паттерн один на все
           # workflow — держим его единообразно, а не только там, где ввод
           # внешний.
-          LIMIT: ${{ inputs.limit || '15' }}
+          LIMIT: ${{ inputs.limit || '40' }}
         run: |
           set -euo pipefail
           node scripts/topics/generate-backlog.mjs --limit "${LIMIT}" | tee /tmp/backlog.log
