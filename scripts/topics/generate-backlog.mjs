@@ -17,9 +17,13 @@
  *   node scripts/topics/generate-backlog.mjs --limit 40 --per-cluster 4
  *   node scripts/topics/generate-backlog.mjs --dry-run
  *
- * --per-cluster N (по умолчанию 3) — сколько тем одного кластера пускать в
+ * --per-cluster N (по умолчанию 4) — сколько тем одного кластера пускать в
  * список. Без ограничения самый частотный кластер выбирает всю квоту, и
  * редактор видит не обзор спроса, а один кластер в тридцати формулировках.
+ *
+ * --near-dup 0..1 (по умолчанию 0.4) — порог схлопывания перестановочных
+ * дублей: «маркировка товара знаки» и «честный знак на товаре» это одна
+ * тема. 0 отключает проверку.
  *
  * Пишет src/data/topic-backlog.json. Решения редактора разбирает
  * cycle-listen, память об отказах ведёт suppressions.mjs.
@@ -151,7 +155,10 @@ const arg = (name, fallback = null) => {
   return i === -1 || i === process.argv.length - 1 ? fallback : process.argv[i + 1];
 };
 const DRY_RUN = process.argv.includes("--dry-run");
-const LIMIT = parseInt(arg("limit", "15"), 10);
+// 40 тем, а не 15: редактору нужен выбор, а не короткий список сверху
+// частотности. Ниже по списку темы слабее, но это его решение, не наше —
+// на 15 темах половина кластеров не попадала в таблицу вообще.
+const LIMIT = parseInt(arg("limit", "40"), 10);
 const MIN_COUNT = parseInt(arg("min-count", "50"), 10);
 // Во сколько раз строже порог для абсолютной частотности, чем для diff-а.
 // Рост с 40 до 300 показов — событие; 300 показов сами по себе — фон.
@@ -503,7 +510,7 @@ const candidates = [];
 // kkt) занимал половину таблицы, а эквайринг, оборудование и общепит не
 // попадали вовсе. Редактору нужен обзор спроса, а не топ одного кластера.
 // 0 отключает ограничение.
-const PER_CLUSTER = parseInt(arg("per-cluster", "3"), 10);
+const PER_CLUSTER = parseInt(arg("per-cluster", "4"), 10);
 const perCluster = new Map();
 
 /**
@@ -521,6 +528,28 @@ function isNested(tokens) {
   });
 }
 
+/**
+ * Перестановочный дубль: тот же запрос другими словами и в другом порядке.
+ * Вложенность его не ловит — наборы основ пересекаются, но ни один не
+ * содержит другой целиком: «маркировка товара знаки», «честный знак на
+ * товаре» и «маркировать честный знак» — это одна тема в трёх видах.
+ *
+ * На списке в 15 тем такое почти не встречалось, на 40–50 съедало до
+ * трети мест: чем длиннее список, тем глубже он черпает переформулировки
+ * одного и того же запроса. Редактор при этом видит не выбор, а свою же
+ * работу по вычистке дублей за скриптом.
+ *
+ * Порог 0.5 подобран по реальным выгрузкам: он схлопывает перестановки и
+ * не трогает соседние темы одного кластера — «накладная егаис» и
+ * «остатки егаис» дают 0.33 и остаются обе.
+ */
+const NEAR_DUP = parseFloat(arg("near-dup", "0.4"));
+function isNearDuplicate(tokens) {
+  if (!(NEAR_DUP > 0)) return false;
+  const a = new Set(tokens);
+  return acceptedSets.some((b) => jaccard(a, b) >= NEAR_DUP);
+}
+
 for (const item of raw.sort(
   (a, b) => b.weight * priorityMultiplier(b.cluster) - a.weight * priorityMultiplier(a.cluster),
 )) {
@@ -533,7 +562,7 @@ for (const item of raw.sort(
   if (seen.has(key)) { stats.дубли++; continue; }
 
   const tokens = stemTokens(item.phrase);
-  if (isNested(tokens)) { stats.дубли++; continue; }
+  if (isNested(tokens) || isNearDuplicate(tokens)) { stats.дубли++; continue; }
 
   const ck = item.cluster || "—";
   if (PER_CLUSTER > 0 && (perCluster.get(ck) ?? 0) >= PER_CLUSTER) {
