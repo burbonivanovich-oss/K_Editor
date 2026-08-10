@@ -57,7 +57,13 @@ const TOPIC_STATUSES = ['planned', 'writing', 'review', 'accepted', 'released', 
 // Значения колонки «Решение» в таблице (drive-sync.mjs DECISIONS), которые
 // apply-decisions умеет разбирать. Список должен совпадать с DECISIONS
 // там — источники разные, ручной синхронизации ничего не заменяет.
-const KNOWN_DECISIONS = new Set(['убрать', 'пишем сами', 'одобрено', 'принято']);
+const KNOWN_DECISIONS = new Set([
+  'убрать', 'пишем сами', 'одобрено', 'принято',
+  // Заказ на бриф для дизайнера: обложка и иллюстрации к уже написанному
+  // тексту. Статус темы не меняет — статья как была на вычитке или принята,
+  // так и остаётся; это параллельный артефакт, а не стадия цикла.
+  'нужно тз дизайнеру',
+]);
 
 /** Внутренний статус → надпись в колонке «Статус» таблицы. */
 const RU_STATUS = {
@@ -251,7 +257,7 @@ switch (cmd) {
     const pull = JSON.parse(readFileSync(file, 'utf8'));
     const changes = {
       approved: false, dropped: [], toEditor: [], toBot: [], accepted: [],
-      notes: [], added: [], missing: [], unrecognized: [],
+      notes: [], added: [], missing: [], unrecognized: [], designBrief: [],
     };
 
     // Согласование плана целиком
@@ -320,6 +326,10 @@ switch (cmd) {
         // обработает приёмку (cycle-state accept переводит в 'accepted'),
         // условие перестаёт совпадать само.
         changes.accepted.push({ slug: t.slug, title: t.title });
+      } else if (d === 'нужно тз дизайнеру') {
+        // Статус не трогаем. Гвард от повторной засветки — по docId: бриф
+        // делается по готовому тексту, а пока дока нет, заказывать нечего.
+        if (t.docId) changes.designBrief.push({ slug: t.slug, title: t.title, docId: t.docId });
       } else if (d && !KNOWN_DECISIONS.has(d)) {
         // Колонка «Решение» в таблице — выпадающий список с showCustomUi/
         // strict:false (drive-sync.mjs): Sheets ЛЮБОЕ значение примет как

@@ -279,6 +279,7 @@ const MENU = [
       { k: "23", label: "Оценка 0–100", type: "claude", cmd: "/analyze-article <slug>" },
       { k: "24", label: "Снять черновик (финальный шлюз)", type: "claude", cmd: "/release-article <slug>" },
       { k: "25", label: "Рерайт под соцканалы", type: "claude", cmd: "/social-rewrite <slug>" },
+      { k: "27", label: "ТЗ дизайнеру: обложка и иллюстрации", type: "claude", cmd: "/design-brief <slug>" },
       { k: "26", label: "Пересобрать editorial-plan.json из контент-плана", type: "run", cmd: ["node", "scripts/generate-editorial-plan.mjs"] },
     ],
   },
