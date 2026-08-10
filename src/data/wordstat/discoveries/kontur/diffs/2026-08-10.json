@@ -1,0 +1,10 @@
+{
+  "prevDate": "2026-08-04",
+  "currDate": "2026-08-10",
+  "namespace": "kontur",
+  "thresholds": {
+    "rise": 2,
+    "minCount": 10
+  },
+  "seeds": []
+}
