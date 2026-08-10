@@ -350,12 +350,20 @@ const BACKLOG_COLS = [
   { key: 'targetKeyword', title: 'Целевой запрос', width: 200 },
   { key: 'wordstat',     title: 'Wordstat',       width: 90  },
   { key: 'cluster',      title: 'Кластер',        width: 110 },
+  // «Кластер» отвечает на вопрос «про что», «Сегмент» — «для кого».
+  // В ручном списке редакции колонка была, у скрипта её не было, и нишевые
+  // темы в таблице выглядели случайными: признак, который их связывает,
+  // не показывался.
+  { key: 'segment',      title: 'Сегмент',        width: 150 },
   { key: 'product',      title: 'Продукт',        width: 150 },
   { key: 'type',         title: 'Тип',            width: 90  },
   { key: 'why',          title: 'Зачем сейчас',   width: 260 },
   { key: 'normHint',     title: 'Норма/дата',     width: 200 },
   { key: 'dedup',        title: 'Дедуп',          width: 170 },
   { key: 'konturLink',   title: 'Ссылка Маркета', width: 220 },
+  // Связка: тот же запрос другими словами. Одна статья закрывает их все,
+  // и суммарный спрос честнее одиночной частотности.
+  { key: 'related',      title: 'Связки',         width: 300 },
   { key: 'decision',     title: 'Решение',        width: 150 },  // ← редактор
   { key: 'who',          title: 'Кто пишет',      width: 150 },  // ← редактор
   { key: 'reason',       title: 'Причина отказа', width: 280 },  // ← редактор
@@ -822,6 +830,13 @@ async function formatBacklogSheet(sheetId, weekId, rowCount) {
 const BACKLOG_ALIASES = { topic: ['title'], why: ['note', 'rationale'] };
 function backlogCellValue(key, t) {
   if (key === 'n') return null; // проставляется отдельно, номер строки
+  if (key === 'segment') return t.segmentLabel || t.segment || '';
+  if (key === 'related') {
+    const rel = t.relatedQueries ?? [];
+    if (!rel.length) return '';
+    const total = t.wordstatTotal ?? t.wordstat;
+    return `${rel.map((r) => `${r.query} (${r.wordstat})`).join('; ')} — всего ${total}`;
+  }
   if (t[key] != null && t[key] !== '') return t[key];
   for (const alias of BACKLOG_ALIASES[key] ?? []) {
     if (t[alias] != null && t[alias] !== '') return t[alias];

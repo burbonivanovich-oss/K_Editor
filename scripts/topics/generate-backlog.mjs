@@ -40,6 +40,7 @@ import { isSuppressed, normalize, load as loadSuppressions } from "./suppression
 import { isInformational, dedupeKey, stemTokens } from "../wordstat/relevance.mjs";
 import { tokenize, jaccard } from "../lib/text-similarity.mjs";
 import { priorityMultiplier } from "./priority-clusters.mjs";
+import { segmentFor } from "./segments.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
@@ -509,6 +510,12 @@ const stats = { всего: raw.length, дубли: 0, покрыто: 0, заг
 const seen = new Set();
 // Наборы основ уже принятых тем — для отсева вложенных формулировок.
 const acceptedSets = [];
+/* Параллельно acceptedSets: какой карточке кандидата соответствует набор
+   основ. Нужен, чтобы близкий запрос не выбрасывался как дубль, а
+   приклеивался к уже принятой теме — см. attachRelated ниже. Null там,
+   где тема была принята к дедупу, но отсеяна дальше (покрыта планом или
+   заглушена): приклеивать не к чему. */
+const acceptedCards = [];
 const candidates = [];
 // Сколько тем одного кластера пускаем в список. Сортировка идёт по весу, а
 // вес — это частотность; поэтому один урожайный кластер (в прогоне 09.08 —
@@ -549,10 +556,52 @@ function isNested(tokens) {
  * «остатки егаис» дают 0.33 и остаются обе.
  */
 const NEAR_DUP = parseFloat(arg("near-dup", "0.4"));
-function isNearDuplicate(tokens) {
-  if (!(NEAR_DUP > 0)) return false;
+// Порог склейки строже порога схлопывания: между 0.4 и 0.55 запрос — дубль
+// и просто выбрасывается, выше 0.55 — та же тема другими словами, её
+// частотность имеет смысл суммировать.
+const ATTACH_MIN = parseFloat(arg("attach-min", "0.5"));
+const MAX_RELATED = parseInt(arg("max-related", "4"), 10);
+function nearDuplicateIndex(tokens) {
+  if (!(NEAR_DUP > 0)) return { idx: -1, score: 0 };
   const a = new Set(tokens);
-  return acceptedSets.some((b) => jaccard(a, b) >= NEAR_DUP);
+  let best = { idx: -1, score: 0 };
+  acceptedSets.forEach((b, i) => {
+    const score = jaccard(a, b);
+    if (score >= NEAR_DUP && score > best.score) best = { idx: i, score };
+  });
+  return best;
+}
+
+/**
+ * Связка: близкий запрос не выбрасывается, а приклеивается к принятой теме.
+ *
+ * «эквайринг для ип» и «эквайринг для ип тарифы» — одна статья, но два
+ * запроса, и в ручном списке редакции они и стояли одной строкой с общей
+ * частотностью 8 226 + 7 585. Скрипт же схлопывал второй как дубль и терял
+ * половину спроса: тема выглядела вдвое слабее, чем она есть, и уезжала
+ * ниже по списку или вылетала из полосы.
+ *
+ * Приклеенные запросы видны редактору отдельным полем: по ним он понимает,
+ * какие формулировки статья должна закрыть, не выискивая их сам.
+ */
+function attachRelated(idx, item, score) {
+  const card = acceptedCards[idx];
+  if (!card) return false;
+  // Приклеиваем только по-настоящему близкое и не больше четырёх штук.
+  // Первая версия брала всё, что проходило порог схлопывания, — и одна
+  // тема «маркировка товара» собрала 55 запросов и 106 тысяч показов,
+  // проглотив половину кластера. Это уже не связка, а подмена: редактор
+  // видел бы одну строку вместо десятка разных статей.
+  if (score < ATTACH_MIN) return false;
+  const w = item.weight ?? 0;
+  if (!w) return true;
+  card.relatedQueries = card.relatedQueries ?? [];
+  if (card.relatedQueries.length >= MAX_RELATED) return false;
+  if (card.relatedQueries.some((r) => r.query === item.phrase)) return true;
+  card.relatedQueries.push({ query: item.phrase, wordstat: w });
+  card.wordstatTotal = (card.wordstatTotal ?? card.wordstat ?? 0) + w;
+  stats["связок склеено"] = (stats["связок склеено"] ?? 0) + 1;
+  return true;
 }
 
 /* Полосы частотности и доли мест под каждую.
@@ -600,7 +649,12 @@ function tryAccept(item, respectBands) {
   if (seen.has(key)) { stats.дубли++; return; }
 
   const tokens = stemTokens(item.phrase);
-  if (isNested(tokens) || isNearDuplicate(tokens)) { stats.дубли++; return; }
+  if (isNested(tokens)) { stats.дубли++; return; }
+  const near = nearDuplicateIndex(tokens);
+  if (near.idx >= 0) {
+    if (!attachRelated(near.idx, item, near.score)) stats.дубли++;
+    return;
+  }
 
   const ck = item.cluster || "—";
   if (PER_CLUSTER > 0 && (perCluster.get(ck) ?? 0) >= PER_CLUSTER) {
@@ -621,6 +675,7 @@ function tryAccept(item, respectBands) {
 
   seen.add(key);
   acceptedSets.push(new Set(tokens));
+  acceptedCards.push(null); // заполним ниже, если тема дойдёт до карточки
 
   if (covered.has(key)) { stats.покрыто++; return; }
 
@@ -631,9 +686,10 @@ function tryAccept(item, respectBands) {
   }
 
   const { product, productLabel } = productFor(item.cluster);
+  const { segment, segmentLabel } = segmentFor(item.cluster);
   const { dedup, konturLink } = marketDedupFor(item.phrase);
 
-  candidates.push({
+  const card = {
     topic: item.phrase,
     targetKeyword: item.phrase,
     cluster: item.cluster,
@@ -650,6 +706,8 @@ function tryAccept(item, respectBands) {
     wordstat: item.kind === "signal" ? null : (item.now ?? item.count ?? null),
     product,
     productLabel,
+    segment,
+    segmentLabel,
     type: typeFor(item.phrase),
     normHint: npaHintFor(item.cluster),
     dedup,
@@ -657,13 +715,25 @@ function tryAccept(item, respectBands) {
     decision: "",
     author: "",
     declineReason: "",
-  });
-
+  };
+  candidates.push(card);
+  // Карточка встала — теперь к ней можно приклеивать близкие запросы.
+  acceptedCards[acceptedCards.length - 1] = card;
 }
 
 /* Первый проход — с квотами полос, второй добивает список отложенными. */
 for (const item of ordered) tryAccept(item, USE_BANDS);
 for (const item of deferred) tryAccept(item, false);
+
+/* Суммарный спрос — в обоснование. Число в колонке «Wordstat» остаётся
+   частотностью основного запроса, иначе оно разойдётся с тем, что редактор
+   увидит в самом Wordstat; а сумма по связке объясняет, почему тема стоит
+   выше соседей. */
+for (const c of candidates) {
+  if (!c.relatedQueries?.length) continue;
+  const total = c.wordstatTotal ?? c.wordstat;
+  c.why = `${c.why}; со связанными запросами ${total} показов по ${c.relatedQueries.length + 1} формулировкам`;
+}
 
 const payload = {
   schemaVersion: 1,
