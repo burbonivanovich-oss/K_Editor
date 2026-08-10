@@ -7,9 +7,13 @@
  * почему её стоит писать именно сейчас. Результат уходит редактору
  * таблицей: он раз в неделю проставляет решения, ничего не выискивая сам.
  *
- * Сигналы /monitor-rss и /monitor-competitors подмешиваются файлом
- * --signals: эти команды работают в сессии Claude и артефакта на диске не
- * оставляют, поэтому забрать их автоматически неоткуда.
+ * Инфоповоды — темы без частотности — приходят файлом --signals: событие
+ * объявили, запрос ещё не сформировался, и через Wordstat такая тема не
+ * придёт никогда. Отбираются до общего пула и в пределах своей квоты
+ * (--signals-quota, по умолчанию 6): сортировка по спросу похоронила бы
+ * их в конце списка. Собирают сигналы /monitor-rss и
+ * /monitor-competitors — они работают в сессии и файлов не оставляют,
+ * поэтому JSON готовит рутина A0, см. cycle-backlog.md, «Шаг 1в».
  *
  * Запуск:
  *   node scripts/topics/generate-backlog.mjs
@@ -502,6 +506,9 @@ const raw = [
     kind: "signal",
     source: s.source || "monitor",
     note: s.note || null,
+    // Дата события — то, чем инфоповод заменяет частотность: по ней
+    // редактор понимает, к какому сроку тема должна выйти.
+    eventDate: s.eventDate || s.date || null,
     weight: s.weight ?? 0,
   })),
 ];
@@ -631,7 +638,22 @@ const bandQuota = new Map(BANDS.map((b) => [b.name, Math.max(1, Math.round(LIMIT
 const bandTaken = new Map(BANDS.map((b) => [b.name, 0]));
 const deferred = [];
 
-const ordered = raw.sort(
+/* Инфоповоды идут первыми и вне полос частотности.
+ *
+ * У темы «с апреля 2026 продажи пива уходят в ЕГАИС из Честного знака
+ * автоматически» частотности нет вовсе: запрос ещё не сформировался,
+ * потому что событие только объявили. Сортировка по спросу ставит такую
+ * тему в самый конец, а полоса «нишевые» отдаёт ей место по остаточному
+ * принципу — то есть механика гарантированно теряет ровно тот класс тем,
+ * ради которых у редакции есть дедлайн.
+ *
+ * Поэтому сигналы мониторинга отбираются до общего пула и в пределах
+ * своей квоты. Ноль сигналов — квота просто не расходуется. */
+const SIGNAL_QUOTA = parseInt(arg("signals-quota", "6"), 10);
+const signalRows = raw.filter((r) => r.kind === "signal");
+const demandRows = raw.filter((r) => r.kind !== "signal");
+
+const ordered = demandRows.sort(
   (a, b) => b.weight * priorityMultiplier(b.cluster) - a.weight * priorityMultiplier(a.cluster),
 );
 
@@ -708,8 +730,8 @@ function tryAccept(item, respectBands) {
     productLabel,
     segment,
     segmentLabel,
-    type: typeFor(item.phrase),
-    normHint: npaHintFor(item.cluster),
+    type: item.kind === "signal" ? "infopovod" : typeFor(item.phrase),
+    normHint: item.eventDate ? `событие ${item.eventDate}` : npaHintFor(item.cluster),
     dedup,
     konturLink,
     decision: "",
@@ -721,7 +743,18 @@ function tryAccept(item, respectBands) {
   acceptedCards[acceptedCards.length - 1] = card;
 }
 
-/* Первый проход — с квотами полос, второй добивает список отложенными. */
+/* Сначала инфоповоды в пределах своей квоты — у них нет спроса, по
+   которому их можно было бы отранжировать честно, зато есть дата. */
+let signalsTaken = 0;
+for (const item of signalRows) {
+  if (signalsTaken >= SIGNAL_QUOTA) break;
+  const before = candidates.length;
+  tryAccept(item, false);
+  if (candidates.length > before) signalsTaken++;
+}
+stats["инфоповодов"] = signalsTaken;
+
+/* Дальше спрос: проход с квотами полос, затем добор отложенными. */
 for (const item of ordered) tryAccept(item, USE_BANDS);
 for (const item of deferred) tryAccept(item, false);
 

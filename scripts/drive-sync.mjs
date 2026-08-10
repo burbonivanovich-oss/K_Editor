@@ -831,6 +831,12 @@ const BACKLOG_ALIASES = { topic: ['title'], why: ['note', 'rationale'] };
 function backlogCellValue(key, t) {
   if (key === 'n') return null; // проставляется отдельно, номер строки
   if (key === 'segment') return t.segmentLabel || t.segment || '';
+  // У инфоповода частотности нет и быть не может: запрос ещё не
+  // сформировался, событие только объявили. Пустая ячейка читалась бы как
+  // «данных не собрали», поэтому пишем словом.
+  if (key === 'wordstat' && (t.wordstat == null || t.wordstat === '')) {
+    return t.type === 'infopovod' ? 'инфоповод' : '';
+  }
   if (key === 'related') {
     const rel = t.relatedQueries ?? [];
     if (!rel.length) return '';
