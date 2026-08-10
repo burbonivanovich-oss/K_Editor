@@ -264,6 +264,7 @@ const MENU = [
     items: [
       { k: "10", label: "Где сейчас цикл", type: "run", cmd: ["node", "scripts/cycle-state.mjs", "get"] },
       { k: "11", label: "Можно ли стартовать батч", type: "run", cmd: ["node", "scripts/cycle-state.mjs", "can-start-batch"] },
+      { k: "16", label: "Недельная сводка редактору", type: "run", cmd: ["node", "scripts/weekly-digest.mjs"] },
       { k: "12", label: "Рутина A — собрать план и выложить редактору", type: "claude", cmd: "/cycle-plan" },
       { k: "13", label: "Рутина A0 — недельный бэклог тем", type: "claude", cmd: "/cycle-backlog" },
       { k: "14", label: "Рутина B — прочитать решения редактора", type: "claude", cmd: "/cycle-listen" },

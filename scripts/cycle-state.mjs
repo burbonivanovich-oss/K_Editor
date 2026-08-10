@@ -83,6 +83,7 @@ const EMPTY = {
   drive: { folderId: null, sheetId: null, sheetUrl: null, folderUrl: null },
   batchSize: 3,
   maxInReview: 6,   // потолок очереди редактора: 2 батча по 3
+  pausedUntil: null, // «ПАУЗА до дд.мм.гггг» в B2 — новые батчи не стартуют
   plan: [],
   batches: [],
   log: [],
@@ -126,6 +127,27 @@ const find = (s, slug) => s.plan.find((t) => t.slug === slug);
 // start-batch затем отклонял, потому что писавшиеся темы (writing) уже
 // заняли часть потолка, а предварительная проверка их не видела.
 const occupiedCount = (s) => count(s, 'writing') + count(s, 'review');
+
+const today = () => new Date().toISOString().slice(0, 10);
+
+/** Сколько дней тема ждёт редактора. Нет отметки — считаем нулём: тема
+ *  попала в review до того, как отметку начали ставить. */
+function waitedDays(t) {
+  if (!t.reviewSince) return 0;
+  const ms = Date.parse(today()) - Date.parse(t.reviewSince);
+  return Math.max(0, Math.round(ms / 86400000));
+}
+
+/** Очередь вычитки в том порядке, в каком её стоит разбирать: сначала то,
+ *  что ждёт дольше, при равном возрасте — по приоритету темы. */
+function waitingTopics(s) {
+  const rank = { P0: 0, P1: 1, P2: 2 };
+  return s.plan
+    .filter((t) => t.status === 'review')
+    .sort((a, b) =>
+      waitedDays(b) - waitedDays(a) ||
+      (rank[a.priority] ?? 1) - (rank[b.priority] ?? 1));
+}
 
 // Разрешённые переходы статуса темы. Раньше status менялся напрямую
 // (t.status = ...) в пяти разных местах — легко добавить шестое и забыть
@@ -260,6 +282,27 @@ switch (cmd) {
       notes: [], added: [], missing: [], unrecognized: [], designBrief: [],
     };
 
+    /* Пауза. Единственным способом остановить конвейер был потолок
+     * очереди: редактор уходил в отпуск, не разбирал вычитку, статьи
+     * копились до шести и вставали — а по возвращении сваливались разом.
+     * Теперь это говорится прямо, в той же ячейке B2:
+     *   «ПАУЗА до 20.08.2026» или просто «ПАУЗА» (тогда на две недели).
+     * Снимается возвратом «ОДОБРЕН». Пауза не отменяет разбор решений и
+     * ответы на комментарии — она останавливает только новые батчи. */
+    const pause = (pull.approval || '').match(/^пауза(?:\s+до\s+(\d{2})\.(\d{2})\.(\d{4}))?/i);
+    if (pause) {
+      const until = pause[1]
+        ? `${pause[3]}-${pause[2]}-${pause[1]}`
+        : new Date(Date.now() + 14 * 86400000).toISOString().slice(0, 10);
+      if (s.pausedUntil !== until) {
+        s.pausedUntil = until;
+        changes.paused = until;
+      }
+    } else if (s.pausedUntil) {
+      s.pausedUntil = null;
+      changes.resumed = true;
+    }
+
     // Согласование плана целиком
     if (/^ОДОБРЕН/i.test(pull.approval || '') && s.state === 'awaiting_review') {
       s.state = 'running';
@@ -371,6 +414,10 @@ switch (cmd) {
   /* ---------------------------------------------------- can-start-batch */
   /* Потолок очереди редактора. Не даём завалить его правками.            */
   case 'can-start-batch': {
+    if (s.pausedUntil && s.pausedUntil >= today()) {
+      console.log(`НЕТ — редактор поставил паузу до ${s.pausedUntil} (ячейка B2 таблицы плана)`);
+      process.exit(1);
+    }
     if (s.state === 'awaiting_review') { console.log('НЕТ — план ещё не одобрен в таблице'); process.exit(1); }
     if (['idle', 'done'].includes(s.state)) { console.log(`НЕТ — цикл в состоянии ${s.state}`); process.exit(1); }
 
@@ -450,6 +497,10 @@ switch (cmd) {
     const t = find(s, slug);
     t.docId = arg('doc-id', t.docId);
     t.docUrl = arg('doc-url', t.docUrl);
+    // Момент, с которого статья ждёт редактора. Без него в таблице
+    // статья шестого дня выглядит так же, как вчерашняя, и приоритет
+    // вычитки редактору взять неоткуда.
+    t.reviewSince = new Date().toISOString().slice(0, 10);
     const b = s.batches.find((x) => x.slugs.includes(slug) && x.state === 'writing');
     if (b && b.slugs.every((sl) => find(s, sl).status !== 'writing')) b.state = 'review';
     save(s, `${slug} → на вычитке`);
@@ -531,7 +582,9 @@ switch (cmd) {
     const occupied = occupiedCount(s);
     const pendingBot = s.plan.filter((t) => t.status === 'planned' && t.owner === 'bot').length;
     const parts = [`Очередь: ${occupied}/${s.maxInReview}`];
-    if (s.state === 'awaiting_review') {
+    if (s.pausedUntil && s.pausedUntil >= today()) {
+      parts.push(`пауза до ${s.pausedUntil} — новые статьи не пишутся, снимается в ячейке B2`);
+    } else if (s.state === 'awaiting_review') {
       parts.push('план ждёт вашего «ОДОБРЕН» в B2 — до этого статьи не пишутся');
     } else if (occupied >= s.maxInReview) {
       parts.push('новые статьи не придут, пока вы не разберёте очередь — это защита, не сбой');
@@ -540,12 +593,25 @@ switch (cmd) {
     } else {
       parts.push(`тем в работе у бота: ${pendingBot}, ближайший батч — понедельник или четверг`);
     }
-    parts.push(`обновлено ${new Date().toISOString().slice(0, 10)}`);
+    // С какой статьи начать. Приоритет — сначала возраст (что ждёт
+    // дольше), при равном возрасте P0 выше P1. Полная очередь без этой
+    // подсказки — шесть равнозначных строк, порядок редактор выбирает
+    // наугад, и дольше всех ждёт обычно не то, что важнее.
+    const firstUp = waitingTopics(s)[0];
+    if (firstUp) {
+      parts.push(`начать с: «${firstUp.title}» (${firstUp.priority || 'P1'}, ждёт ${waitedDays(firstUp)} дн.)`);
+    }
+    parts.push(`обновлено ${today()}`);
     updates.push({ range: 'E2', value: parts.join(' · ') });
 
     for (const t of s.plan) {
       if (!t.row) continue;
-      updates.push({ range: `I${t.row}`, value: RU_STATUS[t.status] || t.status });
+      // К статусу «на вычитке» дописываем возраст: отдельной колонки под
+      // это нет, а вставлять её нельзя — сдвинутся I/J/K, на которые
+      // ссылаются буквами и этот код, и kontur-menu.gs.
+      const days = t.status === 'review' ? waitedDays(t) : null;
+      const label = RU_STATUS[t.status] || t.status;
+      updates.push({ range: `I${t.row}`, value: days === null ? label : `${label} · ${days} дн.` });
       if (t.docUrl) updates.push({ range: `J${t.row}`, value: t.docUrl });
       if (t.slug) updates.push({ range: `K${t.row}`, value: t.slug });
     }
