@@ -25,6 +25,11 @@
  * дублей: «маркировка товара знаки» и «честный знак на товаре» это одна
  * тема. 0 отключает проверку.
  *
+ * --bands off — снять квоты по полосам частотности и вернуться к чистой
+ * сортировке по спросу. По умолчанию квоты включены: без них список
+ * получается однородно широким, а узкие коммерческие запросы («касса для
+ * аптеки», «учёт остатков в магазине») не попадают в него никогда.
+ *
  * Пишет src/data/topic-backlog.json. Решения редактора разбирает
  * cycle-listen, память об отказах ведёт suppressions.mjs.
  */
@@ -550,36 +555,79 @@ function isNearDuplicate(tokens) {
   return acceptedSets.some((b) => jaccard(a, b) >= NEAR_DUP);
 }
 
-for (const item of raw.sort(
+/* Полосы частотности и доли мест под каждую.
+ *
+ * Сортировка по весу — это сортировка по частотности, и без квот список
+ * получался однородно широким: медиана 5811, минимум 1592, ни одной темы
+ * ниже тысячи. Ручной список редакции (40 тем, август 2026) выглядел
+ * иначе: медиана 4451, минимум 51, и 15% мест занимали узкие
+ * коммерческие запросы — «касса для магазина одежды», «касса для аптеки»,
+ * «учёт остатков в магазине». Они дают мало показов и много продаж, и
+ * механическим отбором по частоте не достаются никогда.
+ *
+ * Доли повторяют то распределение: широкие темы задают охват, средние
+ * несут основную массу, нишевые — конверсию. Полоса недобрала — места
+ * уходят соседям, список всё равно будет полным.
+ */
+const BANDS = [
+  { name: "широкие",  min: 20000, share: 0.12 },
+  { name: "высокие",  min: 5000,  share: 0.28 },
+  { name: "средние",  min: 1000,  share: 0.45 },
+  { name: "низкие",   min: 200,   share: 0.05 },
+  { name: "нишевые",  min: 0,     share: 0.10 },
+];
+const USE_BANDS = arg("bands", "on") !== "off";
+const bandOf = (w) => BANDS.find((b) => (w ?? 0) >= b.min) ?? BANDS[BANDS.length - 1];
+const bandQuota = new Map(BANDS.map((b) => [b.name, Math.max(1, Math.round(LIMIT * b.share))]));
+const bandTaken = new Map(BANDS.map((b) => [b.name, 0]));
+const deferred = [];
+
+const ordered = raw.sort(
   (a, b) => b.weight * priorityMultiplier(b.cluster) - a.weight * priorityMultiplier(a.cluster),
-)) {
+);
+
+/* Два прохода. Первый берёт темы в рамках квот своей полосы, второй
+ * добивает список отложенными — иначе при бедной выгрузке в нишевых
+ * полосах бэклог оказался бы короче лимита. */
+function tryAccept(item, respectBands) {
+  if (candidates.length >= LIMIT) return;
   // dedupeKey, а не normalize: normalize схлопывает только регистр и
   // пробелы, из-за чего переформулировки одного запроса проходили как
   // разные темы.
   const key = dedupeKey(item.phrase);
-  if (!key) continue;
+  if (!key) return;
 
-  if (seen.has(key)) { stats.дубли++; continue; }
+  if (seen.has(key)) { stats.дубли++; return; }
 
   const tokens = stemTokens(item.phrase);
-  if (isNested(tokens) || isNearDuplicate(tokens)) { stats.дубли++; continue; }
+  if (isNested(tokens) || isNearDuplicate(tokens)) { stats.дубли++; return; }
 
   const ck = item.cluster || "—";
   if (PER_CLUSTER > 0 && (perCluster.get(ck) ?? 0) >= PER_CLUSTER) {
     stats["сверх квоты кластера"] = (stats["сверх квоты кластера"] ?? 0) + 1;
-    continue;
+    return;
   }
+
+  const band = bandOf(item.weight);
+  if (respectBands && bandTaken.get(band.name) >= bandQuota.get(band.name)) {
+    // Не отбрасываем: если полосы окажутся бедными, эта тема ещё
+    // понадобится во втором проходе.
+    deferred.push(item);
+    stats["ждут места в полосе"] = (stats["ждут места в полосе"] ?? 0) + 1;
+    return;
+  }
+  bandTaken.set(band.name, bandTaken.get(band.name) + 1);
   perCluster.set(ck, (perCluster.get(ck) ?? 0) + 1);
 
   seen.add(key);
   acceptedSets.push(new Set(tokens));
 
-  if (covered.has(key)) { stats.покрыто++; continue; }
+  if (covered.has(key)) { stats.покрыто++; return; }
 
   const hit = isSuppressed(item.phrase, suppressionData);
   if (hit) {
     stats.заглушено++;
-    continue;
+    return;
   }
 
   const { product, productLabel } = productFor(item.cluster);
@@ -611,8 +659,11 @@ for (const item of raw.sort(
     declineReason: "",
   });
 
-  if (candidates.length >= LIMIT) break;
 }
+
+/* Первый проход — с квотами полос, второй добивает список отложенными. */
+for (const item of ordered) tryAccept(item, USE_BANDS);
+for (const item of deferred) tryAccept(item, false);
 
 const payload = {
   schemaVersion: 1,
