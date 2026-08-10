@@ -23,9 +23,24 @@
  *   make-doc     --title "..." --md article.md      создать Doc из markdown
  *   export-doc   --doc-id <id> [--out file.md]      Doc → markdown
  *   comments     --doc-id <id>                      нерешённые замечания
+ *   comment      --file-id <id> --text "..." [--mention editor@mail]  новое замечание
  *   reply        --doc-id <id> --comment-id <id> --text "..." [--resolve]
+ *   notify       --file-id <id> --to editor@mail [--message "..."]    письмо редактору
  *   set-cells    --sheet-id <id> --updates '[{"range":"J5","value":"на вычитке"}]'
  *   check                                          диагностика доступа
+ *
+ * Два разных способа позвать редактора, и путать их не надо:
+ *
+ *   comment — оставляет замечание в доке или таблице. Видно тому, кто
+ *   файл откроет; `--mention` добавляет к тексту +адрес, и Drive
+ *   разбирает его в mentionedEmailAddresses. Рассылку писем по
+ *   упоминаниям Google для комментариев, созданных через API, не
+ *   гарантирует — считать это каналом уведомления нельзя.
+ *
+ *   notify — выдаёт редактору доступ к конкретному файлу с
+ *   sendNotificationEmail=true. Вот это письмо Google шлёт всегда, и
+ *   emailMessage попадает в его текст. Годится ровно один раз на файл:
+ *   если доступ у редактора уже есть, второго письма не будет.
  *
  * Аутентификация: два независимых пути, порядок задаёт DRIVE_AUTH.
  *
@@ -1048,6 +1063,43 @@ try {
       break;
     }
 
+    /* Новое замечание в файле. Раньше скрипт умел только читать
+       комментарии и отвечать в существующем треде — а cycle-listen.md
+       требует «оставить комментарий к ячейке с переспросом», когда
+       правка редактора непонятна. Выполнить это было нечем, и рутина
+       либо угадывала, либо молчала.
+
+       Привязку к конкретной ячейке или куску текста (anchor) API не
+       даёт: поле есть, но формат для Sheets не документирован. Поэтому
+       комментарий файловый, а на строку ссылаемся текстом — «строка 7,
+       колонка „Правка“». */
+    case 'comment': {
+      const fileId = arg('file-id') || arg('doc-id') || arg('sheet-id');
+      const text = arg('text');
+      const mention = arg('mention');
+      if (!fileId || !text) die('нужны --file-id и --text');
+      const content = mention ? `+${mention} ${text}` : text;
+      // fields на создании — только id: mentionedEmailAddresses в списке
+      // полей POST отвергается («Invalid field selection»), хотя на
+      // чтении отдаётся. Поэтому создаём, потом перечитываем.
+      const r = await drive(`files/${fileId}/comments?fields=id`, {
+        method: 'POST',
+        body: JSON.stringify({ content }),
+      });
+      console.log(`✅ Замечание оставлено: ${r.id}`);
+      if (mention) {
+        const back = await drive(`files/${fileId}/comments/${r.id}?fields=mentionedEmailAddresses`);
+        const seen = (back.mentionedEmailAddresses || []).length > 0;
+        console.log(
+          seen
+            ? `   Упоминание разобрано: ${back.mentionedEmailAddresses.join(', ')}`
+            : '   ⚠ Упоминание не разобрано Drive.',
+        );
+        console.log('   Письмо по упоминанию Google не гарантирует. Нужно наверняка — notify.');
+      }
+      break;
+    }
+
     case 'reply': {
       const docId = arg('doc-id');
       const commentId = arg('comment-id');
@@ -1061,6 +1113,40 @@ try {
         }),
       });
       console.log(`✅ Ответ отправлен${process.argv.includes('--resolve') ? ' и замечание закрыто' : ''}`);
+      break;
+    }
+
+    /* Единственный канал, которым модуль может дотянуться до почты
+       редактора. Письмо шлёт сам Google при выдаче доступа к файлу —
+       это работает всегда, в отличие от упоминаний в комментариях.
+
+       Отсюда правило: батч зовёт редактора по каждому свежесозданному
+       доку. Док новый, явного доступа у редактора на него нет (он
+       наследуется от папки), поэтому permissions.create проходит и
+       письмо уходит. На папку или таблицу плана, к которым доступ уже
+       выдан, второго письма не будет — Drive вернёт дубликат, и мы
+       честно об этом скажем, а не сделаем вид, что позвали. */
+    case 'notify': {
+      const fileId = arg('file-id') || arg('doc-id') || arg('sheet-id');
+      const to = arg('to');
+      const message = arg('message', '');
+      const role = arg('role', 'writer');
+      if (!fileId || !to) die('нужны --file-id и --to editor@mail');
+
+      const already = await drive(`files/${fileId}/permissions?fields=permissions(emailAddress,role)`);
+      if ((already.permissions || []).some((p) => p.emailAddress === to)) {
+        console.log(`⚠ У ${to} доступ к этому файлу уже есть — письма не будет.`);
+        console.log('  Письмо уходит только при первой выдаче доступа. Зовите по свежему доку.');
+        process.exit(2);
+      }
+
+      const params = new URLSearchParams({ sendNotificationEmail: 'true', fields: 'id' });
+      if (message) params.set('emailMessage', message);
+      await drive(`files/${fileId}/permissions?${params}`, {
+        method: 'POST',
+        body: JSON.stringify({ type: 'user', role, emailAddress: to }),
+      });
+      console.log(`✅ Доступ выдан (${role}), письмо от Google ушло на ${to}`);
       break;
     }
 
