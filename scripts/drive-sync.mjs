@@ -373,6 +373,21 @@ const BACKLOG_COLS = [
 // cycle-backlog.md, Шаг 3: тема идёт в очередь /maintain-content, а не в
 // контент-план и не в suppressions.
 const BACKLOG_DECISIONS = ['согласовано', 'не согласовано', 'нужен рерайт'];
+
+/* Причина отказа — не комментарий, а команда: от формулировки зависит,
+ * замолчит тема на 90 дней, на 30 или вернётся через неделю. До 10.08.2026
+ * колонка была свободным текстом, и редактору предлагалось угадать
+ * формулировку слово в слово; опечатка или синоним меняли поведение молча
+ * и в худшую сторону — вместо заглушки тема приходила снова.
+ *
+ * Список нестрогий (strict: false), как и «Решение»: свой текст вписать
+ * можно, он означает «тема вернётся, заглушки нет». */
+const BACKLOG_REASONS = [
+  'категорически не наше ядро',
+  'не тот угол',
+  'уже покрыто другой статьёй',
+  'пока рано — вернуть позже',
+];
 const BACKLOG_WHO = ['AI', 'пишем сами', 'пока неактуально'];
 
 /* ─────────────────────────────────────────────────── markdown → Docs ──── */
@@ -732,7 +747,7 @@ async function formatBacklogSheet(sheetId, weekId, rowCount) {
         rows: [
           { values: [{ userEnteredValue: { stringValue: `Бэклог тем — неделя ${weekId}` },
                        userEnteredFormat: { textFormat: { bold: true, fontSize: 14 } } }] },
-          { values: [{ userEnteredValue: { stringValue: 'Проставьте решение по каждой теме. При «не согласовано» причина обязательна — иначе тема вернётся на следующей неделе.' },
+          { values: [{ userEnteredValue: { stringValue: 'Проставьте решение по каждой теме. «согласовано» — тема идёт в контент-план. «нужен рерайт» — статья есть, но устарела: обновим её, новую писать не будем. При «не согласовано» выберите причину из списка: от неё зависит, вернётся тема или замолчит.' },
                        userEnteredFormat: {
                          textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
                        } }] },
@@ -792,6 +807,7 @@ async function formatBacklogSheet(sheetId, weekId, rowCount) {
     });
     requests.push(dropdown('decision', BACKLOG_DECISIONS));
     requests.push(dropdown('who', BACKLOG_WHO));
+    requests.push(dropdown('reason', BACKLOG_REASONS));
   }
 
   await sheets(`${sheetId}:batchUpdate`, { method: 'POST', body: JSON.stringify({ requests }) });
