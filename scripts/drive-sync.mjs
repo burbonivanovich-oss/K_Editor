@@ -74,6 +74,10 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { createSign } from 'node:crypto';
 import { slugify } from './lib/slugify.mjs';
+import {
+  WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, APPROVAL_CELL,
+  colLetter, workIdx, COL as WORK_COL,
+} from './lib/sheet-columns.mjs';
 
 const ROOT_FOLDER = process.env.GOOGLE_DOCS_FOLDER_ID || '';
 const RAW_KEY = process.env.GOOGLE_DOCS_KEY || '';
@@ -297,41 +301,6 @@ function arg(name, fallback) {
  * значит потерять из виду. */
 const WORK_TAB_PREFIX = 'Темы и статьи ';
 const workTabName = (month) => `${WORK_TAB_PREFIX}${month}`;
-const WORK_HEADER_ROW = 4;
-const WORK_FIRST_DATA_ROW = 5;
-const APPROVAL_CELL = 'B2';
-
-const WORK_COLS = [
-  { key: 'n',            title: '#',               width: 40  },
-  { key: 'topic',        title: 'Тема',            width: 340 },
-  { key: 'targetKeyword',title: 'Целевой запрос',  width: 200 },
-  { key: 'wordstat',     title: 'Wordstat',        width: 90  },
-  { key: 'cluster',      title: 'Кластер',         width: 110 },
-  { key: 'segment',      title: 'Сегмент',         width: 150 },
-  { key: 'product',      title: 'Продукт',         width: 150 },
-  { key: 'type',         title: 'Тип',             width: 90  },
-  { key: 'priority',     title: 'Приоритет',       width: 90  },
-  { key: 'why',          title: 'Зачем сейчас',    width: 260 },
-  { key: 'normHint',     title: 'Норма/дата',      width: 200 },
-  { key: 'dedup',        title: 'Дедуп',           width: 170 },
-  { key: 'konturLink',   title: 'Ссылка Маркета',  width: 220 },
-  { key: 'related',      title: 'Связки',          width: 300 },
-  { key: 'decision',     title: 'Решение',         width: 150 },  // ← редактор
-  { key: 'who',          title: 'Кто пишет',       width: 120 },  // ← редактор
-  { key: 'reason',       title: 'Причина отказа',  width: 260 },  // ← редактор
-  { key: 'note',         title: 'Правка',          width: 280 },  // ← редактор
-  { key: 'status',       title: 'Статус',          width: 130 },  // ← бот
-  { key: 'doc',          title: 'Документ',        width: 220 },  // ← бот
-  { key: 'slug',         title: 'ID (не менять)',  width: 160 },  // ← бот
-];
-/** Индекс колонки → буква A1-нотации. Колонок 21, но запас на будущее. */
-function colLetter(i) {
-  let n = i, out = '';
-  do { out = String.fromCharCode(65 + (n % 26)) + out; n = Math.floor(n / 26) - 1; } while (n >= 0);
-  return out;
-}
-const WORK_COL = Object.fromEntries(WORK_COLS.map((c, i) => [c.key, colLetter(i)]));
-const workIdx = (key) => WORK_COLS.findIndex((c) => c.key === key);
 
 /* Полный список решений для колонки целиком. По строкам его сужает
  * cycle-state.mjs row-decisions: у кандидата свои варианты, у статьи на
@@ -687,8 +656,11 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
     requests.push({
       updateDimensionProperties: {
         range: { sheetId: gid, dimension: 'COLUMNS', startIndex: i, endIndex: i + 1 },
-        properties: { pixelSize: c.width },
-        fields: 'pixelSize',
+        // Скрытая колонка не удалена: данные в ней нужны скриптам, а
+        // ширину экрана она не занимает. Развернуть — правой кнопкой по
+        // заголовку соседней колонки, «Показать столбцы».
+        properties: { pixelSize: c.width, hiddenByUser: Boolean(c.hidden) },
+        fields: 'pixelSize,hiddenByUser',
       },
     });
   });
@@ -723,19 +695,25 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
     requests.push(dropdown('decision', WORK_DECISIONS));
     requests.push(dropdown('who', WORK_WHO));
     requests.push(dropdown('reason', WORK_REASONS));
-    requests.push({
-      addProtectedRange: {
-        protectedRange: {
-          range: {
-            sheetId: gid,
-            startRowIndex: WORK_HEADER_ROW - 1,
-            startColumnIndex: workIdx('status'),
-            endColumnIndex: WORK_COLS.length,
+    // Ботовые колонки больше не идут подряд: «Статус» и «Документ» стоят
+    // среди колонок редактора, потому что смотрит он на них постоянно.
+    // Значит и защита — по колонке, а не одним диапазоном до конца листа.
+    WORK_COLS.forEach((c, i) => {
+      if (c.owner !== 'bot') return;
+      requests.push({
+        addProtectedRange: {
+          protectedRange: {
+            range: {
+              sheetId: gid,
+              startRowIndex: WORK_HEADER_ROW - 1,
+              startColumnIndex: i,
+              endColumnIndex: i + 1,
+            },
+            description: 'Заполняется автоматически',
+            warningOnly: true,
           },
-          description: 'Заполняется автоматически',
-          warningOnly: true,
         },
-      },
+      });
     });
   }
 
@@ -774,21 +752,23 @@ function workCellValue(key, t) {
  * решения, которые редактор уже проставил: перезаливка строк случается не
  * только при создании вкладки, но и когда в месяц добавляют темы. */
 async function writeWorkRows(sheetId, tab, items) {
-  const left = items.map((t, i) =>
-    WORK_COLS.slice(0, workIdx('decision')).map((c) => (c.key === 'n' ? i + 1 : workCellValue(c.key, t))));
-  const right = items.map((t) =>
-    WORK_COLS.slice(workIdx('status')).map((c) => workCellValue(c.key, t)));
   const lastRow = WORK_FIRST_DATA_ROW + items.length - 1;
+  /* Пишем по одной колонке — колонки редактора пропускаем. Сплошной PUT
+     затирал бы решения, которые редактор уже проставил: перезаливка
+     случается не только при создании вкладки, но и когда в месяц
+     добавляют темы. Раньше колонки редактора шли подряд и хватало двух
+     кусков; теперь «Решение» и «Правка» стоят среди ботовых. */
+  const data = WORK_COLS
+    .map((c, i) => ({ c, i }))
+    .filter(({ c }) => c.owner !== 'editor')
+    .map(({ c, i }) => ({
+      range: a1(tab, `${colLetter(i)}${WORK_FIRST_DATA_ROW}:${colLetter(i)}${lastRow}`),
+      values: items.map((t, r) => [c.key === 'n' ? r + 1 : workCellValue(c.key, t)]),
+    }));
 
   await sheets(`${sheetId}/values:batchUpdate`, {
     method: 'POST',
-    body: JSON.stringify({
-      valueInputOption: 'USER_ENTERED',
-      data: [
-        { range: a1(tab, `A${WORK_FIRST_DATA_ROW}:${WORK_COL.related}${lastRow}`), values: left },
-        { range: a1(tab, `${WORK_COL.status}${WORK_FIRST_DATA_ROW}:${WORK_COL.slug}${lastRow}`), values: right },
-      ],
-    }),
+    body: JSON.stringify({ valueInputOption: 'USER_ENTERED', data }),
   });
 }
 

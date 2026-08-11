@@ -46,6 +46,10 @@ import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import { slugify } from './lib/slugify.mjs';
+// Буквы колонок берём из общего модуля, а не зашиваем. Зашитые «I/J/K»
+// пережили слияние бэклога и плана в одну вкладку и стали писать статус
+// в «Приоритет», ссылку на док — в «Зачем сейчас», ID — в «Норма/дата».
+import { COL } from './lib/sheet-columns.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 // Переопределяется в тестах (cycle-state.test.mjs), чтобы гонять машину
@@ -690,9 +694,9 @@ switch (cmd) {
       // ссылаются буквами и этот код, и kontur-menu.gs.
       const days = t.status === 'review' ? waitedDays(t) : null;
       const label = RU_STATUS[t.status] || t.status;
-      updates.push({ range: `I${t.row}`, value: days === null ? label : `${label} · ${days} дн.` });
-      if (t.docUrl) updates.push({ range: `J${t.row}`, value: t.docUrl });
-      if (t.slug) updates.push({ range: `K${t.row}`, value: t.slug });
+      updates.push({ range: `${COL.status}${t.row}`, value: days === null ? label : `${label} · ${days} дн.` });
+      if (t.docUrl) updates.push({ range: `${COL.doc}${t.row}`, value: t.docUrl });
+      if (t.slug) updates.push({ range: `${COL.slug}${t.row}`, value: t.slug });
     }
     console.log(JSON.stringify(updates));
     break;
