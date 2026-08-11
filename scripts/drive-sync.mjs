@@ -27,6 +27,7 @@
  *   reply        --doc-id <id> --comment-id <id> --text "..." [--resolve]
  *   notify       --file-id <id> --to editor@mail [--message "..."]    письмо редактору
  *   set-cells    --sheet-id <id> --updates '[{"range":"J5","value":"на вычитке"}]'
+ *   set-row-dropdowns --sheet-id <id> --updates '[{"row":5,"values":["принято"]}]'
  *   check                                          диагностика доступа
  *
  * Два разных способа позвать редактора, и путать их не надо:
@@ -1038,6 +1039,44 @@ try {
       await formatSheet(sheetId, arg('cycle', ''), plan.length);
       await writePlanRows(sheetId, plan);
       console.log(`✅ Таблица обновлена: ${plan.length} тем`);
+      break;
+    }
+
+    /* Списки решений по строкам: у каждой темы свой набор, по её статусу.
+       Ставится после set-cells, из вывода cycle-state.mjs row-decisions. */
+    case 'set-row-dropdowns': {
+      const sheetId = arg('sheet-id');
+      const updates = JSON.parse(arg('updates') || '[]');
+      if (!sheetId) die('нужен --sheet-id');
+      if (!updates.length) die('нужен --updates \'[{"row":5,"values":["принято"]}]\'');
+      const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId))`);
+      const gid = meta.sheets[0].properties.sheetId;
+      const col = COLS.findIndex((c) => c.key === 'decision');
+      await sheets(`${sheetId}:batchUpdate`, {
+        method: 'POST',
+        body: JSON.stringify({
+          requests: updates.map((u) => ({
+            setDataValidation: {
+              range: {
+                sheetId: gid,
+                startRowIndex: u.row - 1,
+                endRowIndex: u.row,
+                startColumnIndex: col,
+                endColumnIndex: col + 1,
+              },
+              rule: {
+                condition: {
+                  type: 'ONE_OF_LIST',
+                  values: u.values.map((v) => ({ userEnteredValue: v })),
+                },
+                // Нестрого — как и общий список: подсказка, а не запрет.
+                showCustomUi: true, strict: false,
+              },
+            },
+          })),
+        }),
+      });
+      console.log(`✅ Списки решений обновлены: ${updates.length} строк`);
       break;
     }
 

@@ -186,10 +186,21 @@ node scripts/cycle-state.mjs to-review --slug <slug> \
 ```bash
 node scripts/cycle-state.mjs sheet-sync > /tmp/cells.json
 node scripts/drive-sync.mjs set-cells --sheet-id <sheetId> --updates "$(cat /tmp/cells.json)"
+
+node scripts/cycle-state.mjs row-decisions > /tmp/rows.json
+node scripts/drive-sync.mjs set-row-dropdowns --sheet-id <sheetId> --updates "$(cat /tmp/rows.json)"
 ```
 
 Колонки «Статус» и «Документ» — зеркало состояния. Редактор по ним
-понимает, что происходит, не спрашивая.
+понимает, что происходит, не спрашивая. Строка состояния в шапке (E2)
+пишется тем же вызовом.
+
+`set-row-dropdowns` подгоняет список решений под статус каждой строки: у
+темы в плане — «одобрено / убрать / пишем сами», у статьи на вычитке —
+«принято / убрать», у принятой — «нужно ТЗ дизайнеру». Общий список из
+шести значений заставлял редактора помнить, что где применимо, и молча
+допускал бессмысленные комбинации вроде «пишем сами» для уже написанной
+статьи. Списки нестрогие: вписать своё значение по-прежнему можно.
 
 ---
 
