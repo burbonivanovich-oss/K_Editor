@@ -822,6 +822,10 @@ async function readWork(sheetId, tab) {
     sheetId,
     tab: target,
     approval: (rows[1]?.[1] || '').trim(),
+    // Заголовки отдаём как есть: по ним verify-sheet.mjs ловит расхождение
+    // раскладки — единственный способ заметить, что скрипт пишет не в ту
+    // колонку, до того как это увидит редактор.
+    columns: header,
     items,
     topics: items,   // старое имя: cycle-state apply-decisions читает topics
   };

@@ -148,6 +148,7 @@
 | `wordstat/prune-history.mjs` | Ретенция дампов (D-01): чистит discoveries/snapshots/diffs по лимитам, не даёт репозиторию расти неограниченно |
 | `wordstat/cleanup-orphans.mjs` | Удаляет из `keys.json` фразы, которых нет в текущих источниках и старше `--age` дней |
 | `factcheck/extract-claims.mjs` | Regex-парсер дат, сумм, статей КоАП |
+| `verify-sheet.mjs` | Сверка таблицы редакции с состоянием цикла: раскладка колонок, статусы, ссылки на доки, ID |
 | `factcheck/audit-npa-references.mjs` | Регрессионный аудит ссылок на НПА |
 | `factcheck/audit-marker-hashes.mjs` | Хеш факчек-маркера ↔ содержимое статьи в закоммиченном дереве |
 | `factcheck/write-marker.mjs` | Пишет `.claude/factchecked/<slug>` с хешем статьи |
