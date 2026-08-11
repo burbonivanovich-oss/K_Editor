@@ -500,6 +500,50 @@ switch (cmd) {
     break;
   }
 
+  /* Дописать кандидатов в текущий месяц. Ресёрч идёт еженедельно, а
+     вкладка месячная: новые темы не заменяют прежние, а встают строками
+     ниже. Дубли по слагу отсекаются здесь же — одна и та же фраза
+     Wordstat приходит из недели в неделю, и без этого месяц зарос бы
+     повторами. Возвращает только реально добавленные темы, с номерами
+     строк: их же принимает drive-sync append-topics. */
+  case 'add-candidates': {
+    const file = arg('file');
+    if (!file || !existsSync(file)) die('нужен --file <json со списком тем>');
+    if (!s.cycleId) die('цикл не заведён — сначала init');
+    const incoming = JSON.parse(readFileSync(file, 'utf8'));
+    if (!Array.isArray(incoming)) die('ожидается массив тем');
+
+    const known = new Set(s.plan.map((t) => t.slug));
+    let row = s.plan.reduce((m, t) => Math.max(m, t.row || 0), 4);
+    const added = [];
+    for (const it of incoming) {
+      const title = it.title || it.topic || '';
+      if (!title) continue;
+      const slug = it.slug || slugify(title);
+      if (known.has(slug)) continue;
+      known.add(slug);
+      const t = {
+        slug,
+        title,
+        priority: it.priority || 'P1',
+        cluster: it.cluster || '',
+        targetKeyword: it.targetKeyword || '',
+        rationale: it.why || it.rationale || '',
+        row: ++row,
+        owner: 'bot',
+        status: 'candidate',
+        docId: null,
+        docUrl: null,
+        seenComments: [],
+      };
+      s.plan.push(t);
+      added.push({ ...it, ...t });
+    }
+    save(s, `add-candidates: +${added.length} из ${incoming.length}`);
+    console.log(JSON.stringify(added, null, 2));
+    break;
+  }
+
   /* Привязать уже существующий Google Doc к теме, не меняя статус.
      Нужно, когда док создан, а связь потерялась (перенос месяца,
      пересборка цикла): to-review для этого не годится — он требует

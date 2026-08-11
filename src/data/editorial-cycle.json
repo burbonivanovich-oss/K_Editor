@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T10:08:41.883Z",
-  "updatedAt": "2026-08-11T16:09:13.205Z",
+  "updatedAt": "2026-08-11T16:18:29.144Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -296,6 +296,48 @@
       "docId": null,
       "docUrl": null,
       "seenComments": []
+    },
+    {
+      "slug": "markirovka-chestnogo-znaka-v-2026-godu-kakie-tovary-dobavili",
+      "title": "Маркировка «Честного знака» в 2026 году: какие товары добавились и с каких дат",
+      "priority": "P1",
+      "cluster": "markirovka",
+      "targetKeyword": "маркировка товара знаки",
+      "rationale": "новая фраза в выдаче: 17212 показов в месяц, статьи по запросу нет, кластер markirovka; со связанными запросами 58267 показов по 5 формулировкам",
+      "row": 25,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "chek-na-kasse-evotor-kak-nastroit-rekvizity-i-chto-delat-pri",
+      "title": "Чек на кассе Эвотор: как настроить реквизиты и что делать при ошибке",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "эвотор чек",
+      "rationale": "новая фраза в выдаче: 16739 показов в месяц, статьи по запросу нет, кластер kkt",
+      "row": 26,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "markirovka-v-1s-kak-nastroit-obmen-s-chestnym-znakom-i-ne-lo",
+      "title": "Маркировка в 1С: как настроить обмен с «Честным знаком» и не ловить отказы",
+      "priority": "P1",
+      "cluster": "markirovka",
+      "targetKeyword": "1 с маркировка",
+      "rationale": "новая фраза в выдаче: 13718 показов в месяц, статьи по запросу нет, кластер markirovka",
+      "row": 27,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
     }
   ],
   "batches": [],
@@ -363,6 +405,10 @@
     {
       "at": "2026-08-11T16:09:13.205Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-11T16:18:29.144Z",
+      "event": "add-candidates: +3 из 3"
     }
   ]
 }

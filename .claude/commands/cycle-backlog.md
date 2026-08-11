@@ -205,6 +205,30 @@ Workflow сам разворачивает `candidates` из `topic-backlog.json
 `mcp__github__get_job_logs` или Summary прогона (`sheetUrl` в выводе
 шага «Таблица редактору в Drive»).
 
+**Публикация — дописывание, а не перезалив.** Ресёрч идёт еженедельно
+(`backlog.yml`, понедельник 06:00 UTC), вкладка — месячная. Новые темы
+встают строками ниже прежних:
+
+```bash
+# 1. Сформулировать «Тему» по каждому кандидату (это и есть работа рутины:
+#    скрипт превратить фразу Wordstat в заголовок статьи не может).
+#    Результат — массив кандидатов с добавленным полем title.
+# 2. Завести их в состоянии цикла: отсекутся дубли по слагу, назначатся строки.
+node scripts/cycle-state.mjs add-candidates --file /tmp/new.json > /tmp/added.json
+# 3. Дописать в таблицу и обновить списки решений.
+node scripts/drive-sync.mjs append-topics --sheet-id <id> --items /tmp/added.json
+node scripts/drive-sync.mjs set-cells --sheet-id <id> --updates "$(node scripts/cycle-state.mjs sheet-sync)"
+node scripts/drive-sync.mjs set-row-dropdowns --sheet-id <id> --updates "$(node scripts/cycle-state.mjs row-decisions)"
+node scripts/verify-sheet.mjs --sheet-id <id>
+```
+
+Одна и та же фраза Wordstat приходит из недели в неделю — `add-candidates`
+отсекает такие по слагу и возвращает только новые. Решения редактора в
+уже стоящих строках не трогаются: пишутся только ботовые колонки.
+
+`init-month` нужен один раз в месяц, для новой вкладки. Дальше — только
+`append-topics`.
+
 В обоих случаях скрипт вернёт `sheetId`, `tab`, `gid` и `sheetUrl`.
 Таблица у редакции одна («Редакция — темы и план»), неделя — вкладка в
 ней; `sheetUrl` уже содержит `#gid=`, то есть открывается сразу на нужной

@@ -612,6 +612,12 @@ async function latestTab(sheetId, prefix) {
 /** Шапка, легенда, заголовки, ширины, списки и защита ботовых колонок. */
 async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
   const lastRow = WORK_FIRST_DATA_ROW + rowCount - 1;
+  const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId),protectedRanges(range(sheetId,startColumnIndex)))`);
+  const protectedCols = new Set(
+    (meta.sheets.find((sh) => sh.properties.sheetId === gid)?.protectedRanges || [])
+      .map((p) => p.range?.startColumnIndex)
+      .filter((i) => i !== undefined),
+  );
   const requests = [
     {
       updateCells: {
@@ -712,8 +718,11 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
     // Ботовые колонки больше не идут подряд: «Статус» и «Документ» стоят
     // среди колонок редактора, потому что смотрит он на них постоянно.
     // Значит и защита — по колонке, а не одним диапазоном до конца листа.
+    // Уже поставленные не дублируем: formatWorkSheet вызывается повторно
+    // при каждом дописывании тем, и защиты копились бы каждую неделю.
     WORK_COLS.forEach((c, i) => {
       if (c.owner !== 'bot') return;
+      if (protectedCols.has(i)) return;
       requests.push({
         addProtectedRange: {
           protectedRange: {
@@ -938,6 +947,52 @@ try {
         gid,
         sheetUrl: `https://docs.google.com/spreadsheets/d/${sheet.id}/edit#gid=${gid}`,
         items: items.length,
+      }, null, 2));
+      break;
+    }
+
+    /* Дописать темы в конец вкладки месяца. Ресёрч еженедельный, вкладка
+       месячная: новые кандидаты встают строками ниже, прежние решения
+       редактора не трогаются. Номера строк приходят из cycle-state
+       add-candidates — там же отсекаются дубли по слагу. */
+    case 'append-topics': {
+      const sheetId = arg('sheet-id');
+      const itemsPath = arg('items') || arg('plan');
+      if (!sheetId) die('нужен --sheet-id');
+      if (!itemsPath || !existsSync(itemsPath)) die('нужен --items <файл>');
+      const items = JSON.parse(readFileSync(itemsPath, 'utf8'));
+      if (!Array.isArray(items) || !items.length) {
+        console.log('Новых тем нет — дописывать нечего.');
+        break;
+      }
+      const tab = arg('tab') || (await latestTab(sheetId, WORK_TAB_PREFIX)).title;
+      const gid = await ensureTab(sheetId, tab);
+
+      // Пишем по номерам строк, которые уже назначил cycle-state: так
+      // таблица и состояние не разъедутся даже если между шагами кто-то
+      // добавил строку руками.
+      const data = [];
+      for (const t of items) {
+        WORK_COLS.forEach((c, i) => {
+          if (c.owner === 'editor') return;
+          data.push({
+            range: a1(tab, `${colLetter(i)}${t.row}`),
+            values: [[c.key === 'n' ? t.row - WORK_FIRST_DATA_ROW + 1 : workCellValue(c.key, t)]],
+          });
+        });
+      }
+      await sheets(`${sheetId}/values:batchUpdate`, {
+        method: 'POST',
+        body: JSON.stringify({ valueInputOption: 'USER_ENTERED', data }),
+      });
+
+      // Списки и защита должны накрыть и новые строки.
+      const lastRow = Math.max(...items.map((t) => t.row));
+      await formatWorkSheet(sheetId, gid, tab.replace(WORK_TAB_PREFIX, ''), lastRow - WORK_FIRST_DATA_ROW + 1);
+
+      console.log(JSON.stringify({
+        tab, added: items.length, lastRow,
+        sheetUrl: `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`,
       }, null, 2));
       break;
     }

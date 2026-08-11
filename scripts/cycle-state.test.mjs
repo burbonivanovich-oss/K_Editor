@@ -502,3 +502,25 @@ test('next-batch: срочная тема идёт вперёд более пр�
     assert.deepEqual(picked.map((t) => t.slug), ['srochnaya']);
   });
 });
+
+// Ресёрч еженедельный, вкладка месячная: темы дописываются, а одна и та же
+// фраза Wordstat приходит из недели в неделю — дубли нужно отсекать, иначе
+// месяц зарастает повторами.
+test('add-candidates: дописывает новых кандидатов и отсекает дубли', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Была тема' }]);
+    const file = join(dir, 'new.json');
+    writeFileSync(file, JSON.stringify([
+      { title: 'Была тема' },                    // дубль по слагу — пропускаем
+      { title: 'Новая тема', cluster: 'kkt', wordstat: 100 },
+      { title: 'Ещё одна', why: 'обоснование из ресёрча' },
+    ]));
+    const added = JSON.parse(run(statePath, ['add-candidates', '--file', file]));
+    assert.equal(added.length, 2, 'дубль не должен попасть');
+    assert.deepEqual(added.map((t) => t.status), ['candidate', 'candidate']);
+    // Строки идут после последней занятой, чтобы не перезаписать чужие.
+    assert.deepEqual(added.map((t) => t.row), [6, 7]);
+    assert.equal(added[1].rationale, 'обоснование из ресёрча');
+    assert.equal(getState(statePath).plan.length, 3);
+  });
+});
