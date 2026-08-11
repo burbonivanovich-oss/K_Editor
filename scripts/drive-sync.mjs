@@ -299,6 +299,10 @@ function arg(name, fallback) {
  * встаёт первой. Незакрытые статьи прошлого месяца переезжают в новую
  * вкладку вместе с новыми кандидатами: бросать их в архивной вкладке
  * значит потерять из виду. */
+/* Домен принимающего проекта. Пусто — внутренние ссылки в доках остаются
+ * простым текстом (см. mdToDocRequests): у модуля своего сайта нет. */
+const BLOG_BASE = process.env.BLOG_BASE_URL || '';
+
 const WORK_TAB_PREFIX = 'Темы и статьи ';
 const workTabName = (month) => `${WORK_TAB_PREFIX}${month}`;
 
@@ -440,11 +444,24 @@ function mdToDocRequests(md) {
       },
     });
   }
+  /* Внутренние ссылки статей записаны от корня: «/blog/<слаг>». Своего
+   * сайта у модуля нет, домен знает только принимающий проект — поэтому
+   * абсолютного адреса у такой ссылки просто не существует. Google при
+   * вставке достраивает схему и получается «http:///blog/...», то есть
+   * битая ссылка в каждом доке, который видит редактор.
+   *
+   * Если домен известен (BLOG_BASE_URL) — подставляем его. Если нет —
+   * ссылку не ставим вовсе: текст остаётся текстом. Мёртвая ссылка хуже
+   * её отсутствия: по ней кликают. */
   for (const l of links) {
+    const url = /^\//.test(l.url)
+      ? (BLOG_BASE ? BLOG_BASE.replace(/\/$/, '') + l.url : null)
+      : l.url;
+    if (!url) continue;
     reqs.push({
       updateTextStyle: {
         range: { startIndex: 1 + l.start, endIndex: 1 + l.end },
-        textStyle: { link: { url: l.url } },
+        textStyle: { link: { url } },
         fields: 'link',
       },
     });
@@ -1023,10 +1040,35 @@ try {
         break;
       }
 
+      /* Док с таким названием уже есть — переписываем его содержимое, а не
+       * заводим новый. Раньше старый удалялся: вместе с ним исчезали
+       * комментарии редактора и менялась ссылка, на которую он смотрит и
+       * которая записана в состоянии цикла. Перезалить текст после правки
+       * фактов — обычное дело, терять из-за этого вычитку нельзя. */
       const existing = await findInFolder(title, parent, 'application/vnd.google-apps.document');
       if (existing) {
-        await withQuotaFallback(() => drive(`files/${existing.id}`, { method: 'DELETE' }));
+        const doc = await docs(`documents/${existing.id}?fields=body(content(endIndex))`);
+        const end = doc.body?.content?.at(-1)?.endIndex ?? 1;
+        const reqs = mdToDocRequests(md);
+        await docs(`documents/${existing.id}:batchUpdate`, {
+          method: 'POST',
+          body: JSON.stringify({
+            requests: [
+              // endIndex последнего элемента указывает за перевод строки,
+              // который удалить нельзя — отсюда -1.
+              ...(end > 2 ? [{ deleteContentRange: { range: { startIndex: 1, endIndex: end - 1 } } }] : []),
+              ...reqs,
+            ],
+          }),
+        });
+        console.log(JSON.stringify({
+          docId: existing.id,
+          url: existing.webViewLink || `https://docs.google.com/document/d/${existing.id}/edit`,
+          rewritten: true,
+        }, null, 2));
+        break;
       }
+
       const created = await withQuotaFallback(() =>
         drive('files?fields=id,webViewLink', {
           method: 'POST',

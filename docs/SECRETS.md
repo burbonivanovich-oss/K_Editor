@@ -15,6 +15,7 @@ Actions** репозитория. Этот документ — единый с�
 | `GSC_REFRESH_TOKEN` | Google OAuth2 | бессрочный (test apps — 7 дней без верификации, но рефрешится) | drive-sync.mjs — запасной OAuth |
 | `GOOGLE_DOCS_KEY` | Google Cloud service account | бессрочный | Drive + Docs + Sheets API — редакционный цикл |
 | `GOOGLE_DOCS_FOLDER_ID` | строка | — | Корневая папка редакционного цикла в Drive |
+| `BLOG_BASE_URL` | строка: домен принимающего проекта | — | `drive-sync.mjs make-doc` — во что разворачивать внутренние ссылки статей |
 | `EDITOR_EMAILS` | строка: адреса через запятую | — | `drive-sync.mjs notify` — кому выдавать доступ к новой таблице и докам |
 | `GITHUB_TOKEN` | автоматически | в каждом workflow | git push commit'ов |
 
