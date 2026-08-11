@@ -49,6 +49,7 @@ import { segmentFor } from "./segments.mjs";
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
 const PLAN_FILE = join(ROOT, "src", "data", "editorial-plan.json");
+const CYCLE_FILE = join(ROOT, "src", "data", "editorial-cycle.json");
 const BLOG_DIR = join(ROOT, "src", "content", "blog");
 const OUT = join(ROOT, "src", "data", "topic-backlog.json");
 const DYNAMICS_FILE = join(ROOT, "src", "data", "wordstat", "candidate-dynamics.json");
@@ -183,12 +184,34 @@ const DUMP_MIN_WORDS = parseInt(arg("dump-min-words", "3"), 10);
 
 /** Ключи, по которым уже есть статья или запланированная тема. */
 function coveredKeywords() {
+  /* Ключи складываем обоими способами. Набор заполнялся `normalize`
+   * («эвотор чек»), а проверялся `dedupeKey` («чек эвот») — строки не
+   * совпадали никогда, и фильтр «уже покрыто» молча не работал: темы,
+   * уже стоящие в таблице и уже написанные, приходили из ресёрча снова.
+   * Заметно это стало только когда в бэклоге из 40 тринадцать оказались
+   * повторами того, что редактор видел накануне. */
   const covered = new Set();
+  const add = (v) => { if (v) { covered.add(normalize(v)); covered.add(dedupeKey(v)); } };
 
   if (existsSync(PLAN_FILE)) {
     const plan = JSON.parse(readFileSync(PLAN_FILE, "utf8"));
     for (const row of plan.topics ?? plan.rows ?? []) {
-      if (row.targetKeyword) covered.add(normalize(row.targetKeyword));
+      add(row.targetKeyword);
+    }
+  }
+
+  /* Темы, которые уже стоят во вкладке месяца. Без этого ресёрч приносит
+   * их снова каждую неделю: «эвотор чек» приходит из выдачи независимо от
+   * того, что редактор эту тему вчера увидел. Хуже того — приносит
+   * переформулировки («онлайн касса банка» при стоящей «касса от банка
+   * или отдельно»), и редакция получает два текста под один запрос.
+   * Снятые темы не считаем: их гасит suppressions.mjs своими сроками. */
+  if (existsSync(CYCLE_FILE)) {
+    const cycle = JSON.parse(readFileSync(CYCLE_FILE, "utf8"));
+    for (const t of cycle.plan ?? []) {
+      if (t.status === "dropped") continue;
+      add(t.targetKeyword);
+      add(t.title);
     }
   }
 
@@ -202,7 +225,7 @@ function coveredKeywords() {
       const kw = fm[1].match(/keywords:\s*\n((?:\s+-\s+[^\n]+\n?)+)/);
       if (!kw) continue;
       for (const line of kw[1].match(/(?<=-\s)(.+)/g) ?? []) {
-        covered.add(normalize(line.replace(/^["']|["']$/g, "")));
+        add(line.replace(/^["']|["']$/g, ""));
       }
     }
   }
@@ -650,6 +673,22 @@ const deferred = [];
  * Поэтому сигналы мониторинга отбираются до общего пула и в пределах
  * своей квоты. Ноль сигналов — квота просто не расходуется. */
 const SIGNAL_QUOTA = parseInt(arg("signals-quota", "6"), 10);
+
+/* Доля непрофильных кластеров в бэклоге.
+ *
+ * «Нужно 40 тем» значит 40 тем, с которыми редакция будет работать, — а не
+ * 40 строк, из которых половину придётся вычеркнуть. 11.08.2026 в сборке
+ * из 40 профильными оказались 21: топ по частотности заняли «работа
+ * самозанятый» (54k) и «ооо открытая» (36k) — кластеры uslugi и start,
+ * к ТС ПИоТ и маркировке отношения не имеющие. Множитель 1.5 у профильных
+ * их не перебивает: 17k × 1.5 меньше, чем 54k × 1.
+ *
+ * Полностью исключать соседние кластеры нельзя — AGENTS.md прямо
+ * разрешает налоги и законодательство, если они не вытесняют профильные.
+ * Поэтому не запрет, а потолок: четверть списка. */
+const OFF_PROFILE_SHARE = parseFloat(arg("off-profile-share", "0.25"));
+const offProfileQuota = Math.max(1, Math.round(LIMIT * OFF_PROFILE_SHARE));
+let offProfileTaken = 0;
 const signalRows = raw.filter((r) => r.kind === "signal");
 const demandRows = raw.filter((r) => r.kind !== "signal");
 
@@ -678,6 +717,18 @@ function tryAccept(item, respectBands) {
     return;
   }
 
+  // Непрофильные — только в пределах своей четверти. Первый проход
+  // откладывает лишние: если профильных в выгрузке не хватит, второй
+  // проход добьёт список ими, и бэклог не окажется короче лимита.
+  if (priorityMultiplier(item.cluster) <= 1 && offProfileTaken >= offProfileQuota) {
+    // Потолок жёсткий и во втором проходе тоже. Иначе список добивается
+    // непрофильными до круглого числа, и «40 тем» превращается в «9 тем
+    // и 31 строка на выброс» — ровно то, от чего этот потолок и заводили.
+    // Короткий честный список лучше длинного разбавленного.
+    stats["непрофильные сверх четверти"] = (stats["непрофильные сверх четверти"] ?? 0) + 1;
+    return;
+  }
+
   const ck = item.cluster || "—";
   if (PER_CLUSTER > 0 && (perCluster.get(ck) ?? 0) >= PER_CLUSTER) {
     stats["сверх квоты кластера"] = (stats["сверх квоты кластера"] ?? 0) + 1;
@@ -694,6 +745,7 @@ function tryAccept(item, respectBands) {
   }
   bandTaken.set(band.name, bandTaken.get(band.name) + 1);
   perCluster.set(ck, (perCluster.get(ck) ?? 0) + 1);
+  if (priorityMultiplier(item.cluster) <= 1) offProfileTaken++;
 
   seen.add(key);
   acceptedSets.push(new Set(tokens));
