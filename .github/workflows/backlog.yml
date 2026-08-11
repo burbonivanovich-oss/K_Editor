@@ -28,7 +28,7 @@ on:
         description: "Сколько тем в бэклоге"
         required: false
         type: string
-        default: "15"
+        default: "40"
       top_n:
         description: "Сколько фраз проверить на динамику (= столько же квот Wordstat)"
         required: false
