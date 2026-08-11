@@ -65,6 +65,11 @@ jobs:
         run: node scripts/wordstat/discover.mjs
 
       - name: Динамика по кандидатам
+      # Динамика — обогащение, а не условие сборки. 10.08.2026 Yandex Cloud
+      # ответил PERMISSION_DENIED на все 700 запросов /dynamics, шаг упал —
+      # и вместе с ним не собрался весь понедельничный бэклог. Отбор тем
+      # работает и на прежних измерениях, просто с меньшим сигналом.
+      continue-on-error: true
         env:
           YC_API_KEY: ${{ secrets.YC_API_KEY }}
           YC_FOLDER_ID: ${{ secrets.YC_FOLDER_ID }}
