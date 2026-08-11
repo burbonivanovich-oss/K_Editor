@@ -58,3 +58,25 @@ export function colLetter(i) {
 export const workIdx = (key) => WORK_COLS.findIndex((c) => c.key === key);
 /** Буква колонки по ключу: `COL.status` вместо зашитой «I». */
 export const COL = Object.fromEntries(WORK_COLS.map((c, i) => [c.key, colLetter(i)]));
+
+/** Внутренний статус → надпись в колонке «Статус». Общий словарь: его
+ *  пишет и drive-sync (при заливке строк), и cycle-state (при обновлении
+ *  статусов). Разные написания в двух местах означали бы, что таблица
+ *  показывает то «review», то «на вычитке» — в зависимости от того, кто
+ *  писал последним. */
+export const RU_STATUS = {
+  candidate: 'кандидат',
+  planned: 'в плане',
+  writing: 'пишется',
+  review: 'на вычитке',
+  accepted: 'принято',
+  released: 'выпущено',
+  dropped: 'снято',
+};
+
+/** Приоритет — только из известного набора. Раньше сюда попадало что
+ *  угодно: apply-decisions копирует значение ячейки в состояние цикла, и
+ *  когда в «Приоритет» уехал статус, состояние приняло его как приоритет
+ *  и вернуло обратно в таблицу. */
+export const PRIORITIES = ['P0', 'P1', 'P2'];
+export const isPriority = (v) => PRIORITIES.includes(String(v || '').trim().toUpperCase());

@@ -49,7 +49,7 @@ import { slugify } from './lib/slugify.mjs';
 // Буквы колонок берём из общего модуля, а не зашиваем. Зашитые «I/J/K»
 // пережили слияние бэклога и плана в одну вкладку и стали писать статус
 // в «Приоритет», ссылку на док — в «Зачем сейчас», ID — в «Норма/дата».
-import { COL } from './lib/sheet-columns.mjs';
+import { COL, RU_STATUS, isPriority } from './lib/sheet-columns.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 // Переопределяется в тестах (cycle-state.test.mjs), чтобы гонять машину
@@ -89,17 +89,6 @@ const PLAN_DECISION_SYNONYMS = new Map([
   ['отклонено', 'убрать'],
   ['снять', 'убрать'],
 ]);
-
-/** Внутренний статус → надпись в колонке «Статус» таблицы. */
-const RU_STATUS = {
-  candidate: 'кандидат',
-  planned: 'в плане',
-  writing: 'пишется',
-  review: 'на вычитке',
-  accepted: 'принято',
-  released: 'выпущено',
-  dropped: 'снято',
-};
 
 const EMPTY = {
   cycleId: null,
@@ -285,8 +274,12 @@ switch (cmd) {
       // и вызовы, которые про них не знают, не должны менять поведение.
       status: TOPIC_STATUSES.includes(t.status) ? t.status
         : (process.argv.includes('--as-candidates') ? 'candidate' : 'planned'),
-      docId: null,
-      docUrl: null,
+      // Незакрытые статьи переезжают в новый месяц вместе со ссылками на
+      // доки. Раньше init всегда ставил null: при переносе месяца связь
+      // темы с готовым текстом терялась молча, а сам док оставался в
+      // Drive — найти его можно было только глазами по названию.
+      docId: t.docId || null,
+      docUrl: t.docUrl || null,
       seenComments: [],
     }));
 
@@ -367,7 +360,12 @@ switch (cmd) {
 
       // Редактор мог поправить формулировку, запрос или приоритет прямо в ячейке
       if (row.title && row.title !== t.title) { t.title = row.title; }
-      if (row.priority && row.priority !== t.priority) { t.priority = row.priority; }
+      // Приоритет принимаем только из известного набора. Иначе любая
+      // чужая строка, оказавшаяся в этой ячейке, становится приоритетом
+      // темы и возвращается в таблицу уже как «правильное» значение.
+      if (row.priority && row.priority !== t.priority && isPriority(row.priority)) {
+        t.priority = row.priority.trim().toUpperCase();
+      }
       if (row.targetKeyword && row.targetKeyword !== t.targetKeyword) t.targetKeyword = row.targetKeyword;
 
       const d = PLAN_DECISION_SYNONYMS.get((row.decision || '').trim().toLowerCase())
@@ -499,6 +497,21 @@ switch (cmd) {
         (order[a.priority] ?? 9) - (order[b.priority] ?? 9))
       .slice(0, size);
     console.log(JSON.stringify(picked, null, 2));
+    break;
+  }
+
+  /* Привязать уже существующий Google Doc к теме, не меняя статус.
+     Нужно, когда док создан, а связь потерялась (перенос месяца,
+     пересборка цикла): to-review для этого не годится — он требует
+     перехода статуса, а тема уже на вычитке. */
+  case 'set-doc': {
+    const slug = arg('slug');
+    const t = find(s, slug);
+    if (!t) die(`тема "${slug}" не найдена`);
+    t.docId = arg('doc-id', t.docId);
+    t.docUrl = arg('doc-url', t.docUrl);
+    save(s, `set-doc ${slug}`);
+    console.log(`✅ ${slug} → ${t.docUrl}`);
     break;
   }
 

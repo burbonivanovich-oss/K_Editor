@@ -76,7 +76,7 @@ import { createSign } from 'node:crypto';
 import { slugify } from './lib/slugify.mjs';
 import {
   WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, APPROVAL_CELL,
-  colLetter, workIdx, COL as WORK_COL,
+  colLetter, workIdx, COL as WORK_COL, RU_STATUS,
 } from './lib/sheet-columns.mjs';
 
 const ROOT_FOLDER = process.env.GOOGLE_DOCS_FOLDER_ID || '';
@@ -739,7 +739,9 @@ function workCellValue(key, t) {
     return `${rel.map((r) => `${r.query} (${r.wordstat})`).join('; ')} — всего ${total}`;
   }
   if (key === 'slug') return t.slug || slugify(t.title || t.topic || '');
-  if (key === 'status') return t.status || 'кандидат';
+  // В таблице статус по-русски: внутреннее «review» редактору ни о чём
+  // не говорит, а колонка — его главный ориентир.
+  if (key === 'status') return RU_STATUS[t.status] || t.status || 'кандидат';
   if (t[key] != null && t[key] !== '') return t[key];
   for (const alias of WORK_ALIASES[key] ?? []) {
     if (t[alias] != null && t[alias] !== '') return t[alias];
