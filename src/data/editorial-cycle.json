@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T10:08:41.883Z",
-  "updatedAt": "2026-08-11T11:45:19.062Z",
+  "updatedAt": "2026-08-11T11:51:27.864Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -346,6 +346,10 @@
     {
       "at": "2026-08-11T11:45:19.062Z",
       "event": "test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-: отмечено 2 замечаний"
+    },
+    {
+      "at": "2026-08-11T11:51:27.864Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ]
 }
