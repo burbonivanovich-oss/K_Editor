@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T10:08:41.883Z",
-  "updatedAt": "2026-08-11T10:08:41.910Z",
+  "updatedAt": "2026-08-11T10:22:27.592Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -16,7 +16,7 @@
     {
       "slug": "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
       "title": "Разрешительный режим маркировки: как он работает и что проверяет касса",
-      "priority": "P0",
+      "priority": "на вычитке · 0 дн.",
       "cluster": "markirovka",
       "targetKeyword": "режим работы разрешительного",
       "rationale": "Одобрено редактором в бэклоге 2026-08-09",
@@ -30,7 +30,7 @@
     {
       "slug": "test-chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-o",
       "title": "ТЕСТ: Чек коррекции на кассе: когда пробивать и как избежать ошибок",
-      "priority": "P1",
+      "priority": "на вычитке · 0 дн.",
       "cluster": "kkt",
       "targetKeyword": "касса чеки коррекции",
       "rationale": "Тестовая тема для обкатки вкладки плана",
@@ -44,7 +44,7 @@
     {
       "slug": "test-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastr",
       "title": "ТЕСТ: Личный кабинет онлайн-кассы: как войти и что там настраивать",
-      "priority": "P1",
+      "priority": "в плане",
       "cluster": "kkt",
       "targetKeyword": "личный кабинет онлайн кассы",
       "rationale": "Тестовая тема для обкатки вкладки плана",
@@ -58,7 +58,7 @@
     {
       "slug": "test-otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-fo",
       "title": "ТЕСТ: Отчёт о закрытии фискального накопителя: когда и как формировать",
-      "priority": "P1",
+      "priority": "в плане",
       "cluster": "ofd-fn",
       "targetKeyword": "фискальный накопитель отчет",
       "rationale": "Тестовая тема для обкатки вкладки плана",
@@ -72,7 +72,7 @@
     {
       "slug": "test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-",
       "title": "ТЕСТ: Как завести товар в ЕГАИС: пошаговая инструкция для розницы",
-      "priority": "P0",
+      "priority": "на вычитке · 0 дн.",
       "cluster": "egais",
       "targetKeyword": "товар егаис",
       "rationale": "Тестовая тема для обкатки вкладки плана",
@@ -86,7 +86,7 @@
     {
       "slug": "test-nastroyka-skanera-shtrihkodov-dlya-markirovki-kak-schit",
       "title": "ТЕСТ: Настройка сканера штрихкодов для маркировки: как считывать DataMatrix",
-      "priority": "P1",
+      "priority": "в плане",
       "cluster": "oborudovanie",
       "targetKeyword": "настройка сканера для маркировки",
       "rationale": "Тестовая тема для обкатки вкладки плана",
@@ -100,7 +100,7 @@
     {
       "slug": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
       "title": "Личный кабинет онлайн-кассы: как войти и что там настраивать",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "kkt",
       "targetKeyword": "личный кабинет онлайн кассы",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
@@ -114,7 +114,7 @@
     {
       "slug": "kassa-ot-banka-ili-otdelno-kak-banki-predlagayut-onlayn-kass",
       "title": "Касса от банка или отдельно: как банки предлагают онлайн-кассы бизнесу",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "kkt",
       "targetKeyword": "онлайн кассы банк",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
@@ -128,7 +128,7 @@
     {
       "slug": "chto-novogo-v-markirovke-chestnogo-znaka-v-2026-godu",
       "title": "Что нового в маркировке «Честного знака» в 2026 году",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "markirovka",
       "targetKeyword": "маркировка товара честный знак 2026",
       "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
@@ -142,7 +142,7 @@
     {
       "slug": "korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit",
       "title": "Коррекция чека возврата на кассе: как правильно оформить",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "kkt",
       "targetKeyword": "коррекция чека возврата",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
@@ -156,7 +156,7 @@
     {
       "slug": "markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica",
       "title": "Маркировка шин в 2026 году: что обязана делать розница",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "markirovka",
       "targetKeyword": "маркировка колес шин",
       "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
@@ -170,7 +170,7 @@
     {
       "slug": "otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-formiro",
       "title": "Отчёт о закрытии фискального накопителя: когда и как формировать",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "ofd-fn",
       "targetKeyword": "фискальный накопитель отчет",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
@@ -184,7 +184,7 @@
     {
       "slug": "internet-ekvayring-dlya-onlayn-magazina-kak-vybrat-bank-i-ta",
       "title": "Интернет-эквайринг для онлайн-магазина: как выбрать банк и тариф",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "ekvairing",
       "targetKeyword": "интернет эквайринг банк",
       "rationale": "",
@@ -198,7 +198,7 @@
     {
       "slug": "kak-proverit-akciznuyu-marku-onlayn-cherez-prilozhenie-chest",
       "title": "Как проверить акцизную марку онлайн через приложение «Честный знак»",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "egais",
       "targetKeyword": "акцизная марка онлайн",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
@@ -212,7 +212,7 @@
     {
       "slug": "akciznaya-marka-i-egais-kak-sverit-partiyu-alkogolya-pered-p",
       "title": "Акцизная марка и ЕГАИС: как сверить партию алкоголя перед продажей",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "egais",
       "targetKeyword": "марка егаис",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
@@ -226,7 +226,7 @@
     {
       "slug": "kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-rozni",
       "title": "Как завести товар в ЕГАИС: пошаговая инструкция для розницы",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "egais",
       "targetKeyword": "товар егаис",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
@@ -240,7 +240,7 @@
     {
       "slug": "oblachnaya-kassa-bez-fizicheskogo-apparata-komu-podhodit-i-k",
       "title": "Облачная касса без физического аппарата: кому подходит и как подключить",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "kkt",
       "targetKeyword": "онлайн касса без кассы",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
@@ -254,7 +254,7 @@
     {
       "slug": "nastroyka-skanera-shtrihkodov-dlya-markirovki-kak-schityvat-",
       "title": "Настройка сканера штрихкодов для маркировки: как считывать Data Matrix",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "oborudovanie",
       "targetKeyword": "настройка сканера для маркировки",
       "rationale": "",
@@ -268,7 +268,7 @@
     {
       "slug": "prodazha-alkogolya-cherez-egais-kak-provesti-chek-bez-oshibo",
       "title": "Продажа алкоголя через ЕГАИС: как провести чек без ошибок",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "egais",
       "targetKeyword": "продажи егаис",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
@@ -282,7 +282,7 @@
     {
       "slug": "prodazha-alkogolya-bez-akciznoy-marki-chem-grozit-i-kak-prov",
       "title": "Продажа алкоголя без акцизной марки: чем грозит и как проверить товар",
-      "priority": "P1",
+      "priority": "кандидат",
       "cluster": "egais",
       "targetKeyword": "без акцизной марки",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
@@ -303,6 +303,10 @@
     {
       "at": "2026-08-11T10:08:41.910Z",
       "event": "state awaiting_review → running"
+    },
+    {
+      "at": "2026-08-11T10:22:27.592Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ]
 }
