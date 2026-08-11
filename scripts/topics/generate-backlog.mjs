@@ -169,7 +169,9 @@ const DRY_RUN = process.argv.includes("--dry-run");
 // 40 тем, а не 15: редактору нужен выбор, а не короткий список сверху
 // частотности. Ниже по списку темы слабее, но это его решение, не наше —
 // на 15 темах половина кластеров не попадала в таблицу вообще.
-const LIMIT = parseInt(arg("limit", "40"), 10);
+// Сколько профильных тем нужно за прогон. 18 — середина вилки 15–20,
+// которую попросила редакция; за месяц это 60–80 тем при 26 статьях.
+const LIMIT = parseInt(arg("limit", "18"), 10);
 const MIN_COUNT = parseInt(arg("min-count", "50"), 10);
 // Во сколько раз строже порог для абсолютной частотности, чем для diff-а.
 // Рост с 40 до 300 показов — событие; 300 показов сами по себе — фон.
@@ -689,6 +691,7 @@ const SIGNAL_QUOTA = parseInt(arg("signals-quota", "6"), 10);
 const OFF_PROFILE_SHARE = parseFloat(arg("off-profile-share", "0.25"));
 const offProfileQuota = Math.max(1, Math.round(LIMIT * OFF_PROFILE_SHARE));
 let offProfileTaken = 0;
+let profileTaken = 0;
 const signalRows = raw.filter((r) => r.kind === "signal");
 const demandRows = raw.filter((r) => r.kind !== "signal");
 
@@ -699,8 +702,20 @@ const ordered = demandRows.sort(
 /* Два прохода. Первый берёт темы в рамках квот своей полосы, второй
  * добивает список отложенными — иначе при бедной выгрузке в нишевых
  * полосах бэклог оказался бы короче лимита. */
+/* LIMIT считает профильные темы, а не строки списка.
+ *
+ * «Нужно 15–20 тем в неделю» — это про темы, с которыми редакция будет
+ * работать. Пока лимит считал строки, список добивался соседними
+ * кластерами до круглого числа, и редактор вычёркивал половину. Теперь
+ * профильные набираются до LIMIT, непрофильные идут сверх — но не больше
+ * своей четверти. */
 function tryAccept(item, respectBands) {
-  if (candidates.length >= LIMIT) return;
+  const isProfile = priorityMultiplier(item.cluster) > 1;
+  if (isProfile && profileTaken >= LIMIT) return;
+  if (!isProfile && offProfileTaken >= offProfileQuota) {
+    stats["непрофильные сверх четверти"] = (stats["непрофильные сверх четверти"] ?? 0) + 1;
+    return;
+  }
   // dedupeKey, а не normalize: normalize схлопывает только регистр и
   // пробелы, из-за чего переформулировки одного запроса проходили как
   // разные темы.
@@ -714,18 +729,6 @@ function tryAccept(item, respectBands) {
   const near = nearDuplicateIndex(tokens);
   if (near.idx >= 0) {
     if (!attachRelated(near.idx, item, near.score)) stats.дубли++;
-    return;
-  }
-
-  // Непрофильные — только в пределах своей четверти. Первый проход
-  // откладывает лишние: если профильных в выгрузке не хватит, второй
-  // проход добьёт список ими, и бэклог не окажется короче лимита.
-  if (priorityMultiplier(item.cluster) <= 1 && offProfileTaken >= offProfileQuota) {
-    // Потолок жёсткий и во втором проходе тоже. Иначе список добивается
-    // непрофильными до круглого числа, и «40 тем» превращается в «9 тем
-    // и 31 строка на выброс» — ровно то, от чего этот потолок и заводили.
-    // Короткий честный список лучше длинного разбавленного.
-    stats["непрофильные сверх четверти"] = (stats["непрофильные сверх четверти"] ?? 0) + 1;
     return;
   }
 
@@ -745,7 +748,7 @@ function tryAccept(item, respectBands) {
   }
   bandTaken.set(band.name, bandTaken.get(band.name) + 1);
   perCluster.set(ck, (perCluster.get(ck) ?? 0) + 1);
-  if (priorityMultiplier(item.cluster) <= 1) offProfileTaken++;
+  if (isProfile) profileTaken++; else offProfileTaken++;
 
   seen.add(key);
   acceptedSets.push(new Set(tokens));

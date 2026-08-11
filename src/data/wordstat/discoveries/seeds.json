@@ -1,203 +1,1066 @@
 {
-  "schemaVersion": 1,
-  "note": "Seeds для weekly trend discovery. Категории: entity (узкая сущность), intent (паттерн интента), audience (срез аудитории), problem (боль/ошибка), system (платформа/инструмент), seasonal (календарь). Cluster — соответствие 18 кластерам контент-плана или 'any' для широких.",
-  "seeds": [
-    { "phrase": "ТС ПИоТ", "category": "entity", "cluster": "ts-piot" },
-    { "phrase": "онлайн-касса", "category": "entity", "cluster": "kkt" },
-    { "phrase": "ОФД", "category": "entity", "cluster": "ofd-fn" },
-    { "phrase": "фискальный накопитель", "category": "entity", "cluster": "ofd-fn" },
-    { "phrase": "ФФД 1.2", "category": "entity", "cluster": "ofd-fn" },
-
-    { "phrase": "маркировка", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "Честный знак", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "маркировка молочной продукции", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "маркировка пива", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "маркировка обуви", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "маркировка лекарств", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "маркировка табака", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "маркировка воды", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "маркировка БАД", "category": "entity", "cluster": "markirovka-2026" },
-    { "phrase": "маркировка бытовой химии", "category": "entity", "cluster": "markirovka-2026" },
-    { "phrase": "маркировка парфюмерии", "category": "entity", "cluster": "markirovka-2026" },
-    { "phrase": "маркировка одежды", "category": "entity", "cluster": "markirovka-2026" },
-    { "phrase": "маркировка кормов", "category": "entity", "cluster": "markirovka-2026" },
-    { "phrase": "импортная маркировка", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "поэкземплярный учёт", "category": "entity", "cluster": "markirovka" },
-    { "phrase": "разрешительный режим", "category": "entity", "cluster": "markirovka" },
-
-    { "phrase": "Меркурий", "category": "entity", "cluster": "merkuriy" },
-    { "phrase": "ВСД", "category": "entity", "cluster": "merkuriy" },
-    { "phrase": "ветеринарный сертификат", "category": "entity", "cluster": "merkuriy" },
-
-    { "phrase": "ЕГАИС", "category": "entity", "cluster": "egais" },
-    { "phrase": "декларация по алкоголю", "category": "entity", "cluster": "egais" },
-    { "phrase": "акцизная марка", "category": "entity", "cluster": "egais" },
-    { "phrase": "лицензия на алкоголь", "category": "entity", "cluster": "egais" },
-
-    { "phrase": "Эвотор", "category": "entity", "cluster": "kkt" },
-    { "phrase": "АТОЛ", "category": "entity", "cluster": "kkt" },
-    { "phrase": "Штрих-М", "category": "entity", "cluster": "kkt" },
-    { "phrase": "Дримкас", "category": "entity", "cluster": "kkt" },
-
-    { "phrase": "УСН 2026", "category": "entity", "cluster": "nalogi" },
-    { "phrase": "ЕНС", "category": "entity", "cluster": "zakonodatelstvo" },
-    { "phrase": "ЕНП", "category": "entity", "cluster": "zakonodatelstvo" },
-    { "phrase": "НДС на УСН", "category": "entity", "cluster": "nalogi" },
-    { "phrase": "патент ИП", "category": "entity", "cluster": "nalogi" },
-    { "phrase": "самозанятый", "category": "entity", "cluster": "uslugi" },
-    { "phrase": "фиксированные взносы", "category": "entity", "cluster": "nalogi" },
-    { "phrase": "налоговый вычет ИП", "category": "entity", "cluster": "nalogi" },
-    { "phrase": "дробление бизнеса", "category": "entity", "cluster": "nalogi" },
-    { "phrase": "АУСН", "category": "entity", "cluster": "nalogi" },
-
-    { "phrase": "ЭДО", "category": "entity", "cluster": "otchetnost-edo" },
-    { "phrase": "КЭДО", "category": "entity", "cluster": "kadry" },
-    { "phrase": "МЧД", "category": "entity", "cluster": "otchetnost-edo" },
-    { "phrase": "УКЭП", "category": "entity", "cluster": "otchetnost-edo" },
-
-    { "phrase": "больничный 2026", "category": "entity", "cluster": "kadry" },
-    { "phrase": "отпуск 2026", "category": "entity", "cluster": "kadry" },
-    { "phrase": "ГПХ договор", "category": "entity", "cluster": "kadry" },
-    { "phrase": "увольнение по соглашению сторон", "category": "entity", "cluster": "kadry" },
-    { "phrase": "МРОТ 2026", "category": "entity", "cluster": "kadry" },
-    { "phrase": "страховые взносы за сотрудников", "category": "entity", "cluster": "kadry" },
-
-    { "phrase": "Wildberries", "category": "entity", "cluster": "marketplace" },
-    { "phrase": "Ozon", "category": "entity", "cluster": "marketplace" },
-    { "phrase": "Яндекс Маркет", "category": "entity", "cluster": "marketplace" },
-    { "phrase": "комиссия маркетплейса", "category": "entity", "cluster": "marketplace" },
-    { "phrase": "ФБО ФБС", "category": "entity", "cluster": "marketplace" },
-    { "phrase": "возврат на маркетплейсе", "category": "entity", "cluster": "marketplace" },
-
-    { "phrase": "открыть ИП", "category": "entity", "cluster": "start" },
-    { "phrase": "открыть ООО", "category": "entity", "cluster": "start" },
-    { "phrase": "расчётный счёт ИП", "category": "entity", "cluster": "banki" },
-    { "phrase": "первая касса для ИП", "category": "entity", "cluster": "start" },
-    { "phrase": "КУДиР", "category": "entity", "cluster": "start" },
-
-    { "phrase": "115-ФЗ", "category": "entity", "cluster": "banki" },
-    { "phrase": "блокировка счёта", "category": "entity", "cluster": "banki" },
-    { "phrase": "выездная проверка", "category": "entity", "cluster": "banki" },
-    { "phrase": "встречная проверка", "category": "entity", "cluster": "banki" },
-
-    { "phrase": "новый закон ИП", "category": "intent", "cluster": "zakonodatelstvo" },
-    { "phrase": "новый закон ООО", "category": "intent", "cluster": "zakonodatelstvo" },
-    { "phrase": "новый закон для бизнеса 2026", "category": "intent", "cluster": "zakonodatelstvo" },
-    { "phrase": "новый закон о маркировке", "category": "intent", "cluster": "markirovka" },
-    { "phrase": "изменения для ИП 2026", "category": "intent", "cluster": "zakonodatelstvo" },
-    { "phrase": "изменения для ООО 2026", "category": "intent", "cluster": "zakonodatelstvo" },
-    { "phrase": "изменения в УСН 2026", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "изменения в маркировке 2026", "category": "intent", "cluster": "markirovka" },
-    { "phrase": "изменения в патенте 2026", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "что меняется для ИП", "category": "intent", "cluster": "zakonodatelstvo" },
-    { "phrase": "что меняется для бизнеса", "category": "intent", "cluster": "zakonodatelstvo" },
-    { "phrase": "новое в кадрах 2026", "category": "intent", "cluster": "kadry" },
-
-    { "phrase": "как открыть ИП 2026", "category": "intent", "cluster": "start" },
-    { "phrase": "как закрыть ИП", "category": "intent", "cluster": "zakonodatelstvo" },
-    { "phrase": "как перейти на УСН", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "как перейти на патент", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "как подключить ТС ПИоТ", "category": "intent", "cluster": "ts-piot" },
-    { "phrase": "как подключить маркировку", "category": "intent", "cluster": "markirovka" },
-    { "phrase": "как зарегистрировать кассу", "category": "intent", "cluster": "kkt" },
-    { "phrase": "как продлить лицензию", "category": "intent", "cluster": "egais" },
-    { "phrase": "как сменить ОФД", "category": "intent", "cluster": "ofd-fn" },
-    { "phrase": "как перейти на КЭДО", "category": "intent", "cluster": "kadry" },
-
-    { "phrase": "штраф за маркировку", "category": "intent", "cluster": "markirovka" },
-    { "phrase": "штраф за отсутствие ОФД", "category": "intent", "cluster": "ofd-fn" },
-    { "phrase": "штраф за неуплату налогов", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "штраф за просрочку отчётности", "category": "intent", "cluster": "otchetnost-edo" },
-    { "phrase": "штраф ИП без кассы", "category": "intent", "cluster": "kkt" },
-    { "phrase": "штраф ЕГАИС", "category": "intent", "cluster": "egais" },
-    { "phrase": "штраф за Меркурий", "category": "intent", "cluster": "merkuriy" },
-    { "phrase": "штраф за ТС ПИоТ", "category": "intent", "cluster": "ts-piot" },
-    { "phrase": "ответственность за работу без маркировки", "category": "intent", "cluster": "markirovka" },
-
-    { "phrase": "сроки маркировки 2026", "category": "intent", "cluster": "markirovka" },
-    { "phrase": "сроки уплаты налогов 2026", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "сроки отчётности 2026", "category": "intent", "cluster": "otchetnost-edo" },
-    { "phrase": "налоговый календарь 2026", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "срок ТС ПИоТ", "category": "intent", "cluster": "ts-piot" },
-    { "phrase": "когда вступает в силу закон", "category": "intent", "cluster": "zakonodatelstvo" },
-
-    { "phrase": "лимит УСН 2026", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "лимит дохода ИП", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "лимит патента 2026", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "лимит самозанятого", "category": "intent", "cluster": "uslugi" },
-
-    { "phrase": "письмо ФНС", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "разъяснение Минфина", "category": "intent", "cluster": "nalogi" },
-    { "phrase": "постановление правительства 2026", "category": "intent", "cluster": "zakonodatelstvo" },
-
-    { "phrase": "налоги для ИП", "category": "audience", "cluster": "nalogi" },
-    { "phrase": "налоги для ООО", "category": "audience", "cluster": "nalogi" },
-    { "phrase": "налоги самозанятых", "category": "audience", "cluster": "uslugi" },
-    { "phrase": "бухгалтерия для ИП", "category": "audience", "cluster": "buhgalteriya" },
-    { "phrase": "бухгалтерия для маркетплейса", "category": "audience", "cluster": "buhgalteriya" },
-    { "phrase": "отчётность для ИП", "category": "audience", "cluster": "otchetnost-edo" },
-    { "phrase": "касса для ИП", "category": "audience", "cluster": "kkt" },
-    { "phrase": "касса для интернет-магазина", "category": "audience", "cluster": "kkt" },
-    { "phrase": "эквайринг для бизнеса", "category": "audience", "cluster": "banki" },
-    { "phrase": "налоги для общепита", "category": "audience", "cluster": "horeca" },
-    { "phrase": "налоги для розницы", "category": "audience", "cluster": "nichi" },
-    { "phrase": "налоги для аптеки", "category": "audience", "cluster": "nichi" },
-    { "phrase": "касса для салона красоты", "category": "audience", "cluster": "uslugi" },
-    { "phrase": "налоги для такси", "category": "audience", "cluster": "uslugi" },
-    { "phrase": "налоги для фрилансера", "category": "audience", "cluster": "uslugi" },
-
-    { "phrase": "не приходит чек", "category": "problem", "cluster": "kkt" },
-    { "phrase": "не работает касса", "category": "problem", "cluster": "kkt" },
-    { "phrase": "ошибка ОФД", "category": "problem", "cluster": "ofd-fn" },
-    { "phrase": "ошибка маркировки", "category": "problem", "cluster": "markirovka" },
-    { "phrase": "не выгружается в Честный знак", "category": "problem", "cluster": "markirovka" },
-    { "phrase": "почему заблокировали счёт", "category": "problem", "cluster": "banki" },
-    { "phrase": "отказали в патенте", "category": "problem", "cluster": "nalogi" },
-    { "phrase": "ошибка в декларации", "category": "problem", "cluster": "otchetnost-edo" },
-    { "phrase": "блокировка ЕГАИС", "category": "problem", "cluster": "egais" },
-    { "phrase": "сбой Меркурий", "category": "problem", "cluster": "merkuriy" },
-    { "phrase": "не приходит код маркировки", "category": "problem", "cluster": "markirovka" },
-    { "phrase": "не выводится из оборота", "category": "problem", "cluster": "markirovka" },
-    { "phrase": "не приходит уведомление налоговой", "category": "problem", "cluster": "nalogi" },
-    { "phrase": "пропал интернет на кассе", "category": "problem", "cluster": "kkt" },
-    { "phrase": "почему пришёл штраф", "category": "problem", "cluster": "zakonodatelstvo" },
-
-    { "phrase": "1С Розница", "category": "system", "cluster": "buhgalteriya" },
-    { "phrase": "1С УНФ", "category": "system", "cluster": "buhgalteriya" },
-    { "phrase": "МойСклад", "category": "system", "cluster": "buhgalteriya" },
-    { "phrase": "Контур Эльба", "category": "system", "cluster": "buhgalteriya" },
-    { "phrase": "СБИС", "category": "system", "cluster": "otchetnost-edo" },
-    { "phrase": "Тензор", "category": "system", "cluster": "otchetnost-edo" },
-    { "phrase": "Платформа ОФД", "category": "system", "cluster": "ofd-fn" },
-    { "phrase": "ОФД Я", "category": "system", "cluster": "ofd-fn" },
-    { "phrase": "личный кабинет ФНС", "category": "system", "cluster": "nalogi" },
-    { "phrase": "Госуслуги для ИП", "category": "system", "cluster": "start" },
-    { "phrase": "ГИС МТ", "category": "system", "cluster": "markirovka" },
-
-    { "phrase": "декларация 2026", "category": "seasonal", "cluster": "otchetnost-edo" },
-    { "phrase": "отчётность за 2 квартал", "category": "seasonal", "cluster": "otchetnost-edo" },
-    { "phrase": "отчётность за год", "category": "seasonal", "cluster": "otchetnost-edo" },
-    { "phrase": "авансовый платёж УСН", "category": "seasonal", "cluster": "nalogi" },
-    { "phrase": "годовая отчётность ИП", "category": "seasonal", "cluster": "otchetnost-edo" },
-    { "phrase": "налог на имущество ИП", "category": "seasonal", "cluster": "nalogi" },
-    { "phrase": "транспортный налог ИП", "category": "seasonal", "cluster": "nalogi" },
-    { "phrase": "сдать декларацию ИП", "category": "seasonal", "cluster": "otchetnost-edo" },
-    { "phrase": "налог за 1 квартал", "category": "seasonal", "cluster": "nalogi" },
-    { "phrase": "уведомление ЕНП", "category": "seasonal", "cluster": "zakonodatelstvo" },
-
-    { "phrase": "ЭТрН", "category": "entity", "cluster": "logistika" },
-    { "phrase": "электронная транспортная накладная", "category": "entity", "cluster": "logistika" },
-    { "phrase": "ГИС ЭПД", "category": "system", "cluster": "logistika" },
-    { "phrase": "140-ФЗ", "category": "entity", "cluster": "logistika" },
-    { "phrase": "транспортная накладная", "category": "entity", "cluster": "logistika" },
-    { "phrase": "электронный путевой лист", "category": "entity", "cluster": "logistika" },
-    { "phrase": "договор-заявка перевозка", "category": "entity", "cluster": "logistika" },
-    { "phrase": "сопроводительная ведомость", "category": "entity", "cluster": "logistika" },
-    { "phrase": "операторы ЭПД", "category": "entity", "cluster": "logistika" },
-    { "phrase": "Диадок Логистика", "category": "system", "cluster": "logistika" },
-    { "phrase": "штраф за отсутствие ЭТрН", "category": "problem", "cluster": "logistika" },
-    { "phrase": "ЭПД для грузоперевозчика", "category": "audience", "cluster": "logistika" },
-    { "phrase": "ЭТрН с 1 сентября 2026", "category": "seasonal", "cluster": "logistika" },
-    { "phrase": "обязательная ЭТрН 2026", "category": "seasonal", "cluster": "logistika" }
-  ]
+ "schemaVersion": 1,
+ "note": "Seeds для weekly trend discovery. Категории: entity (узкая сущность), intent (паттерн интента), audience (срез аудитории), problem (боль/ошибка), system (платформа/инструмент), seasonal (календарь). Cluster — соответствие 18 кластерам контент-плана или 'any' для широких.",
+ "seeds": [
+  {
+   "phrase": "ТС ПИоТ",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "онлайн-касса",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "ОФД",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "фискальный накопитель",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "ФФД 1.2",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "маркировка",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "Честный знак",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка молочной продукции",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка пива",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка обуви",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка лекарств",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка табака",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка воды",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка БАД",
+   "category": "entity",
+   "cluster": "markirovka-2026"
+  },
+  {
+   "phrase": "маркировка бытовой химии",
+   "category": "entity",
+   "cluster": "markirovka-2026"
+  },
+  {
+   "phrase": "маркировка парфюмерии",
+   "category": "entity",
+   "cluster": "markirovka-2026"
+  },
+  {
+   "phrase": "маркировка одежды",
+   "category": "entity",
+   "cluster": "markirovka-2026"
+  },
+  {
+   "phrase": "маркировка кормов",
+   "category": "entity",
+   "cluster": "markirovka-2026"
+  },
+  {
+   "phrase": "импортная маркировка",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "поэкземплярный учёт",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "разрешительный режим",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "Меркурий",
+   "category": "entity",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "ВСД",
+   "category": "entity",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "ветеринарный сертификат",
+   "category": "entity",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "ЕГАИС",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "декларация по алкоголю",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "акцизная марка",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "лицензия на алкоголь",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "Эвотор",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "АТОЛ",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "Штрих-М",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "Дримкас",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "УСН 2026",
+   "category": "entity",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "ЕНС",
+   "category": "entity",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "ЕНП",
+   "category": "entity",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "НДС на УСН",
+   "category": "entity",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "патент ИП",
+   "category": "entity",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "самозанятый",
+   "category": "entity",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "фиксированные взносы",
+   "category": "entity",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "налоговый вычет ИП",
+   "category": "entity",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "дробление бизнеса",
+   "category": "entity",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "АУСН",
+   "category": "entity",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "ЭДО",
+   "category": "entity",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "КЭДО",
+   "category": "entity",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "МЧД",
+   "category": "entity",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "УКЭП",
+   "category": "entity",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "больничный 2026",
+   "category": "entity",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "отпуск 2026",
+   "category": "entity",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "ГПХ договор",
+   "category": "entity",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "увольнение по соглашению сторон",
+   "category": "entity",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "МРОТ 2026",
+   "category": "entity",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "страховые взносы за сотрудников",
+   "category": "entity",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "Wildberries",
+   "category": "entity",
+   "cluster": "marketplace"
+  },
+  {
+   "phrase": "Ozon",
+   "category": "entity",
+   "cluster": "marketplace"
+  },
+  {
+   "phrase": "Яндекс Маркет",
+   "category": "entity",
+   "cluster": "marketplace"
+  },
+  {
+   "phrase": "комиссия маркетплейса",
+   "category": "entity",
+   "cluster": "marketplace"
+  },
+  {
+   "phrase": "ФБО ФБС",
+   "category": "entity",
+   "cluster": "marketplace"
+  },
+  {
+   "phrase": "возврат на маркетплейсе",
+   "category": "entity",
+   "cluster": "marketplace"
+  },
+  {
+   "phrase": "открыть ИП",
+   "category": "entity",
+   "cluster": "start"
+  },
+  {
+   "phrase": "открыть ООО",
+   "category": "entity",
+   "cluster": "start"
+  },
+  {
+   "phrase": "расчётный счёт ИП",
+   "category": "entity",
+   "cluster": "banki"
+  },
+  {
+   "phrase": "первая касса для ИП",
+   "category": "entity",
+   "cluster": "start"
+  },
+  {
+   "phrase": "КУДиР",
+   "category": "entity",
+   "cluster": "start"
+  },
+  {
+   "phrase": "115-ФЗ",
+   "category": "entity",
+   "cluster": "banki"
+  },
+  {
+   "phrase": "блокировка счёта",
+   "category": "entity",
+   "cluster": "banki"
+  },
+  {
+   "phrase": "выездная проверка",
+   "category": "entity",
+   "cluster": "banki"
+  },
+  {
+   "phrase": "встречная проверка",
+   "category": "entity",
+   "cluster": "banki"
+  },
+  {
+   "phrase": "новый закон ИП",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "новый закон ООО",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "новый закон для бизнеса 2026",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "новый закон о маркировке",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "изменения для ИП 2026",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "изменения для ООО 2026",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "изменения в УСН 2026",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "изменения в маркировке 2026",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "изменения в патенте 2026",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "что меняется для ИП",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "что меняется для бизнеса",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "новое в кадрах 2026",
+   "category": "intent",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "как открыть ИП 2026",
+   "category": "intent",
+   "cluster": "start"
+  },
+  {
+   "phrase": "как закрыть ИП",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "как перейти на УСН",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "как перейти на патент",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "как подключить ТС ПИоТ",
+   "category": "intent",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "как подключить маркировку",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "как зарегистрировать кассу",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "как продлить лицензию",
+   "category": "intent",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "как сменить ОФД",
+   "category": "intent",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "как перейти на КЭДО",
+   "category": "intent",
+   "cluster": "kadry"
+  },
+  {
+   "phrase": "штраф за маркировку",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "штраф за отсутствие ОФД",
+   "category": "intent",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "штраф за неуплату налогов",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "штраф за просрочку отчётности",
+   "category": "intent",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "штраф ИП без кассы",
+   "category": "intent",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "штраф ЕГАИС",
+   "category": "intent",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "штраф за Меркурий",
+   "category": "intent",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "штраф за ТС ПИоТ",
+   "category": "intent",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ответственность за работу без маркировки",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "сроки маркировки 2026",
+   "category": "intent",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "сроки уплаты налогов 2026",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "сроки отчётности 2026",
+   "category": "intent",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "налоговый календарь 2026",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "срок ТС ПИоТ",
+   "category": "intent",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "когда вступает в силу закон",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "лимит УСН 2026",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "лимит дохода ИП",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "лимит патента 2026",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "лимит самозанятого",
+   "category": "intent",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "письмо ФНС",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "разъяснение Минфина",
+   "category": "intent",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "постановление правительства 2026",
+   "category": "intent",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "налоги для ИП",
+   "category": "audience",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "налоги для ООО",
+   "category": "audience",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "налоги самозанятых",
+   "category": "audience",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "бухгалтерия для ИП",
+   "category": "audience",
+   "cluster": "buhgalteriya"
+  },
+  {
+   "phrase": "бухгалтерия для маркетплейса",
+   "category": "audience",
+   "cluster": "buhgalteriya"
+  },
+  {
+   "phrase": "отчётность для ИП",
+   "category": "audience",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "касса для ИП",
+   "category": "audience",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса для интернет-магазина",
+   "category": "audience",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "эквайринг для бизнеса",
+   "category": "audience",
+   "cluster": "banki"
+  },
+  {
+   "phrase": "налоги для общепита",
+   "category": "audience",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "налоги для розницы",
+   "category": "audience",
+   "cluster": "nichi"
+  },
+  {
+   "phrase": "налоги для аптеки",
+   "category": "audience",
+   "cluster": "nichi"
+  },
+  {
+   "phrase": "касса для салона красоты",
+   "category": "audience",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "налоги для такси",
+   "category": "audience",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "налоги для фрилансера",
+   "category": "audience",
+   "cluster": "uslugi"
+  },
+  {
+   "phrase": "не приходит чек",
+   "category": "problem",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "не работает касса",
+   "category": "problem",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "ошибка ОФД",
+   "category": "problem",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "ошибка маркировки",
+   "category": "problem",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "не выгружается в Честный знак",
+   "category": "problem",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "почему заблокировали счёт",
+   "category": "problem",
+   "cluster": "banki"
+  },
+  {
+   "phrase": "отказали в патенте",
+   "category": "problem",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "ошибка в декларации",
+   "category": "problem",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "блокировка ЕГАИС",
+   "category": "problem",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "сбой Меркурий",
+   "category": "problem",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "не приходит код маркировки",
+   "category": "problem",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "не выводится из оборота",
+   "category": "problem",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "не приходит уведомление налоговой",
+   "category": "problem",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "пропал интернет на кассе",
+   "category": "problem",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "почему пришёл штраф",
+   "category": "problem",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "1С Розница",
+   "category": "system",
+   "cluster": "buhgalteriya"
+  },
+  {
+   "phrase": "1С УНФ",
+   "category": "system",
+   "cluster": "buhgalteriya"
+  },
+  {
+   "phrase": "МойСклад",
+   "category": "system",
+   "cluster": "buhgalteriya"
+  },
+  {
+   "phrase": "Контур Эльба",
+   "category": "system",
+   "cluster": "buhgalteriya"
+  },
+  {
+   "phrase": "СБИС",
+   "category": "system",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "Тензор",
+   "category": "system",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "Платформа ОФД",
+   "category": "system",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "ОФД Я",
+   "category": "system",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "личный кабинет ФНС",
+   "category": "system",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "Госуслуги для ИП",
+   "category": "system",
+   "cluster": "start"
+  },
+  {
+   "phrase": "ГИС МТ",
+   "category": "system",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "декларация 2026",
+   "category": "seasonal",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "отчётность за 2 квартал",
+   "category": "seasonal",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "отчётность за год",
+   "category": "seasonal",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "авансовый платёж УСН",
+   "category": "seasonal",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "годовая отчётность ИП",
+   "category": "seasonal",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "налог на имущество ИП",
+   "category": "seasonal",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "транспортный налог ИП",
+   "category": "seasonal",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "сдать декларацию ИП",
+   "category": "seasonal",
+   "cluster": "otchetnost-edo"
+  },
+  {
+   "phrase": "налог за 1 квартал",
+   "category": "seasonal",
+   "cluster": "nalogi"
+  },
+  {
+   "phrase": "уведомление ЕНП",
+   "category": "seasonal",
+   "cluster": "zakonodatelstvo"
+  },
+  {
+   "phrase": "ЭТрН",
+   "category": "entity",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "электронная транспортная накладная",
+   "category": "entity",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "ГИС ЭПД",
+   "category": "system",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "140-ФЗ",
+   "category": "entity",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "транспортная накладная",
+   "category": "entity",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "электронный путевой лист",
+   "category": "entity",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "договор-заявка перевозка",
+   "category": "entity",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "сопроводительная ведомость",
+   "category": "entity",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "операторы ЭПД",
+   "category": "entity",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "Диадок Логистика",
+   "category": "system",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "штраф за отсутствие ЭТрН",
+   "category": "problem",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "ЭПД для грузоперевозчика",
+   "category": "audience",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "ЭТрН с 1 сентября 2026",
+   "category": "seasonal",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "обязательная ЭТрН 2026",
+   "category": "seasonal",
+   "cluster": "logistika"
+  },
+  {
+   "phrase": "ТС ПИоТ подключение",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "ТС ПИоТ ошибка",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "модуль проверки маркировки касса",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "разрешительный режим касса",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "токен честный знак касса",
+   "category": "entity",
+   "cluster": "ts-piot"
+  },
+  {
+   "phrase": "онлайн касса настройка",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса ошибка чек",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "ффд 1.2 переход",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "касса регистрация фнс",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "чек коррекции",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "кассовая программа маркировка",
+   "category": "entity",
+   "cluster": "kkt"
+  },
+  {
+   "phrase": "офд договор",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "фискальный накопитель замена",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "фискальный накопитель срок",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "офд ошибка передачи",
+   "category": "entity",
+   "cluster": "ofd-fn"
+  },
+  {
+   "phrase": "егаис розница",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "егаис остатки",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "алкодекларация",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "егаис ошибка чека",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "акцизная марка проверка",
+   "category": "entity",
+   "cluster": "egais"
+  },
+  {
+   "phrase": "маркировка приемка упд",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка вывод из оборота",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка остатки",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "честный знак личный кабинет",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "маркировка штраф",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "коды маркировки заказ",
+   "category": "entity",
+   "cluster": "markirovka"
+  },
+  {
+   "phrase": "сканер штрихкодов маркировка",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "терминал сбора данных",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "принтер этикеток маркировка",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "2d сканер datamatrix",
+   "category": "entity",
+   "cluster": "oborudovanie"
+  },
+  {
+   "phrase": "меркурий вэд",
+   "category": "entity",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "ветеринарный сертификат гашение",
+   "category": "entity",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "меркурий ошибка",
+   "category": "entity",
+   "cluster": "merkuriy"
+  },
+  {
+   "phrase": "общепит маркировка",
+   "category": "entity",
+   "cluster": "horeca"
+  },
+  {
+   "phrase": "розница маркировка обязанности",
+   "category": "entity",
+   "cluster": "roznica"
+  },
+  {
+   "phrase": "аптека маркировка лекарств",
+   "category": "entity",
+   "cluster": "apteka"
+  }
+ ]
 }
