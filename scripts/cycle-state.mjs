@@ -65,6 +65,18 @@ const KNOWN_DECISIONS = new Set([
   'нужно тз дизайнеру',
 ]);
 
+/* Слова бэклога до 11.08.2026. Теперь обе таблицы говорят одинаково
+ * («одобрено» / «убрать»), но редактор, привыкший к старым, не должен
+ * получить молчаливое «решение не распознано»: приводим к общему словарю
+ * и обрабатываем как обычно. Обратная совместимость, а не второй словарь —
+ * в выпадающих списках этих значений уже нет. */
+const PLAN_DECISION_SYNONYMS = new Map([
+  ['согласовано', 'одобрено'],
+  ['не согласовано', 'убрать'],
+  ['отклонено', 'убрать'],
+  ['снять', 'убрать'],
+]);
+
 /** Внутренний статус → надпись в колонке «Статус» таблицы. */
 const RU_STATUS = {
   planned: 'в плане',
@@ -345,7 +357,8 @@ switch (cmd) {
       if (row.priority && row.priority !== t.priority) { t.priority = row.priority; }
       if (row.targetKeyword && row.targetKeyword !== t.targetKeyword) t.targetKeyword = row.targetKeyword;
 
-      const d = (row.decision || '').toLowerCase();
+      const d = PLAN_DECISION_SYNONYMS.get((row.decision || '').trim().toLowerCase())
+        || (row.decision || '').toLowerCase();
       if (d === 'убрать' && t.status !== 'dropped') {
         // Переход может быть недопустим (например, тема уже released) —
         // тогда просто не трогаем: снимать уже выпущенную статью через

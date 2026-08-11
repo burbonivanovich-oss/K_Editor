@@ -118,6 +118,28 @@ test('apply-decisions: решение "убрать" снимает тему п�
   });
 });
 
+// Словарь решений с 11.08.2026 общий у плана и бэклога («одобрено» /
+// «убрать»). Прежние слова бэклога должны продолжать работать: в живых
+// таблицах решения уже проставлены ими, и молчаливое «не распознано»
+// означало бы потерянную работу редактора.
+test('apply-decisions: старое "не согласовано" читается как "убрать"', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема раз' }, { title: 'Тема два' }]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [
+        { row: 5, title: 'Тема раз', decision: 'Не согласовано', slug: 'tema-raz' },
+        { row: 6, title: 'Тема два', decision: 'согласовано', slug: 'tema-dva' },
+      ],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.deepEqual(out.dropped, ['Тема раз']);
+    assert.deepEqual(out.unrecognized, []);
+    assert.equal(getState(statePath).plan.find((t) => t.slug === 'tema-raz').status, 'dropped');
+  });
+});
+
 // Регрессия: раньше строки сопоставлялись по номеру, а не по slug. Если
 // редактор удаляет строку, все нижние строки физически сдвигаются, и
 // решение по одной теме применялось к другой, которая просто оказалась

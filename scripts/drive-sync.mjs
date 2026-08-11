@@ -381,7 +381,27 @@ const BACKLOG_COLS = [
 // превращался в «не пишите об этом», ровно наоборот. Разбор — в
 // cycle-backlog.md, Шаг 3: тема идёт в очередь /maintain-content, а не в
 // контент-план и не в suppressions.
-const BACKLOG_DECISIONS = ['согласовано', 'не согласовано', 'нужен рерайт'];
+// Словарь решений один на обе таблицы: «одобрено» и «убрать» значат в
+// бэклоге ровно то же, что в плане. До 11.08.2026 бэклог говорил
+// «согласовано / не согласовано», план — «одобрено / убрать»; разные слова
+// про одно действие были наследством двух подходов, а не смыслом, и
+// редактору приходилось держать в голове, в какой таблице он сейчас.
+const BACKLOG_DECISIONS = ['одобрено', 'убрать', 'нужен рерайт'];
+
+/* Старые слова не выбрасываются: в живой таблице бэклога решения уже
+ * проставлены прежним словарём, и смена подписи не должна их обнулить.
+ * readBacklog приводит такие значения к новым, а исходное отдаёт отдельным
+ * полем — рутина видит, что решение пришло из старой таблицы. */
+const DECISION_SYNONYMS = new Map([
+  ['согласовано', 'одобрено'],
+  ['не согласовано', 'убрать'],
+  ['отклонено', 'убрать'],
+  ['снять', 'убрать'],
+]);
+function normalizeDecision(value) {
+  const raw = (value || '').trim();
+  return DECISION_SYNONYMS.get(raw.toLowerCase()) || raw;
+}
 
 /* Причина отказа — не комментарий, а команда: от формулировки зависит,
  * замолчит тема на 90 дней, на 30 или вернётся через неделю. До 10.08.2026
@@ -397,7 +417,12 @@ const BACKLOG_REASONS = [
   'уже покрыто другой статьёй',
   'пока рано — вернуть позже',
 ];
-const BACKLOG_WHO = ['AI', 'пишем сами', 'пока неактуально'];
+/* Колонка отвечает ровно на один вопрос — кто пишет. «Пока неактуально»
+ * жило здесь как третий вариант, но это не исполнитель, а отсрочка, и
+ * то же самое уже сказано в «Причина отказа» → «пока рано — вернуть
+ * позже». Один смысл в двух колонках разъезжается: редактор ставил
+ * отсрочку то там, то тут, и рутина разбирала её по-разному. */
+const BACKLOG_WHO = ['AI', 'пишем сами'];
 
 /* ─────────────────────────────────────────────────── markdown → Docs ──── */
 /** Разбирает markdown в плоский текст + диапазоны стилей для Docs API. */
@@ -756,7 +781,7 @@ async function formatBacklogSheet(sheetId, weekId, rowCount) {
         rows: [
           { values: [{ userEnteredValue: { stringValue: `Бэклог тем — неделя ${weekId}` },
                        userEnteredFormat: { textFormat: { bold: true, fontSize: 14 } } }] },
-          { values: [{ userEnteredValue: { stringValue: 'Проставьте решение по каждой теме. «согласовано» — тема идёт в контент-план. «нужен рерайт» — статья есть, но устарела: обновим её, новую писать не будем. При «не согласовано» выберите причину из списка: от неё зависит, вернётся тема или замолчит.' },
+          { values: [{ userEnteredValue: { stringValue: 'Проставьте решение по каждой теме. «одобрено» — тема идёт в контент-план. «нужен рерайт» — статья есть, но устарела: обновим её, новую писать не будем. При «убрать» выберите причину из списка: от неё зависит, вернётся тема или замолчит. Слова те же, что в таблице плана.' },
                        userEnteredFormat: {
                          textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
                        } }] },
@@ -870,17 +895,50 @@ async function readBacklog(sheetId) {
   const r = await sheets(`${sheetId}/values/${encodeURIComponent(range)}`);
   const rows = r.values || [];
   const out = [];
-  const topicIdx = BACKLOG_COLS.findIndex((c) => c.key === 'topic');
+
+  /* Колонки ищем по заголовку, а не по номеру. Позиционное чтение
+   * ломается молча: 11.08.2026 в BACKLOG_COLS добавили «Сегмент» и
+   * «Связки», и таблицы, написанные до этого, начали читаться со сдвигом
+   * — решение редактора уезжало в соседнее поле, а рутина разбирала
+   * причину отказа как решение. Заголовок в таблице всегда тот, с
+   * которым её писали, поэтому по нему сопоставление верно для любой
+   * версии раскладки. */
+  const header = (rows[BACKLOG_HEADER_ROW - 1] || []).map((h) => (h || '').trim().toLowerCase());
+  const titles = new Set(BACKLOG_COLS.map((c) => c.title.toLowerCase()));
+  // Заголовка нет вовсе (таблицу писали руками, шапку сдвинули) — читаем
+  // по позициям, как раньше. Хуже, чем по заголовку, но не пусто.
+  const byTitle = header.some((h) => titles.has(h))
+    ? new Map(header.map((h, idx) => [h, idx]))
+    : new Map(BACKLOG_COLS.map((c, idx) => [c.title.toLowerCase(), idx]));
+  const indexOf = (col) => {
+    const found = byTitle.get(col.title.toLowerCase());
+    return found === undefined ? BACKLOG_COLS.indexOf(col) : found;
+  };
+  const topicIdx = indexOf(BACKLOG_COLS.find((c) => c.key === 'topic'));
 
   for (let i = BACKLOG_FIRST_DATA_ROW - 1; i < rows.length; i++) {
     const row = rows[i] || [];
     const topic = (row[topicIdx] || '').trim();
     if (!topic) continue;
     const item = { row: i + 1 };
-    BACKLOG_COLS.forEach((c, idx) => {
+    BACKLOG_COLS.forEach((c) => {
       if (c.key === 'n') return;
-      item[c.key] = (row[idx] || '').trim();
+      // Колонки, которой в старой таблице не было, в заголовке нет —
+      // поле остаётся пустым, а не занимает чужое значение.
+      const idx = byTitle.has(c.title.toLowerCase()) ? byTitle.get(c.title.toLowerCase()) : null;
+      item[c.key] = idx === null ? '' : (row[idx] || '').trim();
     });
+    // Решение приводим к общему словарю плана. Если редактор ставил его
+    // ещё старыми словами — отдаём и исходник, чтобы это было видно.
+    const canonical = normalizeDecision(item.decision);
+    if (canonical !== item.decision) item.decisionRaw = item.decision;
+    item.decision = canonical;
+    // Отсрочка, проставленная в «Кто пишет» до 11.08.2026, читается как
+    // причина: колонка исполнителя больше её не предлагает.
+    if (item.who && item.who.toLowerCase() === 'пока неактуально') {
+      item.who = '';
+      if (!item.reason) item.reason = 'пока рано — вернуть позже';
+    }
     out.push(item);
   }
   return { sheetId, items: out };
