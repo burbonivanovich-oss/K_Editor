@@ -1,8 +1,8 @@
 {
   "cycleId": "2026-08",
   "state": "running",
-  "createdAt": "2026-08-11T10:08:41.883Z",
-  "updatedAt": "2026-08-11T16:18:29.144Z",
+  "createdAt": "2026-08-11T18:17:09.687Z",
+  "updatedAt": "2026-08-11T18:17:09.739Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -28,89 +28,15 @@
       "seenComments": []
     },
     {
-      "slug": "test-chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-o",
-      "title": "ТЕСТ: Чек коррекции на кассе: когда пробивать и как избежать ошибок",
-      "priority": "P1",
-      "cluster": "kkt",
-      "targetKeyword": "касса чеки коррекции",
-      "rationale": "Тестовая тема для обкатки вкладки плана",
-      "row": 6,
-      "owner": "bot",
-      "status": "review",
-      "docId": "1UUsTTzqIxA_Wq1nIkaDgCwU5zw6zbUrveKREDlFtBkE",
-      "docUrl": "https://docs.google.com/document/d/1UUsTTzqIxA_Wq1nIkaDgCwU5zw6zbUrveKREDlFtBkE/edit",
-      "seenComments": []
-    },
-    {
-      "slug": "test-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastr",
-      "title": "ТЕСТ: Личный кабинет онлайн-кассы: как войти и что там настраивать",
-      "priority": "P1",
-      "cluster": "kkt",
-      "targetKeyword": "личный кабинет онлайн кассы",
-      "rationale": "Тестовая тема для обкатки вкладки плана",
-      "row": 7,
-      "owner": "bot",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": [],
-      "urgent": true
-    },
-    {
-      "slug": "test-otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-fo",
-      "title": "ТЕСТ: Отчёт о закрытии фискального накопителя: когда и как формировать",
-      "priority": "P1",
-      "cluster": "ofd-fn",
-      "targetKeyword": "фискальный накопитель отчет",
-      "rationale": "Тестовая тема для обкатки вкладки плана",
-      "row": 8,
-      "owner": "bot",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
-    },
-    {
-      "slug": "test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-",
-      "title": "ТЕСТ: Как завести товар в ЕГАИС: пошаговая инструкция для розницы",
-      "priority": "P0",
-      "cluster": "egais",
-      "targetKeyword": "товар егаис",
-      "rationale": "Тестовая тема для обкатки вкладки плана",
-      "row": 9,
-      "owner": "bot",
-      "status": "review",
-      "docId": "1AycWXo84sZdcNuASJ2pOlGO04rV8XGyVIaLkKn4kK3Q",
-      "docUrl": "https://docs.google.com/document/d/1AycWXo84sZdcNuASJ2pOlGO04rV8XGyVIaLkKn4kK3Q/edit",
-      "seenComments": [
-        "AAACFeHKNrY",
-        "AAACFeHKNrU"
-      ]
-    },
-    {
-      "slug": "test-nastroyka-skanera-shtrihkodov-dlya-markirovki-kak-schit",
-      "title": "ТЕСТ: Настройка сканера штрихкодов для маркировки: как считывать DataMatrix",
-      "priority": "P1",
-      "cluster": "oborudovanie",
-      "targetKeyword": "настройка сканера для маркировки",
-      "rationale": "Тестовая тема для обкатки вкладки плана",
-      "row": 10,
-      "owner": "bot",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
-    },
-    {
       "slug": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
       "title": "Личный кабинет онлайн-кассы: как войти и что там настраивать",
       "priority": "P1",
       "cluster": "kkt",
       "targetKeyword": "личный кабинет онлайн кассы",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "row": 11,
+      "row": 6,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -122,7 +48,7 @@
       "cluster": "kkt",
       "targetKeyword": "онлайн кассы банк",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "row": 12,
+      "row": 7,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -136,7 +62,7 @@
       "cluster": "markirovka",
       "targetKeyword": "маркировка товара честный знак 2026",
       "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "row": 13,
+      "row": 8,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -150,7 +76,7 @@
       "cluster": "kkt",
       "targetKeyword": "коррекция чека возврата",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "row": 14,
+      "row": 9,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -164,7 +90,7 @@
       "cluster": "markirovka",
       "targetKeyword": "маркировка колес шин",
       "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "row": 15,
+      "row": 10,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -178,7 +104,7 @@
       "cluster": "ofd-fn",
       "targetKeyword": "фискальный накопитель отчет",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "row": 16,
+      "row": 11,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -192,7 +118,7 @@
       "cluster": "ekvairing",
       "targetKeyword": "интернет эквайринг банк",
       "rationale": "",
-      "row": 17,
+      "row": 12,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -206,7 +132,7 @@
       "cluster": "egais",
       "targetKeyword": "акцизная марка онлайн",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
-      "row": 18,
+      "row": 13,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -220,7 +146,7 @@
       "cluster": "egais",
       "targetKeyword": "марка егаис",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
-      "row": 19,
+      "row": 14,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -234,7 +160,7 @@
       "cluster": "egais",
       "targetKeyword": "товар егаис",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
-      "row": 20,
+      "row": 15,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -248,7 +174,7 @@
       "cluster": "kkt",
       "targetKeyword": "онлайн касса без кассы",
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "row": 21,
+      "row": 16,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -262,7 +188,7 @@
       "cluster": "oborudovanie",
       "targetKeyword": "настройка сканера для маркировки",
       "rationale": "",
-      "row": 22,
+      "row": 17,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -276,7 +202,7 @@
       "cluster": "egais",
       "targetKeyword": "продажи егаис",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
-      "row": 23,
+      "row": 18,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -290,7 +216,7 @@
       "cluster": "egais",
       "targetKeyword": "без акцизной марки",
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
-      "row": 24,
+      "row": 19,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -299,12 +225,12 @@
     },
     {
       "slug": "markirovka-chestnogo-znaka-v-2026-godu-kakie-tovary-dobavili",
-      "title": "Маркировка «Честного знака» в 2026 году: какие товары добавились и с каких дат",
+      "title": "маркировка товара знаки",
       "priority": "P1",
       "cluster": "markirovka",
       "targetKeyword": "маркировка товара знаки",
       "rationale": "новая фраза в выдаче: 17212 показов в месяц, статьи по запросу нет, кластер markirovka; со связанными запросами 58267 показов по 5 формулировкам",
-      "row": 25,
+      "row": 20,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -313,12 +239,12 @@
     },
     {
       "slug": "chek-na-kasse-evotor-kak-nastroit-rekvizity-i-chto-delat-pri",
-      "title": "Чек на кассе Эвотор: как настроить реквизиты и что делать при ошибке",
+      "title": "эвотор чек",
       "priority": "P1",
       "cluster": "kkt",
       "targetKeyword": "эвотор чек",
       "rationale": "новая фраза в выдаче: 16739 показов в месяц, статьи по запросу нет, кластер kkt",
-      "row": 26,
+      "row": 21,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -327,12 +253,12 @@
     },
     {
       "slug": "markirovka-v-1s-kak-nastroit-obmen-s-chestnym-znakom-i-ne-lo",
-      "title": "Маркировка в 1С: как настроить обмен с «Честным знаком» и не ловить отказы",
+      "title": "1 с маркировка",
       "priority": "P1",
       "cluster": "markirovka",
       "targetKeyword": "1 с маркировка",
       "rationale": "новая фраза в выдаче: 13718 показов в месяц, статьи по запросу нет, кластер markirovka",
-      "row": 27,
+      "row": 22,
       "owner": "bot",
       "status": "candidate",
       "docId": null,
@@ -343,72 +269,12 @@
   "batches": [],
   "log": [
     {
-      "at": "2026-08-11T10:08:41.884Z",
-      "event": "init 2026-08: 20 тем"
+      "at": "2026-08-11T18:17:09.688Z",
+      "event": "init 2026-08: 18 тем"
     },
     {
-      "at": "2026-08-11T10:08:41.910Z",
+      "at": "2026-08-11T18:17:09.739Z",
       "event": "state awaiting_review → running"
-    },
-    {
-      "at": "2026-08-11T10:22:27.592Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T10:42:50.581Z",
-      "event": "set-doc razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov"
-    },
-    {
-      "at": "2026-08-11T10:42:50.605Z",
-      "event": "set-doc test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-"
-    },
-    {
-      "at": "2026-08-11T10:42:50.625Z",
-      "event": "set-doc test-chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-o"
-    },
-    {
-      "at": "2026-08-11T10:45:53.489Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T10:51:58.938Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T11:36:50.612Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T11:43:33.274Z",
-      "event": "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov → принято"
-    },
-    {
-      "at": "2026-08-11T11:43:40.476Z",
-      "event": "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov → выпущено"
-    },
-    {
-      "at": "2026-08-11T11:45:19.062Z",
-      "event": "test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-: отмечено 2 замечаний"
-    },
-    {
-      "at": "2026-08-11T11:51:27.864Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T13:23:58.598Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T15:29:25.454Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T16:09:13.205Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T16:18:29.144Z",
-      "event": "add-candidates: +3 из 3"
     }
   ]
 }
