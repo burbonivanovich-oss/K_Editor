@@ -74,6 +74,7 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { createSign } from 'node:crypto';
 import { slugify } from './lib/slugify.mjs';
+import { resolveInternalLink } from './lib/resolve-links.mjs';
 import {
   WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, APPROVAL_CELL,
   colLetter, workIdx, COL as WORK_COL, RU_STATUS,
@@ -356,7 +357,7 @@ function normalizeDecision(value) {
 
 /* ─────────────────────────────────────────────────── markdown → Docs ──── */
 /** Разбирает markdown в плоский текст + диапазоны стилей для Docs API. */
-function mdToDocRequests(md) {
+function mdToDocRequests(md, unresolved = []) {
   let text = '';
   const h1 = [], h2 = [], h3 = [], bullets = [], bold = [], links = [];
 
@@ -444,20 +445,16 @@ function mdToDocRequests(md) {
       },
     });
   }
-  /* Внутренние ссылки статей записаны от корня: «/blog/<слаг>». Своего
-   * сайта у модуля нет, домен знает только принимающий проект — поэтому
-   * абсолютного адреса у такой ссылки просто не существует. Google при
-   * вставке достраивает схему и получается «http:///blog/...», то есть
-   * битая ссылка в каждом доке, который видит редактор.
-   *
-   * Если домен известен (BLOG_BASE_URL) — подставляем его. Если нет —
-   * ссылку не ставим вовсе: текст остаётся текстом. Мёртвая ссылка хуже
-   * её отсутствия: по ней кликают. */
+  /* Внутренние ссылки статей записаны от корня: «/blog/<слаг>» — Google
+   * достраивал из этого «http:///blog/...», битую ссылку в каждом доке.
+   * Разрешаем по-настоящему: домен принимающего проекта, если он назван,
+   * иначе — материал Контур.Маркета на ту же тему из каталога проекта.
+   * Не нашли уверенного соответствия — ссылки нет, текст остаётся
+   * текстом, а сам факт попадает в unresolved и печатается вызывающему. */
   for (const l of links) {
-    const url = /^\//.test(l.url)
-      ? (BLOG_BASE ? BLOG_BASE.replace(/\/$/, '') + l.url : null)
-      : l.url;
-    if (!url) continue;
+    const resolved = resolveInternalLink(l.url, { blogBase: BLOG_BASE });
+    if (!resolved) { unresolved.push(l.url); continue; }
+    const url = resolved.url;
     reqs.push({
       updateTextStyle: {
         range: { startIndex: 1 + l.start, endIndex: 1 + l.end },
@@ -776,6 +773,18 @@ function workCellValue(key, t) {
  * а колонки редактора между ними не трогаем. Один сплошной PUT затирал бы
  * решения, которые редактор уже проставил: перезаливка строк случается не
  * только при создании вкладки, но и когда в месяц добавляют темы. */
+/* Ссылки, для которых не нашлось адреса: ни домена принимающего проекта,
+ * ни уверенного соответствия в каталоге Маркета. Это не ошибка скрипта —
+ * это список мест, где перелинковку надо доделать руками или дождаться
+ * публикации соседней статьи. Молчать о них нельзя: в доке они выглядят
+ * обычным текстом, и о том, что автор имел в виду ссылку, никто не узнает. */
+function reportUnresolved(list) {
+  console.error(`\n⚠ Внутренних ссылок без адреса: ${list.length}`);
+  for (const u of list) console.error(`   ${u}`);
+  console.error('   В доке они остались текстом. Задайте BLOG_BASE_URL или');
+  console.error('   поставьте ссылку на материал Контура вручную.');
+}
+
 async function writeWorkRows(sheetId, tab, items) {
   const lastRow = WORK_FIRST_DATA_ROW + items.length - 1;
   /* Пишем по одной колонке — колонки редактора пропускаем. Сплошной PUT
@@ -1045,11 +1054,12 @@ try {
        * комментарии редактора и менялась ссылка, на которую он смотрит и
        * которая записана в состоянии цикла. Перезалить текст после правки
        * фактов — обычное дело, терять из-за этого вычитку нельзя. */
+      const unresolved = [];
       const existing = await findInFolder(title, parent, 'application/vnd.google-apps.document');
       if (existing) {
         const doc = await docs(`documents/${existing.id}?fields=body(content(endIndex))`);
         const end = doc.body?.content?.at(-1)?.endIndex ?? 1;
-        const reqs = mdToDocRequests(md);
+        const reqs = mdToDocRequests(md, unresolved);
         await docs(`documents/${existing.id}:batchUpdate`, {
           method: 'POST',
           body: JSON.stringify({
@@ -1065,7 +1075,9 @@ try {
           docId: existing.id,
           url: existing.webViewLink || `https://docs.google.com/document/d/${existing.id}/edit`,
           rewritten: true,
+          unresolvedLinks: unresolved,
         }, null, 2));
+        if (unresolved.length) reportUnresolved(unresolved);
         break;
       }
 
@@ -1079,7 +1091,7 @@ try {
           }),
         })
       );
-      const reqs = mdToDocRequests(md);
+      const reqs = mdToDocRequests(md, unresolved);
       if (reqs.length) {
         await docs(`documents/${created.id}:batchUpdate`, {
           method: 'POST',

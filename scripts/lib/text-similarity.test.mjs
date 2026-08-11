@@ -43,3 +43,22 @@ test('topMatches: уважает limit', () => {
   const res = topMatches('маркировка честный знак', catalog, { limit: 3 });
   assert.equal(res.length, 3);
 });
+
+// Разрешение внутренних ссылок статьи в кликабельные адреса.
+// Регрессия: «/blog/<слаг>» уходил в Google Doc как есть, Google достраивал
+// схему и получалось «http:///blog/…» — битая ссылка в каждом документе.
+test('resolve-links: внешняя ссылка отдаётся как есть', async () => {
+  const { resolveInternalLink } = await import('./resolve-links.mjs');
+  assert.deepEqual(resolveInternalLink('https://kontur.ru/x'), { url: 'https://kontur.ru/x', via: 'external' });
+});
+
+test('resolve-links: BLOG_BASE_URL главнее каталога', async () => {
+  const { resolveInternalLink } = await import('./resolve-links.mjs');
+  const r = resolveInternalLink('/blog/чего-нет', { blogBase: 'https://example.ru/' });
+  assert.deepEqual(r, { url: 'https://example.ru/blog/чего-нет', via: 'base' });
+});
+
+test('resolve-links: без домена и без совпадения ссылки нет', async () => {
+  const { resolveInternalLink } = await import('./resolve-links.mjs');
+  assert.equal(resolveInternalLink('/blog/2099-01-01-nesushchestvuyushchaya-statya', { blogBase: '' }), null);
+});
