@@ -12,6 +12,7 @@ tags:
   - малый бизнес
 categories:
   - ts-piot
+konturUrl: "https://support.kontur.ru/market/83820-chto_takoe_ts_piot"   # материал Контура на ту же тему — на него ведут ссылки из доков
 draft: false
 seo:
   keywords:

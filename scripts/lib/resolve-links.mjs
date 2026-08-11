@@ -14,10 +14,13 @@
  * Порядок разрешения:
  *   1. BLOG_BASE_URL — если принимающий проект назвал свой домен, он главнее
  *      всего: это и есть место, где статья появится.
- *   2. Каталог Маркета — по совпадению заголовка целевой статьи с заголовком
- *      материала Контура. Порог намеренно высокий: ссылка «примерно на ту же
- *      тему» хуже отсутствия ссылки, потому что выглядит правильной.
- *   3. Ничего не нашли — ссылки нет, текст остаётся текстом.
+ *   2. `konturUrl` в frontmatter целевой статьи — материал Контура, названный
+ *      руками. Автоподбор по заголовкам работает не везде: «Всё о ТС ПИоТ»
+ *      совпадает с нашей темой лишь на 0.29, а на том же уровне лезет «Первый
+ *      вход в личный кабинет ОФД» — не та статья. Опустить порог нельзя,
+ *      значит нужен способ сказать точно; статья объявляет свою пару сама.
+ *   3. Каталог Маркета — по совпадению заголовков, с высоким порогом.
+ *   4. Ничего не нашли — ссылки нет, текст остаётся текстом.
  */
 import { readFileSync, existsSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
@@ -43,8 +46,8 @@ function catalog() {
   return catalogCache;
 }
 
-/** Заголовок статьи репозитория по слагу из ссылки. */
-function titleOfLocalArticle(slug) {
+/** Frontmatter целевой статьи: заголовок и объявленная пара в Контуре. */
+function localArticleMeta(slug) {
   if (!existsSync(BLOG_DIR)) return null;
   const bare = slug.replace(/^\d{4}-\d{2}-\d{2}-/, '');
   const file = readdirSync(BLOG_DIR).find((f) => {
@@ -53,7 +56,12 @@ function titleOfLocalArticle(slug) {
   });
   if (!file) return null;
   const md = readFileSync(join(BLOG_DIR, file), 'utf8');
-  return md.match(/^title:\s*["']?(.+?)["']?\s*$/m)?.[1] ?? null;
+  return {
+    title: md.match(/^title:\s*["']?(.+?)["']?\s*$/m)?.[1] ?? null,
+    // Хвостовой комментарий в строке frontmatter — обычное дело, поэтому
+    // берём только сам адрес, а не всё до конца строки.
+    konturUrl: md.match(/^konturUrl:\s*["']?(https?:\/\/[^\s"']+)/m)?.[1] ?? null,
+  };
 }
 
 /**
@@ -65,10 +73,11 @@ export function resolveInternalLink(href, { blogBase = process.env.BLOG_BASE_URL
   if (blogBase) return { url: blogBase.replace(/\/$/, '') + href, via: 'base' };
 
   const slug = href.replace(/^\/blog\//, '').replace(/^\//, '');
-  const title = titleOfLocalArticle(slug);
-  if (!title) return null;
+  const meta = localArticleMeta(slug);
+  if (!meta?.title) return null;
+  if (meta.konturUrl) return { url: meta.konturUrl, via: 'frontmatter' };
 
-  const q = tokenize(title);
+  const q = tokenize(meta.title);
   let best = null;
   for (const a of catalog()) {
     const score = jaccard(q, a.tokens);

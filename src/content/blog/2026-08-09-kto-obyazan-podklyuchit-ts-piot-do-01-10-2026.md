@@ -12,6 +12,7 @@ tags:
   - розница
 categories:
   - ts-piot
+konturUrl: "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot"   # материал Контура на ту же тему — на него ведут ссылки из доков
 draft: true
 seo:
   keywords:
