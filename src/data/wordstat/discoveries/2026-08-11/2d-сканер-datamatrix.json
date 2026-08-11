@@ -1,0 +1,26 @@
+{
+  "seed": "2d сканер datamatrix",
+  "slug": "2d-сканер-datamatrix",
+  "category": "entity",
+  "cluster": "oborudovanie",
+  "fetchedAt": "2026-08-11T19:18:28.243Z",
+  "count": 4,
+  "phrases": [
+    {
+      "phrase": "datamatrix 2d сканер",
+      "count": 108
+    },
+    {
+      "phrase": "2d сканер кода datamatrix",
+      "count": 58
+    },
+    {
+      "phrase": "2d сканер для считывания datamatrix",
+      "count": 24
+    },
+    {
+      "phrase": "сканер 2d для считывания кода datamatrix",
+      "count": 21
+    }
+  ]
+}
