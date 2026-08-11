@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T10:08:41.883Z",
-  "updatedAt": "2026-08-11T11:43:40.476Z",
+  "updatedAt": "2026-08-11T11:45:19.062Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -81,7 +81,10 @@
       "status": "review",
       "docId": "1AycWXo84sZdcNuASJ2pOlGO04rV8XGyVIaLkKn4kK3Q",
       "docUrl": "https://docs.google.com/document/d/1AycWXo84sZdcNuASJ2pOlGO04rV8XGyVIaLkKn4kK3Q/edit",
-      "seenComments": []
+      "seenComments": [
+        "AAACFeHKNrY",
+        "AAACFeHKNrU"
+      ]
     },
     {
       "slug": "test-nastroyka-skanera-shtrihkodov-dlya-markirovki-kak-schit",
@@ -339,6 +342,10 @@
     {
       "at": "2026-08-11T11:43:40.476Z",
       "event": "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov → выпущено"
+    },
+    {
+      "at": "2026-08-11T11:45:19.062Z",
+      "event": "test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-: отмечено 2 замечаний"
     }
   ]
 }
