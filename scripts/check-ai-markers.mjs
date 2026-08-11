@@ -4,11 +4,8 @@
  * Запуск:
  *   node scripts/check-ai-markers.mjs <файл.md>
  *   node scripts/check-ai-markers.mjs src/content/blog/   # вся папка
- *   node scripts/check-ai-markers.mjs <файл> --llm        # + LLM-оценка
  *
  * Флаги:
- *   --llm              включить LLM-анализ через OpenRouter (требует OPENROUTER_API_KEY)
- *   --model=<id>       модель для LLM (по умолчанию: anthropic/claude-haiku-4-5)
  *   --threshold=N      порог скора для exit(1) (по умолчанию 6)
  *   --json             вывод в JSON
  */
@@ -228,7 +225,7 @@ function profilePath(root, slug) {
 // CYCLE_STATE_PATH: позволяет тестам подставить временную директорию, чтобы
 // --save-profile не писал в src/data/ai-profile/ настоящего репозитория
 // (T-01 — тесты не должны трогать рабочее дерево).
-function saveProfile(file, { regex, llm, finalScore, suggestions }) {
+function saveProfile(file, { regex, finalScore, suggestions }) {
   const root = process.env.AI_PROFILE_ROOT || path.join(__dirname, '..');
   const base = path.basename(file).replace(/\.mdx?$/, '');
   const dir  = path.join(root, 'src', 'data', 'ai-profile');
@@ -244,7 +241,6 @@ function saveProfile(file, { regex, llm, finalScore, suggestions }) {
         analyzerVersion: prev.analyzerVersion,
         finalScore: prev.finalScore,
         regexScore: prev.regexScore,
-        llmScore: prev.llmScore,
         hits: prev.hits,
       });
     } catch {
@@ -259,7 +255,6 @@ function saveProfile(file, { regex, llm, finalScore, suggestions }) {
     analyzerVersion: ANALYZER_VERSION,
     checkedAt: new Date().toISOString().slice(0, 10),
     regexScore: regex.rawScore,
-    llmScore: llm?.score ?? null,
     finalScore,
     hits: regex.hits.length,
     structure: regex.structure,
@@ -268,85 +263,8 @@ function saveProfile(file, { regex, llm, finalScore, suggestions }) {
   }, null, 2) + '\n');
 }
 
-// ── LLM-анализ через OpenRouter ───────────────────────────────────────────────
-
-const LLM_SYSTEM = `Ты эксперт по редактуре русскоязычных деловых текстов.
-Твоя задача — определить, написан ли текст нейросетью или живым автором.
-Отвечай строго в формате JSON, без markdown, без пояснений вне JSON.`;
-
-const LLM_PROMPT = (text) => `Оцени следующий текст на признаки нейросетевого происхождения.
-
-Признаки AI-текста на русском языке:
-- Однородная длина абзацев и предложений (нет ритмических перепадов)
-- Шаблонные переходы: «следует отметить», «таким образом», «важно понимать»
-- Пассивные конструкции с «является», «осуществляется», «применяется»
-- Канцеляризмы: «данный», «в настоящее время», «в рамках»
-- Обобщения без конкретных примеров, кейсов, цифр из практики
-- Все H2-секции одинаковой структуры и заканчиваются выводом
-- Отсутствие авторского голоса: нет мнения, нет иронии, нет акцентов
-- Слишком гладкий и правильный синтаксис без живых разговорных вкраплений
-
-Верни JSON в точности такой структуры:
-{
-  "score": <число 0-10, где 0=точно человек, 10=точно AI>,
-  "confidence": <"low"|"medium"|"high">,
-  "verdict": "<одно предложение — главная причина оценки>",
-  "passages": [
-    { "quote": "<цитата до 80 символов>", "reason": "<почему это AI-признак>" }
-  ],
-  "suggestions": [
-    "<конкретный совет по улучшению>"
-  ]
-}
-
-Массив passages — максимум 4 самых показательных фрагмента.
-Массив suggestions — максимум 3 совета.
-
-Текст для анализа:
----
-${text.slice(0, 4000)}
----`;
-
-async function callLLM(body, model, apiKey) {
-  const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Type': 'application/json',
-      'HTTP-Referer': 'https://reglament-biznes.ru',
-      'X-Title': 'Регламент.Бизнес AI Detector',
-    },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: 'system', content: LLM_SYSTEM },
-        { role: 'user',   content: LLM_PROMPT(body) },
-      ],
-      temperature: 0.1,
-      max_tokens: 800,
-    }),
-  });
-
-  if (!res.ok) throw new Error(`OpenRouter ${res.status}: ${await res.text()}`);
-  const data = await res.json();
-  const raw  = data.choices?.[0]?.message?.content ?? '';
-
-  try {
-    return JSON.parse(raw);
-  } catch {
-    // Иногда модель оборачивает JSON в ```json ... ```
-    const m = raw.match(/```(?:json)?\s*([\s\S]*?)```/);
-    if (m) return JSON.parse(m[1]);
-    throw new Error('Не удалось распарсить JSON от LLM: ' + raw.slice(0, 200));
-  }
-}
 
 // ── Итоговый скор ─────────────────────────────────────────────────────────────
-
-function combineScores(regexScore, llmScore) {
-  // LLM весит больше — семантика точнее паттернов
-  return Math.round(0.35 * regexScore + 0.65 * llmScore);
-}
 
 function scoreLabel(s) {
   if (s <= 2) return 'Публиковать без правок';
@@ -371,9 +289,6 @@ const flags = Object.fromEntries(
 
 const THRESHOLD  = parseInt(flags.threshold ?? '6', 10);
 const AS_JSON    = flags.json === true;
-const USE_LLM    = flags.llm === true;
-const LLM_MODEL  = flags.model ?? 'anthropic/claude-haiku-4-5';
-const API_KEY    = process.env.OPENROUTER_API_KEY;
 // Опционально (AI-01) — не по умолчанию: release-article.mjs гоняет
 // этот скрипт как P0-гейт на каждом релизе, и гейт не должен обзаводиться
 // побочными эффектами (запись в src/data/ai-profile/) без явного запроса.
@@ -381,12 +296,7 @@ const API_KEY    = process.env.OPENROUTER_API_KEY;
 const SAVE_PROFILE = flags['save-profile'] === true;
 
 if (!args[0]) {
-  console.error('Использование: node scripts/check-ai-markers.mjs <файл.md или папка> [--llm]');
-  process.exit(1);
-}
-
-if (USE_LLM && !API_KEY) {
-  console.error('OPENROUTER_API_KEY не задан — LLM-анализ недоступен');
+  console.error('Использование: node scripts/check-ai-markers.mjs <файл.md или папка>');
   process.exit(1);
 }
 
@@ -402,27 +312,14 @@ for (const file of files) {
   const label   = path.relative(process.cwd(), file);
   const regex   = analyzeRegex(content, label);
 
-  let llm = null;
-  if (USE_LLM) {
-    process.stderr.write(`LLM: анализирую ${label}... `);
-    try {
-      llm = await callLLM(regex.body, LLM_MODEL, API_KEY);
-      process.stderr.write('готово\n');
-    } catch (e) {
-      process.stderr.write(`ошибка: ${e.message}\n`);
-    }
-  }
-
-  const finalScore = llm
-    ? combineScores(regex.rawScore, llm.score)
-    : regex.rawScore;
+  const finalScore = regex.rawScore;
 
   const suggestions = structuralSuggestions(regex.structure);
 
-  results.push({ label, regex, llm, finalScore, suggestions });
+  results.push({ label, regex, finalScore, suggestions });
 
   if (SAVE_PROFILE) {
-    saveProfile(file, { regex, llm, finalScore, suggestions });
+    saveProfile(file, { regex, finalScore, suggestions });
   }
 }
 
@@ -432,9 +329,7 @@ if (AS_JSON) {
   console.log(JSON.stringify(results.map(r => ({
     file: r.label,
     regexScore: r.regex.rawScore,
-    llmScore: r.llm?.score ?? null,
     finalScore: r.finalScore,
-    verdict: r.llm?.verdict ?? null,
     hits: r.regex.hits.length,
     structure: r.regex.structure, // справочно, не в finalScore — см. комментарий в analyzeRegex
     suggestions: r.suggestions,
@@ -444,20 +339,12 @@ if (AS_JSON) {
 
 let anyAboveThreshold = false;
 
-for (const { label, regex, llm, finalScore, suggestions } of results) {
+for (const { label, regex, finalScore, suggestions } of results) {
   if (finalScore >= THRESHOLD) anyAboveThreshold = true;
 
   console.log(`\n${'═'.repeat(70)}`);
   console.log(`Файл:        ${label}`);
-
-  if (llm) {
-    console.log(`Regex-скор:  ${regex.rawScore}/10`);
-    console.log(`LLM-скор:    ${llm.score}/10  (${llm.confidence} confidence)`);
-    console.log(`Итог:        ${finalScore}/10  — ${scoreLabel(finalScore)}`);
-    console.log(`Вердикт:     ${llm.verdict}`);
-  } else {
-    console.log(`Скор:        ${finalScore}/10  — ${scoreLabel(finalScore)}`);
-  }
+  console.log(`Скор:        ${finalScore}/10  — ${scoreLabel(finalScore)}`);
 
   if (regex.uniformParagraphs) {
     console.log('Структура:   абзацы однородной длины (признак AI)');
@@ -494,19 +381,6 @@ for (const { label, regex, llm, finalScore, suggestions } of results) {
   }
 
   // LLM-пассажи и советы
-  if (llm) {
-    if (llm.passages?.length) {
-      console.log('\nПоказательные фрагменты (LLM):');
-      for (const p of llm.passages) {
-        console.log(`  «${p.quote}»`);
-        console.log(`   → ${p.reason}`);
-      }
-    }
-    if (llm.suggestions?.length) {
-      console.log('\nСоветы:');
-      for (const s of llm.suggestions) console.log(`  • ${s}`);
-    }
-  }
 }
 
 console.log('');
