@@ -39,6 +39,8 @@ jobs:
           node scripts/cycle-state.mjs apply-decisions --file /tmp/pull.json > /tmp/changes.json
           node scripts/drive-sync.mjs set-cells --sheet-id "$SHEET" --updates "$(node scripts/cycle-state.mjs sheet-sync)"
           node scripts/drive-sync.mjs set-row-dropdowns --sheet-id "$SHEET" --updates "$(node scripts/cycle-state.mjs row-decisions)"
+          echo "### Сверка таблицы с состоянием" >> $GITHUB_STEP_SUMMARY
+          node scripts/verify-sheet.mjs --sheet-id "$SHEET" >> $GITHUB_STEP_SUMMARY 2>&1
           echo "### Что изменилось" >> $GITHUB_STEP_SUMMARY
           echo '```json' >> $GITHUB_STEP_SUMMARY
           cat /tmp/changes.json >> $GITHUB_STEP_SUMMARY
