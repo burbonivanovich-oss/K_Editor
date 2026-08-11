@@ -1,34 +1,26 @@
 {
-  "generatedAt": "2026-08-09T14:06:40.253Z",
+  "generatedAt": "2026-08-11T11:40:06.163Z",
   "totals": {
-    "total": 5,
+    "total": 6,
     "published": 2,
-    "drafts": 3,
+    "drafts": 4,
     "orphans": 0,
-    "weak": 1,
+    "weak": 0,
     "deadends": 0
   },
   "orphans": [],
-  "weak": [
-    {
-      "slug": "2026-08-06-chto-takoe-ts-piot",
-      "title": "Что такое ТС ПИоТ: кому нужен и как подключить в 2026 году",
-      "inbound": [
-        "2026-08-09-kto-obyazan-podklyuchit-ts-piot-do-01-10-2026"
-      ]
-    }
-  ],
+  "weak": [],
   "deadends": [],
   "topInbound": [
     {
       "slug": "2026-08-09-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
       "title": "Личный кабинет онлайн-кассы: как войти и что настраивать в 2026",
-      "inboundCount": 3
+      "inboundCount": 4
     },
     {
       "slug": "2026-08-06-chto-takoe-ts-piot",
       "title": "Что такое ТС ПИоТ: кому нужен и как подключить в 2026 году",
-      "inboundCount": 1
+      "inboundCount": 2
     }
   ]
 }

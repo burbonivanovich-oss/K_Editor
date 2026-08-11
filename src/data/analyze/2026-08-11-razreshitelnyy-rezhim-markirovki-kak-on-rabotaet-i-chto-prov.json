@@ -1,0 +1,36 @@
+{
+  "slug": "2026-08-11-razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
+  "score": 87,
+  "blocker": false,
+  "categories": {
+    "quality": { "score": 20, "issues": [] },
+    "seo": {
+      "score": 19,
+      "issues": [
+        "Точная фраза «режим работы разрешительного» дословно не встречается — использованы варианты «разрешительный режим» и «разрешительный режим маркировки»"
+      ]
+    },
+    "eeat": { "score": 20, "issues": [] },
+    "graph": {
+      "score": 12,
+      "issues": [
+        "Входящих ссылок 0 — статья ещё в draft, ни один материал на неё не ссылается",
+        "Pillar src/content/pillars/markirovka.md не ссылается на статью"
+      ]
+    },
+    "tech": {
+      "score": 16,
+      "issues": [
+        "Брифа на визуал src/data/visuals/razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov.md нет",
+        "Промоблоков в тексте нет — не обязательно, оффера под материал нет"
+      ]
+    },
+    "ai_citation": {
+      "score": 5,
+      "issues": [
+        "Ответы FAQ короче нормы 40–60 слов (23–32 слова)"
+      ]
+    }
+  },
+  "checkedAt": "2026-08-11"
+}

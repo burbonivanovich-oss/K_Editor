@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T10:08:41.883Z",
-  "updatedAt": "2026-08-11T10:51:58.938Z",
+  "updatedAt": "2026-08-11T11:43:40.476Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -22,7 +22,7 @@
       "rationale": "Одобрено редактором в бэклоге 2026-08-09",
       "row": 5,
       "owner": "bot",
-      "status": "review",
+      "status": "released",
       "docId": "1h2tlcu5DQan5Ponz9SDLt20BlxEV0Z8yV_m5w7SbZs0",
       "docUrl": "https://docs.google.com/document/d/1h2tlcu5DQan5Ponz9SDLt20BlxEV0Z8yV_m5w7SbZs0/edit",
       "seenComments": []
@@ -327,6 +327,18 @@
     {
       "at": "2026-08-11T10:51:58.938Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-11T11:36:50.612Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-11T11:43:33.274Z",
+      "event": "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov → принято"
+    },
+    {
+      "at": "2026-08-11T11:43:40.476Z",
+      "event": "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov → выпущено"
     }
   ]
 }

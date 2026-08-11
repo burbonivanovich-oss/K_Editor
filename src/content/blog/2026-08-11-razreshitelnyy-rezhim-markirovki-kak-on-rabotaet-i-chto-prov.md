@@ -12,7 +12,7 @@ tags:
   - ТС ПИоТ
 categories:
   - markirovka
-draft: true
+draft: false
 seo:
   keywords:
     - режим работы разрешительного
