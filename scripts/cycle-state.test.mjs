@@ -298,12 +298,47 @@ test('apply-decisions: известные значения "Решение" не
     writeFileSync(pull, JSON.stringify({
       approval: '', topics: [
         { row: 5, title: 'A', decision: 'убрать', slug: 'a' },
-        { row: 6, title: 'B', decision: 'пишем сами', slug: 'b' },
+        { row: 6, title: 'B', decision: '', who: 'пишем сами', slug: 'b' },
         { row: 7, title: 'C', decision: '', slug: 'c' },
       ],
     }));
     const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
     assert.deepEqual(out.unrecognized, []);
+    // Исполнитель теперь колонка «Кто пишет», а не решение.
+    assert.deepEqual(out.toEditor, ['B']);
+  });
+});
+
+// Строка одна на весь путь темы: «одобрено» переводит кандидата в работу,
+// ничего никуда не копируя. Раньше для этого тему переносили из таблицы
+// бэклога в таблицу плана вручную, и она существовала в двух местах.
+test('apply-decisions: «одобрено» переводит кандидата в план', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Кандидат', status: 'candidate' }]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, title: 'Кандидат', decision: 'одобрено', slug: 'kandidat' }],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.deepEqual(out.approved_topics, ['Кандидат']);
+    assert.equal(getState(statePath).plan[0].status, 'planned');
+  });
+});
+
+test('apply-decisions: «написать сейчас» помечает тему срочной и одобряет кандидата', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Срочная', status: 'candidate' }]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, title: 'Срочная', decision: 'написать сейчас', slug: 'srochnaya' }],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.equal(out.urgent.length, 1);
+    const t = getState(statePath).plan[0];
+    assert.equal(t.status, 'planned');
+    assert.equal(t.urgent, true);
   });
 });
 
@@ -443,5 +478,27 @@ test('reset без --force отказывает, с --force возвращает
     runFail(statePath, ['reset']);
     run(statePath, ['reset', '--force']);
     assert.equal(getState(statePath).state, 'idle');
+  });
+});
+
+// «Написать сейчас» должно обгонять приоритет: это решение редактора о
+// конкретной теме сегодня, а P0/P1 проставлены при планировании месяца.
+test('next-batch: срочная тема идёт вперёд более приоритетной', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [
+      { title: 'Важная', priority: 'P0' },
+      { title: 'Срочная', priority: 'P2' },
+    ]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [
+        { row: 5, title: 'Важная', decision: '', slug: 'vazhnaya' },
+        { row: 6, title: 'Срочная', decision: 'написать сейчас', slug: 'srochnaya' },
+      ],
+    }));
+    run(statePath, ['apply-decisions', '--file', pull]);
+    const picked = JSON.parse(run(statePath, ['next-batch', '--size', '1']));
+    assert.deepEqual(picked.map((t) => t.slug), ['srochnaya']);
   });
 });

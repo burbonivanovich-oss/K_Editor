@@ -1,12 +1,12 @@
 {
   "cycleId": "2026-08",
   "state": "running",
-  "createdAt": "2026-08-11T08:06:58.340Z",
-  "updatedAt": "2026-08-11T08:21:40.241Z",
+  "createdAt": "2026-08-11T10:08:41.883Z",
+  "updatedAt": "2026-08-11T10:08:41.910Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
-    "sheetUrl": "https://docs.google.com/spreadsheets/d/1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc/edit#gid=964992851",
+    "sheetUrl": "https://docs.google.com/spreadsheets/d/1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc/edit#gid=925309284",
     "folderUrl": null
   },
   "batchSize": 3,
@@ -23,10 +23,9 @@
       "row": 5,
       "owner": "bot",
       "status": "review",
-      "docId": "1h2tlcu5DQan5Ponz9SDLt20BlxEV0Z8yV_m5w7SbZs0",
-      "docUrl": "https://docs.google.com/document/d/1h2tlcu5DQan5Ponz9SDLt20BlxEV0Z8yV_m5w7SbZs0/edit",
-      "seenComments": [],
-      "reviewSince": "2026-08-11"
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
     },
     {
       "slug": "test-chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-o",
@@ -38,10 +37,9 @@
       "row": 6,
       "owner": "bot",
       "status": "review",
-      "docId": "1UUsTTzqIxA_Wq1nIkaDgCwU5zw6zbUrveKREDlFtBkE",
-      "docUrl": "https://docs.google.com/document/d/1UUsTTzqIxA_Wq1nIkaDgCwU5zw6zbUrveKREDlFtBkE/edit",
-      "seenComments": [],
-      "reviewSince": "2026-08-11"
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
     },
     {
       "slug": "test-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastr",
@@ -81,10 +79,9 @@
       "row": 9,
       "owner": "bot",
       "status": "review",
-      "docId": "1AycWXo84sZdcNuASJ2pOlGO04rV8XGyVIaLkKn4kK3Q",
-      "docUrl": "https://docs.google.com/document/d/1AycWXo84sZdcNuASJ2pOlGO04rV8XGyVIaLkKn4kK3Q/edit",
-      "seenComments": [],
-      "reviewSince": "2026-08-11"
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
     },
     {
       "slug": "test-nastroyka-skanera-shtrihkodov-dlya-markirovki-kak-schit",
@@ -99,48 +96,213 @@
       "docId": null,
       "docUrl": null,
       "seenComments": []
-    }
-  ],
-  "batches": [
+    },
     {
-      "n": 1,
-      "slugs": [
-        "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
-        "test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-",
-        "test-chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-o"
-      ],
-      "startedAt": "2026-08-11T08:15:25.453Z",
-      "state": "review"
+      "slug": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
+      "title": "Личный кабинет онлайн-кассы: как войти и что там настраивать",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "личный кабинет онлайн кассы",
+      "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "row": 11,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "kassa-ot-banka-ili-otdelno-kak-banki-predlagayut-onlayn-kass",
+      "title": "Касса от банка или отдельно: как банки предлагают онлайн-кассы бизнесу",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "онлайн кассы банк",
+      "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "row": 12,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "chto-novogo-v-markirovke-chestnogo-znaka-v-2026-godu",
+      "title": "Что нового в маркировке «Честного знака» в 2026 году",
+      "priority": "P1",
+      "cluster": "markirovka",
+      "targetKeyword": "маркировка товара честный знак 2026",
+      "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
+      "row": 13,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit",
+      "title": "Коррекция чека возврата на кассе: как правильно оформить",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "коррекция чека возврата",
+      "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "row": 14,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica",
+      "title": "Маркировка шин в 2026 году: что обязана делать розница",
+      "priority": "P1",
+      "cluster": "markirovka",
+      "targetKeyword": "маркировка колес шин",
+      "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
+      "row": 15,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-formiro",
+      "title": "Отчёт о закрытии фискального накопителя: когда и как формировать",
+      "priority": "P1",
+      "cluster": "ofd-fn",
+      "targetKeyword": "фискальный накопитель отчет",
+      "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "row": 16,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "internet-ekvayring-dlya-onlayn-magazina-kak-vybrat-bank-i-ta",
+      "title": "Интернет-эквайринг для онлайн-магазина: как выбрать банк и тариф",
+      "priority": "P1",
+      "cluster": "ekvairing",
+      "targetKeyword": "интернет эквайринг банк",
+      "rationale": "",
+      "row": 17,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "kak-proverit-akciznuyu-marku-onlayn-cherez-prilozhenie-chest",
+      "title": "Как проверить акцизную марку онлайн через приложение «Честный знак»",
+      "priority": "P1",
+      "cluster": "egais",
+      "targetKeyword": "акцизная марка онлайн",
+      "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "row": 18,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "akciznaya-marka-i-egais-kak-sverit-partiyu-alkogolya-pered-p",
+      "title": "Акцизная марка и ЕГАИС: как сверить партию алкоголя перед продажей",
+      "priority": "P1",
+      "cluster": "egais",
+      "targetKeyword": "марка егаис",
+      "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "row": 19,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-rozni",
+      "title": "Как завести товар в ЕГАИС: пошаговая инструкция для розницы",
+      "priority": "P1",
+      "cluster": "egais",
+      "targetKeyword": "товар егаис",
+      "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "row": 20,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "oblachnaya-kassa-bez-fizicheskogo-apparata-komu-podhodit-i-k",
+      "title": "Облачная касса без физического аппарата: кому подходит и как подключить",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "онлайн касса без кассы",
+      "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "row": 21,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "nastroyka-skanera-shtrihkodov-dlya-markirovki-kak-schityvat-",
+      "title": "Настройка сканера штрихкодов для маркировки: как считывать Data Matrix",
+      "priority": "P1",
+      "cluster": "oborudovanie",
+      "targetKeyword": "настройка сканера для маркировки",
+      "rationale": "",
+      "row": 22,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "prodazha-alkogolya-cherez-egais-kak-provesti-chek-bez-oshibo",
+      "title": "Продажа алкоголя через ЕГАИС: как провести чек без ошибок",
+      "priority": "P1",
+      "cluster": "egais",
+      "targetKeyword": "продажи егаис",
+      "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "row": 23,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "prodazha-alkogolya-bez-akciznoy-marki-chem-grozit-i-kak-prov",
+      "title": "Продажа алкоголя без акцизной марки: чем грозит и как проверить товар",
+      "priority": "P1",
+      "cluster": "egais",
+      "targetKeyword": "без акцизной марки",
+      "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
+      "row": 24,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
     }
   ],
+  "batches": [],
   "log": [
     {
-      "at": "2026-08-11T08:06:58.341Z",
-      "event": "init 2026-08: 6 тем"
+      "at": "2026-08-11T10:08:41.884Z",
+      "event": "init 2026-08: 20 тем"
     },
     {
-      "at": "2026-08-11T08:07:26.765Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T08:08:47.775Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-11T08:15:25.458Z",
-      "event": "батч 1 начат: razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov, test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-, test-chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-o"
-    },
-    {
-      "at": "2026-08-11T08:20:43.912Z",
-      "event": "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov → на вычитке"
-    },
-    {
-      "at": "2026-08-11T08:21:40.213Z",
-      "event": "test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya- → на вычитке"
-    },
-    {
-      "at": "2026-08-11T08:21:40.241Z",
-      "event": "test-chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-o → на вычитке"
+      "at": "2026-08-11T10:08:41.910Z",
+      "event": "state awaiting_review → running"
     }
   ]
 }

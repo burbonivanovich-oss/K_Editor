@@ -8,34 +8,28 @@
  *
  * Структура папки:
  *   📁 Контур — редакция
- *      📊 Редакция — темы и план      ОДНА таблица на всё:
- *         ├ вкладка «Темы 2026-08-11»    бэклог недели, свежая — первой
- *         ├ вкладка «Темы 2026-08-04»    прошлые недели, архив
- *         └ вкладка «План 2026-08»       темы цикла, статусы, ссылки на доки
- *      📁 2026-08                     папка цикла
- *         📄 Штраф за работу без ТС ПИоТ
- *         📄 ...
+ *      📊 Редакция — темы и план      ОДНА таблица, ОДНА вкладка в работе:
+ *         ├ «Темы и статьи 2026-08»      месяц: кандидаты и статьи вместе
+ *         └ «архив · …»                   прошлые месяцы
+ *      📁 2026-08                     папка месяца, по одному Doc на статью
  *
- * Файл один и ссылка у редактора одна: доступ выдаётся один раз, а не
- * каждую неделю заново. Обратная сторона — письма «бэклог приехал»
- * больше нет: Google шлёт его только при выдаче доступа к новому файлу,
- * а новая вкладка не событие. Замены этому каналу нет, остаётся ритм
- * понедельника и меню «Контур» в самой таблице.
+ * Строка живёт весь путь темы: кандидат → в плане → пишется → на вычитке
+ * → принято → выпущено. Ничего никуда не копируется: копия — источник
+ * расхождения, а не удобство. Раз в месяц заводится новая вкладка,
+ * незакрытые статьи переезжают в неё вместе с новыми кандидатами.
  *
  * Подкоманды:
  *   init-root    [--name "Контур — редакция"]      создать корневую папку
- *   init-cycle   --cycle 2026-08 --plan plan.json   папка цикла + вкладка плана
- *   init-backlog --week 2026-08-04 --items b.json  вкладка бэклога недели (A0)
- *   pull-backlog --sheet-id <id> [--tab "Темы …"]  решения по бэклогу
- *   push-plan    --cycle 2026-08                    перезалить строки плана
- *   pull         --sheet-id <id> [--tab "План …"]   прочитать решения редактора
+ *   init-month   --month 2026-08 --items t.json    вкладка месяца + папка
+ *   pull         --sheet-id <id> [--tab "…"]       решения редактора
+ *   push-plan    --sheet-id <id> --plan t.json     перезалить строки
  *   make-doc     --title "..." --md article.md      создать Doc из markdown
  *   export-doc   --doc-id <id> [--out file.md]      Doc → markdown
  *   comments     --doc-id <id>                      нерешённые замечания
- *   comment      --file-id <id> --text "..." [--mention editor@mail]  новое замечание
+ *   comment      --file-id <id> --text "..." [--mention editor@mail]
  *   reply        --doc-id <id> --comment-id <id> --text "..." [--resolve]
- *   notify       --file-id <id> --to editor@mail [--message "..."]    письмо редактору
- *   set-cells    --sheet-id <id> --updates '[{"range":"J5","value":"на вычитке"}]'
+ *   notify       --file-id <id> --to editor@mail [--message "..."]
+ *   set-cells    --sheet-id <id> --updates '[{"range":"S5","value":"пишется"}]'
  *   set-row-dropdowns --sheet-id <id> --updates '[{"row":5,"values":["принято"]}]'
  *   check                                          диагностика доступа
  *
@@ -290,154 +284,102 @@ function arg(name, fallback) {
 /* ─────────────────────────────────────────────────── структура таблицы ── */
 // Строки 1–3 — шапка и переключатель согласования. Строка 4 — заголовки
 // колонок. Темы начинаются с 5-й.
-const HEADER_ROW = 4;
-const FIRST_DATA_ROW = 5;
+/* ───────────────────────────── одна вкладка на месяц: темы и статьи ──── */
+/* До 11.08.2026 бэклог и план жили в разных таблицах, потом — в разных
+ * вкладках. Одобренная тема при этом копировалась из одной в другую и
+ * существовала дважды: строка бэклога оставалась выглядеть нерешённой,
+ * а работа шла в плане. Копия — источник расхождения, а не удобство.
+ *
+ * Теперь строка одна и живёт весь путь темы: кандидат → в плане →
+ * пишется → на вычитке → принято → выпущено. Месяц — вкладка, свежая
+ * встаёт первой. Незакрытые статьи прошлого месяца переезжают в новую
+ * вкладку вместе с новыми кандидатами: бросать их в архивной вкладке
+ * значит потерять из виду. */
+const WORK_TAB_PREFIX = 'Темы и статьи ';
+const workTabName = (month) => `${WORK_TAB_PREFIX}${month}`;
+const WORK_HEADER_ROW = 4;
+const WORK_FIRST_DATA_ROW = 5;
 const APPROVAL_CELL = 'B2';
 
-const COLS = [
-  { key: 'n',        title: '#',              width: 40  },
-  { key: 'title',    title: 'Тема',           width: 340 },
-  { key: 'priority', title: 'Приоритет',      width: 90  },
-  { key: 'keyword',  title: 'Целевой запрос', width: 200 },
-  { key: 'cluster',  title: 'Кластер',        width: 120 },
-  { key: 'why',      title: 'Зачем сейчас',   width: 280 },
-  { key: 'decision', title: 'Решение',        width: 130 },  // ← редактор
-  { key: 'note',     title: 'Правка',         width: 300 },  // ← редактор
-  { key: 'status',   title: 'Статус',         width: 120 },  // ← бот
-  { key: 'doc',      title: 'Документ',       width: 200 },  // ← бот
-  // Скрытый от смысла редактора id темы. apply-decisions в cycle-state.mjs
-  // раньше сопоставлял строки таблицы с планом по номеру строки —
-  // добавление или удаление строки редактором сдвигает нумерацию, и решение
-  // может молча применить к чужой теме. Slug стабилен, номер строки — нет.
-  { key: 'slug',     title: 'ID (не менять)', width: 160 },  // ← бот
+const WORK_COLS = [
+  { key: 'n',            title: '#',               width: 40  },
+  { key: 'topic',        title: 'Тема',            width: 340 },
+  { key: 'targetKeyword',title: 'Целевой запрос',  width: 200 },
+  { key: 'wordstat',     title: 'Wordstat',        width: 90  },
+  { key: 'cluster',      title: 'Кластер',         width: 110 },
+  { key: 'segment',      title: 'Сегмент',         width: 150 },
+  { key: 'product',      title: 'Продукт',         width: 150 },
+  { key: 'type',         title: 'Тип',             width: 90  },
+  { key: 'priority',     title: 'Приоритет',       width: 90  },
+  { key: 'why',          title: 'Зачем сейчас',    width: 260 },
+  { key: 'normHint',     title: 'Норма/дата',      width: 200 },
+  { key: 'dedup',        title: 'Дедуп',           width: 170 },
+  { key: 'konturLink',   title: 'Ссылка Маркета',  width: 220 },
+  { key: 'related',      title: 'Связки',          width: 300 },
+  { key: 'decision',     title: 'Решение',         width: 150 },  // ← редактор
+  { key: 'who',          title: 'Кто пишет',       width: 120 },  // ← редактор
+  { key: 'reason',       title: 'Причина отказа',  width: 260 },  // ← редактор
+  { key: 'note',         title: 'Правка',          width: 280 },  // ← редактор
+  { key: 'status',       title: 'Статус',          width: 130 },  // ← бот
+  { key: 'doc',          title: 'Документ',        width: 220 },  // ← бот
+  { key: 'slug',         title: 'ID (не менять)',  width: 160 },  // ← бот
 ];
-
-const colLetter = (i) => String.fromCharCode(65 + i);
-const COL = Object.fromEntries(COLS.map((c, i) => [c.key, colLetter(i)]));
-
-// «принято» здесь — сигнал редактора («статья устраивает»), в колонке
-// «Решение» (редакторской). Отдельно от STATUSES.«принято» — тем же
-// словом бот подтверждает результат уже ПОСЛЕ обработки в колонке
-// «Статус» (своей). Раньше сигнал об приёмке был только в STATUSES, и
-// «Решение» этого значения не знало вообще: редактору приходилось
-// вручную писать «принято» в колонку, помеченную «← бот» и защищённую
-// (protectedRange ниже) с подписью «Заполняется автоматически» — редактор
-// не мог понять, что именно эта клетка и есть его способ сказать «да».
-// «нужно ТЗ дизайнеру» статус темы не меняет: это заказ на отдельный
-// артефакт — бриф на обложку и иллюстрации к уже написанному тексту.
-// Отдельной колонки под него нет намеренно: колонки «Статус» и правее
-// защищены от редактора (addProtectedRange ниже), а вставка колонки левее
-// сдвинула бы I/J/K, на которые cycle-state.mjs sheet-sync ссылается
-// буквами. Значение в существующем списке дешевле и ничего не двигает.
-/* «Пишет бот» — зеркало «пишем сами»: тему, которую редактор забрал себе,
- * можно вернуть боту. Раньше это действие называлось «одобрено», тем же
- * словом, что и «взять тему в план» в бэклоге. Слово одно, смысла два, и
- * никакой подсказкой это не лечится — редактор читает «одобрено» в двух
- * таблицах и вправе ждать одинакового результата. */
-const DECISIONS = ['', 'убрать', 'пишем сами', 'пишет бот', 'принято', 'нужно ТЗ дизайнеру'];
-const STATUSES = ['в плане', 'пишется', 'на вычитке', 'принято', 'выпущено', 'снято'];
-
-/* ─────────────────────────────────────────────────── бэклог тем (A0) ──── */
-// Отдельная таблица от контент-плана: у бэклога недельный ритм, у плана
-// месячный. Живёт в корневой папке рядом с планом, папки цикла не трогает —
-// в бэклоге ещё нет статей, только кандидаты в темы.
-
-const BACKLOG_HEADER_ROW = 3;
-const BACKLOG_FIRST_DATA_ROW = 4;
-
-// Схема расширена 2026-08-06: продукт/тип/норма-дата/дедуп собираются
-// детерминированно в generate-backlog.mjs (справочник product-mapping.json +
-// npaWhitelist из sources.json + сверка с market-articles.json — та же
-// логика, что у check-market-duplication.mjs). Источник (wordstat:<ns>)
-// убран из таблицы — низкая информативность для редактора, остаётся в
-// topic-backlog.json для отладки.
-//
-// Расширена ещё раз 2026-08-08: «Тема / запрос» разбита на «Тема» и
-// «Целевой запрос» — раньше это была одна колонка, и generate-backlog.mjs
-// писал туда сырую фразу Wordstat («локальный модуль честный знак»)
-// вместо заголовка темы («Локальный модуль «Честного знака»: что это,
-// зачем нужен»). targetKeyword в кандидате уже существовал отдельным
-// полем, но никогда не доходил до листа — только topic. Реальный заголовок
-// в topic формулирует не скрипт (тот принципиально без ИИ), а сессия
-// Клода в рутине A0 перед публикацией — см. .claude/commands/cycle-backlog.md.
-const BACKLOG_COLS = [
-  { key: 'n',            title: '#',              width: 40  },
-  { key: 'topic',        title: 'Тема',           width: 320 },
-  { key: 'targetKeyword', title: 'Целевой запрос', width: 200 },
-  { key: 'wordstat',     title: 'Wordstat',       width: 90  },
-  { key: 'cluster',      title: 'Кластер',        width: 110 },
-  // «Кластер» отвечает на вопрос «про что», «Сегмент» — «для кого».
-  // В ручном списке редакции колонка была, у скрипта её не было, и нишевые
-  // темы в таблице выглядели случайными: признак, который их связывает,
-  // не показывался.
-  { key: 'segment',      title: 'Сегмент',        width: 150 },
-  { key: 'product',      title: 'Продукт',        width: 150 },
-  { key: 'type',         title: 'Тип',            width: 90  },
-  { key: 'why',          title: 'Зачем сейчас',   width: 260 },
-  { key: 'normHint',     title: 'Норма/дата',     width: 200 },
-  { key: 'dedup',        title: 'Дедуп',          width: 170 },
-  { key: 'konturLink',   title: 'Ссылка Маркета', width: 220 },
-  // Связка: тот же запрос другими словами. Одна статья закрывает их все,
-  // и суммарный спрос честнее одиночной частотности.
-  { key: 'related',      title: 'Связки',         width: 300 },
-  { key: 'decision',     title: 'Решение',        width: 150 },  // ← редактор
-  { key: 'who',          title: 'Кто пишет',      width: 150 },  // ← редактор
-  { key: 'reason',       title: 'Причина отказа', width: 280 },  // ← редактор
-  // Ссылка на Google Doc с текстом. На этапе бэклога всегда пустая: статьи
-  // ещё нет и не будет, пока тема не пройдёт согласование и не попадёт в
-  // цикл. Колонка нужна редактору, чтобы из таблицы тем можно было дойти
-  // до готового текста, не сверяя названия с таблицей плана.
-  { key: 'doc',          title: 'Документ',       width: 220 },  // ← бот
-];
-
-// «нужен рерайт» — третий исход, которого не хватало: тема закрыта статьёй,
-// но статья устарела. Раньше редактору оставалось «не согласовано», и тема
-// уходила в заглушки вместе с причиной — то есть сигнал «обновите текст»
-// превращался в «не пишите об этом», ровно наоборот. Разбор — в
-// cycle-backlog.md, Шаг 3: тема идёт в очередь /maintain-content, а не в
-// контент-план и не в suppressions.
-// Словарь решений один на обе таблицы: «одобрено» и «убрать» значат в
-// бэклоге ровно то же, что в плане. До 11.08.2026 бэклог говорил
-// «согласовано / не согласовано», план — «одобрено / убрать»; разные слова
-// про одно действие были наследством двух подходов, а не смыслом, и
-// редактору приходилось держать в голове, в какой таблице он сейчас.
-const BACKLOG_DECISIONS = ['одобрено', 'убрать', 'нужен рерайт'];
-
-/* Старые слова не выбрасываются: в живой таблице бэклога решения уже
- * проставлены прежним словарём, и смена подписи не должна их обнулить.
- * readBacklog приводит такие значения к новым, а исходное отдаёт отдельным
- * полем — рутина видит, что решение пришло из старой таблицы. */
-const DECISION_SYNONYMS = new Map([
-  ['согласовано', 'одобрено'],
-  ['не согласовано', 'убрать'],
-  ['отклонено', 'убрать'],
-  ['снять', 'убрать'],
-]);
-function normalizeDecision(value) {
-  const raw = (value || '').trim();
-  return DECISION_SYNONYMS.get(raw.toLowerCase()) || raw;
+/** Индекс колонки → буква A1-нотации. Колонок 21, но запас на будущее. */
+function colLetter(i) {
+  let n = i, out = '';
+  do { out = String.fromCharCode(65 + (n % 26)) + out; n = Math.floor(n / 26) - 1; } while (n >= 0);
+  return out;
 }
+const WORK_COL = Object.fromEntries(WORK_COLS.map((c, i) => [c.key, colLetter(i)]));
+const workIdx = (key) => WORK_COLS.findIndex((c) => c.key === key);
+
+/* Полный список решений для колонки целиком. По строкам его сужает
+ * cycle-state.mjs row-decisions: у кандидата свои варианты, у статьи на
+ * вычитке — свои. Исполнителя («AI» / «пишем сами») здесь нет намеренно:
+ * кто пишет — это колонка, а не решение, и держать одно и то же в двух
+ * местах мы уже пробовали. */
+const WORK_DECISIONS = [
+  'одобрено',            // кандидат → в план
+  'написать сейчас',     // не ждать батча: тема уходит в ближайший прогон
+  'нужен рерайт',        // статья есть, но устарела — обновляем её
+  'принято',             // статья на вычитке устраивает
+  'нужно ТЗ дизайнеру',  // заказ на обложку и иллюстрации
+  'убрать',              // снять тему на любом этапе
+];
+const WORK_WHO = ['AI', 'пишем сами'];
+const WORK_STATUSES = ['кандидат', 'в плане', 'пишется', 'на вычитке', 'принято', 'выпущено', 'снято'];
 
 /* Причина отказа — не комментарий, а команда: от формулировки зависит,
- * замолчит тема на 90 дней, на 30 или вернётся через неделю. До 10.08.2026
- * колонка была свободным текстом, и редактору предлагалось угадать
- * формулировку слово в слово; опечатка или синоним меняли поведение молча
- * и в худшую сторону — вместо заглушки тема приходила снова.
- *
- * Список нестрогий (strict: false), как и «Решение»: свой текст вписать
- * можно, он означает «тема вернётся, заглушки нет». */
-const BACKLOG_REASONS = [
+ * замолчит тема на 90 дней, на 30 или вернётся через неделю. Список
+ * нестрогий, как и «Решение»: свой текст означает «тема вернётся». */
+const WORK_REASONS = [
   'категорически не наше ядро',
   'не тот угол',
   'уже покрыто другой статьёй',
   'пока рано — вернуть позже',
 ];
-/* Колонка отвечает ровно на один вопрос — кто пишет. «Пока неактуально»
- * жило здесь как третий вариант, но это не исполнитель, а отсрочка, и
- * то же самое уже сказано в «Причина отказа» → «пока рано — вернуть
- * позже». Один смысл в двух колонках разъезжается: редактор ставил
- * отсрочку то там, то тут, и рутина разбирала её по-разному. */
-const BACKLOG_WHO = ['AI', 'пишем сами'];
+
+/* Старые слова решений: в живых таблицах они уже проставлены, и молчаливое
+ * «не распознано» означало бы потерянную работу редактора. В выпадающих
+ * списках их больше нет — это совместимость, а не второй словарь. */
+const DECISION_SYNONYMS = new Map([
+  ['согласовано', 'одобрено'],
+  ['не согласовано', 'убрать'],
+  ['отклонено', 'убрать'],
+  ['снять', 'убрать'],
+  // Исполнитель переехал из решений в колонку «Кто пишет». Старые
+  // значения не выбрасываем, а переносим туда, где им теперь место
+  // (см. readWork) — иначе «пишем сами», проставленное редактором,
+  // просто исчезло бы вместе со смыслом.
+  ['пишет бот', ''],
+  ['пишем сами', ''],
+]);
+const DECISION_TO_WHO = new Map([['пишет бот', 'AI'], ['пишем сами', 'пишем сами']]);
+function normalizeDecision(value) {
+  const raw = (value || '').trim();
+  const mapped = DECISION_SYNONYMS.get(raw.toLowerCase());
+  return mapped === undefined ? raw : mapped;
+}
 
 /* ─────────────────────────────────────────────────── markdown → Docs ──── */
 /** Разбирает markdown в плоский текст + диапазоны стилей для Docs API. */
@@ -684,89 +626,64 @@ async function latestTab(sheetId, prefix) {
   return matching[0] || meta.sheets[0].properties;
 }
 
-/** Шапка, заголовки колонок, ширины, выпадающие списки, защита ботовых колонок. */
-async function formatSheet(sheetId, gid, cycleId, topicCount) {
-  const lastRow = FIRST_DATA_ROW + topicCount - 1;
-
+/** Шапка, легенда, заголовки, ширины, списки и защита ботовых колонок. */
+async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
+  const lastRow = WORK_FIRST_DATA_ROW + rowCount - 1;
   const requests = [
-    // Заголовок и переключатель согласования
     {
       updateCells: {
         rows: [
-          { values: [{ userEnteredValue: { stringValue: `Контент-план ${cycleId}` },
+          { values: [{ userEnteredValue: { stringValue: `Темы и статьи — ${monthId}` },
                        userEnteredFormat: { textFormat: { bold: true, fontSize: 14 } } }] },
           { values: [
               { userEnteredValue: { stringValue: 'Статус плана:' },
                 userEnteredFormat: { textFormat: { bold: true } } },
               { userEnteredValue: { stringValue: 'на согласовании' } },
-              { userEnteredValue: { stringValue: '← поставьте «ОДОБРЕН», когда план устроит' },
-                userEnteredFormat: {
-                  textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
-                } },
+              { userEnteredValue: { stringValue: '← поставьте «ОДОБРЕН», когда список тем устроит' },
+                userEnteredFormat: { textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } } } },
               { userEnteredValue: { stringValue: '' } },
-              // E2 — строка состояния цикла, её на каждом проходе
-              // переписывает cycle-state.mjs sheet-sync. Здесь только
-              // заглушка с подсказкой: до первого прохода ячейка пустая,
-              // и редактор не поймёт, что это место вообще живое.
+              // E2 — строка состояния цикла, её переписывает cycle-state.mjs
+              // sheet-sync на каждом проходе.
               { userEnteredValue: { stringValue: 'Состояние обновится после первого прохода' },
-                userEnteredFormat: {
-                  textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
-                } },
+                userEnteredFormat: { textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } } } },
             ] },
         ],
         fields: 'userEnteredValue,userEnteredFormat',
         start: { sheetId: gid, rowIndex: 0, columnIndex: 0 },
       },
     },
-    // Легенда колонки «Решение» (строка 3, между переключателем и
-    // заголовками). Без неё редактор открывает таблицу впервые и видит
-    // пустую колонку с непонятным назначением — у таблицы бэклога
-    // (formatBacklogSheet, ниже) такая строка-подсказка уже была, здесь
-    // её не было: асимметрия между двумя таблицами одного редактора.
     {
       updateCells: {
-        rows: [{
-          values: [{
-            userEnteredValue: { stringValue:
-              'Решение по теме — из списка: одобрено / убрать / пишем сами. ' +
-              'Статья на вычитке устраивает — поставьте туда же «принято» ' +
-              '(колонку «Статус» рядом не трогайте, её пишет бот). Правка — свободный текст.' },
-            userEnteredFormat: {
-              textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
-            },
-          }],
-        }],
+        rows: [{ values: [{
+          userEnteredValue: { stringValue:
+            'Одна строка — одна тема, от кандидата до выпуска. «одобрено» берёт тему в работу, '
+            + '«написать сейчас» не ждёт очереди, «принято» закрывает вычитку, «убрать» снимает тему '
+            + '(тогда нужна причина). Колонки «Статус», «Документ» и «ID» заполняет бот.' },
+          userEnteredFormat: { textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } } },
+        }] }],
         fields: 'userEnteredValue,userEnteredFormat',
         start: { sheetId: gid, rowIndex: 2, columnIndex: 1 },
       },
     },
-    // Заголовки колонок
     {
       updateCells: {
-        rows: [{
-          values: COLS.map((c) => ({
-            userEnteredValue: { stringValue: c.title },
-            userEnteredFormat: {
-              textFormat: { bold: true },
-              backgroundColor: { red: 0.93, green: 0.91, blue: 0.87 },
-            },
-          })),
-        }],
+        rows: [{ values: WORK_COLS.map((c) => ({
+          userEnteredValue: { stringValue: c.title },
+          userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.93, green: 0.91, blue: 0.87 } },
+        })) }],
         fields: 'userEnteredValue,userEnteredFormat',
-        start: { sheetId: gid, rowIndex: HEADER_ROW - 1, columnIndex: 0 },
+        start: { sheetId: gid, rowIndex: WORK_HEADER_ROW - 1, columnIndex: 0 },
       },
     },
-    // Закрепить шапку
     {
       updateSheetProperties: {
-        properties: { sheetId: gid, gridProperties: { frozenRowCount: HEADER_ROW } },
+        properties: { sheetId: gid, gridProperties: { frozenRowCount: WORK_HEADER_ROW } },
         fields: 'gridProperties.frozenRowCount',
       },
     },
   ];
 
-  // Ширины колонок
-  COLS.forEach((c, i) => {
+  WORK_COLS.forEach((c, i) => {
     requests.push({
       updateDimensionProperties: {
         range: { sheetId: gid, dimension: 'COLUMNS', startIndex: i, endIndex: i + 1 },
@@ -776,47 +693,44 @@ async function formatSheet(sheetId, gid, cycleId, topicCount) {
     });
   });
 
-  // Выпадающий список согласования плана
   requests.push({
     setDataValidation: {
       range: { sheetId: gid, startRowIndex: 1, endRowIndex: 2, startColumnIndex: 1, endColumnIndex: 2 },
       rule: {
-        condition: { type: 'ONE_OF_LIST', values: [
-          { userEnteredValue: 'на согласовании' },
-          { userEnteredValue: 'ОДОБРЕН' },
-          { userEnteredValue: 'отклонён' },
-        ]},
+        condition: { type: 'ONE_OF_LIST', values: ['на согласовании', 'ОДОБРЕН', 'отклонён']
+          .map((v) => ({ userEnteredValue: v })) },
         showCustomUi: true, strict: false,
       },
     },
   });
 
-  // Выпадающий список решений по каждой теме
-  if (topicCount > 0) {
-    requests.push({
+  if (rowCount > 0) {
+    const dropdown = (key, values) => ({
       setDataValidation: {
         range: {
           sheetId: gid,
-          startRowIndex: FIRST_DATA_ROW - 1,
+          startRowIndex: WORK_FIRST_DATA_ROW - 1,
           endRowIndex: lastRow,
-          startColumnIndex: COLS.findIndex((c) => c.key === 'decision'),
-          endColumnIndex: COLS.findIndex((c) => c.key === 'decision') + 1,
+          startColumnIndex: workIdx(key),
+          endColumnIndex: workIdx(key) + 1,
         },
         rule: {
-          condition: { type: 'ONE_OF_LIST', values: DECISIONS.filter(Boolean).map((v) => ({ userEnteredValue: v })) },
+          condition: { type: 'ONE_OF_LIST', values: values.map((v) => ({ userEnteredValue: v })) },
           showCustomUi: true, strict: false,
         },
       },
     });
-    // Колонки бота — только для чтения, чтобы редактор не правил статусы руками
+    requests.push(dropdown('decision', WORK_DECISIONS));
+    requests.push(dropdown('who', WORK_WHO));
+    requests.push(dropdown('reason', WORK_REASONS));
     requests.push({
       addProtectedRange: {
         protectedRange: {
           range: {
             sheetId: gid,
-            startRowIndex: HEADER_ROW - 1,
-            startColumnIndex: COLS.findIndex((c) => c.key === 'status'),
-            endColumnIndex: COLS.length,
+            startRowIndex: WORK_HEADER_ROW - 1,
+            startColumnIndex: workIdx('status'),
+            endColumnIndex: WORK_COLS.length,
           },
           description: 'Заполняется автоматически',
           warningOnly: true,
@@ -829,120 +743,14 @@ async function formatSheet(sheetId, gid, cycleId, topicCount) {
   return gid;
 }
 
-async function writePlanRows(sheetId, tab, plan) {
-  const values = plan.map((t, i) => [
-    i + 1,
-    t.title,
-    t.priority || 'P1',
-    t.targetKeyword || '',
-    t.cluster || '',
-    t.rationale || '',
-    '',                        // Решение — редактору
-    '',                        // Правка — редактору
-    t.status || 'в плане',
-    t.docUrl || '',
-    // Колонка «ID» — единственная связь строки с темой в состоянии цикла.
-    // Пустой она быть не может: cycle-state.mjs ищет тему по slug, и без
-    // него все темы цикла числятся пропавшими. Считаем тем же слугифаером,
-    // чтобы значения совпадали посимвольно.
-    t.slug || slugify(t.title),
-  ]);
-  const range = a1(tab, `A${FIRST_DATA_ROW}:${colLetter(COLS.length - 1)}${FIRST_DATA_ROW + values.length - 1}`);
-  await sheets(`${sheetId}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
-    method: 'PUT',
-    body: JSON.stringify({ values }),
-  });
-}
-
-/** Шапка, заголовки, ширины и выпадающие списки таблицы бэклога. */
-async function formatBacklogSheet(sheetId, gid, weekId, rowCount) {
-  const lastRow = BACKLOG_FIRST_DATA_ROW + rowCount - 1;
-
-  const requests = [
-    {
-      updateCells: {
-        rows: [
-          { values: [{ userEnteredValue: { stringValue: `Бэклог тем — неделя ${weekId}` },
-                       userEnteredFormat: { textFormat: { bold: true, fontSize: 14 } } }] },
-          { values: [{ userEnteredValue: { stringValue: 'Проставьте решение по каждой теме. «одобрено» — тема идёт в контент-план. «нужен рерайт» — статья есть, но устарела: обновим её, новую писать не будем. При «убрать» выберите причину из списка: от неё зависит, вернётся тема или замолчит. Слова те же, что в таблице плана.' },
-                       userEnteredFormat: {
-                         textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } },
-                       } }] },
-        ],
-        fields: 'userEnteredValue,userEnteredFormat',
-        start: { sheetId: gid, rowIndex: 0, columnIndex: 0 },
-      },
-    },
-    {
-      updateCells: {
-        rows: [{
-          values: BACKLOG_COLS.map((c) => ({
-            userEnteredValue: { stringValue: c.title },
-            userEnteredFormat: {
-              textFormat: { bold: true },
-              backgroundColor: { red: 0.93, green: 0.91, blue: 0.87 },
-            },
-          })),
-        }],
-        fields: 'userEnteredValue,userEnteredFormat',
-        start: { sheetId: gid, rowIndex: BACKLOG_HEADER_ROW - 1, columnIndex: 0 },
-      },
-    },
-    {
-      updateSheetProperties: {
-        properties: { sheetId: gid, gridProperties: { frozenRowCount: BACKLOG_HEADER_ROW } },
-        fields: 'gridProperties.frozenRowCount',
-      },
-    },
-  ];
-
-  BACKLOG_COLS.forEach((c, i) => {
-    requests.push({
-      updateDimensionProperties: {
-        range: { sheetId: gid, dimension: 'COLUMNS', startIndex: i, endIndex: i + 1 },
-        properties: { pixelSize: c.width },
-        fields: 'pixelSize',
-      },
-    });
-  });
-
-  if (rowCount > 0) {
-    const dropdown = (key, values) => ({
-      setDataValidation: {
-        range: {
-          sheetId: gid,
-          startRowIndex: BACKLOG_FIRST_DATA_ROW - 1,
-          endRowIndex: lastRow,
-          startColumnIndex: BACKLOG_COLS.findIndex((c) => c.key === key),
-          endColumnIndex: BACKLOG_COLS.findIndex((c) => c.key === key) + 1,
-        },
-        rule: {
-          condition: { type: 'ONE_OF_LIST', values: values.map((v) => ({ userEnteredValue: v })) },
-          showCustomUi: true, strict: false,
-        },
-      },
-    });
-    requests.push(dropdown('decision', BACKLOG_DECISIONS));
-    requests.push(dropdown('who', BACKLOG_WHO));
-    requests.push(dropdown('reason', BACKLOG_REASONS));
-  }
-
-  await sheets(`${sheetId}:batchUpdate`, { method: 'POST', body: JSON.stringify({ requests }) });
-  return gid;
-}
-
-// Значение для ключа колонки из объекта кандидата — по BACKLOG_COLS, а не
-// по жёстко зашитой позиции. Позиционный маппинг (значение под индексом N
-// значит колонку N) — ровно тот класс бага, из-за которого правка схемы в
-// одном месте (BACKLOG_COLS) молча расходится с чтением/записью в другом;
-// после этой правки и то, и другое выводится из одного списка.
-const BACKLOG_ALIASES = { topic: ['title'], why: ['note', 'rationale'] };
-function backlogCellValue(key, t) {
-  if (key === 'n') return null; // проставляется отдельно, номер строки
+// Значение ячейки из объекта темы. Ключи разные у кандидатов (generate-backlog)
+// и у тем цикла (editorial-cycle.json) — сводим здесь, а не в двух вызывающих.
+const WORK_ALIASES = { topic: ['title'], why: ['rationale', 'note'], doc: ['docUrl'] };
+function workCellValue(key, t) {
+  if (key === 'n') return null;
   if (key === 'segment') return t.segmentLabel || t.segment || '';
   // У инфоповода частотности нет и быть не может: запрос ещё не
-  // сформировался, событие только объявили. Пустая ячейка читалась бы как
-  // «данных не собрали», поэтому пишем словом.
+  // сформировался, событие только объявили.
   if (key === 'wordstat' && (t.wordstat == null || t.wordstat === '')) {
     return t.type === 'infopovod' ? 'инфоповод' : '';
   }
@@ -952,108 +760,89 @@ function backlogCellValue(key, t) {
     const total = t.wordstatTotal ?? t.wordstat;
     return `${rel.map((r) => `${r.query} (${r.wordstat})`).join('; ')} — всего ${total}`;
   }
+  if (key === 'slug') return t.slug || slugify(t.title || t.topic || '');
+  if (key === 'status') return t.status || 'кандидат';
   if (t[key] != null && t[key] !== '') return t[key];
-  for (const alias of BACKLOG_ALIASES[key] ?? []) {
+  for (const alias of WORK_ALIASES[key] ?? []) {
     if (t[alias] != null && t[alias] !== '') return t[alias];
   }
   return '';
 }
 
-async function writeBacklogRows(sheetId, tab, items) {
-  const values = items.map((t, i) =>
-    BACKLOG_COLS.map((c) => (c.key === 'n' ? i + 1 : backlogCellValue(c.key, t))),
-  );
-  const range = a1(tab,
-    `A${BACKLOG_FIRST_DATA_ROW}:${colLetter(BACKLOG_COLS.length - 1)}` +
-    `${BACKLOG_FIRST_DATA_ROW + values.length - 1}`);
-  await sheets(`${sheetId}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
-    method: 'PUT',
-    body: JSON.stringify({ values }),
+/* Пишем двумя кусками — исследовательские колонки слева и ботовые справа,
+ * а колонки редактора между ними не трогаем. Один сплошной PUT затирал бы
+ * решения, которые редактор уже проставил: перезаливка строк случается не
+ * только при создании вкладки, но и когда в месяц добавляют темы. */
+async function writeWorkRows(sheetId, tab, items) {
+  const left = items.map((t, i) =>
+    WORK_COLS.slice(0, workIdx('decision')).map((c) => (c.key === 'n' ? i + 1 : workCellValue(c.key, t))));
+  const right = items.map((t) =>
+    WORK_COLS.slice(workIdx('status')).map((c) => workCellValue(c.key, t)));
+  const lastRow = WORK_FIRST_DATA_ROW + items.length - 1;
+
+  await sheets(`${sheetId}/values:batchUpdate`, {
+    method: 'POST',
+    body: JSON.stringify({
+      valueInputOption: 'USER_ENTERED',
+      data: [
+        { range: a1(tab, `A${WORK_FIRST_DATA_ROW}:${WORK_COL.related}${lastRow}`), values: left },
+        { range: a1(tab, `${WORK_COL.status}${WORK_FIRST_DATA_ROW}:${WORK_COL.slug}${lastRow}`), values: right },
+      ],
+    }),
   });
 }
 
-/** Решения редактора из таблицы бэклога — вход для шага 3 рутины A0. */
-async function readBacklog(sheetId, tab) {
-  const target = tab || (await latestTab(sheetId, 'Темы ')).title;
-  const range = a1(target, `A1:${colLetter(BACKLOG_COLS.length - 1)}1000`);
+/** Читает вкладку месяца: решения редактора + состояние строк. */
+async function readWork(sheetId, tab) {
+  const target = tab || (await latestTab(sheetId, WORK_TAB_PREFIX)).title;
+  const range = a1(target, `A1:${colLetter(WORK_COLS.length - 1)}1000`);
   const r = await sheets(`${sheetId}/values/${encodeURIComponent(range)}`);
   const rows = r.values || [];
-  const out = [];
 
-  /* Колонки ищем по заголовку, а не по номеру. Позиционное чтение
-   * ломается молча: 11.08.2026 в BACKLOG_COLS добавили «Сегмент» и
-   * «Связки», и таблицы, написанные до этого, начали читаться со сдвигом
-   * — решение редактора уезжало в соседнее поле, а рутина разбирала
-   * причину отказа как решение. Заголовок в таблице всегда тот, с
-   * которым её писали, поэтому по нему сопоставление верно для любой
-   * версии раскладки. */
-  const header = (rows[BACKLOG_HEADER_ROW - 1] || []).map((h) => (h || '').trim().toLowerCase());
-  const titles = new Set(BACKLOG_COLS.map((c) => c.title.toLowerCase()));
-  // Заголовка нет вовсе (таблицу писали руками, шапку сдвинули) — читаем
-  // по позициям, как раньше. Хуже, чем по заголовку, но не пусто.
+  /* Колонки ищем по заголовку, а не по номеру. Позиционное чтение ломается
+   * молча: 11.08.2026 в набор добавили «Сегмент» и «Связки», и вкладки,
+   * написанные раньше, начали читаться со сдвигом — решение редактора
+   * уезжало в соседнее поле, а рутина разбирала причину отказа как решение. */
+  const header = (rows[WORK_HEADER_ROW - 1] || []).map((h) => (h || '').trim().toLowerCase());
+  const titles = new Set(WORK_COLS.map((c) => c.title.toLowerCase()));
   const byTitle = header.some((h) => titles.has(h))
     ? new Map(header.map((h, idx) => [h, idx]))
-    : new Map(BACKLOG_COLS.map((c, idx) => [c.title.toLowerCase(), idx]));
-  const indexOf = (col) => {
-    const found = byTitle.get(col.title.toLowerCase());
-    return found === undefined ? BACKLOG_COLS.indexOf(col) : found;
-  };
-  const topicIdx = indexOf(BACKLOG_COLS.find((c) => c.key === 'topic'));
+    : new Map(WORK_COLS.map((c, idx) => [c.title.toLowerCase(), idx]));
 
-  for (let i = BACKLOG_FIRST_DATA_ROW - 1; i < rows.length; i++) {
+  const items = [];
+  const topicIdx = byTitle.get('тема') ?? workIdx('topic');
+  for (let i = WORK_FIRST_DATA_ROW - 1; i < rows.length; i++) {
     const row = rows[i] || [];
     const topic = (row[topicIdx] || '').trim();
     if (!topic) continue;
     const item = { row: i + 1 };
-    BACKLOG_COLS.forEach((c) => {
+    WORK_COLS.forEach((c) => {
       if (c.key === 'n') return;
-      // Колонки, которой в старой таблице не было, в заголовке нет —
-      // поле остаётся пустым, а не занимает чужое значение.
       const idx = byTitle.has(c.title.toLowerCase()) ? byTitle.get(c.title.toLowerCase()) : null;
       item[c.key] = idx === null ? '' : (row[idx] || '').trim();
     });
-    // Решение приводим к общему словарю плана. Если редактор ставил его
-    // ещё старыми словами — отдаём и исходник, чтобы это было видно.
+    const movedWho = DECISION_TO_WHO.get((item.decision || '').toLowerCase());
+    if (movedWho && !item.who) item.who = movedWho;
     const canonical = normalizeDecision(item.decision);
     if (canonical !== item.decision) item.decisionRaw = item.decision;
     item.decision = canonical;
-    // Отсрочка, проставленная в «Кто пишет» до 11.08.2026, читается как
-    // причина: колонка исполнителя больше её не предлагает.
+    // Отсрочка, проставленная в «Кто пишет» до 11.08.2026, читается как причина.
     if (item.who && item.who.toLowerCase() === 'пока неактуально') {
       item.who = '';
       if (!item.reason) item.reason = 'пока рано — вернуть позже';
     }
-    out.push(item);
+    // cycle-state.mjs ждёт эти имена — они же были у таблицы плана.
+    item.title = item.topic;
+    item.docUrl = item.doc;
+    items.push(item);
   }
-  return { sheetId, tab: target, items: out };
-}
-
-async function readSheet(sheetId, tab) {
-  const target = tab || (await latestTab(sheetId, 'План ')).title;
-  const range = a1(target, `A1:${colLetter(COLS.length - 1)}1000`);
-  const r = await sheets(`${sheetId}/values/${encodeURIComponent(range)}`);
-  const rows = r.values || [];
-  const approval = (rows[1]?.[1] || '').trim();
-  const topics = [];
-  for (let i = FIRST_DATA_ROW - 1; i < rows.length; i++) {
-    const row = rows[i];
-    if (!row || !row[1]) continue;
-    topics.push({
-      row: i + 1,
-      n: Number(row[0]) || null,
-      title: row[1] || '',
-      priority: row[2] || 'P1',
-      targetKeyword: row[3] || '',
-      cluster: row[4] || '',
-      rationale: row[5] || '',
-      decision: (row[6] || '').trim(),
-      note: (row[7] || '').trim(),
-      status: (row[8] || '').trim(),
-      docUrl: row[9] || '',
-      slug: (row[10] || '').trim(),
-    });
-  }
-  return { approval, tab: target, topics };
+  return {
+    sheetId,
+    tab: target,
+    approval: (rows[1]?.[1] || '').trim(),
+    items,
+    topics: items,   // старое имя: cycle-state apply-decisions читает topics
+  };
 }
 
 /* ─────────────────────────────────────────────────────── подкоманды ───── */
@@ -1096,73 +885,36 @@ try {
       break;
     }
 
+    /* Одна вкладка на месяц: кандидаты и статьи в одной таблице.
+       Повторный запуск переиспользует вкладку и перезаливает строки,
+       не трогая колонки редактора. */
+    case 'init-month':
     case 'init-cycle': {
-      const cycle = arg('cycle') || new Date().toISOString().slice(0, 7);
-      const planPath = arg('plan');
-      if (!ROOT_FOLDER) die('GOOGLE_DOCS_FOLDER_ID не задан');
-      if (!planPath || !existsSync(planPath)) die('нужен --plan <файл с темами>');
-      const plan = JSON.parse(readFileSync(planPath, 'utf8'));
-      if (!Array.isArray(plan) || !plan.length) die('план пуст');
-
-      if (DRY_RUN) {
-        console.log(JSON.stringify({ dryRun: true, cycle, topics: plan.length, rootFolder: ROOT_FOLDER }, null, 2));
-        break;
-      }
-
-      // Папка цикла остаётся: в ней лежат Google Doc'и статей. А план
-      // переезжает вкладкой в общую таблицу редакции.
-      const folder = await ensureFolder(cycle, ROOT_FOLDER);
-      const sheet = await workspace();
-      const tab = planTabName(cycle);
-      const gid = await ensureTab(sheet.id, tab);
-
-      await formatSheet(sheet.id, gid, cycle, plan.length);
-      await writePlanRows(sheet.id, tab, plan);
-
-      console.log(JSON.stringify({
-        cycleId: cycle,
-        folderId: folder.id,
-        folderUrl: folder.webViewLink,
-        sheetId: sheet.id,
-        tab,
-        gid,
-        sheetUrl: `https://docs.google.com/spreadsheets/d/${sheet.id}/edit#gid=${gid}`,
-        topics: plan.length,
-      }, null, 2));
-      break;
-    }
-
-    case 'pull': {
-      const sheetId = arg('sheet-id');
-      if (!sheetId) die('нужен --sheet-id');
-      console.log(JSON.stringify(await readSheet(sheetId, arg('tab')), null, 2));
-      break;
-    }
-
-    case 'init-backlog': {
-      const week = arg('week') || new Date().toISOString().slice(0, 10);
-      const itemsPath = arg('items');
+      const month = arg('month') || arg('cycle') || new Date().toISOString().slice(0, 7);
+      const itemsPath = arg('items') || arg('plan');
       if (!ROOT_FOLDER) die('GOOGLE_DOCS_FOLDER_ID не задан');
       if (!itemsPath || !existsSync(itemsPath)) die('нужен --items <файл с темами>');
       const items = JSON.parse(readFileSync(itemsPath, 'utf8'));
-      if (!Array.isArray(items) || !items.length) die('бэклог пуст');
+      if (!Array.isArray(items) || !items.length) die('список тем пуст');
 
       if (DRY_RUN) {
-        console.log(JSON.stringify({ dryRun: true, week, items: items.length, rootFolder: ROOT_FOLDER }, null, 2));
+        console.log(JSON.stringify({ dryRun: true, month, items: items.length, rootFolder: ROOT_FOLDER }, null, 2));
         break;
       }
 
-      // Неделя — вкладка в общей таблице редакции, и встаёт она первой:
-      // редактор открывает файл и сразу видит свежие темы.
+      // Папка месяца остаётся: в ней лежат Google Doc'и статей.
+      const folder = await ensureFolder(month, ROOT_FOLDER);
       const sheet = await workspace();
-      const tab = backlogTabName(week);
+      const tab = workTabName(month);
       const gid = await ensureTab(sheet.id, tab);
 
-      await formatBacklogSheet(sheet.id, gid, week, items.length);
-      await writeBacklogRows(sheet.id, tab, items);
+      await formatWorkSheet(sheet.id, gid, month, items.length);
+      await writeWorkRows(sheet.id, tab, items);
 
       console.log(JSON.stringify({
-        week,
+        month,
+        folderId: folder.id,
+        folderUrl: folder.webViewLink,
         sheetId: sheet.id,
         tab,
         gid,
@@ -1172,22 +924,34 @@ try {
       break;
     }
 
-    case 'pull-backlog': {
+    case 'pull': {
       const sheetId = arg('sheet-id');
       if (!sheetId) die('нужен --sheet-id');
-      console.log(JSON.stringify(await readBacklog(sheetId, arg('tab')), null, 2));
+      console.log(JSON.stringify(await readWork(sheetId, arg('tab')), null, 2));
+      break;
+    }
+
+    /* Осталось именем для рутины A0, но заводит не отдельную таблицу
+       недели, а ту же вкладку месяца: бэклог теперь месячный. */
+    case 'init-backlog': {
+      const week = arg('week') || new Date().toISOString().slice(0, 10);
+      console.log(`ℹ init-backlog переехал в init-month: неделя ${week} → месяц ${week.slice(0, 7)}`);
+      console.log('  Запустите: node scripts/drive-sync.mjs init-month --month ' + week.slice(0, 7) + ' --items <файл>');
+      process.exit(2);
       break;
     }
 
     case 'push-plan': {
       const sheetId = arg('sheet-id');
-      const planPath = arg('plan');
+      const planPath = arg('plan') || arg('items');
       if (!sheetId) die('нужен --sheet-id');
       if (!planPath || !existsSync(planPath)) die('нужен --plan <файл>');
       const plan = JSON.parse(readFileSync(planPath, 'utf8'));
-      await formatSheet(sheetId, arg('cycle', ''), plan.length);
-      await writePlanRows(sheetId, plan);
-      console.log(`✅ Таблица обновлена: ${plan.length} тем`);
+      const tab = arg('tab') || (await latestTab(sheetId, WORK_TAB_PREFIX)).title;
+      const gid = await ensureTab(sheetId, tab);
+      await formatWorkSheet(sheetId, gid, tab.replace(WORK_TAB_PREFIX, ''), plan.length);
+      await writeWorkRows(sheetId, tab, plan);
+      console.log(`✅ Вкладка «${tab}» обновлена: ${plan.length} тем`);
       break;
     }
 
@@ -1198,13 +962,11 @@ try {
       const updates = JSON.parse(arg('updates') || '[]');
       if (!sheetId) die('нужен --sheet-id');
       if (!updates.length) die('нужен --updates \'[{"row":5,"values":["принято"]}]\'');
-      // Вкладка плана, а не первая в файле: в общей таблице первой стоит
-      // свежий бэклог, и списки решений ушли бы не туда.
       const tab = arg('tab');
       const gid = tab
         ? await ensureTab(sheetId, tab)
-        : (await latestTab(sheetId, 'План ')).sheetId;
-      const col = COLS.findIndex((c) => c.key === 'decision');
+        : (await latestTab(sheetId, WORK_TAB_PREFIX)).sheetId;
+      const col = workIdx('decision');
       await sheets(`${sheetId}:batchUpdate`, {
         method: 'POST',
         body: JSON.stringify({
@@ -1237,18 +999,17 @@ try {
       const sheetId = arg('sheet-id');
       const updates = JSON.parse(arg('updates') || '[]');
       if (!sheetId) die('нужен --sheet-id');
-      if (!updates.length) die('нужен --updates \'[{"range":"J5","value":"..."}]\'');
-      /* cycle-state.mjs присылает голые «J5»: про вкладки он не знает и
+      if (!updates.length) die('нужен --updates \'[{"range":"S5","value":"..."}]\'');
+      /* cycle-state.mjs присылает голые «S5»: про вкладки он не знает и
          знать не должен. Имя подставляем здесь — иначе статусы уедут в
-         первую вкладку файла, то есть в бэклог текущей недели. Своё имя
-         в диапазоне («'План 2026-08'!J5») уважается как есть. */
-      const planTab = arg('tab') || (await latestTab(sheetId, 'План ')).title;
+         первую вкладку файла. Своё имя в диапазоне уважается как есть. */
+      const workTab = arg('tab') || (await latestTab(sheetId, WORK_TAB_PREFIX)).title;
       await sheets(`${sheetId}/values:batchUpdate`, {
         method: 'POST',
         body: JSON.stringify({
           valueInputOption: 'USER_ENTERED',
           data: updates.map((u) => ({
-            range: u.range.includes('!') ? u.range : a1(planTab, u.range),
+            range: u.range.includes('!') ? u.range : a1(workTab, u.range),
             values: [[u.value]],
           })),
         }),

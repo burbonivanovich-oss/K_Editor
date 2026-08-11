@@ -53,13 +53,17 @@ const __dir = dirname(fileURLToPath(import.meta.url));
 const STATE_PATH = process.env.CYCLE_STATE_PATH || join(__dir, '..', 'src/data/editorial-cycle.json');
 
 const STATES = ['idle', 'awaiting_review', 'running', 'done'];
-const TOPIC_STATUSES = ['planned', 'writing', 'review', 'accepted', 'released', 'dropped'];
+/* «candidate» — тема, по которой редактор ещё не решил. До 11.08.2026
+ * кандидаты жили в отдельной таблице бэклога и в состояние цикла не
+ * попадали вовсе: решение по ним разбирала рутина и вручную переносила
+ * тему в план. Теперь строка одна на весь путь, поэтому и статус нужен. */
+const TOPIC_STATUSES = ['candidate', 'planned', 'writing', 'review', 'accepted', 'released', 'dropped'];
 
 // Значения колонки «Решение» в таблице (drive-sync.mjs DECISIONS), которые
 // apply-decisions умеет разбирать. Список должен совпадать с DECISIONS
 // там — источники разные, ручной синхронизации ничего не заменяет.
 const KNOWN_DECISIONS = new Set([
-  'убрать', 'пишем сами', 'пишет бот', 'принято',
+  'убрать', 'одобрено', 'написать сейчас', 'нужен рерайт', 'принято',
   // Заказ на бриф для дизайнера: обложка и иллюстрации к уже написанному
   // тексту. Статус темы не меняет — статья как была на вычитке или принята,
   // так и остаётся; это параллельный артефакт, а не стадия цикла.
@@ -76,12 +80,7 @@ const KNOWN_DECISIONS = new Set([
  * слово общее. «Одобрено» же означало разное («взять в план» против
  * «вернуть боту»), поэтому в плане оно заменено, а не унифицировано. */
 const PLAN_DECISION_SYNONYMS = new Map([
-  // «Одобрено» в таблице плана до 11.08.2026 означало «вернуть тему боту».
-  // В бэклоге тем же словом называют «взять тему в план» — разные действия
-  // под одним словом. В плане слово заменено на «пишет бот», старое
-  // читается как оно и работало.
-  ['одобрено', 'пишет бот'],
-  ['согласовано', 'пишет бот'],
+  ['согласовано', 'одобрено'],
   ['не согласовано', 'убрать'],
   ['отклонено', 'убрать'],
   ['снять', 'убрать'],
@@ -89,6 +88,7 @@ const PLAN_DECISION_SYNONYMS = new Map([
 
 /** Внутренний статус → надпись в колонке «Статус» таблицы. */
 const RU_STATUS = {
+  candidate: 'кандидат',
   planned: 'в плане',
   writing: 'пишется',
   review: 'на вычитке',
@@ -179,6 +179,7 @@ function waitingTopics(s) {
 // ещё не дошёл до review, и превысить maxInReview в момент, когда оба
 // одновременно попадут в review).
 const ALLOWED_TRANSITIONS = {
+  candidate: new Set(['planned', 'dropped']),
   planned: new Set(['writing', 'review', 'dropped']),
   writing: new Set(['review', 'dropped']),
   review: new Set(['accepted', 'released', 'dropped']),
@@ -273,8 +274,13 @@ switch (cmd) {
       targetKeyword: t.targetKeyword || '',
       rationale: t.rationale || '',
       row: 5 + i,           // строка в таблице
-      owner: 'bot',
-      status: 'planned',
+      owner: t.who === 'пишем сами' ? 'editor' : 'bot',
+      // Статус берётся из входного файла: список из ресёрча приходит
+      // кандидатами, список из уже одобренного — сразу «в плане». По
+      // умолчанию «в плане» — так вёл себя init до появления кандидатов,
+      // и вызовы, которые про них не знают, не должны менять поведение.
+      status: TOPIC_STATUSES.includes(t.status) ? t.status
+        : (process.argv.includes('--as-candidates') ? 'candidate' : 'planned'),
       docId: null,
       docUrl: null,
       seenComments: [],
@@ -293,6 +299,7 @@ switch (cmd) {
     const pull = JSON.parse(readFileSync(file, 'utf8'));
     const changes = {
       approved: false, dropped: [], toEditor: [], toBot: [], accepted: [],
+      approved_topics: [], urgent: [], rewrite: [],
       notes: [], added: [], missing: [], unrecognized: [], designBrief: [],
     };
 
@@ -366,12 +373,22 @@ switch (cmd) {
         // тогда просто не трогаем: снимать уже выпущенную статью через
         // колонку решения не должно получаться молча.
         if (transitionTopic(s, t.slug, 'dropped').ok) changes.dropped.push(t.title);
-      } else if (d === 'пишем сами' && t.owner !== 'editor') {
-        t.owner = 'editor';
-        changes.toEditor.push(t.title);
-      } else if (d === 'пишет бот' && t.owner === 'editor') {
-        t.owner = 'bot';
-        changes.toBot.push(t.title);
+      } else if (d === 'одобрено' && t.status === 'candidate') {
+        // Кандидат становится темой в работе. Копировать строку никуда не
+        // нужно — она та же самая, меняется только статус.
+        if (transitionTopic(s, t.slug, 'planned').ok) changes.approved_topics.push(t.title);
+      } else if (d === 'написать сейчас') {
+        // Срочный заказ: тема не ждёт планового батча. Кандидата при этом
+        // одобряем заодно — редактор явно сказал, что тема нужна.
+        if (t.status === 'candidate') transitionTopic(s, t.slug, 'planned');
+        if (['candidate', 'planned'].includes(t.status) || t.status === 'planned') {
+          t.urgent = true;
+          changes.urgent.push({ slug: t.slug, title: t.title });
+        }
+      } else if (d === 'нужен рерайт') {
+        // Статья по теме есть, но устарела. Это не отказ: тема уходит в
+        // очередь обновления, а не в заглушки и не в план.
+        changes.rewrite.push({ slug: t.slug, title: t.title, reason: row.reason || '' });
       } else if (d === 'принято' && t.status === 'review') {
         // Сигнал приёмки статьи — в редакторской колонке «Решение», не в
         // ботовской «Статус». Раньше «принято» было значением только в
@@ -396,6 +413,17 @@ switch (cmd) {
         // ни одна ветка выше не совпадает, тема просто остаётся как была,
         // и ни редактор, ни рутина B не узнают, что решение не применилось.
         changes.unrecognized.push({ slug: t.slug, title: t.title, decision: row.decision });
+      }
+
+      // Исполнитель — колонка «Кто пишет», а не решение: одно и то же
+      // действие в двух местах мы уже проходили.
+      const who = (row.who || '').trim().toLowerCase();
+      if (who === 'пишем сами' && t.owner !== 'editor') {
+        t.owner = 'editor';
+        changes.toEditor.push(t.title);
+      } else if (who === 'ai' && t.owner === 'editor') {
+        t.owner = 'bot';
+        changes.toBot.push(t.title);
       }
 
       if (row.note && row.note !== t.lastNote) {
@@ -458,9 +486,13 @@ switch (cmd) {
     const room = Math.max(0, s.maxInReview - occupiedCount(s));
     const size = Math.min(Number(arg('size', s.batchSize)), room);
     const order = { P0: 0, P1: 1, P2: 2 };
+    // «Написать сейчас» идёт вперёд приоритета: редактор сказал это про
+    // конкретную тему сегодня, а приоритет проставлен при планировании.
     const picked = s.plan
       .filter((t) => t.status === 'planned' && t.owner === 'bot')
-      .sort((a, b) => (order[a.priority] ?? 9) - (order[b.priority] ?? 9))
+      .sort((a, b) =>
+        Number(Boolean(b.urgent)) - Number(Boolean(a.urgent)) ||
+        (order[a.priority] ?? 9) - (order[b.priority] ?? 9))
       .slice(0, size);
     console.log(JSON.stringify(picked, null, 2));
     break;
@@ -596,7 +628,8 @@ switch (cmd) {
    * своё значение по-прежнему можно, подсказка не запрет. */
   case 'row-decisions': {
     const BY_STATUS = {
-      planned:  ['убрать'],
+      candidate: ['одобрено', 'написать сейчас', 'нужен рерайт', 'убрать'],
+      planned:  ['написать сейчас', 'убрать'],
       writing:  ['убрать'],
       review:   ['принято', 'убрать'],
       accepted: ['нужно ТЗ дизайнеру'],
@@ -606,14 +639,7 @@ switch (cmd) {
     const updates = s.plan
       .filter((t) => t.row)
       .map((t) => {
-        const values = [...(BY_STATUS[t.status] ?? [])];
-        // Смена исполнителя предлагается только в ту сторону, в какую она
-        // возможна: «пишем сами» боту, «пишет бот» редактору. Обратный
-        // вариант в списке — предложение сделать то, что уже сделано.
-        if (['planned', 'writing'].includes(t.status)) {
-          values.unshift(t.owner === 'editor' ? 'пишет бот' : 'пишем сами');
-        }
-        return { row: t.row, values };
+        return { row: t.row, values: [...(BY_STATUS[t.status] ?? [])] };
       })
       .filter((u) => u.values.length);
     console.log(JSON.stringify(updates));
