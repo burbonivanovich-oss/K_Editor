@@ -31,6 +31,7 @@ var COL_TOPIC = 2;   // B — Тема
 var COL_STATUS = 3;  // C — Статус
 
 var TOKEN_KEY = 'GITHUB_TOKEN';
+var EDITORS_KEY = 'EDITOR_EMAILS';
 
 // ─── меню ───────────────────────────────────────────────────────────────
 
@@ -41,8 +42,12 @@ function onOpen() {
     .addItem('Вопрос по теме', 'requestQuestion')
     .addItem('Док поправлен — перечитать', 'requestRecheck')
     .addSeparator()
+    .addItem('Позвать редакцию письмом', 'notifyEditors')
+    .addSeparator()
     .addItem('Проверить связь', 'checkConnection')
     .addItem('Настроить доступ (владельцу)', 'setupToken')
+    .addItem('Кому писать (владельцу)', 'setupEditors')
+    .addItem('Письма по понедельникам: включить', 'enableWeeklyMail')
     .addToUi();
 }
 
@@ -58,6 +63,109 @@ function requestQuestion() {
 
 function requestRecheck() {
   sendRequest_('recheck', 'Что поправили в доке? (можно пусто)', true);
+}
+
+// ─── письма редакции ────────────────────────────────────────────────────
+
+/*
+ * Зачем это здесь, а не в скриптах репозитория.
+ *
+ * Сигнал «приехали новые темы» долго не находился. Google шлёт письмо
+ * только при первой выдаче доступа к файлу, а таблица теперь одна и
+ * доступ выдан однажды. Комментарий с упоминанием тоже проверили
+ * 11.08.2026 на живом адресе — письмо не пришло: для комментариев,
+ * созданных через API, Google рассылку не делает.
+ *
+ * Apps Script живёт на стороне Google и почту слать умеет. Отсюда письмо
+ * уходит от владельца таблицы, гарантированно и с тем текстом, который мы
+ * написали, — а не «в документе что-то изменилось».
+ */
+
+/** Адреса редакции. В репозиторий не попадают: он публичный. */
+function getEditors_() {
+  var raw = PropertiesService.getScriptProperties().getProperty(EDITORS_KEY) || '';
+  return raw.split(',').map(function (s) { return s.trim(); }).filter(Boolean);
+}
+
+function setupEditors() {
+  var ui = SpreadsheetApp.getUi();
+  var res = ui.prompt(
+    'Кому писать',
+    'Адреса редакции через запятую. Хранятся в свойствах скрипта, в таблице не видны.',
+    ui.ButtonSet.OK_CANCEL
+  );
+  if (res.getSelectedButton() !== ui.Button.OK) return;
+  var value = res.getResponseText().trim();
+  if (!value) { ui.alert('Пусто — ничего не сохранил.'); return; }
+  PropertiesService.getScriptProperties().setProperty(EDITORS_KEY, value);
+  ui.alert('Сохранено: ' + value);
+}
+
+/** Сколько тем ждёт решения и сколько статей ждёт вычитки — прямо из листа. */
+function countWork_() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  var last = sheet.getLastRow();
+  var out = { candidates: 0, review: 0 };
+  if (last < FIRST_DATA_ROW) return out;
+  var values = sheet.getRange(FIRST_DATA_ROW, COL_STATUS, last - FIRST_DATA_ROW + 1, 1).getValues();
+  for (var i = 0; i < values.length; i++) {
+    var st = String(values[i][0] || '');
+    if (st.indexOf('кандидат') === 0) out.candidates++;
+    if (st.indexOf('на вычитке') === 0) out.review++;
+  }
+  return out;
+}
+
+function notifyEditors() {
+  var ui = SpreadsheetApp.getUi();
+  var to = getEditors_();
+  if (!to.length) {
+    ui.alert('Некому писать', 'Сначала: меню Контур → «Кому писать».', ui.ButtonSet.OK);
+    return;
+  }
+  var sent = sendEditorsMail_();
+  ui.alert('Письмо отправлено', sent.summary + '\n\nКому: ' + to.join(', '), ui.ButtonSet.OK);
+}
+
+/** Общий отправитель: зовётся и из меню, и по расписанию. */
+function sendEditorsMail_() {
+  var to = getEditors_();
+  var work = countWork_();
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var summary =
+    'Ждут решения: ' + work.candidates + '. На вычитке: ' + work.review + '.';
+
+  if (to.length) {
+    MailApp.sendEmail({
+      to: to.join(','),
+      subject: 'Редакция: ' + summary,
+      body:
+        summary + '\n\n' +
+        'Таблица: ' + ss.getUrl() + '\n\n' +
+        'Решение ставится в колонке «Решение»: «одобрено» берёт тему в работу, ' +
+        '«написать сейчас» не ждёт очереди, «убрать» снимает (тогда нужна причина).\n' +
+        'Статьи на вычитке — по ссылке в колонке «Документ», правки комментариями.',
+    });
+  }
+  return { summary: summary, to: to };
+}
+
+/** Письмо по понедельникам утром — когда приходят новые темы. */
+function enableWeeklyMail() {
+  var ui = SpreadsheetApp.getUi();
+  var existing = ScriptApp.getProjectTriggers();
+  for (var i = 0; i < existing.length; i++) {
+    if (existing[i].getHandlerFunction() === 'sendEditorsMail_') {
+      ui.alert('Уже включено', 'Письмо уходит по понедельникам утром.', ui.ButtonSet.OK);
+      return;
+    }
+  }
+  ScriptApp.newTrigger('sendEditorsMail_')
+    .timeBased()
+    .onWeekDay(ScriptApp.WeekDay.MONDAY)
+    .atHour(10)
+    .create();
+  ui.alert('Включено', 'Письмо будет уходить по понедельникам около 10 утра.', ui.ButtonSet.OK);
 }
 
 // ─── общая логика запроса ───────────────────────────────────────────────
