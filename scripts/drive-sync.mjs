@@ -8,18 +8,27 @@
  *
  * Структура папки:
  *   📁 Контур — редакция
- *      📊 Контент-план 2026-08        таблица: темы, решения, статусы
+ *      📊 Редакция — темы и план      ОДНА таблица на всё:
+ *         ├ вкладка «Темы 2026-08-11»    бэклог недели, свежая — первой
+ *         ├ вкладка «Темы 2026-08-04»    прошлые недели, архив
+ *         └ вкладка «План 2026-08»       темы цикла, статусы, ссылки на доки
  *      📁 2026-08                     папка цикла
  *         📄 Штраф за работу без ТС ПИоТ
  *         📄 ...
  *
+ * Файл один и ссылка у редактора одна: доступ выдаётся один раз, а не
+ * каждую неделю заново. Обратная сторона — письма «бэклог приехал»
+ * больше нет: Google шлёт его только при выдаче доступа к новому файлу,
+ * а новая вкладка не событие. Замены этому каналу нет, остаётся ритм
+ * понедельника и меню «Контур» в самой таблице.
+ *
  * Подкоманды:
  *   init-root    [--name "Контур — редакция"]      создать корневую папку
- *   init-cycle   --cycle 2026-08 --plan plan.json   создать папку + таблицу
- *   init-backlog --week 2026-08-04 --items b.json  таблица бэклога тем (A0)
- *   pull-backlog --sheet-id <id>                   решения по бэклогу
+ *   init-cycle   --cycle 2026-08 --plan plan.json   папка цикла + вкладка плана
+ *   init-backlog --week 2026-08-04 --items b.json  вкладка бэклога недели (A0)
+ *   pull-backlog --sheet-id <id> [--tab "Темы …"]  решения по бэклогу
  *   push-plan    --cycle 2026-08                    перезалить строки плана
- *   pull         --cycle 2026-08                    прочитать решения редактора
+ *   pull         --sheet-id <id> [--tab "План …"]   прочитать решения редактора
  *   make-doc     --title "..." --md article.md      создать Doc из markdown
  *   export-doc   --doc-id <id> [--out file.md]      Doc → markdown
  *   comments     --doc-id <id>                      нерешённые замечания
@@ -601,10 +610,76 @@ async function createSheet(name, parent) {
   );
 }
 
+/* ─────────────────────────────── одна таблица вместо десятков файлов ──── */
+/* До 11.08.2026 каждая неделя бэклога и каждый цикл заводили отдельный
+ * файл: 52 таблицы бэклога и 12 таблиц плана в год. Держалось это на
+ * одном: письмо от Google приходит только при первой выдаче доступа к
+ * новому файлу, и новый файл работал уведомлением «бэклог приехал».
+ * Цена оказалась выше пользы — редакция искала нужную ссылку среди
+ * одинаковых названий, а доступ приходилось выдавать заново каждую
+ * неделю каждому. Теперь всё живёт в одной таблице: неделя — вкладка,
+ * цикл — вкладка. Ссылка у редактора одна и навсегда. */
+const WORKSPACE_NAME = 'Редакция — темы и план';
+const backlogTabName = (week) => `Темы ${week}`;
+const planTabName = (cycle) => `План ${cycle}`;
+
+/** Таблица редакции: одна на всё, заводится при первом обращении. */
+async function workspace() {
+  const found = await findInFolder(WORKSPACE_NAME, ROOT_FOLDER, 'application/vnd.google-apps.spreadsheet');
+  return found || createSheet(WORKSPACE_NAME, ROOT_FOLDER);
+}
+
+/** gid вкладки по имени; нет — создаётся. Свежая вкладка встаёт первой. */
+async function ensureTab(sheetId, title, index = 0) {
+  const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId,title,index))`);
+  const found = meta.sheets.find((s) => s.properties.title === title);
+  if (found) return found.properties.sheetId;
+
+  // В только что созданной таблице уже есть пустой «Лист1». Добавлять
+  // рядом ещё один — оставить редактору мусорную вкладку навсегда.
+  const first = meta.sheets[0]?.properties;
+  if (meta.sheets.length === 1 && /^(Лист1|Sheet1)$/i.test(first.title)) {
+    await sheets(`${sheetId}:batchUpdate`, {
+      method: 'POST',
+      body: JSON.stringify({
+        requests: [{
+          updateSheetProperties: {
+            properties: { sheetId: first.sheetId, title },
+            fields: 'title',
+          },
+        }],
+      }),
+    });
+    return first.sheetId;
+  }
+
+  const res = await sheets(`${sheetId}:batchUpdate`, {
+    method: 'POST',
+    body: JSON.stringify({
+      requests: [{ addSheet: { properties: { title, index } } }],
+    }),
+  });
+  return res.replies[0].addSheet.properties.sheetId;
+}
+
+/** Диапазон с именем вкладки: без него Sheets пишет в первую попавшуюся. */
+function a1(tab, range) {
+  return tab ? `'${String(tab).replace(/'/g, "''")}'!${range}` : range;
+}
+
+/** Свежая вкладка нужного вида. Нет таких — первая вкладка файла: так
+ *  читаются таблицы, заведённые до перехода на одну общую. */
+async function latestTab(sheetId, prefix) {
+  const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId,title,index))`);
+  const matching = meta.sheets
+    .map((s) => s.properties)
+    .filter((p) => p.title.startsWith(prefix))
+    .sort((a, b) => b.title.localeCompare(a.title));
+  return matching[0] || meta.sheets[0].properties;
+}
+
 /** Шапка, заголовки колонок, ширины, выпадающие списки, защита ботовых колонок. */
-async function formatSheet(sheetId, cycleId, topicCount) {
-  const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId,title))`);
-  const gid = meta.sheets[0].properties.sheetId;
+async function formatSheet(sheetId, gid, cycleId, topicCount) {
   const lastRow = FIRST_DATA_ROW + topicCount - 1;
 
   const requests = [
@@ -748,7 +823,7 @@ async function formatSheet(sheetId, cycleId, topicCount) {
   return gid;
 }
 
-async function writePlanRows(sheetId, plan) {
+async function writePlanRows(sheetId, tab, plan) {
   const values = plan.map((t, i) => [
     i + 1,
     t.title,
@@ -762,7 +837,7 @@ async function writePlanRows(sheetId, plan) {
     t.docUrl || '',
     t.slug || '',
   ]);
-  const range = `A${FIRST_DATA_ROW}:${colLetter(COLS.length - 1)}${FIRST_DATA_ROW + values.length - 1}`;
+  const range = a1(tab, `A${FIRST_DATA_ROW}:${colLetter(COLS.length - 1)}${FIRST_DATA_ROW + values.length - 1}`);
   await sheets(`${sheetId}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
     method: 'PUT',
     body: JSON.stringify({ values }),
@@ -770,9 +845,7 @@ async function writePlanRows(sheetId, plan) {
 }
 
 /** Шапка, заголовки, ширины и выпадающие списки таблицы бэклога. */
-async function formatBacklogSheet(sheetId, weekId, rowCount) {
-  const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId,title))`);
-  const gid = meta.sheets[0].properties.sheetId;
+async function formatBacklogSheet(sheetId, gid, weekId, rowCount) {
   const lastRow = BACKLOG_FIRST_DATA_ROW + rowCount - 1;
 
   const requests = [
@@ -876,13 +949,13 @@ function backlogCellValue(key, t) {
   return '';
 }
 
-async function writeBacklogRows(sheetId, items) {
+async function writeBacklogRows(sheetId, tab, items) {
   const values = items.map((t, i) =>
     BACKLOG_COLS.map((c) => (c.key === 'n' ? i + 1 : backlogCellValue(c.key, t))),
   );
-  const range =
+  const range = a1(tab,
     `A${BACKLOG_FIRST_DATA_ROW}:${colLetter(BACKLOG_COLS.length - 1)}` +
-    `${BACKLOG_FIRST_DATA_ROW + values.length - 1}`;
+    `${BACKLOG_FIRST_DATA_ROW + values.length - 1}`);
   await sheets(`${sheetId}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {
     method: 'PUT',
     body: JSON.stringify({ values }),
@@ -890,8 +963,9 @@ async function writeBacklogRows(sheetId, items) {
 }
 
 /** Решения редактора из таблицы бэклога — вход для шага 3 рутины A0. */
-async function readBacklog(sheetId) {
-  const range = `A1:${colLetter(BACKLOG_COLS.length - 1)}1000`;
+async function readBacklog(sheetId, tab) {
+  const target = tab || (await latestTab(sheetId, 'Темы ')).title;
+  const range = a1(target, `A1:${colLetter(BACKLOG_COLS.length - 1)}1000`);
   const r = await sheets(`${sheetId}/values/${encodeURIComponent(range)}`);
   const rows = r.values || [];
   const out = [];
@@ -941,11 +1015,12 @@ async function readBacklog(sheetId) {
     }
     out.push(item);
   }
-  return { sheetId, items: out };
+  return { sheetId, tab: target, items: out };
 }
 
-async function readSheet(sheetId) {
-  const range = `A1:${colLetter(COLS.length - 1)}1000`;
+async function readSheet(sheetId, tab) {
+  const target = tab || (await latestTab(sheetId, 'План ')).title;
+  const range = a1(target, `A1:${colLetter(COLS.length - 1)}1000`);
   const r = await sheets(`${sheetId}/values/${encodeURIComponent(range)}`);
   const rows = r.values || [];
   const approval = (rows[1]?.[1] || '').trim();
@@ -968,7 +1043,7 @@ async function readSheet(sheetId) {
       slug: (row[10] || '').trim(),
     });
   }
-  return { approval, topics };
+  return { approval, tab: target, topics };
 }
 
 /* ─────────────────────────────────────────────────────── подкоманды ───── */
@@ -1024,20 +1099,24 @@ try {
         break;
       }
 
+      // Папка цикла остаётся: в ней лежат Google Doc'и статей. А план
+      // переезжает вкладкой в общую таблицу редакции.
       const folder = await ensureFolder(cycle, ROOT_FOLDER);
-      const sheetName = `Контент-план ${cycle}`;
-      let sheet = await findInFolder(sheetName, ROOT_FOLDER, 'application/vnd.google-apps.spreadsheet');
-      if (!sheet) sheet = await createSheet(sheetName, ROOT_FOLDER);
+      const sheet = await workspace();
+      const tab = planTabName(cycle);
+      const gid = await ensureTab(sheet.id, tab);
 
-      await formatSheet(sheet.id, cycle, plan.length);
-      await writePlanRows(sheet.id, plan);
+      await formatSheet(sheet.id, gid, cycle, plan.length);
+      await writePlanRows(sheet.id, tab, plan);
 
       console.log(JSON.stringify({
         cycleId: cycle,
         folderId: folder.id,
         folderUrl: folder.webViewLink,
         sheetId: sheet.id,
-        sheetUrl: sheet.webViewLink || `https://docs.google.com/spreadsheets/d/${sheet.id}`,
+        tab,
+        gid,
+        sheetUrl: `https://docs.google.com/spreadsheets/d/${sheet.id}/edit#gid=${gid}`,
         topics: plan.length,
       }, null, 2));
       break;
@@ -1046,7 +1125,7 @@ try {
     case 'pull': {
       const sheetId = arg('sheet-id');
       if (!sheetId) die('нужен --sheet-id');
-      console.log(JSON.stringify(await readSheet(sheetId), null, 2));
+      console.log(JSON.stringify(await readSheet(sheetId, arg('tab')), null, 2));
       break;
     }
 
@@ -1063,19 +1142,21 @@ try {
         break;
       }
 
-      // Таблица бэклога лежит в корневой папке рядом с контент-планом:
-      // это ещё не статьи, папку цикла заводить не под что.
-      const sheetName = `Бэклог тем ${week}`;
-      let sheet = await findInFolder(sheetName, ROOT_FOLDER, 'application/vnd.google-apps.spreadsheet');
-      if (!sheet) sheet = await createSheet(sheetName, ROOT_FOLDER);
+      // Неделя — вкладка в общей таблице редакции, и встаёт она первой:
+      // редактор открывает файл и сразу видит свежие темы.
+      const sheet = await workspace();
+      const tab = backlogTabName(week);
+      const gid = await ensureTab(sheet.id, tab);
 
-      await formatBacklogSheet(sheet.id, week, items.length);
-      await writeBacklogRows(sheet.id, items);
+      await formatBacklogSheet(sheet.id, gid, week, items.length);
+      await writeBacklogRows(sheet.id, tab, items);
 
       console.log(JSON.stringify({
         week,
         sheetId: sheet.id,
-        sheetUrl: sheet.webViewLink || `https://docs.google.com/spreadsheets/d/${sheet.id}`,
+        tab,
+        gid,
+        sheetUrl: `https://docs.google.com/spreadsheets/d/${sheet.id}/edit#gid=${gid}`,
         items: items.length,
       }, null, 2));
       break;
@@ -1084,7 +1165,7 @@ try {
     case 'pull-backlog': {
       const sheetId = arg('sheet-id');
       if (!sheetId) die('нужен --sheet-id');
-      console.log(JSON.stringify(await readBacklog(sheetId), null, 2));
+      console.log(JSON.stringify(await readBacklog(sheetId, arg('tab')), null, 2));
       break;
     }
 
@@ -1107,8 +1188,12 @@ try {
       const updates = JSON.parse(arg('updates') || '[]');
       if (!sheetId) die('нужен --sheet-id');
       if (!updates.length) die('нужен --updates \'[{"row":5,"values":["принято"]}]\'');
-      const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId))`);
-      const gid = meta.sheets[0].properties.sheetId;
+      // Вкладка плана, а не первая в файле: в общей таблице первой стоит
+      // свежий бэклог, и списки решений ушли бы не туда.
+      const tab = arg('tab');
+      const gid = tab
+        ? await ensureTab(sheetId, tab)
+        : (await latestTab(sheetId, 'План ')).sheetId;
       const col = COLS.findIndex((c) => c.key === 'decision');
       await sheets(`${sheetId}:batchUpdate`, {
         method: 'POST',
@@ -1143,11 +1228,19 @@ try {
       const updates = JSON.parse(arg('updates') || '[]');
       if (!sheetId) die('нужен --sheet-id');
       if (!updates.length) die('нужен --updates \'[{"range":"J5","value":"..."}]\'');
+      /* cycle-state.mjs присылает голые «J5»: про вкладки он не знает и
+         знать не должен. Имя подставляем здесь — иначе статусы уедут в
+         первую вкладку файла, то есть в бэклог текущей недели. Своё имя
+         в диапазоне («'План 2026-08'!J5») уважается как есть. */
+      const planTab = arg('tab') || (await latestTab(sheetId, 'План ')).title;
       await sheets(`${sheetId}/values:batchUpdate`, {
         method: 'POST',
         body: JSON.stringify({
           valueInputOption: 'USER_ENTERED',
-          data: updates.map((u) => ({ range: u.range, values: [[u.value]] })),
+          data: updates.map((u) => ({
+            range: u.range.includes('!') ? u.range : a1(planTab, u.range),
+            values: [[u.value]],
+          })),
         }),
       });
       console.log(`✅ Обновлено ячеек: ${updates.length}`);
