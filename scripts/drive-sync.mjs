@@ -723,7 +723,13 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
 
 // Значение ячейки из объекта темы. Ключи разные у кандидатов (generate-backlog)
 // и у тем цикла (editorial-cycle.json) — сводим здесь, а не в двух вызывающих.
-const WORK_ALIASES = { topic: ['title'], why: ['rationale', 'note'], doc: ['docUrl'] };
+/* «Зачем сейчас» — обоснование из ресёрча: частотность, что подогревает
+ * спрос, к какой дате привязано. Раньше сюда подставлялся ещё и rationale
+ * из состояния цикла, и при пересборке месяца живой текст ресёрча
+ * заменялся служебной строкой вроде «одобрено редактором в бэклоге» —
+ * колонка переставала что-либо объяснять. rationale остаётся запасным
+ * вариантом только когда своего текста нет вообще. */
+const WORK_ALIASES = { topic: ['title'], why: ['rationale'], doc: ['docUrl'] };
 function workCellValue(key, t) {
   if (key === 'n') return null;
   if (key === 'segment') return t.segmentLabel || t.segment || '';
