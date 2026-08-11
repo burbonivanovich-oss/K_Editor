@@ -1,22 +1,116 @@
 {
-  "cycleId": null,
-  "state": "idle",
-  "createdAt": null,
-  "updatedAt": "2026-08-10T04:44:35.626Z",
+  "cycleId": "2026-08",
+  "state": "running",
+  "createdAt": "2026-08-11T08:06:58.340Z",
+  "updatedAt": "2026-08-11T08:08:47.775Z",
   "drive": {
-    "folderId": null,
-    "sheetId": null,
-    "sheetUrl": null,
+    "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
+    "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
+    "sheetUrl": "https://docs.google.com/spreadsheets/d/1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc/edit#gid=964992851",
     "folderUrl": null
   },
   "batchSize": 3,
   "maxInReview": 6,
-  "plan": [],
+  "pausedUntil": null,
+  "plan": [
+    {
+      "slug": "razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
+      "title": "Разрешительный режим маркировки: как он работает и что проверяет касса",
+      "priority": "P0",
+      "cluster": "markirovka",
+      "targetKeyword": "режим работы разрешительного",
+      "rationale": "Одобрено редактором в бэклоге 2026-08-09",
+      "row": 5,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "test-chek-korrekcii-na-kasse-kogda-probivat-i-kak-izbezhat-o",
+      "title": "ТЕСТ: Чек коррекции на кассе: когда пробивать и как избежать ошибок",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "касса чеки коррекции",
+      "rationale": "Тестовая тема для обкатки вкладки плана",
+      "row": 6,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "test-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastr",
+      "title": "ТЕСТ: Личный кабинет онлайн-кассы: как войти и что там настраивать",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "личный кабинет онлайн кассы",
+      "rationale": "Тестовая тема для обкатки вкладки плана",
+      "row": 7,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "test-otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-fo",
+      "title": "ТЕСТ: Отчёт о закрытии фискального накопителя: когда и как формировать",
+      "priority": "P1",
+      "cluster": "ofd-fn",
+      "targetKeyword": "фискальный накопитель отчет",
+      "rationale": "Тестовая тема для обкатки вкладки плана",
+      "row": 8,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "test-kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-",
+      "title": "ТЕСТ: Как завести товар в ЕГАИС: пошаговая инструкция для розницы",
+      "priority": "P0",
+      "cluster": "egais",
+      "targetKeyword": "товар егаис",
+      "rationale": "Тестовая тема для обкатки вкладки плана",
+      "row": 9,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "test-nastroyka-skanera-shtrihkodov-dlya-markirovki-kak-schit",
+      "title": "ТЕСТ: Настройка сканера штрихкодов для маркировки: как считывать DataMatrix",
+      "priority": "P1",
+      "cluster": "oborudovanie",
+      "targetKeyword": "настройка сканера для маркировки",
+      "rationale": "Тестовая тема для обкатки вкладки плана",
+      "row": 10,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    }
+  ],
   "batches": [],
   "log": [
     {
-      "at": "2026-08-10T04:44:35.626Z",
-      "event": "reset"
+      "at": "2026-08-11T08:06:58.341Z",
+      "event": "init 2026-08: 6 тем"
+    },
+    {
+      "at": "2026-08-11T08:07:26.765Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-11T08:08:47.775Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ]
 }

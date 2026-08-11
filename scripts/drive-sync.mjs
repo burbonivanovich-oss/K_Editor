@@ -79,6 +79,7 @@
  */
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { createSign } from 'node:crypto';
+import { slugify } from './lib/slugify.mjs';
 
 const ROOT_FOLDER = process.env.GOOGLE_DOCS_FOLDER_ID || '';
 const RAW_KEY = process.env.GOOGLE_DOCS_KEY || '';
@@ -835,7 +836,11 @@ async function writePlanRows(sheetId, tab, plan) {
     '',                        // Правка — редактору
     t.status || 'в плане',
     t.docUrl || '',
-    t.slug || '',
+    // Колонка «ID» — единственная связь строки с темой в состоянии цикла.
+    // Пустой она быть не может: cycle-state.mjs ищет тему по slug, и без
+    // него все темы цикла числятся пропавшими. Считаем тем же слугифаером,
+    // чтобы значения совпадали посимвольно.
+    t.slug || slugify(t.title),
   ]);
   const range = a1(tab, `A${FIRST_DATA_ROW}:${colLetter(COLS.length - 1)}${FIRST_DATA_ROW + values.length - 1}`);
   await sheets(`${sheetId}/values/${encodeURIComponent(range)}?valueInputOption=USER_ENTERED`, {

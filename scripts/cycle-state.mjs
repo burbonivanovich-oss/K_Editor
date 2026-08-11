@@ -45,6 +45,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
+import { slugify } from './lib/slugify.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 // Переопределяется в тестах (cycle-state.test.mjs), чтобы гонять машину
@@ -208,14 +209,6 @@ function transitionTopic(s, slug, target) {
   return { ok: true, from, to: target };
 }
 
-/** Транслитерация заголовка в slug — для тем, добавленных редактором. */
-const MAP = { а:'a',б:'b',в:'v',г:'g',д:'d',е:'e',ё:'e',ж:'zh',з:'z',и:'i',й:'y',к:'k',л:'l',м:'m',
-  н:'n',о:'o',п:'p',р:'r',с:'s',т:'t',у:'u',ф:'f',х:'h',ц:'c',ч:'ch',ш:'sh',щ:'sch',ъ:'',ы:'y',
-  ь:'',э:'e',ю:'yu',я:'ya' };
-function slugify(title) {
-  return title.toLowerCase().split('').map((c) => MAP[c] ?? c).join('')
-    .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
-}
 
 const cmd = process.argv[2];
 const s = load();
