@@ -755,6 +755,13 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
 const WORK_ALIASES = { topic: ['title'], why: ['rationale'], doc: ['docUrl'] };
 function workCellValue(key, t) {
   if (key === 'n') return null;
+  /* «Тема» — сформулированный заголовок статьи, а не фраза из Wordstat.
+   * У кандидата из ресёрча в `topic` лежит сырое «1 с маркировка», а в
+   * `title` — то, что написала рутина: «Маркировка в 1С: как настроить
+   * обмен…». Пока алиас смотрел сначала в `topic`, в таблицу уходила
+   * сырая фраза, apply-decisions читал её обратно как правку редактора и
+   * затирал заголовок в состоянии цикла. Заголовок главнее. */
+  if (key === 'topic') return t.title || t.topic || '';
   if (key === 'segment') return t.segmentLabel || t.segment || '';
   // У инфоповода частотности нет и быть не может: запрос ещё не
   // сформировался, событие только объявили.

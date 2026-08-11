@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-11T18:17:09.739Z",
+  "updatedAt": "2026-08-11T18:23:28.120Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -225,7 +225,7 @@
     },
     {
       "slug": "markirovka-chestnogo-znaka-v-2026-godu-kakie-tovary-dobavili",
-      "title": "маркировка товара знаки",
+      "title": "Маркировка «Честного знака» в 2026 году: какие товары добавились и с каких дат",
       "priority": "P1",
       "cluster": "markirovka",
       "targetKeyword": "маркировка товара знаки",
@@ -239,7 +239,7 @@
     },
     {
       "slug": "chek-na-kasse-evotor-kak-nastroit-rekvizity-i-chto-delat-pri",
-      "title": "эвотор чек",
+      "title": "Чек на кассе Эвотор: как настроить реквизиты и что делать при ошибке",
       "priority": "P1",
       "cluster": "kkt",
       "targetKeyword": "эвотор чек",
@@ -253,7 +253,7 @@
     },
     {
       "slug": "markirovka-v-1s-kak-nastroit-obmen-s-chestnym-znakom-i-ne-lo",
-      "title": "1 с маркировка",
+      "title": "Маркировка в 1С: как настроить обмен с «Честным знаком» и не ловить отказы",
       "priority": "P1",
       "cluster": "markirovka",
       "targetKeyword": "1 с маркировка",
@@ -275,6 +275,10 @@
     {
       "at": "2026-08-11T18:17:09.739Z",
       "event": "state awaiting_review → running"
+    },
+    {
+      "at": "2026-08-11T18:23:28.120Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ]
 }
