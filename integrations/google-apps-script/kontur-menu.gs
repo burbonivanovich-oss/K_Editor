@@ -20,11 +20,15 @@ var REPO_NAME = 'K_Editor';
 var WORKFLOW = 'editor-request.yml';
 var BRANCH = 'main';
 
-// Раскладка таблицы повторяет COLS из scripts/drive-sync.mjs.
-// Меняете там — поправьте здесь, иначе кнопка возьмёт не ту колонку.
+// Раскладка повторяет WORK_COLS из scripts/lib/sheet-columns.mjs.
+// Google Apps Script живёт на стороне Google и импортировать модуль
+// репозитория не может — это единственная копия раскладки, которая
+// осталась. Меняете порядок колонок там — правьте эти три строки, иначе
+// кнопка возьмёт не ту ячейку. Ровно так 11.08.2026 разъехались статусы:
+// «I» была «Статусом», стала «Приоритетом», и никто не заметил.
 var FIRST_DATA_ROW = 5;
 var COL_TOPIC = 2;   // B — Тема
-var COL_STATUS = 9;  // I — Статус
+var COL_STATUS = 3;  // C — Статус
 
 var TOKEN_KEY = 'GITHUB_TOKEN';
 
