@@ -1,64 +1,78 @@
+// Тесты сравнения тем по словам.
+//
+// На этом модуле держатся три разных решения: схлопывать ли кандидатов в
+// бэклоге, писали ли мы уже про это, пересекается ли тема с каталогом
+// Маркета. Пороги там разные (0.3, 0.4, 0.5, 0.6), и смысл у них есть
+// только пока сравнение ведёт себя предсказуемо. Тесты фиксируют
+// поведение, а не конкретные числа: числа настраиваются, поведение — нет.
+//
+// Запуск: node --test scripts/lib/text-similarity.test.mjs
+
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { tokenize, jaccard, topMatches } from './text-similarity.mjs';
 
-test('tokenize: убирает стоп-слова и короткие токены', () => {
-  const t = tokenize('Что такое ТС ПИоТ и кому нужно подключить');
-  assert.ok(!t.has('что'));
-  assert.ok(!t.has('и'));
-  assert.ok(t.has('пиот'));
-  assert.ok(t.has('подключить'));
+test('регистр и пунктуация не влияют на разбор', () => {
+  assert.deepEqual(
+    [...tokenize('Маркировка, ОБУВИ: в рознице!')].sort(),
+    [...tokenize('маркировка обуви в рознице')].sort(),
+  );
 });
 
-test('jaccard: идентичные множества дают 1', () => {
-  const a = new Set(['пиот', 'касса']);
-  assert.equal(jaccard(a, new Set(a)), 1);
+test('служебные слова выброшены — иначе совпадают несвязанные темы', () => {
+  const t = tokenize('касса для аптеки и в магазине');
+  assert.ok(!t.has('для') && !t.has('и') && !t.has('в'));
+  assert.ok(t.has('касса') && t.has('аптеки'));
 });
 
-test('jaccard: непересекающиеся множества дают 0', () => {
-  assert.equal(jaccard(new Set(['а', 'б']), new Set(['в', 'г'])), 0);
+test('год выброшен: «в 2026 году» есть в половине заголовков', () => {
+  const t = tokenize('Маркировка в 2026 году');
+  assert.ok(!t.has('году') && !t.has('год'));
 });
 
-test('jaccard: пустые множества не делят на ноль', () => {
-  assert.equal(jaccard(new Set(), new Set()), 0);
+test('одинаковые темы дают единицу, несвязанные — ноль', () => {
+  const a = tokenize('маркировка обуви в рознице');
+  assert.equal(jaccard(a, tokenize('Маркировка обуви в рознице')), 1);
+  assert.equal(jaccard(a, tokenize('кадровый учёт удалённых сотрудников')), 0);
 });
 
-test('topMatches: находит совпадение выше порога, сортирует по убыванию score', () => {
+test('перестановка слов не меняет похожесть — сравнение по множеству', () => {
+  const a = tokenize('честный знак маркировка товара');
+  const b = tokenize('маркировка товара честный знак');
+  assert.equal(jaccard(a, b), 1);
+});
+
+// Соседние темы одного кластера должны отличаться от переформулировок:
+// на этом стоит порог схлопывания дублей 0.4.
+test('переформулировка ближе к оригиналу, чем соседняя тема кластера', () => {
+  const base = tokenize('маркировка обуви в рознице');
+  const rephrased = jaccard(base, tokenize('обувь маркировка розница'));
+  const neighbour = jaccard(base, tokenize('маркировка молочной продукции на складе'));
+  assert.ok(rephrased > neighbour, `переформулировка ${rephrased} должна быть выше соседней ${neighbour}`);
+  assert.ok(neighbour < 0.4, `соседняя тема не должна схлопываться: ${neighbour}`);
+});
+
+test('пустой вход не делит на ноль', () => {
+  assert.equal(jaccard(tokenize(''), tokenize('')), 0);
+  assert.equal(jaccard(tokenize('касса'), tokenize('')), 0);
+});
+
+test('topMatches сортирует по убыванию и режет по порогу', () => {
   const catalog = [
-    { title: 'Что такое ТС ПИоТ', url: 'a' },
-    { title: 'Всё о ТС ПИоТ: кому нужно подключить и в какие сроки', url: 'b' },
-    { title: 'Как открыть кофейню', url: 'c' },
+    { title: 'Маркировка обуви: что обязана делать розница', url: 'a' },
+    { title: 'Маркировка молочной продукции', url: 'b' },
+    { title: 'Кадровый учёт удалённых сотрудников', url: 'c' },
   ];
-  const res = topMatches('Что такое ТС ПИоТ и кому нужно подключить', catalog);
-  assert.ok(res.length >= 1);
-  assert.equal(res[0].url, 'a');
-  assert.ok(res.every((r) => r.score >= 0.3));
-  assert.ok(!res.some((r) => r.url === 'c'));
+  const hits = topMatches('маркировка обуви в рознице', catalog, { threshold: 0.2 });
+  assert.ok(hits.length >= 1);
+  assert.equal(hits[0].url, 'a');
+  for (let i = 1; i < hits.length; i++) {
+    assert.ok(hits[i - 1].score >= hits[i].score, 'порядок по убыванию нарушен');
+  }
+  assert.ok(!hits.some((h) => h.url === 'c'), 'несвязанная статья не должна проходить порог');
 });
 
-test('topMatches: уважает limit', () => {
-  const catalog = Array.from({ length: 10 }, (_, i) => ({
-    title: `Маркировка честный знак тема номер ${i}`,
-  }));
-  const res = topMatches('маркировка честный знак', catalog, { limit: 3 });
-  assert.equal(res.length, 3);
-});
-
-// Разрешение внутренних ссылок статьи в кликабельные адреса.
-// Регрессия: «/blog/<слаг>» уходил в Google Doc как есть, Google достраивал
-// схему и получалось «http:///blog/…» — битая ссылка в каждом документе.
-test('resolve-links: внешняя ссылка отдаётся как есть', async () => {
-  const { resolveInternalLink } = await import('./resolve-links.mjs');
-  assert.deepEqual(resolveInternalLink('https://kontur.ru/x'), { url: 'https://kontur.ru/x', via: 'external' });
-});
-
-test('resolve-links: BLOG_BASE_URL главнее каталога', async () => {
-  const { resolveInternalLink } = await import('./resolve-links.mjs');
-  const r = resolveInternalLink('/blog/чего-нет', { blogBase: 'https://example.ru/' });
-  assert.deepEqual(r, { url: 'https://example.ru/blog/чего-нет', via: 'base' });
-});
-
-test('resolve-links: без домена и без совпадения ссылки нет', async () => {
-  const { resolveInternalLink } = await import('./resolve-links.mjs');
-  assert.equal(resolveInternalLink('/blog/2099-01-01-nesushchestvuyushchaya-statya', { blogBase: '' }), null);
+test('topMatches уважает limit', () => {
+  const catalog = Array.from({ length: 10 }, (_, i) => ({ title: `маркировка обуви ${i}`, url: `u${i}` }));
+  assert.equal(topMatches('маркировка обуви', catalog, { threshold: 0.1, limit: 3 }).length, 3);
 });

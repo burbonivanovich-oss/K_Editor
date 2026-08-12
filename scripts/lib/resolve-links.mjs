@@ -72,7 +72,12 @@ export function resolveInternalLink(href, { blogBase = process.env.BLOG_BASE_URL
   if (!href.startsWith('/')) return { url: href, via: 'external' };
   if (blogBase) return { url: blogBase.replace(/\/$/, '') + href, via: 'base' };
 
-  const slug = href.replace(/^\/blog\//, '').replace(/^\//, '');
+  /* Хвостовой слеш срезаем: в корпусе ссылки пишут и с ним, и без него
+   * (7 против 3 на 12.08.2026), а сравнение шло со слешем — и «/blog/
+   * chto-takoe-ts-piot/» не находило статью вообще. Ссылка молча
+   * оставалась неразрешённой: ни адреса Контура, ни совпадения по
+   * каталогу, притом что оба были доступны. */
+  const slug = href.replace(/^\/blog\//, '').replace(/^\//, '').replace(/\/+$/, '');
   const meta = localArticleMeta(slug);
   if (!meta?.title) return null;
   if (meta.konturUrl) return { url: meta.konturUrl, via: 'frontmatter' };
