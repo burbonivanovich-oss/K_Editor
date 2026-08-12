@@ -1300,6 +1300,71 @@ try {
       break;
     }
 
+    /* Точечная правка текста в доке — вместо перезаливки всего документа.
+     *
+     * Вопрос редакции 12.08.2026: «эксперт правит статью прямо в файле, а
+     * бот через час всё перепишет — мы это увидим?». Опасение верное:
+     * единственным способом изменить док был make-doc, а он удаляет тело
+     * целиком и пишет заново из markdown. Всё, что человек поправил
+     * руками после последнего экспорта, при этом исчезает, а якоря
+     * комментариев съезжают.
+     *
+     * replaceAllText меняет только найденную строку. Остальной документ —
+     * включая правки эксперта, форматирование и привязку комментариев —
+     * остаётся нетронутым. Для разбора замечаний нужен именно этот путь;
+     * полная перезаливка остаётся только для случая «статью переписали
+     * заново».
+     *
+     * Использование:
+     *   node scripts/drive-sync.mjs replace-text --doc-id <id> \
+     *     --find "<что заменить>" --replace "<на что>"
+     *   node scripts/drive-sync.mjs replace-text --doc-id <id> \
+     *     --edits '[{"find":"…","replace":"…"}]'
+     */
+    case 'replace-text': {
+      const docId = arg('doc-id');
+      if (!docId) die('нужен --doc-id');
+      const edits = arg('edits')
+        ? JSON.parse(arg('edits'))
+        : [{ find: arg('find'), replace: arg('replace') ?? '' }];
+      if (!edits.length || edits.some((e) => !e.find)) {
+        die('нужен --find "<текст>" (и --replace), либо --edits \'[{"find":"…","replace":"…"}]\'');
+      }
+
+      if (DRY_RUN) {
+        console.log(JSON.stringify({ dryRun: true, docId, edits }, null, 2));
+        break;
+      }
+
+      const res = await docs(`documents/${docId}:batchUpdate`, {
+        method: 'POST',
+        body: JSON.stringify({
+          requests: edits.map((e) => ({
+            replaceAllText: {
+              containsText: { text: e.find, matchCase: e.matchCase ?? true },
+              replaceText: e.replace ?? '',
+            },
+          })),
+        }),
+      });
+
+      /* Ноль замен — не успех. Обычно это значит, что текст в доке уже
+       * поправил человек, и бот собирался переписать не то, что видит. */
+      const counts = (res.replies || []).map((r) => r.replaceAllText?.occurrencesChanged ?? 0);
+      const missed = edits.filter((_, i) => !counts[i]);
+      edits.forEach((e, i) => {
+        console.log(`${counts[i] ? '✅' : '✖'} «${e.find.slice(0, 60)}» — замен: ${counts[i] ?? 0}`);
+      });
+      if (missed.length) {
+        console.error(
+          `\n✖ Не найдено в доке: ${missed.length} из ${edits.length}. ` +
+          'Текст могли уже поправить руками — перечитайте док, прежде чем править снова.',
+        );
+        process.exit(1);
+      }
+      break;
+    }
+
     case 'export-doc': {
       const docId = arg('doc-id');
       if (!docId) die('нужен --doc-id');
