@@ -62,7 +62,7 @@ jobs:
         run: node scripts/factcheck/audit-marker-hashes.mjs --strict
 
 
-- name: Факчек доведён до отчёта у каждой выпущенной статьи (--strict)
-  run: node scripts/factcheck/audit-marker-results.mjs --strict
-- name: SEO без замечаний во всех статьях (P0 и P1)
-  run: node scripts/audit/check-seo-all.mjs --strict
+      - name: Факчек доведён до отчёта у каждой выпущенной статьи (--strict)
+        run: node scripts/factcheck/audit-marker-results.mjs --strict
+      - name: SEO без замечаний во всех статьях (P0 и P1)
+        run: node scripts/audit/check-seo-all.mjs --strict
