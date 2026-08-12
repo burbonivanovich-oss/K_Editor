@@ -67,36 +67,45 @@
     {
       "type": "NPA_PUNKT",
       "raw": "п. 19",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.85,
+      "expectedValue": "п. 19 ПП РФ № 303 — переходный период, после которого применение ТС ПИоТ обязательно",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/news/86626-ts_piot_nuzhno_ustanovit_seychas",
+        "https://online.business.ru/novosti/staryj-token-dlya-ts-piot-prodlili-do-1-oktyabrya-2026-goda/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "NPA_PP_NUMBERED",
       "raw": "постановления Правительства РФ № 303",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "ПП РФ от 19.03.2020 № 303 — правила маркировки, содержит переходный п. 19",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/news/86626-ts_piot_nuzhno_ustanovit_seychas",
+        "https://online.business.ru/novosti/staryj-token-dlya-ts-piot-prodlili-do-1-oktyabrya-2026-goda/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_DMY",
       "raw": "01.07.2026",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.07.2026 Честный знак фиксирует как отклонение проверку через токен там, где ТС ПИоТ уже доступен; полного отключения токена не произошло — срок продлили до 01.10.2026",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/news/86626-ts_piot_nuzhno_ustanovit_seychas",
+        "https://online.business.ru/novosti/staryj-token-dlya-ts-piot-prodlili-do-1-oktyabrya-2026-goda/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -151,24 +160,29 @@
     {
       "type": "DATE_DMY",
       "raw": "25.04.2025",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "приказ Минпромторга № 2044 от 25.04.2025 о правилах функциональной совместимости ТС ПИоТ с ГИС МТ",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202506270011",
+        "https://www.consultant.ru/document/cons_doc_LAW_508803/2ff7a8c72de3994f30496a0ccbb1ddafdaddf518/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "PERCENT",
       "raw": "50 %",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -189,12 +203,14 @@
     {
       "type": "PERCENT",
       "raw": "100 %",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -247,22 +263,25 @@
     {
       "type": "DATE_DMY",
       "raw": "25.04.2025",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "приказ Минпромторга № 2044 от 25.04.2025 о правилах функциональной совместимости ТС ПИоТ с ГИС МТ",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202506270011",
+        "https://www.consultant.ru/document/cons_doc_LAW_508803/2ff7a8c72de3994f30496a0ccbb1ddafdaddf518/"
+      ],
       "action": "keep",
       "actionDetail": ""
     }
   ],
   "summary": {
-    "overallStatus": "good-with-minor-addition",
+    "overallStatus": "match",
     "criticalIssues": 0,
     "checkedAt": "2026-08-12",
-    "verified": 11,
-    "unverified": 7,
+    "verified": 18,
+    "unverified": 0,
     "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
   }
 }

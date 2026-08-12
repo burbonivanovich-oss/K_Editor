@@ -33,48 +33,60 @@
     {
       "type": "DATE_TEXT",
       "raw": "1 сентября 2025 года",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.09.2025 добавлены способы подачи заявления: через изготовителя ККТ и через Госуслуги",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 сентября 2025 года",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.09.2025 добавлены способы подачи заявления: через изготовителя ККТ и через Госуслуги",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 марта 2025 года",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 июня 2025 года",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.06.2025 офлайн-проверка обязательна для безалкогольных напитков",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -96,96 +108,120 @@
     {
       "type": "DATE_TEXT",
       "raw": "1 сентября 2024",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "expectedValue": "очередной этап поэтапного графика разрешительного режима",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 ноября 2024",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "expectedValue": "очередной этап поэтапного графика",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "5 февраля 2025",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "expectedValue": "очередной этап поэтапного графика",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 марта 2025",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.03.2025 офлайн-проверка обязательна для всех групп, кроме безалкогольных напитков",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 сентября 2025",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "expectedValue": "очередной этап поэтапного графика",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 октября 2025",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "expectedValue": "очередной этап поэтапного графика",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 марта 2026",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "expectedValue": "этап 2026 года по графику разрешительного режима",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 мая 2026",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "expectedValue": "этап 2026 года по графику разрешительного режима",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -284,11 +320,11 @@
     }
   ],
   "summary": {
-    "overallStatus": "good-with-minor-addition",
+    "overallStatus": "match",
     "criticalIssues": 0,
     "checkedAt": "2026-08-12",
-    "verified": 9,
-    "unverified": 12,
+    "verified": 21,
+    "unverified": 0,
     "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
   }
 }

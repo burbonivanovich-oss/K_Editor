@@ -3,12 +3,15 @@
     {
       "type": "NPA_PUNKT",
       "raw": "пункту 1",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "п. 1 ст. 4.2 54-ФЗ: заявление о регистрации подаётся в любой налоговый орган, в т. ч. на бумаге",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -57,60 +60,75 @@
     {
       "type": "DATE_TEXT",
       "raw": "1 марта 2025 года",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_DMY",
       "raw": "08.08.2024",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "дата принятия 274-ФЗ",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "NPA_FZ",
       "raw": "274-ФЗ",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ФЗ от 08.08.2024 № 274-ФЗ — изменения в порядок регистрации ККТ",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "NPA_PUNKT",
       "raw": "пункт 7",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "п. 7 ст. 4.2 54-ФЗ: карточка регистрации формируется в течение 5 рабочих дней (было 10 до 01.03.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
     {
       "type": "DATE_TEXT",
       "raw": "1 марта 2025 года",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -133,12 +151,14 @@
     {
       "type": "PERCENT",
       "raw": "50 %",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -159,12 +179,14 @@
     {
       "type": "PERCENT",
       "raw": "100 %",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -185,12 +207,15 @@
     {
       "type": "NPA_PUNKT",
       "raw": "пункт 7",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "п. 7 ст. 4.2 54-ФЗ: карточка регистрации формируется в течение 5 рабочих дней (было 10 до 01.03.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -211,12 +236,15 @@
     {
       "type": "DATE_TEXT",
       "raw": "1 марта 2025 года",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -233,14 +261,29 @@
       ],
       "action": "keep",
       "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 сентября 2025 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "Подача заявления о регистрации ККТ через изготовителя и через Госуслуги действует с 01.09.2025",
+      "explanation": "Найдено расхождение: в тексте стояло «с 1 марта 2025 года заявление за вас подаёт изготовитель». 01.03.2025 по 274-ФЗ сократился срок регистрации с 10 до 5 рабочих дней, а способы подачи через изготовителя и Госуслуги добавились с 01.09.2025. Текст исправлен 12.08.2026, поэтому claim закрыт как match.",
+      "sources": [
+        "https://www.consultant.ru/legalnews/27727/",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
+      "action": "rewrite-bullet",
+      "actionDetail": "«с 1 марта 2025 года» → «с 1 сентября 2025 года», Госуслуги перенесены в тот же абзац"
     }
   ],
   "summary": {
-    "overallStatus": "good-with-minor-addition",
+    "overallStatus": "match",
     "criticalIssues": 0,
     "checkedAt": "2026-08-12",
-    "verified": 8,
-    "unverified": 10,
-    "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
+    "verified": 19,
+    "unverified": 0,
+    "note": "Второй проход 12.08.2026 закрыл все uncertain. Найдено и исправлено одно расхождение: дата появления подачи заявления через изготовителя ККТ (было 01.03.2025, верно 01.09.2025)."
   }
 }

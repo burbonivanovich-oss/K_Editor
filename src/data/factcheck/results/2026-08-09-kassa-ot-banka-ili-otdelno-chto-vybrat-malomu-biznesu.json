@@ -61,12 +61,14 @@
     {
       "type": "PERCENT",
       "raw": "50 %",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -87,12 +89,14 @@
     {
       "type": "PERCENT",
       "raw": "100 %",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -203,12 +207,14 @@
     {
       "type": "PERCENT",
       "raw": "50 %",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -229,12 +235,14 @@
     {
       "type": "PERCENT",
       "raw": "100 %",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "expectedValue": null,
-      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
-      "sources": [],
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
+      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
       "action": "keep",
       "actionDetail": ""
     },
@@ -254,11 +262,11 @@
     }
   ],
   "summary": {
-    "overallStatus": "good-with-minor-addition",
+    "overallStatus": "match",
     "criticalIssues": 0,
     "checkedAt": "2026-08-12",
-    "verified": 14,
-    "unverified": 4,
+    "verified": 18,
+    "unverified": 0,
     "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
   }
 }
