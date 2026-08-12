@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-11T19:20:22.732Z",
+  "updatedAt": "2026-08-12T05:16:02.551Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -446,6 +446,90 @@
       "docId": null,
       "docUrl": null,
       "seenComments": []
+    },
+    {
+      "slug": "chek-korrekcii-v-kakih-sluchayah-probivat-i-kak-oformit-bez-",
+      "title": "Чек коррекции: в каких случаях пробивать и как оформить без ошибок",
+      "priority": "P1",
+      "cluster": "kkt",
+      "targetKeyword": "коррекция чека",
+      "rationale": "новая фраза в выдаче: 38060 показов в месяц, статьи по запросу нет, кластер kkt",
+      "row": 36,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "kod-markirovki-data-matrix-iz-chego-sostoit-i-kak-proverit-e",
+      "title": "Код маркировки Data Matrix: из чего состоит и как проверить его подлинность",
+      "priority": "P1",
+      "cluster": "markirovka",
+      "targetKeyword": "маркировка номеров",
+      "rationale": "новая фраза в выдаче: 12644 показов в месяц, статьи по запросу нет, кластер markirovka",
+      "row": 37,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "zamena-fiskalnogo-nakopitelya-kogda-nuzhna-kak-provesti-i-ch",
+      "title": "Замена фискального накопителя: когда нужна, как провести и что не потерять",
+      "priority": "P1",
+      "cluster": "ofd-fn",
+      "targetKeyword": "замена фискального накопителя",
+      "rationale": "новая фраза в выдаче: 3751 показов в месяц, статьи по запросу нет, кластер ofd-fn; со связанными запросами 11274 показов по 5 формулировкам",
+      "row": 38,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "oshibki-kassy-merkuriy-chto-oznachayut-kody-i-kak-ih-ustrani",
+      "title": "Ошибки кассы «Меркурий»: что означают коды и как их устранить",
+      "priority": "P1",
+      "cluster": "merkuriy",
+      "targetKeyword": "касса меркурий ошибки",
+      "rationale": "новая фраза в выдаче: 3594 показов в месяц, статьи по запросу нет, кластер merkuriy; со связанными запросами 8545 показов по 5 формулировкам",
+      "row": 39,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "oshibki-egais-pri-prodazhe-alkogolya-chto-oznachayut-i-kak-i",
+      "title": "Ошибки ЕГАИС при продаже алкоголя: что означают и как исправить на кассе",
+      "priority": "P1",
+      "cluster": "egais",
+      "targetKeyword": "егаис ошибки",
+      "rationale": "новая фраза в выдаче: 2502 показов в месяц, статьи по запросу нет, кластер egais",
+      "row": 40,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "oshibki-ts-piot-chto-oznachayut-kody-otkaza-i-kak-ih-ustrani",
+      "title": "Ошибки ТС ПИоТ: что означают коды отказа и как их устранить",
+      "priority": "P1",
+      "cluster": "ts-piot",
+      "targetKeyword": "ошибки тс пиот",
+      "rationale": "новая фраза в выдаче: 2160 показов в месяц, статьи по запросу нет, кластер ts-piot",
+      "row": 41,
+      "owner": "bot",
+      "status": "candidate",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
     }
   ],
   "batches": [],
@@ -469,6 +553,10 @@
     {
       "at": "2026-08-11T19:20:22.732Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-12T05:16:02.551Z",
+      "event": "add-candidates: +6 из 6"
     }
   ]
 }
