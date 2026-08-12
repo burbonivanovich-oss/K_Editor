@@ -524,3 +524,40 @@ test('add-candidates: дописывает новых кандидатов и о
     assert.equal(getState(statePath).plan.length, 3);
   });
 });
+
+// Потолок очереди защищает редактора от завала правками, но если про статью
+// забыли — новые не приходят и цикл тихо встаёт. Строку состояния видит
+// только тот, кто открыл таблицу, а он её и не открыл. Отсюда напоминание.
+test('stale-review: молчит, пока очередь свободна и ничего не залежалось', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    const out = JSON.parse(run(statePath, ['stale-review']));
+    assert.equal(out.due, false);
+    assert.equal(out.queueFull, false);
+  });
+});
+
+test('stale-review: полная очередь — повод напомнить', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [
+      { title: 'A' }, { title: 'B' }, { title: 'C' },
+    ], ['--max-in-review', '2']);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'a,b']);
+    const out = JSON.parse(run(statePath, ['stale-review']));
+    assert.equal(out.queueFull, true);
+    assert.equal(out.due, true, 'первый раз за сутки — напоминаем');
+  });
+});
+
+test('stale-review: второй раз за сутки не напоминает', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'A' }, { title: 'B' }], ['--max-in-review', '1']);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'a']);
+    assert.equal(JSON.parse(run(statePath, ['stale-review'])).due, true);
+    run(statePath, ['mark-nudged']);
+    assert.equal(JSON.parse(run(statePath, ['stale-review'])).due, false,
+      'почасовой прогон не должен превращать напоминание в спам');
+  });
+});

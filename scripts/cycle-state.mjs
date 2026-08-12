@@ -711,6 +711,45 @@ switch (cmd) {
   /* Готовит обновления ячеек «Статус», «Документ» и скрытого ID (колонка
    * K — apply-decisions сопоставляет по нему строки, см. там) для
    * drive-sync set-cells. */
+  /* Очередь встала — кто-нибудь об этом узнает?
+   *
+   * Потолок в 6 статей защищает редактора от завала правками, но у защиты
+   * есть обратная сторона: если про статью просто забыли, новые не
+   * приходят и цикл тихо останавливается. Строку состояния в шапке видит
+   * только тот, кто открыл таблицу, — а он её не открыл, в том и беда.
+   *
+   * Команда отвечает на два вопроса: что залежалось и пора ли напоминать.
+   * Напоминание — не чаще раза в сутки: иначе почасовой прогон превратит
+   * заботу в спам, и его начнут игнорировать вместе с полезным. */
+  case 'stale-review': {
+    const days = Number(arg('days', 3));
+    const stale = waitingTopics(s).filter((t) => waitedDays(t) >= days);
+    const queueFull = occupiedCount(s) >= s.maxInReview;
+    const lastNudge = s.lastNudgeAt || null;
+    const due = (stale.length > 0 || queueFull) && lastNudge !== today();
+    console.log(JSON.stringify({
+      days,
+      queueFull,
+      occupied: occupiedCount(s),
+      max: s.maxInReview,
+      stale: stale.map((t) => ({ title: t.title, waited: waitedDays(t), url: t.docUrl })),
+      blockedTopics: s.plan.filter((t) => t.status === 'planned' && t.owner === 'bot').length,
+      lastNudge,
+      due,
+    }, null, 2));
+    break;
+  }
+
+  /* Отметка «сегодня уже напоминали». Отдельной командой, а не побочным
+     эффектом stale-review: читать состояние можно сколько угодно раз,
+     а менять его — только когда напоминание действительно ушло. */
+  case 'mark-nudged': {
+    s.lastNudgeAt = today();
+    save(s, 'nudge: напоминание о вычитке отправлено');
+    console.log(`✅ Отмечено: напоминали ${s.lastNudgeAt}`);
+    break;
+  }
+
   case 'sheet-sync': {
     const updates = [];
 
