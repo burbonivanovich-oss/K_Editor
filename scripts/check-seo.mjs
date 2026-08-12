@@ -137,7 +137,12 @@ if (promoIds.length && fs.existsSync(CPA_FILE)) {
   // Блок из чужого кластера — не ошибка формата, но повод посмотреть:
   // читателю предлагают оффер не по теме статьи.
   const articleCluster = fm._categories[0];
-  if (articleCluster) {
+  // Ругаться есть смысл, только если выбор был. В каталоге 9 кластеров, и
+  // для ts-piot — профильной темы модуля — блоков нет вообще: каждая такая
+  // статья получала предупреждение, которое нечем закрыть. Проверка,
+  // которую невозможно удовлетворить, учит игнорировать все остальные.
+  const clusterHasBlocks = [...byId.values()].some((b) => b.cluster === articleCluster);
+  if (articleCluster && clusterHasBlocks) {
     const mismatched = [...new Set(promoIds)]
       .filter((id) => byId.has(id))
       .filter((id) => byId.get(id).cluster && byId.get(id).cluster !== articleCluster);
@@ -170,10 +175,43 @@ const h2count = (body.match(/^## /gm) ?? []).length;
 if (h2count < 5)
   p1.push(`Мало H2-заголовков: ${h2count} (норма 5–7)`);
 
+/* Целевой ключ в заголовке.
+ *
+ * Сравнение было подстрочное, и оно почти всегда врало: Wordstat отдаёт
+ * ключ в именительном падеже и без дефисов («личный кабинет онлайн
+ * кассы»), а заголовок пишется по-человечески («Личный кабинет
+ * онлайн-кассы: как войти…»). Из шести статей предупреждение сработало
+ * на пяти, и лишь одно из них было настоящим — предупреждение, которое
+ * горит всегда, перестают читать вместе с полезными.
+ *
+ * Теперь сверяем по словам: дефисы разбиваем, служебные слова
+ * выбрасываем, словоформы склеиваем по общему началу («касса» и «кассе»,
+ * «банк» и «банка»). Показываем, каких слов не хватает, — так понятно,
+ * что править. */
+const KEY_STOP = new Set(['и', 'в', 'на', 'с', 'по', 'для', 'от', 'до', 'из', 'к',
+  'о', 'об', 'у', 'при', 'за', 'что', 'как', 'кто', 'это', 'или', 'а', 'но', 'же',
+  'ли', 'год', 'года', 'году']);
+
+function keyWords(text) {
+  return String(text)
+    .toLowerCase()
+    .replace(/ё/g, 'е')
+    .replace(/[«»"'.,:;!?()\[\]–—\-/№]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !KEY_STOP.has(w));
+}
+
+/** Одно слово в разных падежах — одно слово: сверяем по общему началу. */
+function sameWord(a, b) {
+  const n = Math.min(4, a.length, b.length);
+  return a.slice(0, n) === b.slice(0, n) && Math.abs(a.length - b.length) <= 3;
+}
+
 if (fm._keywords.length > 0 && fm.title) {
-  const key = fm._keywords[0].toLowerCase();
-  if (!fm.title.toLowerCase().includes(key))
-    p1.push(`Целевой ключ «${fm._keywords[0]}» не найден в title`);
+  const inTitle = keyWords(fm.title);
+  const missing = keyWords(fm._keywords[0]).filter((w) => !inTitle.some((t) => sameWord(w, t)));
+  if (missing.length)
+    p1.push(`Целевой ключ «${fm._keywords[0]}» не отражён в title: нет «${missing.join('», «')}»`);
 }
 
 // ── Вывод ─────────────────────────────────────────────────────────────────────

@@ -45,9 +45,12 @@ function writeReleasedArticle(dir, slug, body = 'Текст статьи.\n') {
   return content;
 }
 
-function writeMarker(dir, slug, hashOf) {
+function writeMarker(dir, slug, hashOf, result = 'passed') {
   const hash = createHash('sha256').update(hashOf).digest('hex');
-  writeFileSync(join(dir, '.claude/factchecked', slug), JSON.stringify({ date: '2026-01-01', hash }));
+  writeFileSync(
+    join(dir, '.claude/factchecked', slug),
+    JSON.stringify({ date: '2026-01-01', hash, result, criticalMismatches: 0 }),
+  );
 }
 
 function find(checks, name) {
@@ -60,6 +63,20 @@ test('released без факчек-маркера — не считается "�
     const out = run(dir);
     const c = find(out.checks, 'маркер факчека не про текущий текст');
     assert.equal(c, undefined, 'отсутствие маркера — не то же самое, что несовпадение хеша');
+  });
+});
+
+// 12.08.2026: пять из шести статей имели маркер с result: null (процедура
+// писала маркер, но не писала отчёт), а health-check рапортовал «все статьи
+// фактчекнуты». Зелёный отчёт по непроверенным статьям хуже отсутствия отчёта.
+test('маркер без result — не считается фактчеком, отдельный warn', () => {
+  withFixture((dir) => {
+    const content = writeReleasedArticle(dir, 'a');
+    writeMarker(dir, 'a', content, null);
+    const out = run(dir);
+    assert.equal(find(out.checks, 'маркер факчека без результата')?.status, 'warn');
+    assert.equal(find(out.checks, 'все статьи фактчекнуты'), undefined,
+      'зелёная строка про «все фактчекнуты» не должна соседствовать с этим warn');
   });
 });
 

@@ -324,8 +324,23 @@ if (!existsSync(markerPath)) {
       block('Фактчек', 'статья менялась после факчека — нужен /factcheck ' + slug);
     } else if (age === null || age > FACTCHECK_STALE_DAYS) {
       block('Фактчек', `маркер старше ${FACTCHECK_STALE_DAYS} дн. (${age ?? '?'}) — нужен /factcheck ${slug}`);
+    } else if (marker.result !== 'passed') {
+      /* Маркер без результата — не факчек, а его след. write-marker.mjs
+       * честно оставляет result: null, когда рядом нет отчёта
+       * results/<slug>.json, но гейт этого не смотрел: хватало хеша и
+       * даты. Из шести выпущенных статей пять оказались с result: null —
+       * процедура писала маркер, отчёт не писала, и все проверки видели
+       * «проверено» (найдено 12.08.2026). */
+      block(
+        'Фактчек',
+        marker.result === null || marker.result === undefined
+          ? `маркер без результата — отчёта src/data/factcheck/results/${slug}.json нет, факчек не доведён до конца`
+          : `факчек не пройден: result «${marker.result}», критичных расхождений ${marker.criticalMismatches ?? '?'}`,
+      );
+    } else if (marker.criticalMismatches > 0) {
+      block('Фактчек', `критичных расхождений: ${marker.criticalMismatches} — нужен разбор по docs/editorial-policy.md`);
     } else {
-      pass('Фактчек', `маркер от ${marker.date} (${age} дн.)`);
+      pass('Фактчек', `маркер от ${marker.date} (${age} дн.), result: passed`);
     }
   }
 }

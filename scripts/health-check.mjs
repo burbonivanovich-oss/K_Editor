@@ -44,7 +44,7 @@ const blogFiles = existsSync(blogDir)
 	: [];
 const today = new Date();
 
-let drafts = 0, future = 0, noFactcheck = 0;
+let drafts = 0, future = 0, noFactcheck = 0, markerNoResult = 0;
 const slugs = new Set();
 const released = []; // draft:false статьи — вход для секции 5 (бизнес-инварианты)
 for (const f of blogFiles) {
@@ -56,7 +56,17 @@ for (const f of blogFiles) {
 	else released.push({ slug, content });
 	const pd = content.match(/^pubDate:\s*"?(\d{4}-\d{2}-\d{2})/m);
 	if (pd && new Date(pd[1]) > today) future++;
-	if (!existsSync(join(ROOT, '.claude', 'factchecked', slug))) noFactcheck++;
+	// Маркер без result — это след процедуры, а не пройденный факчек:
+	// write-marker.mjs оставляет result: null, когда рядом нет отчёта
+	// results/<slug>.json. Считать такие статьи проверенными — врать себе
+	// в отчёте (12.08.2026 так «проверенными» числились 5 из 6).
+	const mp = join(ROOT, '.claude', 'factchecked', slug);
+	if (!existsSync(mp)) noFactcheck++;
+	else {
+		try {
+			if (JSON.parse(readFileSync(mp, 'utf8')).result !== 'passed') markerNoResult++;
+		} catch { markerNoResult++; }
+	}
 }
 ok('Блог: статей всего', `${blogFiles.length}`);
 // Пустой блог — не «всё хорошо»: проверки черновиков и фактчека на нуле
@@ -71,7 +81,9 @@ if (blogFiles.length === 0) {
 	else ok('Блог: черновиков нет', '0');
 	if (future > 0) warn('Блог: статьи с будущим pubDate', `${future} (выйдут по auto-publish)`);
 	if (noFactcheck > 0) warn('Блог: без маркера factchecked', `${noFactcheck}/${blogFiles.length}`);
-	else ok('Блог: все статьи фактчекнуты', `${blogFiles.length}`);
+	if (markerNoResult > 0)
+		warn('Блог: маркер факчека без результата', `${markerNoResult}/${blogFiles.length} — отчёта results/<slug>.json нет, факчек не доведён`);
+	if (noFactcheck === 0 && markerNoResult === 0) ok('Блог: все статьи фактчекнуты', `${blogFiles.length}`);
 }
 
 

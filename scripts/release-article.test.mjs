@@ -82,10 +82,13 @@ function writeAnalysis(dir, slug, { score = 85, blocker = false, checkedAt = tod
   writeFileSync(join(dir, 'src/data/analyze', `${slug}.json`), JSON.stringify({ score, blocker, checkedAt }));
 }
 
-function writeMarker(dir, slug, { date = today(), hashOf = null } = {}) {
+function writeMarker(dir, slug, { date = today(), hashOf = null, result = 'passed', criticalMismatches = 0 } = {}) {
   const content = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
   const hash = createHash('sha256').update(hashOf ?? content).digest('hex');
-  writeFileSync(join(dir, '.claude/factchecked', slug), JSON.stringify({ date, hash }));
+  writeFileSync(
+    join(dir, '.claude/factchecked', slug),
+    JSON.stringify({ date, hash, result, criticalMismatches }),
+  );
 }
 
 function writeAccepted(dir, slug) {
@@ -297,6 +300,27 @@ test('статья менялась после факчека (хеш не со�
     writeMarker(dir, slug, { hashOf: 'совсем другое содержимое' });
     const out = run(dir, [slug], { expectFail: true });
     assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('менялась после факчека')));
+  });
+});
+
+// Регрессия 12.08.2026: пять из шести выпущенных статей имели маркер с
+// result: null — процедура факчека писала маркер, но не писала отчёт
+// results/<slug>.json. Гейт смотрел только хеш и дату и пропускал.
+test('маркер факчека без результата (отчёта нет) — блокер', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeMarker(dir, slug, { result: null, criticalMismatches: null });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('без результата')));
+  });
+});
+
+test('маркер факчека с критичными расхождениями — блокер', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeMarker(dir, slug, { result: 'passed', criticalMismatches: 2 });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('критичных расхождений')));
   });
 });
 
