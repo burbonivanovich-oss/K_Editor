@@ -47,6 +47,7 @@ jobs:
           cat /tmp/changes.json >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
           node scripts/nudge-editors.mjs --sheet-id "$SHEET" >> $GITHUB_STEP_SUMMARY 2>&1
+          node scripts/drive-sync.mjs sync-written --sheet-id "$SHEET" >> $GITHUB_STEP_SUMMARY 2>&1
 
       - name: Закоммитить состояние цикла
         run: |
