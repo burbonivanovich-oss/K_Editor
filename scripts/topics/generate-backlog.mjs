@@ -184,7 +184,17 @@ const DUMP_MIN_WORDS = parseInt(arg("dump-min-words", "3"), 10);
 
 /* ────────────────────────────────────────────── что уже покрыто ──── */
 
-/** Ключи, по которым уже есть статья или запланированная тема. */
+/**
+ * Ключи и наборы слов, по которым уже есть статья или запланированная тема.
+ *
+ * Точного совпадения ключа мало. Написанная статья и новый кандидат почти
+ * никогда не совпадают строкой: «личный кабинет онлайн кассы» в статье и
+ * «личный кабинет онлайн-кассы: как войти и что там настраивать» в теме —
+ * один и тот же материал, но разные ключи. Так 12.08.2026 в план попала
+ * тема, статья по которой была написана тремя днями раньше; поймали её
+ * только руками. Поэтому кроме ключей держим наборы слов и сверяем
+ * похожесть тем же порогом, что и внутри списка.
+ */
 function coveredKeywords() {
   /* Ключи складываем обоими способами. Набор заполнялся `normalize`
    * («эвотор чек»), а проверялся `dedupeKey` («чек эвот») — строки не
@@ -193,7 +203,14 @@ function coveredKeywords() {
    * Заметно это стало только когда в бэклоге из 40 тринадцать оказались
    * повторами того, что редактор видел накануне. */
   const covered = new Set();
-  const add = (v) => { if (v) { covered.add(normalize(v)); covered.add(dedupeKey(v)); } };
+  const sets = [];
+  const add = (v) => {
+    if (!v) return;
+    covered.add(normalize(v));
+    covered.add(dedupeKey(v));
+    const t = new Set(stemTokens(v));
+    if (t.size) sets.push(t);
+  };
 
   if (existsSync(PLAN_FILE)) {
     const plan = JSON.parse(readFileSync(PLAN_FILE, "utf8"));
@@ -222,6 +239,11 @@ function coveredKeywords() {
       const raw = readFileSync(join(BLOG_DIR, f), "utf8");
       const fm = raw.match(/^---\n([\s\S]*?)\n---/);
       if (!fm) continue;
+      // Заголовок берём наравне с ключами: seo.keywords перечисляют
+      // запросы, а тема из ресёрча приходит формулировкой, ближе к
+      // заголовку. Без него статья видна фильтру только под теми
+      // словами, которые автор догадался вписать в keywords.
+      add((fm[1].match(/title:\s*["'](.+)["']/) ?? [])[1]);
       // seo.keywords — список под отступом; берём всё до следующего
       // ключа верхнего уровня.
       const kw = fm[1].match(/keywords:\s*\n((?:\s+-\s+[^\n]+\n?)+)/);
@@ -231,7 +253,7 @@ function coveredKeywords() {
       }
     }
   }
-  return covered;
+  return { keys: covered, sets };
 }
 
 /* ──────────────────────────────────────────── источник: Wordstat ──── */
@@ -518,7 +540,14 @@ if (!diffs.length && !dynamics.length && !dump.length && !extraSignals.length) {
   process.exit(0);
 }
 
-const covered = coveredKeywords();
+const { keys: covered, sets: coveredSets } = coveredKeywords();
+/** Похоже ли на то, что уже написано или уже стоит в плане. */
+function alreadyCovered(key, tokens) {
+  if (covered.has(key)) return true;
+  if (!(NEAR_DUP > 0)) return false;
+  const a = new Set(tokens);
+  return coveredSets.some((b) => jaccard(a, b) >= NEAR_DUP);
+}
 const suppressionData = loadSuppressions();
 
 const raw = [
@@ -754,7 +783,7 @@ function tryAccept(item, respectBands) {
   acceptedSets.push(new Set(tokens));
   acceptedCards.push(null); // заполним ниже, если тема дойдёт до карточки
 
-  if (covered.has(key)) { stats.покрыто++; return; }
+  if (alreadyCovered(key, tokens)) { stats.покрыто++; return; }
 
   const hit = isSuppressed(item.phrase, suppressionData);
   if (hit) {

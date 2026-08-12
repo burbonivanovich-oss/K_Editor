@@ -71,8 +71,10 @@
  * API. Прав достаточно одного скоупа drive.file. Проверить всё разом: `check`.
  * Инструкция по настройке — docs/google-api-setup.md
  */
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { createSign } from 'node:crypto';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { slugify } from './lib/slugify.mjs';
 import { resolveInternalLink } from './lib/resolve-links.mjs';
 import {
@@ -306,6 +308,24 @@ const BLOG_BASE = process.env.BLOG_BASE_URL || '';
 
 const WORK_TAB_PREFIX = 'Темы и статьи ';
 const workTabName = (month) => `${WORK_TAB_PREFIX}${month}`;
+
+/* Реестр написанного. Вкладка месяца показывает только текущий месяц, а
+ * с первого числа заводится новая — всё, что написано раньше, уходит из
+ * поля зрения редакции. Машина дубли ловит (generate-backlog сверяется
+ * с блогом), но человеку при взгляде на кандидата видеть нечего, и
+ * вопрос «мы это уже писали?» упирается в память. Отсюда отдельная
+ * вкладка на весь корпус, только для чтения: её ведёт бот. */
+const WRITTEN_TAB = 'Написано';
+const WRITTEN_COLS = [
+  { title: '№', width: 40 },
+  { title: 'Статья', width: 380 },
+  { title: 'Целевой запрос', width: 230 },
+  { title: 'Кластер', width: 110 },
+  { title: 'Дата', width: 90 },
+  { title: 'Слов', width: 60 },
+  { title: 'Обновить до', width: 100 },
+  { title: 'Файл', width: 300 },
+];
 
 /* Полный список решений для колонки целиком. По строкам его сужает
  * cycle-state.mjs row-decisions: у кандидата свои варианты, у статьи на
@@ -558,6 +578,96 @@ const planTabName = (cycle) => `План ${cycle}`;
 async function workspace() {
   const found = await findInFolder(WORKSPACE_NAME, ROOT_FOLDER, 'application/vnd.google-apps.spreadsheet');
   return found || createSheet(WORKSPACE_NAME, ROOT_FOLDER);
+}
+
+/* ─────────────────────────────────────────── реестр написанного ──── */
+
+const BLOG_DIR = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'content', 'blog');
+
+/** Написанные статьи из frontmatter: источник правды — файлы, не таблица. */
+function writtenArticles() {
+  if (!existsSync(BLOG_DIR)) return [];
+  const out = [];
+  for (const f of readdirSync(BLOG_DIR).filter((n) => /\.mdx?$/.test(n))) {
+    const raw = readFileSync(join(BLOG_DIR, f), 'utf8');
+    const m = raw.match(/^---\n([\s\S]*?)\n---/);
+    if (!m) continue;
+    const fm = m[1];
+    const one = (re) => (fm.match(re) ?? [])[1]?.trim().replace(/^["']|["']$/g, '') || '';
+    // Первый ключ из seo.keywords — целевой запрос статьи.
+    const kw = (fm.match(/keywords:\s*\n\s+-\s+([^\n]+)/) ?? [])[1] || '';
+    out.push({
+      title: one(/title:\s*(.+)/),
+      keyword: kw.trim().replace(/^["']|["']$/g, ''),
+      cluster: (fm.match(/categories:\s*\n\s+-\s+([^\n]+)/) ?? [])[1]?.trim() || '',
+      date: one(/pubDate:\s*(.+)/),
+      words: raw.slice(m[0].length).split(/\s+/).filter(Boolean).length,
+      review: one(/reviewDate:\s*(.+)/),
+      file: f,
+    });
+  }
+  // Свежие сверху: реестр читают, чтобы вспомнить недавнее.
+  return out.sort((a, b) => String(b.date).localeCompare(String(a.date)));
+}
+
+/** Вкладка «Написано»: шапка, ширины, защита — редактор её только читает. */
+async function formatWrittenSheet(sheetId, gid, rowCount) {
+  const lastRow = 2 + rowCount;
+  const meta = await sheets(`${sheetId}?fields=sheets(properties(sheetId),protectedRanges(range(sheetId)))`);
+  const already = (meta.sheets.find((s) => s.properties.sheetId === gid)?.protectedRanges ?? []).length;
+
+  const requests = [
+    {
+      updateCells: {
+        range: { sheetId: gid, startRowIndex: 0, endRowIndex: 1, startColumnIndex: 0, endColumnIndex: 1 },
+        rows: [{ values: [{ userEnteredValue: { stringValue:
+          `Что уже написано — ${rowCount} статей. Вкладку ведёт бот, править её не нужно: ` +
+          'она нужна, чтобы при взгляде на кандидата было видно, писали мы это или нет.' } }] }],
+        fields: 'userEnteredValue',
+      },
+    },
+    {
+      updateCells: {
+        range: { sheetId: gid, startRowIndex: 1, endRowIndex: 2, startColumnIndex: 0, endColumnIndex: WRITTEN_COLS.length },
+        rows: [{ values: WRITTEN_COLS.map((c) => ({
+          userEnteredValue: { stringValue: c.title },
+          userEnteredFormat: { textFormat: { bold: true } },
+        })) }],
+        fields: 'userEnteredValue,userEnteredFormat.textFormat.bold',
+      },
+    },
+    { updateSheetProperties: {
+      properties: { sheetId: gid, gridProperties: { frozenRowCount: 2 } },
+      fields: 'gridProperties.frozenRowCount',
+    } },
+    ...WRITTEN_COLS.map((c, i) => ({
+      updateDimensionProperties: {
+        range: { sheetId: gid, dimension: 'COLUMNS', startIndex: i, endIndex: i + 1 },
+        properties: { pixelSize: c.width },
+        fields: 'pixelSize',
+      },
+    })),
+  ];
+
+  // Защита ставится один раз: batchUpdate не идемпотентен, и повторные
+  // прогоны иначе плодят по диапазону в час.
+  if (!already) {
+    requests.push({
+      addProtectedRange: {
+        protectedRange: {
+          range: { sheetId: gid },
+          description: 'Реестр ведёт бот',
+          warningOnly: true,
+        },
+      },
+    });
+  }
+
+  await sheets(`${sheetId}:batchUpdate`, {
+    method: 'POST',
+    body: JSON.stringify({ requests }),
+  });
+  return lastRow;
 }
 
 /** gid вкладки по имени; нет — создаётся. Свежая вкладка встаёт первой. */
@@ -1008,6 +1118,32 @@ try {
       const sheetId = arg('sheet-id');
       if (!sheetId) die('нужен --sheet-id');
       console.log(JSON.stringify(await readWork(sheetId, arg('tab')), null, 2));
+      break;
+    }
+
+    /* Реестр написанного. Вкладка месяца живёт месяц, а корпус — всегда;
+       без реестра «мы это уже писали?» проверяется только памятью. Идёт
+       последней вкладкой: смотрят её изредка, при спорном кандидате. */
+    case 'sync-written': {
+      const sheetId = arg('sheet-id');
+      if (!sheetId) die('нужен --sheet-id');
+      const articles = writtenArticles();
+      if (!articles.length) { console.log('Написанных статей нет — вкладку не трогаю.'); break; }
+
+      // Индекс = число вкладок: реестр встаёт последним, за вкладками
+      // месяцев. Больший индекс Sheets не принимает.
+      const tabs = (await sheets(`${sheetId}?fields=sheets(properties(title))`)).sheets.length;
+      const gid = await ensureTab(sheetId, WRITTEN_TAB, tabs);
+      await formatWrittenSheet(sheetId, gid, articles.length);
+      await sheets(`${sheetId}/values/${encodeURIComponent(a1(WRITTEN_TAB, `A3:${colLetter(WRITTEN_COLS.length - 1)}${2 + articles.length}`))}?valueInputOption=USER_ENTERED`, {
+        method: 'PUT',
+        body: JSON.stringify({
+          values: articles.map((a, i) => [
+            i + 1, a.title, a.keyword, a.cluster, a.date, a.words, a.review, a.file,
+          ]),
+        }),
+      });
+      console.log(`✅ Вкладка «${WRITTEN_TAB}»: ${articles.length} статей`);
       break;
     }
 
