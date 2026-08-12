@@ -53,18 +53,35 @@ const hash = createHash('sha256').update(content).digest('hex');
 const date = new Date().toISOString().slice(0, 10);
 
 const reportPath = join(ROOT, 'src/data/factcheck/results', `${slug}.json`);
+/* Без отчёта маркера не бывает.
+ *
+ * Раньше маркер писался и в этом случае — с result: null и честным
+ * комментарием «нечестно подставлять passed без отчёта». Честность в
+ * поле оказалась бесполезной: гейты смотрели на хеш и дату, а маркер на
+ * диске читался всеми как «проверено». Из шести статей пять вышли
+ * ровно так: процедура доходила до write-marker, шаг с отчётом
+ * пропускала, и никто не спотыкался (найдено 12.08.2026).
+ *
+ * Поэтому теперь — отказ. Пропущенный шаг должен ломать процедуру
+ * сразу, а не оставлять след, похожий на результат. */
 let result = null;
 let criticalMismatches = null;
-if (existsSync(reportPath)) {
-  try {
-    const report = JSON.parse(readFileSync(reportPath, 'utf8'));
-    if (report.summary) {
-      criticalMismatches = report.summary.criticalIssues ?? 0;
-      result = report.summary.overallStatus === 'needs-rewrite' ? 'failed' : 'passed';
-    }
-  } catch {
-    /* повреждённый отчёт — маркер пишем без result, не гадаем */
-  }
+if (!existsSync(reportPath)) {
+  console.error(
+    `✖ Нет отчёта факчека: ${reportPath.replace(ROOT + '/', '')}\n` +
+    '  Маркер без отчёта — это не проверка, а её след, и все гейты примут его за проверку.\n' +
+    '  Сначала шаг 4 процедуры (.claude/commands/factcheck.md): сверить claims и записать отчёт.',
+  );
+  process.exit(1);
+}
+try {
+  const report = JSON.parse(readFileSync(reportPath, 'utf8'));
+  if (!report.summary) throw new Error('в отчёте нет summary');
+  criticalMismatches = report.summary.criticalIssues ?? 0;
+  result = report.summary.overallStatus === 'needs-rewrite' ? 'failed' : 'passed';
+} catch (e) {
+  console.error(`✖ Отчёт ${reportPath.replace(ROOT + '/', '')} нечитаем или без summary: ${e.message}`);
+  process.exit(1);
 }
 
 let rulesVersion = null;

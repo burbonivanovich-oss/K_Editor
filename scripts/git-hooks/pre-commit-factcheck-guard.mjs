@@ -79,6 +79,16 @@ for (const f of blogFiles) {
   const stagedHash = createHash('sha256').update(staged_content).digest('hex');
   if (markerData.hash !== stagedHash) {
     stale.push({ file: f, slug });
+    continue;
+  }
+
+  // Маркер без пройденного результата равносилен его отсутствию: хеш и
+  // дата говорят «процедуру запускали», а не «факты сверили». Пять из
+  // шести статей вышли именно с такими маркерами (12.08.2026).
+  if (markerData.result !== 'passed') {
+    missing.push({ file: f, slug, reason: markerData.result === undefined || markerData.result === null
+      ? 'маркер без результата — отчёта results/<slug>.json нет'
+      : `факчек не пройден: ${markerData.result}` });
   }
 }
 
@@ -90,7 +100,7 @@ if (missing.length) {
   console.error('');
   for (const v of missing) {
     console.error(`  ${v.file}`);
-    console.error(`     отсутствует или повреждён .claude/factchecked/${v.slug}`);
+    console.error(`     ${v.reason ?? `отсутствует или повреждён .claude/factchecked/${v.slug}`}`);
   }
   console.error('');
 }

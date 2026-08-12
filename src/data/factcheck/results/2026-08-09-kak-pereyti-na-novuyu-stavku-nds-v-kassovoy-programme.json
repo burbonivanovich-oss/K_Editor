@@ -1,0 +1,502 @@
+{
+  "claims": [
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "20 %",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "прежняя ставка НДС до 01.01.2026",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 января 2026 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_DMY",
+      "raw": "28.11.2025",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "дата подписания ФЗ № 425-ФЗ президентом",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "NPA_FZ",
+      "raw": "425-ФЗ",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "ФЗ № 425-ФЗ — второй этап налоговой реформы, НДС 22 %",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_DMY",
+      "raw": "11.12.2025",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_CONTEXT",
+      "raw": "в первом квартале 2026",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_CONTEXT",
+      "raw": "в первом квартале 2026",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "10 %",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "0 %",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 января 2026 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "MONEY",
+      "raw": "3 000 ₽",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "MONEY",
+      "raw": "10 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "20 %",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "прежняя ставка НДС до 01.01.2026",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "20 %",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "прежняя ставка НДС до 01.01.2026",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 января 2026 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_DMY",
+      "raw": "28.11.2025",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "дата подписания ФЗ № 425-ФЗ президентом",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "NPA_FZ",
+      "raw": "425-ФЗ",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "ФЗ № 425-ФЗ — второй этап налоговой реформы, НДС 22 %",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "20 %",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "прежняя ставка НДС до 01.01.2026",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_CONTEXT",
+      "raw": "в первом квартале 2026",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "MONEY",
+      "raw": "3 000 ₽",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "MONEY",
+      "raw": "10 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "10 %",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "10 %",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "0 %",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 января 2026 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "22 %",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "PERCENT",
+      "raw": "20 %",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "прежняя ставка НДС до 01.01.2026",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.garant.ru/news/1915060/",
+        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    }
+  ],
+  "summary": {
+    "overallStatus": "good-with-minor-addition",
+    "criticalIssues": 0,
+    "checkedAt": "2026-08-12",
+    "verified": 24,
+    "unverified": 11,
+    "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
+  }
+}

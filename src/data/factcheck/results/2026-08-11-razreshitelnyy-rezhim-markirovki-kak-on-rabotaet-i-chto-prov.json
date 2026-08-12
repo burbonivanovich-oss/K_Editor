@@ -1,0 +1,294 @@
+{
+  "claims": [
+    {
+      "type": "NPA_PP_NUMBERED",
+      "raw": "постановлением Правительства РФ от 21.11.2023 № 1944",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "разрешительный режим, норматив ответа 1,5 с",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202311270058",
+        "https://www.consultant.ru/document/cons_doc_LAW_462894/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_DMY",
+      "raw": "21.11.2023",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "дата ПП № 1944",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202311270058",
+        "https://www.consultant.ru/document/cons_doc_LAW_462894/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 сентября 2025 года",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 сентября 2025 года",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 марта 2025 года",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 июня 2025 года",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 апреля 2024",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "старт поэтапного ввода разрешительного режима",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202311270058",
+        "https://www.consultant.ru/document/cons_doc_LAW_462894/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 сентября 2024",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 ноября 2024",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "5 февраля 2025",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 марта 2025",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 сентября 2025",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2025",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 марта 2026",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 мая 2026",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": null,
+      "explanation": "В прогоне 12.08.2026 независимо не переспрашивался. Номер НПА есть в whitelist src/data/factcheck/sources.json (audit-npa-references --strict проходит), ссылка на первоисточник стоит в тексте статьи и жива (check-blog-links). Для критичных чисел нужен отдельный проход по первоисточнику.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "MONEY",
+      "raw": "10 000 рублей",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "то же, прописью",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "MONEY",
+      "raw": "100 000 рублей",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.8,
+      "expectedValue": "в диапазоне 50 000–300 000 ₽ для юрлиц по ст. 15.12 КоАП",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+        "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "та же дата словами",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
+        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "28 декабря 2025 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "та же дата словами",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
+        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "та же дата словами",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
+        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "та же дата словами",
+      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "sources": [
+        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
+        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    }
+  ],
+  "summary": {
+    "overallStatus": "good-with-minor-addition",
+    "criticalIssues": 0,
+    "checkedAt": "2026-08-12",
+    "verified": 9,
+    "unverified": 12,
+    "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
+  }
+}
