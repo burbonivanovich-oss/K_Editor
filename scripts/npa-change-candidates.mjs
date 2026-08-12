@@ -22,7 +22,9 @@ import { createHash } from "node:crypto";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
+// Переопределяется в тестах: гонять аудит по живому корпусу значит
+// зависеть от того, что редакция выпустила на этой неделе.
+const ROOT = process.env.NPA_ROOT || join(dirname(fileURLToPath(import.meta.url)), "..");
 const BLOG_DIR = join(ROOT, "src", "content", "blog");
 const SOURCES = join(ROOT, "src", "data", "factcheck", "sources.json");
 const MARKERS = join(ROOT, ".claude", "factchecked");

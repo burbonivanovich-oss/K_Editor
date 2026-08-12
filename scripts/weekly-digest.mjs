@@ -26,7 +26,9 @@ import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
+// Переопределяется в тестах: сводка считается по состоянию цикла, и
+// проверять её на живом состоянии — значит проверять сегодняшний день.
+const ROOT = process.env.DIGEST_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..');
 const STATE = join(ROOT, 'src', 'data', 'editorial-cycle.json');
 
 const args = process.argv.slice(2);

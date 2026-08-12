@@ -10,7 +10,11 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const BLOG_DIR = path.resolve(__dirname, '../src/content/blog');
+// Переопределяется в тестах: пороги проверяются на фикстуре с
+// заданными датами, а не на корпусе, который стареет сам по себе.
+const BLOG_DIR = process.env.STALE_ROOT
+  ? path.join(process.env.STALE_ROOT, 'src/content/blog')
+  : path.resolve(__dirname, '../src/content/blog');
 
 const args = Object.fromEntries(
   process.argv.slice(2)
