@@ -222,6 +222,20 @@ node scripts/drive-sync.mjs set-row-dropdowns --sheet-id <sheetId> --updates "$(
 node scripts/drive-sync.mjs export-doc --doc-id <id> --out /tmp/<slug>.md
 ```
 
+Записать в журнал то, что редакция поправила руками — **до** того, как
+файл в репозитории перезапишется экспортом:
+
+```bash
+node scripts/editor-edits.mjs record --slug <slug> --doc /tmp/<slug>.md
+```
+
+Прямая правка в доке — такая же обратная связь, как комментарий, но без
+этого шага она исчезает: текст уезжает в репозиторий, и в следующей
+статье бот пишет ту же формулировку. Журнал `docs/editorial-feedback.md`
+читает content-writer перед написанием. Повторилась одна и та же правка
+третий раз — предложить правило в `docs/content-rules.md`, а не копить
+записи.
+
 Дальше — путь зависит от того, кто тему писал (`owner` в состоянии):
 
 **Тема `owner: bot`.** Файл `src/content/blog/YYYY-MM-DD-<slug>.md` уже
