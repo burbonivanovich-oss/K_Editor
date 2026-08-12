@@ -4,7 +4,8 @@
 // и общую статистику. Для каждой сироты предлагает 3 кандидата на
 // проставление ссылки — по совпадению категории и тегов.
 
-import { readFileSync, readdirSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
+import { writeReportIfChanged } from "../lib/write-report.mjs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -128,11 +129,7 @@ function main() {
     })),
   };
 
-  if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
-  writeFileSync(
-    join(OUT_DIR, "linkgraph.json"),
-    JSON.stringify(report, null, 2) + "\n",
-  );
+  writeReportIfChanged(join(OUT_DIR, "linkgraph.json"), report);
 
   console.log(`Linkgraph: ${published.length} опубликованных статей`);
   console.log(`  🔴 сирот (0 входящих):  ${orphans.length}`);

@@ -9,6 +9,7 @@
 //   node scripts/factcheck/audit-npa-references.mjs --strict  # exit 1 если есть неизвестные (для CI)
 
 import fs from 'node:fs';
+import { writeReportIfChanged } from '../lib/write-report.mjs';
 import path from 'node:path';
 
 const BLOG_DIR = 'src/content/blog';
@@ -229,25 +230,20 @@ if (findings.ambiguousPrikaz.length) {
   }
 }
 
-fs.mkdirSync('src/data/factcheck/audit', { recursive: true });
-fs.writeFileSync(
+writeReportIfChanged(
   'src/data/factcheck/audit/npa-references.json',
-  JSON.stringify(
-    {
-      generatedAt: new Date().toISOString(),
-      totals: {
-        files: files.length,
-        unknownFz: findings.fz.length,
-        unknownPp: findings.pp.length,
-        unknownPrikaz: findings.prikaz.length,
-        topicMismatch: uniqueMismatch.length,
-        ambiguousPrikaz: findings.ambiguousPrikaz.length,
-      },
-      findings: { ...findings, topicMismatch: uniqueMismatch },
+  {
+    generatedAt: new Date().toISOString(),
+    totals: {
+      files: files.length,
+      unknownFz: findings.fz.length,
+      unknownPp: findings.pp.length,
+      unknownPrikaz: findings.prikaz.length,
+      topicMismatch: uniqueMismatch.length,
+      ambiguousPrikaz: findings.ambiguousPrikaz.length,
     },
-    null,
-    2,
-  ) + '\n',
+    findings: { ...findings, topicMismatch: uniqueMismatch },
+  },
 );
 
 if (strict && totalUnknown > 0) process.exit(1);
