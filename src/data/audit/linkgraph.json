@@ -1,14 +1,37 @@
 {
-  "generatedAt": "2026-08-11T11:40:06.163Z",
+  "generatedAt": "2026-08-12T12:16:01.222Z",
   "totals": {
     "total": 6,
-    "published": 2,
-    "drafts": 4,
-    "orphans": 0,
+    "published": 3,
+    "drafts": 3,
+    "orphans": 1,
     "weak": 0,
     "deadends": 0
   },
-  "orphans": [],
+  "orphans": [
+    {
+      "slug": "2026-08-11-razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
+      "title": "Разрешительный режим маркировки: что проверяет касса и что делать",
+      "categories": [
+        "markirovka"
+      ],
+      "outboundCount": 3,
+      "suggestions": [
+        {
+          "slug": "2026-08-06-chto-takoe-ts-piot",
+          "title": "Что такое ТС ПИоТ: кому нужен и как подключить в 2026 году",
+          "score": 4,
+          "outboundCount": 1
+        },
+        {
+          "slug": "2026-08-09-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
+          "title": "Личный кабинет онлайн-кассы: как войти и что настраивать в 2026",
+          "score": 1,
+          "outboundCount": 1
+        }
+      ]
+    }
+  ],
   "weak": [],
   "deadends": [],
   "topInbound": [
@@ -21,6 +44,11 @@
       "slug": "2026-08-06-chto-takoe-ts-piot",
       "title": "Что такое ТС ПИоТ: кому нужен и как подключить в 2026 году",
       "inboundCount": 2
+    },
+    {
+      "slug": "2026-08-11-razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
+      "title": "Разрешительный режим маркировки: что проверяет касса и что делать",
+      "inboundCount": 0
     }
   ]
 }

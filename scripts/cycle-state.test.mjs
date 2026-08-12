@@ -8,7 +8,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -25,9 +25,9 @@ function withTmp(fn) {
   }
 }
 
-function run(statePath, args) {
+function run(statePath, args, extraEnv = {}) {
   return execFileSync('node', [SCRIPT, ...args], {
-    env: { ...process.env, CYCLE_STATE_PATH: statePath },
+    env: { ...process.env, CYCLE_STATE_PATH: statePath, ...extraEnv },
     encoding: 'utf8',
   });
 }
@@ -608,5 +608,32 @@ test('stale-review: второй раз за сутки не напоминае�
     run(statePath, ['mark-nudged']);
     assert.equal(JSON.parse(run(statePath, ['stale-review'])).due, false,
       'почасовой прогон не должен превращать напоминание в спам');
+  });
+});
+
+// Аудит 12.08.2026: заглушки проверял только generate-backlog, а в таблицу
+// тема попадает ещё и через add-candidates. Снятая двумя днями раньше
+// тема вернулась именно этой дверью, и редактору пришлось отказывать снова.
+test('add-candidates не пускает тему, заглушённую отказом редактора', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема A' }]);
+    const supp = join(dir, 'src', 'data');
+    mkdirSync(supp, { recursive: true });
+    writeFileSync(join(supp, 'topic-suppressions.json'), JSON.stringify({
+      schemaVersion: 1,
+      suppressions: [{
+        topic: 'Интернет-эквайринг для онлайн-магазина: как выбрать банк и тариф',
+        reason: 'core', cluster: 'ekvairing', note: 'не наше',
+        declinedAt: '2026-08-09', suppressUntil: '2099-01-01', hits: 1,
+      }],
+    }));
+    const file = join(dir, 'candidates.json');
+    writeFileSync(file, JSON.stringify([
+      { title: 'Интернет-эквайринг для онлайн-магазина: как выбрать банк и тариф' },
+      { title: 'Маркировка шин в 2026 году: что обязана делать розница' },
+    ]));
+    const out = run(statePath, ['add-candidates', '--file', file], { SUPPRESSIONS_PATH: join(supp, 'topic-suppressions.json') });
+    const added = JSON.parse(out);
+    assert.deepEqual(added.map((t) => t.title), ['Маркировка шин в 2026 году: что обязана делать розница']);
   });
 });

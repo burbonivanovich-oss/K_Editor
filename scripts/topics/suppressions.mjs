@@ -28,7 +28,9 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
-const FILE = join(ROOT, "src", "data", "topic-suppressions.json");
+// Путь переопределяется в тестах: проверять поведение на живом файле
+// отказов — значит зависеть от того, что редакция сняла на этой неделе.
+const FILE = process.env.SUPPRESSIONS_PATH || join(ROOT, "src", "data", "topic-suppressions.json");
 
 const WINDOWS = { core: 90, angle: 30 };
 

@@ -50,6 +50,10 @@ import { slugify } from './lib/slugify.mjs';
 // пережили слияние бэклога и плана в одну вкладку и стали писать статус
 // в «Приоритет», ссылку на док — в «Зачем сейчас», ID — в «Норма/дата».
 import { COL, RU_STATUS, isPriority } from './lib/sheet-columns.mjs';
+// Память об отказах редактора. Импортируется здесь, а не только в
+// generate-backlog: тема попадает в таблицу двумя дверями, и вторая до
+// 12.08.2026 стояла нараспашку — см. add-candidates.
+import { isSuppressed, load as loadSuppressions } from './topics/suppressions.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 // Переопределяется в тестах (cycle-state.test.mjs), чтобы гонять машину
@@ -520,11 +524,21 @@ switch (cmd) {
     const known = new Set(s.plan.map((t) => t.slug));
     let row = s.plan.reduce((m, t) => Math.max(m, t.row || 0), 4);
     const added = [];
+    /* Заглушённые темы сюда не пускаем.
+     *
+     * Отказ редактора «категорически не наше ядро» глушит тему на 90 дней,
+     * но проверял это только generate-backlog. В таблицу тема попадает
+     * ещё и через add-candidates — и 11.08.2026 «Интернет-эквайринг»,
+     * снятый двумя днями раньше, вернулся именно так. Редактору пришлось
+     * отказывать второй раз: ровно то, ради чего заглушки и заводились. */
+    const suppressions = loadSuppressions();
+    const suppressed = [];
     for (const it of incoming) {
       const title = it.title || it.topic || '';
       if (!title) continue;
       const slug = it.slug || slugify(title);
       if (known.has(slug)) continue;
+      if (isSuppressed(title, suppressions)) { suppressed.push(title); continue; }
       known.add(slug);
       const t = {
         slug,
@@ -544,6 +558,10 @@ switch (cmd) {
       added.push({ ...it, ...t });
     }
     save(s, `add-candidates: +${added.length} из ${incoming.length}`);
+    if (suppressed.length) {
+      console.error(`ℹ Не добавлены — заглушены отказом редактора (${suppressed.length}):`);
+      for (const title of suppressed) console.error(`   • ${title}`);
+    }
     console.log(JSON.stringify(added, null, 2));
     break;
   }
