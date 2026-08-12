@@ -251,8 +251,11 @@ switch (cmd) {
     next.cycleId = arg('cycle') || new Date().toISOString().slice(0, 7);
     next.state = 'awaiting_review';
     next.createdAt = new Date().toISOString();
-    next.batchSize = Number(arg('batch-size', 3));
-    next.maxInReview = Number(arg('max-in-review', 6));
+    /* Лимиты наследуются от предыдущего цикла, а не сбрасываются в
+     * дефолт: их меняет владелец под темп редакции (set-limits), и
+     * новый месяц не повод молча вернуть старое значение. */
+    next.batchSize = Number(arg('batch-size', s.batchSize ?? 3));
+    next.maxInReview = Number(arg('max-in-review', s.maxInReview ?? 6));
     next.drive = {
       sheetId: arg('sheet-id', null),
       sheetUrl: arg('sheet-url', null),
@@ -750,6 +753,46 @@ switch (cmd) {
     break;
   }
 
+  /* Потолок очереди и размер порции задавались только при init — на живом
+   * цикле поменять их было нечем, кроме правки JSON руками, а это ровно
+   * то, чего файл не должен допускать. Отдельная команда с записью в лог:
+   * потом видно, когда и на что поменяли.
+   *
+   * Потолок ниже текущей занятости не запрещаем: это не поломка, а
+   * «дальше не наливаем, пока не разберут» — новые статьи просто не
+   * придут, уже начатые дописываются. Предупреждаем и идём дальше. */
+  case 'set-limits': {
+    const num = (name) => {
+      const raw = arg(name);
+      if (raw === undefined) return null;
+      const n = Number(raw);
+      if (!Number.isInteger(n) || n < 1) die(`--${name}: нужно целое число ≥ 1, пришло "${raw}"`);
+      return n;
+    };
+    const max = num('max-in-review');
+    const size = num('batch-size');
+    if (max === null && size === null) die('нужен --max-in-review N и/или --batch-size N');
+
+    const before = { max: s.maxInReview, size: s.batchSize };
+    if (max !== null) s.maxInReview = max;
+    if (size !== null) s.batchSize = size;
+
+    const parts = [];
+    if (max !== null) parts.push(`потолок очереди ${before.max} → ${max}`);
+    if (size !== null) parts.push(`порция ${before.size} → ${size}`);
+    save(s, `set-limits: ${parts.join(', ')}`);
+    console.log(`✅ ${parts.join(', ')}`);
+
+    const occupied = occupiedCount(s);
+    if (occupied > s.maxInReview) {
+      console.log(`⚠ Сейчас занято ${occupied} — больше нового потолка. Новые статьи не пойдут, пока не разберут очередь.`);
+    }
+    if (s.batchSize > s.maxInReview) {
+      console.log(`⚠ Порция (${s.batchSize}) больше потолка (${s.maxInReview}) — за раз придёт не больше ${s.maxInReview}.`);
+    }
+    break;
+  }
+
   case 'sheet-sync': {
     const updates = [];
 
@@ -802,7 +845,12 @@ switch (cmd) {
   /* --------------------------------------------------------------- reset */
   case 'reset': {
     if (!process.argv.includes('--force')) die('это сотрёт текущий цикл. Повтори с --force.');
-    save(structuredClone(EMPTY), 'reset');
+    // Настройки темпа переживают сброс: reset стирает цикл, а не решение
+    // владельца о том, сколько статей редакция тянет за раз.
+    const fresh = structuredClone(EMPTY);
+    fresh.batchSize = s.batchSize ?? fresh.batchSize;
+    fresh.maxInReview = s.maxInReview ?? fresh.maxInReview;
+    save(fresh, 'reset');
     console.log('✅ Состояние сброшено в idle');
     break;
   }

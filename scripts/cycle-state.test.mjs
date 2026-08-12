@@ -550,6 +550,55 @@ test('stale-review: полная очередь — повод напомнит�
   });
 });
 
+// Потолок и порция задавались только при init: на живом цикле поменять их
+// можно было лишь правкой JSON руками — ровно тем, что запрещено.
+test('set-limits: меняет потолок очереди на живом цикле', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'A' }]);
+    assert.equal(getState(statePath).maxInReview, 6);
+    run(statePath, ['set-limits', '--max-in-review', '10']);
+    const s = getState(statePath);
+    assert.equal(s.maxInReview, 10);
+    assert.equal(s.batchSize, 3, 'порцию не трогали — осталась прежней');
+    assert.match(s.log.at(-1).event, /set-limits/);
+  });
+});
+
+test('set-limits: новый потолок пропускает больше статей в работу', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [
+      { title: 'A' }, { title: 'B' }, { title: 'C' },
+    ], ['--max-in-review', '2']);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'a,b']);
+    runFail(statePath, ['start-batch', '--slugs', 'c']);
+    run(statePath, ['set-limits', '--max-in-review', '3']);
+    run(statePath, ['start-batch', '--slugs', 'c']);
+    assert.equal(getState(statePath).plan.filter((t) => t.status === 'writing').length, 3);
+  });
+});
+
+test('set-limits: новый цикл наследует лимиты, а не сбрасывает в дефолт', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'A' }]);
+    run(statePath, ['set-limits', '--max-in-review', '10']);
+    run(statePath, ['reset', '--force']);
+    initCycle(statePath, dir, [{ title: 'B' }]);
+    assert.equal(getState(statePath).maxInReview, 10,
+      'решение владельца не должно исчезать с началом месяца');
+  });
+});
+
+test('set-limits: мусор вместо числа не проходит', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'A' }]);
+    runFail(statePath, ['set-limits', '--max-in-review', '0']);
+    runFail(statePath, ['set-limits', '--max-in-review', 'десять']);
+    runFail(statePath, ['set-limits']);
+    assert.equal(getState(statePath).maxInReview, 6, 'состояние не тронуто');
+  });
+});
+
 test('stale-review: второй раз за сутки не напоминает', () => {
   withTmp((statePath, dir) => {
     initCycle(statePath, dir, [{ title: 'A' }, { title: 'B' }], ['--max-in-review', '1']);
