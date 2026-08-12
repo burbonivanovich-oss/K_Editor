@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-12T09:19:56.185Z",
+  "updatedAt": "2026-08-12T11:06:43.466Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -21,7 +21,7 @@
       "targetKeyword": "режим работы разрешительного",
       "rationale": "Одобрено редактором в бэклоге 2026-08-09",
       "row": 5,
-      "owner": "bot",
+      "owner": "editor",
       "status": "released",
       "docId": "1h2tlcu5DQan5Ponz9SDLt20BlxEV0Z8yV_m5w7SbZs0",
       "docUrl": "https://docs.google.com/document/d/1h2tlcu5DQan5Ponz9SDLt20BlxEV0Z8yV_m5w7SbZs0/edit",
@@ -50,7 +50,7 @@
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "row": 7,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -64,7 +64,7 @@
       "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
       "row": 8,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -78,10 +78,11 @@
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "row": 9,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета."
     },
     {
       "slug": "markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica",
@@ -92,7 +93,7 @@
       "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
       "row": 10,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -106,10 +107,11 @@
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "row": 11,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета."
     },
     {
       "slug": "internet-ekvayring-dlya-onlayn-magazina-kak-vybrat-bank-i-ta",
@@ -120,10 +122,11 @@
       "rationale": "",
       "row": 12,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "lastNote": "Нужно актуализировать статью https://kontur.ru/market/spravka/25147-kak_rabotaet_oplata_cherez_ekvajring Не делаем акцент на онлайн-магазине, но включаем его в статью в том числе"
     },
     {
       "slug": "kak-proverit-akciznuyu-marku-onlayn-cherez-prilozhenie-chest",
@@ -134,7 +137,7 @@
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "row": 13,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -148,7 +151,7 @@
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "row": 14,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -162,7 +165,7 @@
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "row": 15,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -176,7 +179,7 @@
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "row": 16,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -190,7 +193,7 @@
       "rationale": "",
       "row": 17,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -204,7 +207,7 @@
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "row": 18,
       "owner": "bot",
-      "status": "planned",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": [],
@@ -219,7 +222,7 @@
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "row": 19,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -233,7 +236,7 @@
       "rationale": "новая фраза в выдаче: 17212 показов в месяц, статьи по запросу нет, кластер markirovka; со связанными запросами 58267 показов по 5 формулировкам",
       "row": 20,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -247,7 +250,7 @@
       "rationale": "новая фраза в выдаче: 16739 показов в месяц, статьи по запросу нет, кластер kkt",
       "row": 21,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -261,7 +264,7 @@
       "rationale": "новая фраза в выдаче: 13718 показов в месяц, статьи по запросу нет, кластер markirovka",
       "row": 22,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -499,10 +502,11 @@
       "rationale": "новая фраза в выдаче: 3594 показов в месяц, статьи по запросу нет, кластер merkuriy; со связанными запросами 8545 показов по 5 формулировкам",
       "row": 39,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "urgent": true
     },
     {
       "slug": "oshibki-egais-pri-prodazhe-alkogolya-chto-oznachayut-i-kak-i",
@@ -533,6 +537,48 @@
       "seenComments": [],
       "urgent": true,
       "lastNote": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows"
+    },
+    {
+      "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
+      "title": "Актуализировать статью https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety Не менять в тексте то, что еще актуально, только предложить новые правки. Предложить места в статье, куда можно вставить промо Контур.Маркета по работе с ЕГАИС с текстовой подводкой к нему. Возможности Маркета: в инструкциях https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
+      "priority": "P1",
+      "cluster": "",
+      "targetKeyword": "",
+      "rationale": "добавлено редактором",
+      "row": 42,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
+      "title": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
+      "priority": "P1",
+      "cluster": "",
+      "targetKeyword": "",
+      "rationale": "добавлено редактором",
+      "row": 43,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
+    },
+    {
+      "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+      "title": "Актуализировать статью https://kontur.ru/market/spravka/25147-kak_rabotaet_oplata_cherez_ekvajring",
+      "priority": "P1",
+      "cluster": "",
+      "targetKeyword": "",
+      "rationale": "добавлено редактором",
+      "row": 44,
+      "owner": "bot",
+      "status": "planned",
+      "docId": null,
+      "docUrl": null,
+      "seenComments": []
     }
   ],
   "batches": [],
@@ -596,6 +642,10 @@
     {
       "at": "2026-08-12T09:19:56.185Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 1 правок"
+    },
+    {
+      "at": "2026-08-12T11:06:43.466Z",
+      "event": "apply-decisions: 11 снято, 1 «пишем сами», 3 правок"
     }
   ]
 }
