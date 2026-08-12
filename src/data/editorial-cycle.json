@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-12T11:55:52.014Z",
+  "updatedAt": "2026-08-12T13:35:34.267Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -278,7 +278,7 @@
       "rationale": "новая фраза в выдаче: 10950 показов в месяц, статьи по запросу нет, кластер markirovka",
       "row": 23,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -292,7 +292,7 @@
       "rationale": "новая фраза в выдаче: 9172 показов в месяц, статьи по запросу нет, кластер markirovka",
       "row": 24,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -306,7 +306,7 @@
       "rationale": "новая фраза в выдаче: 3249 показов в месяц, статьи по запросу нет, кластер merkuriy",
       "row": 25,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -320,7 +320,7 @@
       "rationale": "новая фраза в выдаче: 2649 показов в месяц, статьи по запросу нет, кластер egais",
       "row": 26,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -334,7 +334,7 @@
       "rationale": "новая фраза в выдаче: 2547 показов в месяц, статьи по запросу нет, кластер merkuriy",
       "row": 27,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -348,7 +348,7 @@
       "rationale": "новая фраза в выдаче: 2352 показов в месяц, статьи по запросу нет, кластер ts-piot; со связанными запросами 3225 показов по 4 формулировкам",
       "row": 28,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -362,7 +362,7 @@
       "rationale": "новая фраза в выдаче: 2351 показов в месяц, статьи по запросу нет, кластер kkt; со связанными запросами 5782 показов по 5 формулировкам",
       "row": 29,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -376,7 +376,7 @@
       "rationale": "новая фраза в выдаче: 1739 показов в месяц, статьи по запросу нет, кластер ofd-fn; со связанными запросами 2702 показов по 5 формулировкам",
       "row": 30,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -390,7 +390,7 @@
       "rationale": "новая фраза в выдаче: 893 показов в месяц, статьи по запросу нет, кластер egais",
       "row": 31,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -404,7 +404,7 @@
       "rationale": "новая фраза в выдаче: 885 показов в месяц, статьи по запросу нет, кластер merkuriy",
       "row": 32,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -418,7 +418,7 @@
       "rationale": "новая фраза в выдаче: 198 показов в месяц, статьи по запросу нет, кластер ofd-fn",
       "row": 33,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -432,7 +432,7 @@
       "rationale": "новая фраза в выдаче: 190 показов в месяц, статьи по запросу нет, кластер ofd-fn",
       "row": 34,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -446,7 +446,7 @@
       "rationale": "новая фраза в выдаче: 189 показов в месяц, статьи по запросу нет, кластер kkt",
       "row": 35,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -460,7 +460,7 @@
       "rationale": "новая фраза в выдаче: 38060 показов в месяц, статьи по запросу нет, кластер kkt",
       "row": 36,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -474,7 +474,7 @@
       "rationale": "новая фраза в выдаче: 12644 показов в месяц, статьи по запросу нет, кластер markirovka",
       "row": 37,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -488,7 +488,7 @@
       "rationale": "новая фраза в выдаче: 3751 показов в месяц, статьи по запросу нет, кластер ofd-fn; со связанными запросами 11274 показов по 5 формулировкам",
       "row": 38,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": []
@@ -502,7 +502,7 @@
       "rationale": "новая фраза в выдаче: 3594 показов в месяц, статьи по запросу нет, кластер merkuriy; со связанными запросами 8545 показов по 5 формулировкам",
       "row": 39,
       "owner": "bot",
-      "status": "planned",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": [],
@@ -531,7 +531,7 @@
       "rationale": "новая фраза в выдаче: 2160 показов в месяц, статьи по запросу нет, кластер ts-piot",
       "row": 41,
       "owner": "bot",
-      "status": "planned",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
       "seenComments": [],
@@ -540,45 +540,48 @@
     },
     {
       "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
-      "title": "Актуализировать статью https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety Не менять в тексте то, что еще актуально, только предложить новые правки. Предложить места в статье, куда можно вставить промо Контур.Маркета по работе с ЕГАИС с текстовой подводкой к нему. Возможности Маркета: в инструкциях https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
+      "title": "Актуализировать статью https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety  Не менять в тексте то, что еще актуально, только предложить новые правки. Предложить места в статье, куда можно вставить промо Контур.Маркета по работе с ЕГАИС с текстовой подводкой к нему. Возможности Маркета: в инструкциях https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
       "priority": "P1",
       "cluster": "",
-      "targetKeyword": "",
+      "targetKeyword": "егаис ошибки",
       "rationale": "добавлено редактором",
       "row": 42,
       "owner": "bot",
       "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "urgent": true
     },
     {
       "slug": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
       "title": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
       "priority": "P1",
       "cluster": "",
-      "targetKeyword": "",
+      "targetKeyword": "ошибки тс пиот",
       "rationale": "добавлено редактором",
       "row": 43,
       "owner": "bot",
       "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "urgent": true
     },
     {
       "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
       "title": "Актуализировать статью https://kontur.ru/market/spravka/25147-kak_rabotaet_oplata_cherez_ekvajring",
       "priority": "P1",
       "cluster": "",
-      "targetKeyword": "",
+      "targetKeyword": "интернет эквайринг банк",
       "rationale": "добавлено редактором",
       "row": 44,
       "owner": "bot",
       "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "urgent": true
     }
   ],
   "batches": [],
@@ -654,6 +657,10 @@
     {
       "at": "2026-08-12T11:55:52.014Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-12T13:35:34.267Z",
+      "event": "apply-decisions: 13 снято, 0 «пишем сами», 0 правок"
     }
   ]
 }
