@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-12T07:44:45.090Z",
+  "updatedAt": "2026-08-12T09:19:56.185Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -204,10 +204,11 @@
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "row": 18,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "urgent": true
     },
     {
       "slug": "prodazha-alkogolya-bez-akciznoy-marki-chem-grozit-i-kak-prov",
@@ -526,10 +527,12 @@
       "rationale": "новая фраза в выдаче: 2160 показов в месяц, статьи по запросу нет, кластер ts-piot",
       "row": 41,
       "owner": "bot",
-      "status": "candidate",
+      "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "urgent": true,
+      "lastNote": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows"
     }
   ],
   "batches": [],
@@ -589,6 +592,10 @@
     {
       "at": "2026-08-12T07:44:45.090Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-12T09:19:56.185Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 1 правок"
     }
   ]
 }
