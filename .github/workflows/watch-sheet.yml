@@ -45,6 +45,7 @@ jobs:
           echo '```json' >> $GITHUB_STEP_SUMMARY
           cat /tmp/changes.json >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
+          node scripts/nudge-editors.mjs --sheet-id "$SHEET" >> $GITHUB_STEP_SUMMARY 2>&1
 
       - name: Закоммитить состояние цикла
         run: |
