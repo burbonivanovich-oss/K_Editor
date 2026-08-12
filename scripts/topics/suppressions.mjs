@@ -17,7 +17,7 @@
  *
  * Запуск:
  *   node scripts/topics/suppressions.mjs list
- *   node scripts/topics/suppressions.mjs check "<тема>"
+ *   node scripts/topics/suppressions.mjs check "<тема>"     # 0 чисто, 1 заглушена, 2 пограничная
  *   node scripts/topics/suppressions.mjs add "<тема>" --reason core --cluster kkt --note "..."
  *   node scripts/topics/suppressions.mjs prune
  *
@@ -39,6 +39,17 @@ const WINDOWS = { core: 90, angle: 30 };
 // молочки») — около 0.17. Выше порог — отказы обходятся синонимами,
 // ниже — глушатся соседние темы кластера.
 const SIMILARITY_THRESHOLD = 0.4;
+/* Нижняя граница «пограничной зоны».
+ *
+ * Между 0.25 и 0.4 счётчик слов не может ответить честно. «Интернет-
+ * эквайринг для онлайн-магазина: как выбрать банк и тариф» заглушён, а
+ * «интернет-эквайринг» проходит как другая тема: общих слов мало,
+ * длины разные, а для человека это одно и то же. Раньше такие пары
+ * молча проходили дальше, и редактор отказывал второй раз.
+ *
+ * Теперь они не проходят и не глушатся, а помечаются: решение по ним
+ * принимает сессия, читая обе формулировки. Скрипт сужает, ИИ судит. */
+const BORDERLINE_THRESHOLD = 0.25;
 
 /** Одна тема, записанная по-разному, — это одна тема. */
 export function normalize(text) {
@@ -128,6 +139,27 @@ export function isSuppressed(topic, data = load(), onDate = today()) {
   return null;
 }
 
+/**
+ * Пограничные пары: похоже, но недостаточно, чтобы глушить автоматически.
+ *
+ * Возвращает список { topic, suppressed, score } — по каждой сессия
+ * решает сама: та же тема или другая. Заглушённые сюда не попадают, они
+ * уже отсеяны isSuppressed.
+ */
+export function borderline(topic, data = load(), onDate = today()) {
+  if (isSuppressed(topic, data, onDate)) return [];
+  const out = [];
+  for (const s of active(data, onDate)) {
+    if (s.reason !== "core") continue;
+    const score = similarity(topic, s.topic);
+    const upper = s.threshold ?? SIMILARITY_THRESHOLD;
+    if (score >= BORDERLINE_THRESHOLD && score < upper) {
+      out.push({ topic, suppressed: s.topic, score: Number(score.toFixed(2)), note: s.note || "" });
+    }
+  }
+  return out.sort((a, b) => b.score - a.score);
+}
+
 export function add({ topic, reason, cluster, note, onDate = today() }) {
   if (!topic) throw new Error("нужна тема");
   if (!WINDOWS[reason]) {
@@ -190,6 +222,16 @@ if (isMain) {
       console.log(`ЗАГЛУШЕНА до ${hit.suppressUntil} — ${hit.reason === "core" ? "не наше ядро" : "не тот угол"}`);
       console.log(`  совпало с: ${hit.topic}`);
       process.exit(1);
+    }
+    const near = borderline(positional);
+    if (near.length) {
+      console.log("ПОГРАНИЧНО — решает человек или сессия, автоматически не глушим:");
+      for (const b of near) {
+        console.log(`  ${b.score}  похоже на снятую: ${b.suppressed}`);
+        if (b.note) console.log(`        причина отказа: ${b.note}`);
+      }
+      console.log("\nТа же тема — снять и записать отказ. Другая — брать в работу.");
+      process.exit(2);
     }
     console.log("Не заглушена.");
   } else if (cmd === "add") {

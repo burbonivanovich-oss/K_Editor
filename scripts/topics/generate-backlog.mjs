@@ -40,7 +40,7 @@
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { isSuppressed, normalize, load as loadSuppressions } from "./suppressions.mjs";
+import { isSuppressed, borderline, normalize, load as loadSuppressions } from "./suppressions.mjs";
 import { isInformational, dedupeKey, stemTokens } from "../wordstat/relevance.mjs";
 import { tokenize, jaccard } from "../lib/text-similarity.mjs";
 import { priorityMultiplier } from "./priority-clusters.mjs";
@@ -543,6 +543,7 @@ if (!diffs.length && !dynamics.length && !dump.length && !extraSignals.length) {
   process.exit(0);
 }
 
+const needsJudgement = [];
 const { keys: covered, sets: coveredSets } = coveredKeywords();
 /** Похоже ли на то, что уже написано или уже стоит в плане. */
 function alreadyCovered(key, tokens) {
@@ -794,6 +795,15 @@ function tryAccept(item, respectBands) {
     return;
   }
 
+  /* Пограничная похожесть на снятую тему: счётчик слов не решает, решает
+   * сессия. Тему пропускаем в список, но помечаем — рутина A0 обязана
+   * посмотреть на пару глазами до публикации (см. cycle-backlog.md). */
+  const nearSuppressed = borderline(item.phrase, suppressionData);
+  if (nearSuppressed.length) {
+    stats["пограничных с отказами"] = (stats["пограничных с отказами"] ?? 0) + 1;
+    needsJudgement.push({ topic: item.phrase, ...nearSuppressed[0] });
+  }
+
   const { product, productLabel } = productFor(item.cluster);
   const { segment, segmentLabel } = segmentFor(item.cluster);
   const { dedup, konturLink } = marketDedupFor(item.phrase);
@@ -862,6 +872,10 @@ const payload = {
   limit: LIMIT,
   minCount: MIN_COUNT,
   stats,
+  /* Пары «похоже на снятую тему, но не настолько, чтобы глушить». Решает
+     сессия рутины A0, читая обе формулировки: счётчик слов на этом
+     диапазоне честно ответить не может. */
+  needsJudgement,
   candidates,
 };
 
@@ -870,6 +884,15 @@ console.log(`  дублей схлопнуто:   ${stats.дубли}`);
 console.log(`  уже покрыто:        ${stats.покрыто}`);
 console.log(`  заглушено отказами: ${stats.заглушено}`);
 console.log(`В бэклог: ${candidates.length} (лимит ${LIMIT})`);
+if (needsJudgement.length) {
+  console.log(`\n⚖ Требуют решения сессии — похоже на снятые темы (${needsJudgement.length}):`);
+  for (const n of needsJudgement) {
+    console.log(`  ${n.score}  «${n.topic}»`);
+    console.log(`        снято раньше: «${n.suppressed}»`);
+    if (n.note) console.log(`        причина: ${n.note}`);
+  }
+  console.log('  Та же тема — снять и записать отказ. Другая — оставить в списке.');
+}
 
 for (const c of candidates.slice(0, 10)) {
   console.log(`  • ${c.topic}  [${c.cluster ?? "—"}] — ${c.why}`);

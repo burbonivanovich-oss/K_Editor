@@ -168,6 +168,62 @@ function processOne(slug) {
   return { slug, count: result.claims.length, file: out };
 }
 
+/**
+ * Влить утверждения, найденные смысловым проходом.
+ *
+ * Формат входного файла — массив объектов { raw, why } или { raw, type }:
+ * `raw` — точная цитата из текста статьи, `why` — зачем это проверять.
+ * Всё остальное (offset, line, context) скрипт считает сам по тексту:
+ * позицию нельзя доверять пересказу, иначе контекст уедет.
+ *
+ * Цитата, которой в статье нет, — не утверждение, а пересказ. Такие
+ * отбрасываются с явным сообщением: молча принять пересказ значит
+ * проверять то, чего в тексте не написано.
+ */
+function mergeClaims(slug, semanticFile) {
+  const claimsPath = join(CLAIMS_DIR, `${slug}.json`);
+  if (!existsSync(claimsPath)) {
+    throw new Error(`сначала обычный проход: node scripts/factcheck/extract-claims.mjs ${slug}`);
+  }
+  const articlePath = [join(BLOG_DIR, `${slug}.md`), join(BLOG_DIR, `${slug}.mdx`)].find(existsSync);
+  if (!articlePath) throw new Error(`не найдена статья ${slug}`);
+
+  const { body } = parseFrontmatter(readFileSync(articlePath, "utf8"));
+  const data = JSON.parse(readFileSync(claimsPath, "utf8"));
+  const incoming = JSON.parse(readFileSync(semanticFile, "utf8"));
+  if (!Array.isArray(incoming)) throw new Error("ожидается массив утверждений");
+
+  let maxId = data.claims.reduce((m, c) => Math.max(m, parseInt(String(c.id).slice(1), 10) || 0), 0);
+  const added = [];
+  const notFound = [];
+
+  for (const item of incoming) {
+    const raw = (item.raw || "").trim();
+    if (!raw) continue;
+    const offset = body.indexOf(raw);
+    if (offset === -1) { notFound.push(raw); continue; }
+    // Уже нашла регулярка — не задваиваем.
+    if (data.claims.some((c) => c.raw === raw || (Math.abs(c.offset - offset) < 5 && c.raw.includes(raw)))) continue;
+    const claim = {
+      id: `s${++maxId}`,
+      type: item.type || "SEMANTIC",
+      raw,
+      groups: [],
+      offset,
+      line: lineFor(body, offset),
+      context: ctx(body, offset, raw.length),
+      foundBy: "semantic",
+      why: item.why || "",
+    };
+    data.claims.push(claim);
+    added.push(claim);
+  }
+
+  data.claims.sort((a, b) => a.offset - b.offset);
+  writeFileSync(claimsPath, JSON.stringify(data, null, 2) + "\n");
+  return { added, notFound, total: data.claims.length, file: claimsPath };
+}
+
 function processAll() {
   const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".md"));
   const inventory = [];
@@ -208,11 +264,27 @@ function processAll() {
 
 const arg = process.argv[2];
 if (!arg) {
-  console.error("usage: extract-claims.mjs <slug> | --all");
+  console.error("usage: extract-claims.mjs <slug> | --all | merge <slug> --file <json>");
   process.exit(1);
 }
 if (arg === "--all") {
   processAll();
+} else if (arg === "merge") {
+  const slug = (process.argv[3] || "").replace(/\.md$/, "");
+  const i = process.argv.indexOf("--file");
+  const file = i === -1 ? null : process.argv[i + 1];
+  if (!slug || !file) {
+    console.error("usage: extract-claims.mjs merge <slug> --file <json со смысловыми утверждениями>");
+    process.exit(1);
+  }
+  const r = mergeClaims(slug, file);
+  console.log(`✅ добавлено смысловых утверждений: ${r.added.length}, всего ${r.total} → ${r.file}`);
+  for (const c of r.added) console.log(`   + ${c.raw}${c.why ? ` — ${c.why}` : ""}`);
+  if (r.notFound.length) {
+    console.error(`\n✖ Не найдено в тексте статьи (${r.notFound.length}) — это пересказ, а не цитата:`);
+    for (const raw of r.notFound) console.error(`   • ${raw}`);
+    process.exit(1);
+  }
 } else {
   const r = processOne(arg.replace(/\.md$/, ""));
   console.log(`extracted ${r.count} claims → ${r.file}`);

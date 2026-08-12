@@ -24,9 +24,14 @@
  * с короткими строками, но переписанный заголовок — как раз то, что стоит
  * запомнить: он задаёт, как называть такой раздел в следующих статьях.
  *
+ * Скрипт фиксирует разницу, но не понимает её. Смысл правки называет
+ * сессия: дописывает под записью строку «**Вывод:**» — что редакция
+ * меняет систематически. Команда pending показывает, где вывода ещё нет.
+ *
  * Запуск:
  *   node scripts/editor-edits.mjs record --slug <slug> --doc /tmp/<slug>.md
  *   node scripts/editor-edits.mjs record --slug <slug> --doc … --dry-run
+ *   node scripts/editor-edits.mjs pending
  */
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -132,6 +137,32 @@ export function diffParagraphs(before, after) {
 const isMain = process.argv[1] && fileURLToPath(import.meta.url) === pathToFileURL(process.argv[1]).href;
 if (isMain) {
   const cmd = process.argv[2];
+
+  /* Записи, к которым сессия ещё не приписала вывод.
+   *
+   * Скрипт видит разницу, но не понимает её. «Было: … Стало: …» — это
+   * сырьё; ценность появляется, когда кто-то прочитал пару и назвал
+   * причину: убрали пассив, добавили конкретную сумму, сократили лид.
+   * Такой вывод пишет сессия рутины B, а команда ниже показывает, где
+   * его ещё нет. */
+  if (cmd === 'pending') {
+    if (!existsSync(JOURNAL)) { console.log('Журнала ещё нет — правок не было.'); process.exit(0); }
+    const entries = readFileSync(JOURNAL, 'utf8').split(/^## /m).slice(1);
+    const pending = entries.filter((e) => !e.includes('**Вывод:**'));
+    if (!pending.length) { console.log('Все записи журнала осмыслены.'); process.exit(0); }
+    console.log(`Записей без вывода: ${pending.length}\n`);
+    for (const e of pending) {
+      const [head, ...rest] = e.split('\n');
+      console.log(`## ${head}`);
+      console.log(rest.join('\n').trim().slice(0, 600));
+      console.log('—'.repeat(60));
+    }
+    console.log('\nПрочитать пары «было/стало» и дописать под каждой строку:');
+    console.log('  **Вывод:** <что редакция систематически меняет>');
+    console.log('Повторился один и тот же вывод в третий раз — предложить правило в docs/content-rules.md.');
+    process.exit(0);
+  }
+
   if (cmd !== 'record') {
     console.log(readFileSync(fileURLToPath(import.meta.url), 'utf8').split('*/')[0].split('/**')[1]);
     process.exit(cmd ? 1 : 0);
