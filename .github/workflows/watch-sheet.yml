@@ -29,6 +29,7 @@ jobs:
           GSC_CLIENT_SECRET: ${{ secrets.GSC_CLIENT_SECRET }}
           GSC_REFRESH_TOKEN: ${{ secrets.GSC_REFRESH_TOKEN }}
           GOOGLE_DOCS_FOLDER_ID: ${{ secrets.GOOGLE_DOCS_FOLDER_ID }}
+          EDITOR_EMAILS: ${{ vars.EDITOR_EMAILS }}
         run: |
           SHEET=$(node -p "require('./src/data/editorial-cycle.json').drive.sheetId || ''")
           if [ -z "$SHEET" ]; then
