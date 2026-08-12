@@ -40,10 +40,31 @@ test('удалённый абзац тоже попадает в журнал', 
   assert.match(edits[0].before, /Норматив ответа/);
 });
 
-test('заголовки и короткие подписи не считаются правками', () => {
+// Замечание владельца 12.08.2026: заголовок редакция правит чаще всего,
+// и это самая полезная обратная связь — она задаёт, как называть раздел
+// в следующих статьях. Раньше заголовки отсекались фильтром длины.
+test('переписанный заголовок попадает в журнал', () => {
   const before = `## Как это работает\n\n${P1}`;
   const after = `## Как всё устроено\n\n${P1}`;
-  assert.deepEqual(diffParagraphs(before, after), []);
+  const edits = diffParagraphs(before, after);
+  assert.deepEqual(edits.map((e) => e.kind), ['заголовок']);
+  assert.equal(edits[0].before, 'Как это работает');
+  assert.equal(edits[0].after, 'Как всё устроено');
+});
+
+test('добавленный и убранный раздел различаются', () => {
+  const base = `## Первый\n\n${P1}`;
+  const added = diffParagraphs(base, `${base}\n\n## Второй\n\n${P2}`);
+  assert.equal(added.find((e) => e.kind === 'заголовок добавлен').after, 'Второй');
+  const removed = diffParagraphs(`${base}\n\n## Второй\n\n${P2}`, base);
+  assert.equal(removed.find((e) => e.kind === 'заголовок убран').before, 'Второй');
+});
+
+test('заголовок не трогали — правки только по тексту', () => {
+  const before = `## Как это работает\n\n${P1}\n\n${P2}`;
+  const after = `## Как это работает\n\n${P1}\n\nНорматив ответа — полторы секунды, и кассир видит результат до чека. Для очереди это принципиально.`;
+  const edits = diffParagraphs(before, after);
+  assert.deepEqual(edits.map((e) => e.kind), ['изменён']);
 });
 
 test('разница только в пробелах и переносах — не правка', () => {

@@ -20,6 +20,10 @@
  * а не как «слово туда, слово сюда». Абзацы, которые не менялись,
  * в журнал не попадают.
  *
+ * Заголовки разбираются отдельным проходом. Сначала они отсекались вместе
+ * с короткими строками, но переписанный заголовок — как раз то, что стоит
+ * запомнить: он задаёт, как называть такой раздел в следующих статьях.
+ *
  * Запуск:
  *   node scripts/editor-edits.mjs record --slug <slug> --doc /tmp/<slug>.md
  *   node scripts/editor-edits.mjs record --slug <slug> --doc … --dry-run
@@ -44,12 +48,25 @@ function body(src) {
   return m ? src.slice(m[0].length) : src;
 }
 
-/** Абзацы без markdown-шума, который экспорт Google Docs переставляет. */
+/** Заголовки разделов — отдельно от текста: правка заголовка это правка. */
+function headings(text) {
+  return (text.match(/^#{2,4} .+$/gm) ?? [])
+    .map((h) => h.replace(/^#+\s*/, '').replace(/\s+/g, ' ').trim())
+    .filter(Boolean);
+}
+
+/**
+ * Абзацы без markdown-шума, который экспорт Google Docs переставляет.
+ * Заголовки сюда не попадают — у них свой проход: строка «## Как войти»
+ * и абзац сравниваются по-разному, и мешать их в одну кучу значит
+ * потерять и то и другое.
+ */
 function paragraphs(text) {
   return text
     .split(/\n{2,}/)
+    .filter((p) => !/^#{1,6} /.test(p.trim()))
     .map((p) => p.replace(/\s+/g, ' ').trim())
-    .filter((p) => p.length > 40);           // заголовки и подписи не сравниваем
+    .filter((p) => p.length > 40);           // подписи и однострочники не сравниваем
 }
 
 /** Похожесть двух абзацев по словам: ищем, откуда правка, а не что новое. */
@@ -67,10 +84,26 @@ function similarity(a, b) {
  * Не похож ни на что — абзац дописали, тоже полезно знать.
  */
 export function diffParagraphs(before, after) {
+  const edits = [];
+
+  /* Заголовки. Переписанный заголовок — самая частая правка редакции и
+   * самая полезная: он задаёт, как называть раздел в следующих статьях.
+   * Сравниваем по позиции: разделы идут в одном порядке, а если редактор
+   * добавил или убрал раздел, это видно по хвосту списка. */
+  const hSrc = headings(before);
+  const hDst = headings(after);
+  for (let i = 0; i < Math.max(hSrc.length, hDst.length); i++) {
+    const b = hSrc[i];
+    const a = hDst[i];
+    if (b === a) continue;
+    if (b && a) edits.push({ kind: 'заголовок', before: b, after: a });
+    else if (a) edits.push({ kind: 'заголовок добавлен', before: null, after: a });
+    else edits.push({ kind: 'заголовок убран', before: b, after: null });
+  }
+
   const src = paragraphs(before);
   const dst = paragraphs(after);
   const untouched = new Set(src);
-  const edits = [];
 
   for (const p of dst) {
     if (untouched.has(p)) { untouched.delete(p); continue; }
@@ -124,7 +157,13 @@ if (isMain) {
   const date = new Date().toISOString().slice(0, 10);
   const lines = [`\n## ${date} · ${slug}\n`];
   for (const e of edits) {
-    if (e.kind === 'изменён') {
+    if (e.kind === 'заголовок') {
+      lines.push(`**Переписали заголовок.**\n\n- Было: ${e.before}\n- Стало: ${e.after}\n`);
+    } else if (e.kind === 'заголовок добавлен') {
+      lines.push(`**Добавили раздел** «${e.after}».\n`);
+    } else if (e.kind === 'заголовок убран') {
+      lines.push(`**Убрали раздел** «${e.before}».\n`);
+    } else if (e.kind === 'изменён') {
       lines.push(`**Переписали абзац.**\n\n- Было: ${e.before}\n- Стало: ${e.after}\n`);
     } else if (e.kind === 'добавлен') {
       lines.push(`**Дописали абзац.** ${e.after}\n`);
