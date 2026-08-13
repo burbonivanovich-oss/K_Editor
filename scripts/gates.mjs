@@ -34,7 +34,7 @@
  *
  * Коды: 0 — всё зелёное, 1 — есть блокер, 2 — только «требует решения».
  */
-import { readFileSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
@@ -77,7 +77,7 @@ export const GATE_CHECKS = {
  * frontmatter и объём — и одновременно искал дубли по живому корпусу.
  * Такая проверка не врёт громко, она врёт тихо: отвечает правду на
  * вопрос про чужие данные. */
-const SUB_ROOTS = ['DUP_ROOT', 'AI_PROFILE_ROOT', 'SEO_AUDIT_ROOT', 'MARKET_ROOT'];
+const SUB_ROOTS = ['DUP_ROOT', 'AI_PROFILE_ROOT', 'SEO_AUDIT_ROOT', 'MARKET_ROOT', 'LINKGRAPH_ROOT'];
 
 /** Прогон скрипта: код возврата и вывод. Падение самого скрипта — тоже ответ. */
 function run(script, args = []) {
@@ -202,6 +202,32 @@ function checkMarket(title, body) {
     : { status: DECIDE, note: `совпадение ${score} без ссылки на Маркет — сузить угол или сослаться` };
 }
 
+/**
+ * Входящие ссылки — считаем сами, а не спрашиваем linkgraph.
+ *
+ * Первая версия брала список сирот из `linkgraph.json`, и проверка была
+ * мертва: linkgraph относит к сиротам только **выпущенные** статьи
+ * (`draft: false`), а гейт по устройству работает с черновиками — все
+ * статьи на этой стадии `draft: true`. То есть на вопрос «на статью
+ * кто-нибудь ссылается» гейт отвечал «да» независимо от ответа.
+ *
+ * Поймано не глазами и не на корпусе (там у всех статей ссылки есть, и
+ * зелёное выглядело правдой), а требованием доказать, что проверка
+ * умеет сказать «нет» — `gates-liveness.test.mjs`.
+ *
+ * Заодно из гейта ушёл лишний подпроцесс и запись в отслеживаемый
+ * `src/data/audit/linkgraph.json`.
+ */
+function checkInbound(slug, dir) {
+  if (!existsSync(dir)) return { status: DECIDE, note: 'корпуса нет — посчитать входящие не по чему' };
+  const inbound = readdirSync(dir)
+    .filter((f) => /\.mdx?$/.test(f) && !f.startsWith(slug))
+    .filter((f) => readFileSync(join(dir, f), 'utf8').includes(`/blog/${slug}`));
+  return inbound.length
+    ? { status: OK, note: `входящих ссылок: ${inbound.length}` }
+    : { status: DECIDE, note: 'на статью никто не ссылается — добавить ссылку из смежной статьи' };
+}
+
 /** Опорный материал кластера. Нет pillar — критерий неприменим, а не провален. */
 function checkPillar(slug, category) {
   if (!category) return { status: NA, note: 'категория не определена' };
@@ -228,12 +254,6 @@ export function runGates(slug) {
   const links = run('audit/check-blog-links.mjs');
   const npa = run('factcheck/audit-npa-references.mjs', ['--strict']);
 
-  run('audit/linkgraph.mjs');
-  let orphan = false;
-  try {
-    orphan = (JSON.parse(readFileSync(join(ROOT, 'src/data/audit/linkgraph.json'), 'utf8')).orphans || [])
-      .some((o) => String(o.slug ?? o).includes(slug));
-  } catch { /* графа нет — считаем, что вопрос не встаёт */ }
 
   return {
     slug,
@@ -251,7 +271,7 @@ export function runGates(slug) {
       factcheck: checkFactcheck(slug, art.raw),
       duplication: checkDuplication(slug, title),
       market: checkMarket(title, body),
-      graph: orphan ? { status: DECIDE, note: 'на статью никто не ссылается' } : { status: OK, note: 'входящие ссылки есть' },
+      graph: checkInbound(slug, join(ROOT, 'src/content/blog')),
       pillar: checkPillar(slug, category),
     },
   };
@@ -274,10 +294,124 @@ export const verdict = (result) => {
   return st.includes(DECIDE) ? 2 : 0;
 };
 
+/**
+ * Распределение ответов по корпусу — картина, а не гейт.
+ *
+ * Показывает, что каждая проверка отвечает на живых статьях. Полезно
+ * посмотреть глазами раз в месяц: «Дубли: решение 8, зелёное 2» говорит
+ * о корпусе больше, чем десять отдельных отчётов.
+ *
+ * Гарантией это не является и предупреждений не выдаёт. Первая версия
+ * помечала подозрительной всякую проверку с одинаковым ответом на всех
+ * статьях — и пометила девять из двенадцати: на здоровом корпусе
+ * frontmatter и ссылки обязаны быть зелёными везде. Девять
+ * предупреждений, из которых восемь ложные, перестают читать за неделю
+ * — то есть такой сигнал воспроизводит ровно ту болезнь, ради которой
+ * чек-листы и заменили скриптом.
+ *
+ * Настоящая защита от мёртвой проверки — `gates-liveness.test.mjs`: там
+ * для каждой проверки есть вход, на котором она обязана сказать «нет».
+ * Это доказательство, а не наблюдение.
+ */
+export function auditChecks(slugs) {
+  const dist = Object.fromEntries(Object.keys(GATE_CHECKS).map((k) => [k, {}]));
+  const seen = [];
+  for (const slug of slugs) {
+    const r = runGates(slug);
+    if (!r) continue;
+    seen.push(slug);
+    for (const [k, v] of Object.entries(r.checks)) {
+      dist[k][v.status] = (dist[k][v.status] || 0) + 1;
+    }
+  }
+  return { articles: seen.length, rows: Object.entries(dist).map(([key, counts]) => ({ key, counts })) };
+}
+
+/**
+ * Гейт до работы: можно ли вообще браться за тему.
+ *
+ * Стадия 1 пайплайна раньше требовала двух отдельных вызовов — дубль и
+ * каталог Маркета. Оба отвечают на один вопрос («не написано ли это
+ * уже»), различаются только тем, чьё написано: наше или Маркета. Два
+ * вызова с двумя разными форматами вывода на один вопрос — это то же
+ * дробление, ради ухода от которого собирали гейт после работы.
+ *
+ * Словарь исходов тот же: зелёное / красное / требует решения. Разница
+ * с гейтом после работы только в одном — здесь дубль **блокирует**,
+ * потому что работа ещё не сделана и её не жалко.
+ */
+export function runTopicGate(topic) {
+  const dup = run('audit/check-draft-duplication.mjs', [topic, '--json']);
+  let hits = [];
+  try { hits = JSON.parse(dup.out).hits || []; } catch { /* пусто — значит чисто */ }
+  const top = hits[0];
+
+  const mkt = run('audit/check-market-duplication.mjs', [topic]);
+  const scores = [...mkt.out.matchAll(/\[(\d+(?:\.\d+)?)\]/g)].map((m) => Number(m[1]));
+  const mScore = scores.length ? Math.max(...scores) : 0;
+  const mUrl = mkt.out.match(/(https?:\/\/\S+)/)?.[1] ?? null;
+
+  return {
+    topic,
+    checks: {
+      duplication: !top
+        ? { status: OK, note: 'своих статей по теме нет' }
+        : top.score >= 0.4
+          ? { status: FAIL, note: `дубль ${top.score}: «${top.title}»${top.draft ? ' (черновик — довести его)' : ' (выпущена — тему снять)'}` }
+          : { status: DECIDE, note: `${top.score} — «${top.title}»: сузить угол и сослаться` },
+      market: mScore < 0.3
+        ? { status: OK, note: mScore ? `максимум ${mScore}` : 'совпадений с каталогом нет' }
+        : { status: DECIDE, note: `${mScore} — ${mUrl || 'материал Маркета'}: ${mScore >= 0.6 ? 'сузить угол или дополнить тем, чего у Маркета нет' : 'поставить ссылку в тексте'}` },
+    },
+  };
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
+  const topicIdx = process.argv.indexOf('--topic');
+  if (topicIdx !== -1) {
+    const topic = process.argv[topicIdx + 1];
+    if (!topic) { console.error('Использование: gates.mjs --topic "<тема>"'); process.exit(1); }
+    const r = runTopicGate(topic);
+    const code = verdict(r);
+    if (process.argv.includes('--json')) {
+      console.log(JSON.stringify({ topic, checks: toAnalyzeChecks(r), verdict: code }, null, 2));
+      process.exit(code);
+    }
+    const M = { [OK]: '✓', [FAIL]: '✖', [DECIDE]: '?', [NA]: '—' };
+    console.log(`Тема: «${topic}»\n`);
+    console.log(`  ${M[r.checks.duplication.status]} Свои статьи        ${r.checks.duplication.note}`);
+    console.log(`  ${M[r.checks.market.status]} Каталог Маркета    ${r.checks.market.note}`);
+    console.log(code === 1
+      ? '\n✖ Тему не писать — решение по правилу в шаге 1.2 /create-article.'
+      : code === 2 ? '\n? Писать можно. Решение по вопросу выше записать в отчёт.' : '\n✓ Тема свободна.');
+    process.exit(code);
+  }
+
+  if (process.argv.includes('--audit')) {
+    const dir = join(ROOT, 'src/content/blog');
+    const slugs = existsSync(dir)
+      ? readdirSync(dir).filter((f) => /\.mdx?$/.test(f)).map((f) => f.replace(/\.mdx?$/, ''))
+      : [];
+    if (!slugs.length) { console.error('✖ Статей нет.'); process.exit(1); }
+
+    const { articles, rows } = auditChecks(slugs);
+    console.log(`Ответы проверок по ${articles} статьям корпуса\n`);
+    const RU = { ok: 'зелёное', fail: 'красное', decide: 'решение', na: 'неприменимо' };
+    for (const r of rows) {
+      const spread = Object.entries(r.counts).map(([s, n]) => `${RU[s] || s} ${n}`).join(', ');
+      console.log(`  ${GATE_CHECKS[r.key].padEnd(20)} ${spread}`);
+    }
+    const red = rows.filter((r) => r.counts.fail);
+    console.log(red.length
+      ? `\n✖ Красное есть у: ${red.map((r) => GATE_CHECKS[r.key]).join(', ')}`
+      : '\n✓ Красного в корпусе нет.');
+    console.log('Что каждая проверка умеет говорить «нет» — доказывает gates-liveness.test.mjs.');
+    process.exit(0);
+  }
+
   const slug = process.argv.slice(2).find((a) => !a.startsWith('--'));
   if (!slug) {
-    console.error('Использование: node scripts/gates.mjs <slug> [--json]');
+    console.error('Использование: node scripts/gates.mjs <slug> [--json] | --audit');
     process.exit(1);
   }
   const result = runGates(slug);

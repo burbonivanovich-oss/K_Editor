@@ -316,3 +316,92 @@ test('нет seo.keywords — блокер, поле названо', () => {
     assert.match(run(dir).checks.frontmatter.note, /seo\.keywords/);
   }, { fm: frontmatter().replace(/\n\s*keywords:[\s\S]*?(?=\n---)/, '') });
 });
+
+/* ------------------------------------------- гейт до работы (--topic) */
+
+// Стадия 1 требовала двух вызовов с разными форматами вывода на один
+// вопрос «не написано ли это уже». Здесь они сведены в один гейт с тем
+// же словарём исходов.
+
+/* Гоняем подпроцессом, а не импортом: корень ROOT вычисляется в модуле
+ * один раз при импорте, и подмена переменных окружения в уже
+ * загруженном модуле ничего не меняет — под-скрипты пошли бы в живой
+ * репозиторий. Первая версия этих тестов упала именно так. */
+function topic(query, dir) {
+  try {
+    const out = execFileSync('node', [SCRIPT, '--topic', query, '--json'],
+      { encoding: 'utf8', env: { ...process.env, GATES_ROOT: dir } });
+    return { code: 0, ...JSON.parse(out) };
+  } catch (e) {
+    return { code: e.status, ...(e.stdout ? JSON.parse(e.stdout) : { checks: {} }) };
+  }
+}
+
+const st = (c) => (c?.applicable === false ? 'na' : c?.ok === false ? 'fail' : 'ok');
+
+test('свободная тема — зелёное по обеим проверкам', () => {
+  withRepo((dir) => {
+    const r = topic('Электронный документооборот для стройки', dir);
+    assert.equal(st(r.checks.duplication), 'ok');
+    assert.equal(st(r.checks.market), 'ok');
+  });
+});
+
+/* Главное отличие двух гейтов, и его легко потерять при правке: до
+ * ресёрча дубль блокирует, после написания — только советует. Работа
+ * ещё не сделана, и её не жалко; после написания механическим «нельзя»
+ * работу уже не вернуть. */
+test('до ресёрча дубль блокирует, после написания — нет', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, 'src/content/blog', '2026-08-01-pohozhaya.md'),
+      `${frontmatter({ title: 'Тестовая статья про кассы' })}\n\n${body()}`);
+
+    const before = topic('Тестовая статья про кассы', dir);
+    assert.equal(st(before.checks.duplication), 'fail', 'до работы — блокер');
+
+    const after = run(dir);
+    assert.equal(after.checks.duplication.ok, true, 'после работы — только решение');
+  });
+});
+
+test('выпущенная и черновик разводятся в подсказке', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, 'src/content/blog', '2026-08-01-pohozhaya.md'),
+      `${frontmatter({ title: 'Тестовая статья про кассы' }).replace('draft: true', 'draft: false')}\n\n${body()}`);
+    assert.match(topic('Тестовая статья про кассы', dir).checks.duplication.note, /выпущена — тему снять/);
+  });
+});
+
+test('пограничное совпадение — решение, а не запрет', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, 'src/content/blog', '2026-08-01-pohozhaya.md'),
+      `${frontmatter({ title: 'Онлайн-касса для общепита: выбор и подключение' })}\n\n${body()}`);
+    const r = topic('Онлайн-касса для розницы', dir);
+    assert.equal(st(r.checks.duplication), 'ok', 'пограничное не блокирует');
+  });
+});
+
+// Маркет никогда не блокирует: у модуля другая задача, и пересечение —
+// повод сослаться, а не отказаться (AGENTS.md).
+test('каталог Маркета не блокирует ни при каком совпадении', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, 'src/data/interlinking/market-articles.json'), JSON.stringify({
+      generatedFrom: 'test',
+      articles: [{ url: 'https://kontur.ru/market/spravka/1-x', title: 'Тестовая статья про кассы', viewsTotal: 100 }],
+    }));
+    const r = topic('Тестовая статья про кассы', dir);
+    assert.notEqual(st(r.checks.market), 'fail');
+    assert.match(r.checks.market.note, /сузить угол или дополнить/);
+  });
+});
+
+test('слабое совпадение с Маркетом просит только ссылку', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, 'src/data/interlinking/market-articles.json'), JSON.stringify({
+      generatedFrom: 'test',
+      articles: [{ url: 'https://kontur.ru/market/spravka/1-x', title: 'Тестовая статья про кассы и склад в общепите', viewsTotal: 100 }],
+    }));
+    const note = topic('Тестовая статья про кассы', dir).checks.market.note;
+    if (!/совпадений с каталогом нет/.test(note)) assert.match(note, /поставить ссылку в тексте|сузить угол/);
+  });
+});

@@ -9,7 +9,11 @@ import { writeReportIfChanged } from "../lib/write-report.mjs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
+/* Корень подменяется в тестах и в прогоне гейта на фикстуре. Без этого
+ * скрипт читает живой корпус и — что хуже — переписывает отслеживаемый
+ * src/data/audit/linkgraph.json при каждом тестовом прогоне: тесты
+ * пачкают рабочее дерево. Этот класс ошибки в проекте уже чинили. */
+const ROOT = process.env.LINKGRAPH_ROOT || join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const BLOG_DIR = join(ROOT, "src", "content", "blog");
 const OUT_DIR = join(ROOT, "src", "data", "audit");
 
