@@ -1,0 +1,35 @@
+{
+  "slug": "2026-08-13-korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit",
+  "score": 99,
+  "blocker": false,
+  "categories": {
+    "quality": {
+      "score": 19,
+      "issues": [
+        "title 66 символов (норма ≤65) — сознательно оставлено: формат «вопрос эксперту» по требованию редактора, переписывать в стандартный SEO-title нельзя"
+      ]
+    },
+    "seo": {
+      "score": 20,
+      "issues": [
+        "check-seo.mjs: 1 P1-предупреждение по длине title, не блокер"
+      ]
+    },
+    "eeat": { "score": 20, "issues": [] },
+    "graph": {
+      "score": 20,
+      "issues": [
+        "kkt pillar обновлён, ссылается на статью",
+        "check-blog-links.mjs: часть ссылок станет текстом в Google Doc из-за отсутствия konturUrl у части старых статей — не блокер"
+      ]
+    },
+    "tech": {
+      "score": 20,
+      "issues": [
+        "промоблоки kkt — родной кластер, замены не потребовалось"
+      ]
+    },
+    "ai_citation": { "score": 10, "issues": [] }
+  },
+  "checkedAt": "2026-08-13"
+}

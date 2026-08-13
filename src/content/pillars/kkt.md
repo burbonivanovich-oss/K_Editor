@@ -44,3 +44,5 @@ faq:
 разбирает статья [«Онлайн-кассы от банка или своя касса»](/blog/2026-08-09-kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu/).
 Отдельный срочный сюжет 2026 года — [переход на ставку НДС 22 % в кассовой
 программе](/blog/2026-08-09-kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme/).
+Если кассир ошибся при пробитии чека, разбор в формате «вопрос эксперту» —
+[«Ошиблись в чеке возврата на кассе — нужна коррекция или новый чек?»](/blog/2026-08-13-korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit/).

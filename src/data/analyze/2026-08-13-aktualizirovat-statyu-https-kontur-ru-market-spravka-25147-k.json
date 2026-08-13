@@ -1,0 +1,25 @@
+{
+  "slug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+  "score": 100,
+  "blocker": false,
+  "categories": {
+    "quality": { "score": 20, "issues": [] },
+    "seo": { "score": 20, "issues": [] },
+    "eeat": { "score": 20, "issues": [] },
+    "graph": {
+      "score": 20,
+      "issues": [
+        "кластер banki без собственного pillar — критерий нормирован к 20 из доступных 16 по правилу analyze-article.md",
+        "check-blog-links.mjs: 5 ссылок станут текстом в Google Doc из-за отсутствия konturUrl у части старых статей — не блокер"
+      ]
+    },
+    "tech": {
+      "score": 20,
+      "issues": [
+        "промоблоки banki — родной кластер (все 3 доступные записи использованы), замены не потребовалось"
+      ]
+    },
+    "ai_citation": { "score": 10, "issues": [] }
+  },
+  "checkedAt": "2026-08-13"
+}
