@@ -49,7 +49,33 @@ P0 → P1 → P2. Размер сам ужимается под остаток �
 
 ---
 
+## Шаг 1а — Развилка: статья или актуализация
+
+У каждой темы в выводе `next-batch` есть поле `kind`:
+
+| `kind` | Что это | Куда идёт |
+|---|---|---|
+| `new` (или поля нет) | Новая статья | Шаги 1б → 3 → 4, `/create-article` |
+| `update` | Актуализация чужой статьи Маркета | `/update-article <slug>`, шаги 1б и 3 пропускаются |
+
+Задача на актуализацию узнаётся по ячейке «Тема»: редактор пишет
+«Актуализировать статью <ссылка> …» и дальше просьбу. Разбор делает
+`lib/update-task.mjs`, гадать по тексту в сессии не нужно —
+`sourceUrl`, `brief` и `refUrls` уже лежат в теме.
+
+**По задаче на актуализацию новая статья не пишется никогда.** Результат
+— документ правок в `src/content/updates/`. Полная процедура и правила
+— `.claude/commands/update-article.md`.
+
+Батч смешанный: в одной порции может быть три новых статьи и две
+актуализации. Ёмкость очереди они занимают одинаково.
+
+---
+
 ## Шаг 1б — дубль проверяется до ресёрча, не после
+
+Только для тем с `kind: new`. Для актуализации проверка на дубль
+работает иначе — см. шаг 3 в `/update-article`.
 
 По каждой теме батча, **до запуска research-specialist**:
 
@@ -90,11 +116,17 @@ node scripts/drive-sync.mjs set-cells --sheet-id <sheetId> --updates "$(cat /tmp
 
 ## Шаг 3 — Написать статьи
 
-Для каждой темы — полный `/create-article "<title>"`, все девять стадий
-со шлюзами. Не сокращать пайплайн ради скорости.
+Для темы с `kind: new` — полный `/create-article "<title>"`, все девять
+стадий со шлюзами. Не сокращать пайплайн ради скорости.
 
-Статьи сохраняются в `src/content/blog/` с `draft: true` как обычно —
-репозиторий остаётся источником истории версий.
+Для темы с `kind: update` — `/update-article <slug>`. Это другой жанр и
+другой набор проверок: `check-update-doc` вместо `check-seo` и
+`analyze-article`. Не подменять актуализацию новой статьёй на ту же
+тему, даже если так получается быстрее и оценка выходит выше.
+
+Статьи сохраняются в `src/content/blog/`, документы правок — в
+`src/content/updates/`, и те и другие с `draft: true`. Репозиторий
+остаётся источником истории версий.
 
 **Обработка сбоев по одной статье:**
 
@@ -154,7 +186,7 @@ node scripts/cycle-state.mjs to-review --slug <slug> \
 node scripts/cycle-state.mjs sheet-sync > /tmp/cells.json
 node scripts/drive-sync.mjs set-cells --sheet-id <sheetId> --updates "$(cat /tmp/cells.json)"
 
-git add src/content/blog src/data/editorial-cycle.json
+git add src/content/blog src/content/updates src/data/editorial-cycle.json
 git commit -m "cycle: батч N — <k> статей на вычитку"
 git push -u origin main
 ```
@@ -228,6 +260,7 @@ node scripts/drive-sync.mjs comment --file-id <sheetId> \
 - `can-start-batch` не обходить никогда.
 - `batchSize` статей (сейчас 5), меньше — если очередь редактора почти полна.
 - Темы «пишем сами» не трогать.
+- `kind: update` — только `/update-article`, новую статью не писать.
 - Frontmatter в Google Doc не выкладывать.
 - Статьи остаются `draft: true`. Снимает флаг рутина B, когда редактор
   поставит «принято» в таблице.

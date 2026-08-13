@@ -642,15 +642,91 @@ test('add-candidates не пускает тему, заглушённую отк
 // статью https://…», «Заголовок: Ошибки при работе с ТС ПИоТ…». Это
 // попало в состояние как заголовок, и файлы статей получили имена вида
 // 2026-08-13-aktualizirovat-statyu-https-kontur-ru-…
+// Теперь задача разбирается на входе, а не чинится потом: init кладёт
+// в тему чистый заголовок, ссылку на исходную статью и просьбу
+// редактора отдельными полями. set-title остаётся для случая, когда
+// готовая статья получила заголовок, отличный от темы.
+test('init разбирает задачу на актуализацию, а не принимает её за заголовок', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{
+      title: 'Актуализировать статью https://kontur.ru/market/spravka/38077-egais Не менять то, что актуально',
+    }]);
+    const t = getState(statePath).plan[0];
+    assert.equal(t.kind, 'update');
+    assert.equal(t.sourceUrl, 'https://kontur.ru/market/spravka/38077-egais');
+    assert.match(t.brief, /^Не менять то, что актуально/);
+    assert.ok(!/https?:/.test(t.slug), `в slug не должно быть ссылки: ${t.slug}`);
+    assert.ok(!/https?:/.test(t.title), `в заголовке не должно быть ссылки: ${t.title}`);
+  });
+});
+
 test('set-title возвращает настоящий заголовок и помнит исходную формулировку', () => {
   withTmp((statePath, dir) => {
-    initCycle(statePath, dir, [{ title: 'Актуализировать статью https://kontur.ru/market/spravka/38077' }]);
+    initCycle(statePath, dir, [{ title: 'Ошибки ЕГАИС на кассе' }]);
     const slug = getState(statePath).plan[0].slug;
     run(statePath, ['set-title', '--slug', slug, '--title', '7 ошибок ЕГАИС: что делать, если касса не пропускает продажу']);
     const t = getState(statePath).plan[0];
     assert.equal(t.title, '7 ошибок ЕГАИС: что делать, если касса не пропускает продажу');
-    assert.match(t.originalTitle, /Актуализировать статью/);
+    assert.equal(t.originalTitle, 'Ошибки ЕГАИС на кассе');
     assert.equal(t.slug, slug, 'slug — первичный ключ, он меняться не должен');
+  });
+});
+
+test('add-candidates не разбирает повторно уже готовую тему из очереди актуализации', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    const file = join(dir, 'cand.json');
+    writeFileSync(file, JSON.stringify([{
+      title: 'Актуализация: При каких условиях общепит освобождают от НДС',
+      sourceUrl: 'https://kontur.ru/market/spravka/82510-nds',
+      sourceTitle: 'При каких условиях общепит освобождают от НДС',
+      priority: 'P0',
+    }]));
+    run(statePath, ['add-candidates', '--file', file]);
+    const t = getState(statePath).plan.find((x) => x.kind === 'update');
+    assert.equal(t.title, 'Актуализация: При каких условиях общепит освобождают от НДС');
+    assert.equal(t.sourceUrl, 'https://kontur.ru/market/spravka/82510-nds');
+  });
+});
+
+/* Рутина B разбирает решения пять раз в день и до 13.08.2026 каждый раз
+ * писала в заголовок темы содержимое ячейки «Тема». Ячейку редактор не
+ * меняет — там по-прежнему стоит задача со ссылкой, — поэтому нормальный
+ * заголовок, поставленный после написания статьи, откатывался обратно к
+ * инструкции при ближайшем прогоне. */
+test('повторный разбор решений не затирает заголовок, если ячейку не трогали', () => {
+  withTmp((statePath, dir) => {
+    const cell = 'Актуализировать статью https://kontur.ru/market/spravka/38077-egais Не менять актуальное';
+    initCycle(statePath, dir, [{ title: cell }]);
+    const before = getState(statePath).plan[0];
+    run(statePath, ['set-title', '--slug', before.slug, '--title', '7 ошибок ЕГАИС на кассе']);
+
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: before.row, slug: before.slug, title: cell, decision: '' }],
+    }));
+    run(statePath, ['apply-decisions', '--file', pull]);
+
+    assert.equal(getState(statePath).plan[0].title, '7 ошибок ЕГАИС на кассе');
+  });
+});
+
+test('редактор правда поменял ячейку — задача перечитывается', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Актуализировать статью https://kontur.ru/market/spravka/38077-egais' }]);
+    const before = getState(statePath).plan[0];
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '',
+      topics: [{
+        row: before.row, slug: before.slug, decision: '',
+        title: 'Актуализировать статью https://kontur.ru/market/spravka/82510-nds Только про ставку',
+      }],
+    }));
+    run(statePath, ['apply-decisions', '--file', pull]);
+    const t = getState(statePath).plan[0];
+    assert.equal(t.sourceUrl, 'https://kontur.ru/market/spravka/82510-nds');
+    assert.match(t.brief, /Только про ставку/);
   });
 });
 

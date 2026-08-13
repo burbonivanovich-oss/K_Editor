@@ -54,6 +54,10 @@ import { COL, RU_STATUS, isPriority } from './lib/sheet-columns.mjs';
 // generate-backlog: тема попадает в таблицу двумя дверями, и вторая до
 // 12.08.2026 стояла нараспашку — см. add-candidates.
 import { isSuppressed, load as loadSuppressions } from './topics/suppressions.mjs';
+// Ячейка «Тема» содержит задачу, а не только заголовок: редакция пишет
+// туда «Актуализировать статью <URL> …» вместе с инструкцией. Разбор —
+// в lib/update-task.mjs, там же история, почему он понадобился.
+import { parseTopicCell } from './lib/update-task.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 // Переопределяется в тестах (cycle-state.test.mjs), чтобы гонять машину
@@ -133,6 +137,32 @@ function die(msg) {
 function arg(name, fallback) {
   const i = process.argv.indexOf(`--${name}`);
   return i === -1 || i === process.argv.length - 1 ? fallback : process.argv[i + 1];
+}
+
+/* Каталог статей Маркета — из него берётся настоящий заголовок статьи,
+ * которую просят актуализировать. Читается лениво и один раз: нужен
+ * только при разборе ячейки, а файл на 1348 записей. */
+let _catalog = null;
+function marketCatalog() {
+  if (_catalog) return _catalog;
+  const p = join(__dir, '..', 'src/data/interlinking/market-articles.json');
+  try { _catalog = JSON.parse(readFileSync(p, 'utf8')).articles || []; } catch { _catalog = []; }
+  return _catalog;
+}
+
+/** Ячейка «Тема» → поля темы. Общее место для обеих дверей: тему заводит
+ *  и add-candidates (бот), и apply-decisions (редактор вписал руками). */
+function taskFields(cell) {
+  const t = parseTopicCell(cell, { catalog: marketCatalog() });
+  return {
+    title: t.title,
+    kind: t.kind,
+    brief: t.brief || '',
+    sourceUrl: t.sourceUrl,
+    sourceTitle: t.sourceTitle,
+    refUrls: t.refUrls,
+    rawTopic: t.raw,
+  };
 }
 
 const count = (s, st) => s.plan.filter((t) => t.status === st).length;
@@ -223,6 +253,17 @@ const s = load();
 switch (cmd) {
   /* ---------------------------------------------------------------- get */
   case 'get': {
+    /* Одна тема целиком. Нужна перед работой над ней: у задачи на
+     * актуализацию половина смысла лежит не в заголовке, а в полях
+     * sourceUrl/brief/refUrls, и пересказывать их в промпте нельзя —
+     * просьбу редактора выполняют дословно. */
+    const one = arg('slug');
+    if (one) {
+      const t = find(s, one);
+      if (!t) die(`темы "${one}" нет в плане`);
+      console.log(JSON.stringify(t, null, 2));
+      break;
+    }
     if (process.argv.includes('--json')) { console.log(JSON.stringify(s, null, 2)); break; }
     const own = s.plan.filter((t) => t.owner === 'editor' && !['released', 'dropped'].includes(t.status)).length;
     console.log(`Цикл:       ${s.cycleId || '—'}`);
@@ -266,9 +307,16 @@ switch (cmd) {
       folderId: arg('folder-id', null),
       folderUrl: arg('folder-url', null),
     };
-    next.plan = topics.map((t, i) => ({
-      slug: t.slug || slugify(t.title),
-      title: t.title,
+    /* Разбор задачи — на всех трёх дверях, а не только на двух. Тема
+     * входит в цикл через init (план месяца), add-candidates (ресёрч и
+     * очередь актуализации) и apply-decisions (редактор вписал руками).
+     * Разбирать только там, где вспомнилось, — это гарантия, что задача
+     * на актуализацию рано или поздно войдёт необработанной. */
+    next.plan = topics.map((t, i) => {
+      const task = taskFields(t.title);
+      return {
+      ...task,
+      slug: t.slug || slugify(task.title),
       priority: t.priority || 'P1',
       cluster: t.cluster || '',
       targetKeyword: t.targetKeyword || '',
@@ -288,7 +336,8 @@ switch (cmd) {
       docId: t.docId || null,
       docUrl: t.docUrl || null,
       seenComments: [],
-    }));
+      };
+    });
 
     save(next, `init ${next.cycleId}: ${topics.length} тем`);
     console.log(`✅ Цикл ${next.cycleId}: ${topics.length} тем, состояние awaiting_review`);
@@ -357,10 +406,12 @@ switch (cmd) {
 
       if (!t) {
         // Редактор дописал тему прямо в таблицу
-        const slug = slugify(row.title);
-        if (!row.title.trim() || s.plan.some((x) => x.slug === slug)) continue;
+        if (!row.title?.trim()) continue;
+        const task = taskFields(row.title);
+        const slug = slugify(task.title);
+        if (s.plan.some((x) => x.slug === slug)) continue;
         t = {
-          slug, title: row.title, priority: row.priority || 'P1',
+          slug, ...task, priority: row.priority || 'P1',
           cluster: row.cluster || '', targetKeyword: row.targetKeyword || '',
           rationale: row.rationale || 'добавлено редактором',
           row: row.row, owner: 'bot', status: 'planned',
@@ -370,8 +421,16 @@ switch (cmd) {
         changes.added.push(t.title);
       }
 
-      // Редактор мог поправить формулировку, запрос или приоритет прямо в ячейке
-      if (row.title && row.title !== t.title) { t.title = row.title; }
+      /* Заголовок переписываем только если редактор правда тронул ячейку.
+       *
+       * Сравнивать нужно с сырым текстом ячейки (rawTopic), а не с
+       * заголовком темы: ячейка «Актуализировать статью https://…»
+       * никогда не равна разобранному «Актуализация: Как работать в
+       * ЕГАИС» — и до 13.08.2026 каждый прогон рутины B (пять раз в
+       * день) затирал нормальный заголовок обратно инструкцией. */
+      if (row.title && row.title !== (t.rawTopic ?? t.originalTitle ?? t.title)) {
+        Object.assign(t, taskFields(row.title));
+      }
       // Приоритет принимаем только из известного набора. Иначе любая
       // чужая строка, оказавшаяся в этой ячейке, становится приоритетом
       // темы и возвращается в таблицу уже как «правильное» значение.
@@ -534,7 +593,22 @@ switch (cmd) {
     const suppressions = loadSuppressions();
     const suppressed = [];
     for (const it of incoming) {
-      const title = it.title || it.topic || '';
+      const cell = it.title || it.topic || '';
+      if (!cell) continue;
+      /* Тот же разбор, что и для строк редактора, — но только для тем,
+       * пришедших текстом. Очередь актуализации (update-queue.mjs) отдаёт
+       * тему уже разобранной: ссылка известна точно, а заголовок в ней
+       * выглядит как «Актуализация: <название статьи>». Прогон такого
+       * заголовка через разбор второй раз ссылку не находил (её в строке
+       * уже нет) и превращал тему в «Актуализация: статья без ссылки». */
+      const task = it.sourceUrl
+        ? {
+          title: cell, kind: 'update', brief: it.brief || '',
+          sourceUrl: it.sourceUrl, sourceTitle: it.sourceTitle ?? null,
+          refUrls: it.refUrls || [], rawTopic: cell,
+        }
+        : taskFields(cell);
+      const title = task.title;
       if (!title) continue;
       const slug = it.slug || slugify(title);
       if (known.has(slug)) continue;
@@ -542,7 +616,7 @@ switch (cmd) {
       known.add(slug);
       const t = {
         slug,
-        title,
+        ...task,
         priority: it.priority || 'P1',
         cluster: it.cluster || '',
         targetKeyword: it.targetKeyword || '',
