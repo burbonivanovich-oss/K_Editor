@@ -49,7 +49,7 @@ import { slugify } from './lib/slugify.mjs';
 // Буквы колонок берём из общего модуля, а не зашиваем. Зашитые «I/J/K»
 // пережили слияние бэклога и плана в одну вкладку и стали писать статус
 // в «Приоритет», ссылку на док — в «Зачем сейчас», ID — в «Норма/дата».
-import { COL, RU_STATUS, isPriority } from './lib/sheet-columns.mjs';
+import { COL, RU_STATUS, isPriority, parseAdaptations } from './lib/sheet-columns.mjs';
 // Память об отказах редактора. Импортируется здесь, а не только в
 // generate-backlog: тема попадает в таблицу двумя дверями, и вторая до
 // 12.08.2026 стояла нараспашку — см. add-candidates.
@@ -76,6 +76,12 @@ const TOPIC_STATUSES = ['candidate', 'planned', 'writing', 'review', 'accepted',
 // там — источники разные, ручной синхронизации ничего не заменяет.
 const KNOWN_DECISIONS = new Set([
   'убрать', 'одобрено', 'написать сейчас', 'принято',
+  /* Текст не годится — писать заново. Возвращено 13.08.2026 по просьбе
+   * редакции; 12.08.2026 «нужен рерайт» отсюда убирали, считая, что путь
+   * обновления закрывается причиной отказа «уже покрыто другой статьёй».
+   * Оказалось, это разные вещи: тогда речь шла об обновлении статьи, а
+   * здесь — о том, что конкретный текст не подошёл, а тема нужна. */
+  'переписать статью',
   // Заказ на бриф для дизайнера: обложка и иллюстрации к уже написанному
   // тексту. Статус темы не меняет — статья как была на вычитке или принята,
   // так и остаётся; это параллельный артефакт, а не стадия цикла.
@@ -96,6 +102,10 @@ const PLAN_DECISION_SYNONYMS = new Map([
   ['не согласовано', 'убрать'],
   ['отклонено', 'убрать'],
   ['снять', 'убрать'],
+  // Как это называли до появления значения в списке.
+  ['нужен рерайт', 'переписать статью'],
+  ['переписать', 'переписать статью'],
+  ['рерайт', 'переписать статью'],
 ]);
 
 const EMPTY = {
@@ -205,12 +215,17 @@ function waitingTopics(s) {
 // review, не writing (можно было запустить два батча подряд, пока первый
 // ещё не дошёл до review, и превысить maxInReview в момент, когда оба
 // одновременно попадут в review).
+/* Возврат в planned из writing/review/accepted — решение «переписать
+ * статью»: текст не подошёл, а тема нужна. Это единственный обратный ход
+ * в машине, и он освобождает место в очереди редактора, а не занимает,
+ * поэтому потолку не противоречит. Из released обратного хода нет: текст
+ * уже у принимающего проекта, там это актуализация, а не рерайт. */
 const ALLOWED_TRANSITIONS = {
   candidate: new Set(['planned', 'dropped']),
   planned: new Set(['writing', 'review', 'dropped']),
-  writing: new Set(['review', 'dropped']),
-  review: new Set(['accepted', 'released', 'dropped']),
-  accepted: new Set(['released', 'dropped']),
+  writing: new Set(['review', 'planned', 'dropped']),
+  review: new Set(['accepted', 'released', 'planned', 'dropped']),
+  accepted: new Set(['released', 'planned', 'dropped']),
   released: new Set(),
   dropped: new Set(),
 };
@@ -353,11 +368,12 @@ switch (cmd) {
     const changes = {
       approved: false, dropped: [], toEditor: [], toBot: [], accepted: [],
       approved_topics: [], urgent: [],
-      // «нужен рерайт» убран из списка решений 12.08.2026 по просьбе
-      // редакции: путь обновления статьи идёт через причину отказа «уже
-      // покрыто другой статьёй», а не через отдельное решение. Поле
-      // оставлено пустым, чтобы не ломать читателей отчёта.
+      // Решение «переписать статью»: текст не подошёл, тема возвращается
+      // в план. Значение убирали из списка 12.08.2026 и вернули
+      // 13.08.2026 — см. KNOWN_DECISIONS, там разобрано почему.
       rewrite: [],
+      // Заказы на адаптацию под каналы — колонка «Адаптация».
+      adaptations: [],
       notes: [], added: [], missing: [], unrecognized: [], designBrief: [],
     };
 
@@ -439,6 +455,19 @@ switch (cmd) {
       }
       if (row.targetKeyword && row.targetKeyword !== t.targetKeyword) t.targetKeyword = row.targetKeyword;
 
+      /* Адаптации — отдельная колонка, а не решение: их у статьи бывает
+       * несколько сразу («и в Телеграм, и в Дзен»), а решение — одно
+       * действие с темой. Заказ снимать нельзя, пока он не выполнен:
+       * сравниваем с уже сделанным (t.adaptationsDone) и в работу берём
+       * только разницу. */
+      const wanted = parseAdaptations(row.adaptation);
+      if (wanted.length) {
+        const done = t.adaptationsDone || [];
+        const fresh = wanted.filter((c) => !done.includes(c));
+        if (JSON.stringify(wanted) !== JSON.stringify(t.adaptations || [])) t.adaptations = wanted;
+        if (fresh.length) changes.adaptations.push({ slug: t.slug, title: t.title, channels: fresh });
+      }
+
       const d = PLAN_DECISION_SYNONYMS.get((row.decision || '').trim().toLowerCase())
         || (row.decision || '').toLowerCase();
       if (d === 'убрать' && t.status !== 'dropped') {
@@ -470,6 +499,24 @@ switch (cmd) {
         // обработает приёмку (cycle-state accept переводит в 'accepted'),
         // условие перестаёт совпадать само.
         changes.accepted.push({ slug: t.slug, title: t.title });
+      } else if (d === 'переписать статью') {
+        /* Текст не подошёл, а тема нужна. Возвращаем в план и помечаем
+         * попытку: писать заново, зная, что именно не устроило, — не то
+         * же самое, что писать с нуля. Прошлый док не трогаем, он
+         * остаётся в Drive как то, от чего отталкиваться.
+         *
+         * Снятые и выпущенные не переписываем: у первых решение уже
+         * принято, у вторых текст ушёл в принимающий проект — там это
+         * актуализация, а не рерайт. */
+        if (['writing', 'review', 'accepted'].includes(t.status)) {
+          const from = t.status;
+          if (transitionTopic(s, t.slug, 'planned').ok) {
+            t.rewrites = (t.rewrites || 0) + 1;
+            t.rewriteNote = row.note || t.lastNote || '';
+            t.previousDocUrl = t.docUrl || t.previousDocUrl || null;
+            changes.rewrite.push({ slug: t.slug, title: t.title, from, note: t.rewriteNote, attempt: t.rewrites });
+          }
+        }
       } else if (d === 'нужно тз дизайнеру') {
         // Статус не трогаем. Гвард от повторной засветки — по docId: бриф
         // делается по готовому тексту, а пока дока нет, заказывать нечего.
@@ -813,12 +860,17 @@ switch (cmd) {
    * каждую строку. Списки остаются нестрогими (strict: false) — вписать
    * своё значение по-прежнему можно, подсказка не запрет. */
   case 'row-decisions': {
+    /* «Переписать статью» показываем там, где есть что переписывать:
+     * с вычитки — чаще всего, у принятой — если передумали, у пишущейся
+     * — чтобы не ждать конца заведомо ненужного текста. У кандидата и
+     * темы в плане текста ещё нет, и предлагать там рерайт значит
+     * предлагать действие, которое ничего не сделает. */
     const BY_STATUS = {
       candidate: ['одобрено', 'написать сейчас', 'убрать'],
       planned:  ['написать сейчас', 'убрать'],
-      writing:  ['убрать'],
-      review:   ['принято', 'убрать'],
-      accepted: ['нужно ТЗ дизайнеру'],
+      writing:  ['переписать статью', 'убрать'],
+      review:   ['принято', 'переписать статью', 'убрать'],
+      accepted: ['нужно ТЗ дизайнеру', 'переписать статью'],
       released: ['нужно ТЗ дизайнеру'],
       dropped:  [],
     };

@@ -79,7 +79,7 @@ import { slugify } from './lib/slugify.mjs';
 import { resolveInternalLink } from './lib/resolve-links.mjs';
 import {
   WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, APPROVAL_CELL,
-  colLetter, workIdx, COL as WORK_COL, RU_STATUS,
+  colLetter, workIdx, COL as WORK_COL, RU_STATUS, ADAPTATION_VALUES,
 } from './lib/sheet-columns.mjs';
 
 const ROOT_FOLDER = process.env.GOOGLE_DOCS_FOLDER_ID || '';
@@ -336,11 +336,11 @@ const WORK_DECISIONS = [
   'одобрено',            // кандидат → в план
   'написать сейчас',     // не ждать батча: тема уходит в ближайший прогон
   'принято',             // статья на вычитке устраивает
+  'переписать статью',   // текст не годится — писать заново, тема остаётся
   'нужно ТЗ дизайнеру',  // заказ на обложку и иллюстрации
   'убрать',              // снять тему на любом этапе
 ];
 const WORK_WHO = ['AI', 'пишем сами'];
-const WORK_STATUSES = ['кандидат', 'в плане', 'пишется', 'на вычитке', 'принято', 'выпущено', 'снято'];
 
 /* Причина отказа — не комментарий, а команда: от формулировки зависит,
  * замолчит тема на 90 дней, на 30 или вернётся через неделю. Список
@@ -824,6 +824,9 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
     requests.push(dropdown('decision', WORK_DECISIONS));
     requests.push(dropdown('who', WORK_WHO));
     requests.push(dropdown('reason', WORK_REASONS));
+    // Адаптаций у статьи бывает несколько сразу, поэтому список
+    // нестрогий: значения перечисляются через запятую в одной ячейке.
+    requests.push(dropdown('adaptation', ADAPTATION_VALUES));
     // Ботовые колонки больше не идут подряд: «Статус» и «Документ» стоят
     // среди колонок редактора, потому что смотрит он на них постоянно.
     // Значит и защита — по колонке, а не одним диапазоном до конца листа.
@@ -1110,6 +1113,82 @@ try {
         tab, added: items.length, lastRow,
         sheetUrl: `https://docs.google.com/spreadsheets/d/${sheetId}/edit#gid=${gid}`,
       }, null, 2));
+      break;
+    }
+
+    /* Привести колонки живой вкладки к WORK_COLS.
+     *
+     * Набор колонок меняется: 13.08.2026 из него убрали «Приоритет» и
+     * добавили «Адаптация». Код после такой правки читает таблицу по
+     * заголовкам и просто не находит новую колонку — заказы редактора
+     * молча не доходят, а лишняя колонка остаётся мозолить глаза.
+     * Переписать заголовки на месте нельзя: данные под ними не сдвинутся
+     * и разъедутся со своими названиями.
+     *
+     * Здесь колонки вставляются и удаляются целиком — Sheets двигает
+     * данные сам. По умолчанию показывает план и ничего не трогает;
+     * применяет только с --apply.
+     */
+    case 'sync-columns': {
+      const sheetId = arg('sheet-id');
+      if (!sheetId) die('нужен --sheet-id');
+      const tab = arg('tab') || (await latestTab(sheetId, WORK_TAB_PREFIX)).title;
+      const gid = (await latestTab(sheetId, WORK_TAB_PREFIX)).sheetId;
+
+      const headerRange = a1(tab, `A${WORK_HEADER_ROW}:${colLetter(60)}${WORK_HEADER_ROW}`);
+      const cur = ((await sheets(`${sheetId}/values/${encodeURIComponent(headerRange)}`)).values || [[]])[0]
+        .map((h) => (h || '').trim());
+      // Хвост пустых ячеек — не колонки.
+      while (cur.length && !cur[cur.length - 1]) cur.pop();
+
+      const want = WORK_COLS.map((c) => c.title);
+      const plan = [];
+      const live = [...cur];
+
+      // Сначала лишние — удаление не сдвигает то, что левее.
+      for (let i = live.length - 1; i >= 0; i--) {
+        if (!want.includes(live[i])) {
+          plan.push({ kind: 'delete', at: i, title: live[i] });
+          live.splice(i, 1);
+        }
+      }
+      // Затем недостающие — слева направо, чтобы индексы совпадали с целевыми.
+      want.forEach((title, i) => {
+        if (live[i] !== title) { plan.push({ kind: 'insert', at: i, title }); live.splice(i, 0, title); }
+      });
+
+      if (!plan.length) { console.log(`✓ «${tab}»: колонки уже совпадают с WORK_COLS.`); break; }
+
+      console.log(`Вкладка «${tab}» — ${plan.length} изменений:`);
+      for (const p of plan) {
+        console.log(`  ${p.kind === 'delete' ? 'удалить' : 'вставить'} «${p.title}» (колонка ${colLetter(p.at)})`);
+      }
+      if (live.join('|') !== want.join('|')) {
+        die('после плана раскладка всё равно не сходится — разберись руками, ничего не трогаю');
+      }
+      if (!process.argv.includes('--apply')) {
+        console.log('\nЭто сухой прогон. Применить: добавь --apply');
+        break;
+      }
+
+      const requests = plan.map((p) => (p.kind === 'delete'
+        ? { deleteDimension: { range: { sheetId: gid, dimension: 'COLUMNS', startIndex: p.at, endIndex: p.at + 1 } } }
+        : { insertDimension: { range: { sheetId: gid, dimension: 'COLUMNS', startIndex: p.at, endIndex: p.at + 1 }, inheritFromBefore: false } }));
+      await sheets(`${sheetId}:batchUpdate`, { method: 'POST', body: JSON.stringify({ requests }) });
+
+      // Заголовки переписываем целиком: вставленные колонки пришли пустыми.
+      await sheets(`${sheetId}/values/${encodeURIComponent(a1(tab, `A${WORK_HEADER_ROW}`))}?valueInputOption=USER_ENTERED`, {
+        method: 'PUT', body: JSON.stringify({ values: [want] }),
+      });
+      /* Ширины, списки и защита живут по индексам колонок — после сдвига
+       * они указывают не туда, а у вставленной колонки их нет вовсе.
+       * Без этого «Адаптация» появилась бы как пустой столбец без
+       * выпадающего списка: формально колонка есть, пользоваться нечем. */
+      const rows = (await sheets(`${sheetId}/values/${encodeURIComponent(a1(tab, `A${WORK_FIRST_DATA_ROW}:A2000`))}`)).values || [];
+      await formatWorkSheet(sheetId, gid, tab.replace(WORK_TAB_PREFIX, ''), rows.length);
+
+      console.log(`✅ «${tab}»: колонки приведены к WORK_COLS, списки и ширины обновлены.`);
+      console.log('   Дальше: cycle-state row-decisions → drive-sync set-row-dropdowns, затем sheet-sync.');
       break;
     }
 

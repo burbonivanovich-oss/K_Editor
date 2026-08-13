@@ -747,3 +747,138 @@ test('set-title без темы или заголовка отказывает',
     runFail(statePath, ['set-title', '--slug', 'нет-такой', '--title', 'X']);
   });
 });
+
+/* ------------------------------------- «переписать статью» и адаптации */
+
+// Решение убирали из списка 12.08.2026 и вернули 13.08.2026: тогда речь
+// шла об обновлении темы, а здесь — о том, что конкретный текст не
+// подошёл, а тема нужна. Это разные вещи, и путь у них разный.
+test('«переписать статью» возвращает статью с вычитки в план', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'tema']);
+    run(statePath, ['to-review', '--slug', 'tema', '--doc-url', 'https://docs/1']);
+
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, slug: 'tema', title: 'Тема', decision: 'переписать статью', note: 'слишком общо' }],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull, '--json']));
+
+    const t = find(getState(statePath), 'tema');
+    assert.equal(t.status, 'planned');
+    assert.equal(t.rewrites, 1);
+    assert.equal(t.rewriteNote, 'слишком общо');
+    assert.equal(t.previousDocUrl, 'https://docs/1', 'прошлый док — то, от чего отталкиваться');
+    assert.equal(out.rewrite[0].from, 'review');
+  });
+});
+
+test('«переписать статью» освобождает место в очереди редактора', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'А' }, { title: 'Б' }], ['--max-in-review', '1']);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'a']);
+    run(statePath, ['to-review', '--slug', 'a']);
+    runFail(statePath, ['start-batch', '--slugs', 'b']);
+
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, slug: 'a', title: 'А', decision: 'переписать статью' }],
+    }));
+    run(statePath, ['apply-decisions', '--file', pull]);
+    run(statePath, ['start-batch', '--slugs', 'b']);
+    assert.equal(find(getState(statePath), 'b').status, 'writing');
+  });
+});
+
+// Текст уже у принимающего проекта — там это актуализация, а не рерайт.
+test('выпущенную статью переписать нельзя', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'tema']);
+    run(statePath, ['to-review', '--slug', 'tema']);
+    run(statePath, ['accept', '--slug', 'tema']);
+    run(statePath, ['release', '--slug', 'tema']);
+
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, slug: 'tema', title: 'Тема', decision: 'переписать статью' }],
+    }));
+    run(statePath, ['apply-decisions', '--file', pull]);
+    assert.equal(find(getState(statePath), 'tema').status, 'released');
+  });
+});
+
+test('старое слово «нужен рерайт» читается как «переписать статью»', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'tema']);
+    run(statePath, ['to-review', '--slug', 'tema']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, slug: 'tema', title: 'Тема', decision: 'нужен рерайт' }],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull, '--json']));
+    assert.equal(out.rewrite.length, 1);
+    assert.equal(out.unrecognized.length, 0, 'старое слово не должно попадать в «не распознано»');
+  });
+});
+
+// Адаптаций у статьи бывает несколько сразу — на то и отдельная колонка.
+test('колонка «Адаптация» принимает несколько каналов разом', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, slug: 'tema', title: 'Тема', decision: '', adaptation: 'ТГ, Дзен, промостраница' }],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull, '--json']));
+    assert.deepEqual(find(getState(statePath), 'tema').adaptations, ['telegram', 'dzen', 'promo']);
+    assert.deepEqual(out.adaptations[0].channels, ['telegram', 'dzen', 'promo']);
+  });
+});
+
+test('уже сделанная адаптация повторно в работу не уходит', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    const s = getState(statePath);
+    s.plan[0].adaptationsDone = ['telegram'];
+    writeFileSync(statePath, JSON.stringify(s));
+
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, slug: 'tema', title: 'Тема', decision: '', adaptation: 'Телеграм, Дзен' }],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull, '--json']));
+    assert.deepEqual(out.adaptations[0].channels, ['dzen'], 'в работу идёт только новое');
+  });
+});
+
+test('пустая ячейка «Адаптация» ничего не заказывает', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, slug: 'tema', title: 'Тема', decision: '', adaptation: '' }],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull, '--json']));
+    assert.equal(out.adaptations.length, 0);
+  });
+});
+
+test('«переписать статью» предлагается там, где есть что переписывать', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'А' }, { title: 'Б' }]);
+    run(statePath, ['set-state', 'running']);
+    run(statePath, ['start-batch', '--slugs', 'a']);
+    run(statePath, ['to-review', '--slug', 'a']);
+    const rows = JSON.parse(run(statePath, ['row-decisions']));
+    const byRow = new Map(rows.map((r) => [r.row, r.values]));
+    assert.ok(byRow.get(5).includes('переписать статью'), 'на вычитке — предлагается');
+    assert.ok(!byRow.get(6).includes('переписать статью'), 'в плане текста ещё нет');
+  });
+});
