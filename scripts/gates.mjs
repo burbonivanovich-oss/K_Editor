@@ -43,7 +43,31 @@ import { fileURLToPath } from 'node:url';
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ROOT = process.env.GATES_ROOT || REPO;
 
-const OK = 'ok', FAIL = 'fail', DECIDE = 'decide', NA = 'na';
+export const OK = 'ok', FAIL = 'fail', DECIDE = 'decide', NA = 'na';
+
+/**
+ * Проверки гейта и их человеческие названия — один список на всё.
+ *
+ * Тот же набор ключей ждёт `check-analysis.mjs` в `REQUIRED_CHECKS`.
+ * Списки в двух файлах расходятся ровно тогда, когда в один из них
+ * добавляют проверку: гейт её считает, оценщик про неё не знает, и
+ * пропажа не видна ни в одном отчёте. Совпадение проверяется тестом
+ * (`gates-contract.test.mjs`), а не договорённостью.
+ */
+export const GATE_CHECKS = {
+  frontmatter: 'Frontmatter',
+  words: 'Объём',
+  internalLinks: 'Внутренние ссылки',
+  seo: 'SEO',
+  ai: 'Машинный текст',
+  links: 'Ссылки',
+  npa: 'Нормы',
+  factcheck: 'Факчек',
+  duplication: 'Дубли',
+  market: 'Каталог Маркета',
+  graph: 'Граф ссылок',
+  pillar: 'Опорный материал',
+};
 
 /* Корень для под-скриптов.
  *
@@ -53,7 +77,7 @@ const OK = 'ok', FAIL = 'fail', DECIDE = 'decide', NA = 'na';
  * frontmatter и объём — и одновременно искал дубли по живому корпусу.
  * Такая проверка не врёт громко, она врёт тихо: отвечает правду на
  * вопрос про чужие данные. */
-const SUB_ROOTS = ['DUP_ROOT', 'AI_PROFILE_ROOT', 'SEO_AUDIT_ROOT'];
+const SUB_ROOTS = ['DUP_ROOT', 'AI_PROFILE_ROOT', 'SEO_AUDIT_ROOT', 'MARKET_ROOT'];
 
 /** Прогон скрипта: код возврата и вывод. Падение самого скрипта — тоже ответ. */
 function run(script, args = []) {
@@ -165,8 +189,13 @@ function checkDuplication(slug, title) {
 /** Пересечение с каталогом Маркета — не блокер, а решение (AGENTS.md). */
 function checkMarket(title, body) {
   const r = run('audit/check-market-duplication.mjs', [title]);
-  const top = r.out.match(/^\s*([\d.]+)\s/m);
-  const score = top ? Number(top[1]) : 0;
+  /* Балл идёт в скобках: «  [1.00] Заголовок». Первая версия шаблона
+   * искала голое число в начале строки и не находила ничего никогда —
+   * проверка молча докладывала «совпадений нет» на статьях, у которых
+   * совпадение было. Поймано тестом, глазами такое не видно: отчёт
+   * выглядит зелёным и правдоподобным. */
+  const scores = [...r.out.matchAll(/\[(\d+(?:\.\d+)?)\]/g)].map((m) => Number(m[1]));
+  const score = scores.length ? Math.max(...scores) : 0;
   if (score < 0.6) return { status: OK, note: score ? `максимум ${score}` : 'совпадений нет' };
   return /kontur\.ru\/market/.test(body)
     ? { status: OK, note: `совпадение ${score}, ссылка на Маркет в тексте есть` }
@@ -264,16 +293,10 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   }
 
   const MARK = { [OK]: '✓', [FAIL]: '✖', [DECIDE]: '?', [NA]: '—' };
-  const TITLES = {
-    frontmatter: 'Frontmatter', words: 'Объём', internalLinks: 'Внутренние ссылки',
-    seo: 'SEO', ai: 'Машинный текст', links: 'Ссылки', npa: 'Нормы',
-    factcheck: 'Факчек', duplication: 'Дубли', market: 'Каталог Маркета',
-    graph: 'Граф ссылок', pillar: 'Опорный материал',
-  };
 
   console.log(`Гейты: ${result.title}\n`);
   for (const [k, v] of Object.entries(result.checks)) {
-    console.log(`  ${MARK[v.status]} ${(TITLES[k] || k).padEnd(20)} ${v.note}`);
+    console.log(`  ${MARK[v.status]} ${(GATE_CHECKS[k] || k).padEnd(20)} ${v.note}`);
   }
   const n = (s) => Object.values(result.checks).filter((c) => c.status === s).length;
   console.log(`\n${n(OK)} зелёных · ${n(FAIL)} красных · ${n(DECIDE)} требуют решения · ${n(NA)} неприменимо`);

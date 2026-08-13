@@ -220,3 +220,99 @@ test('одна упавшая проверка перевешивает все �
     assert.equal(run(dir).code, 1);
   }, { text: body(300) });
 });
+
+/* --------------------------------------- ветки, которые легко обойти молча */
+
+// Пересечение с Маркетом — не блокер, но и не «всё в порядке»: у модуля
+// нет своего сайта, и статья должна вести на Маркет, а не соревноваться
+// с ним за тот же запрос (AGENTS.md).
+test('сильное совпадение с Маркетом без ссылки — требует решения', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, 'src/data/interlinking/market-articles.json'), JSON.stringify({
+      generatedFrom: 'test',
+      articles: [{ url: 'https://kontur.ru/market/spravka/1-x', title: 'Тестовая статья про кассы', viewsTotal: 100 }],
+    }));
+    const r = run(dir);
+    assert.equal(r.checks.market.ok, true, 'не блокер');
+    assert.match(r.checks.market.note, /без ссылки на Маркет/);
+  });
+});
+
+test('то же совпадение со ссылкой на Маркет в тексте — зелёное', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, 'src/data/interlinking/market-articles.json'), JSON.stringify({
+      generatedFrom: 'test',
+      articles: [{ url: 'https://kontur.ru/market/spravka/1-x', title: 'Тестовая статья про кассы', viewsTotal: 100 }],
+    }));
+    writeFileSync(join(dir, 'src/content/blog', `${SLUG}.md`),
+      `${frontmatter()}\n\n${body()}\n\nПодробнее в [справке](https://kontur.ru/market/spravka/1-x).`);
+    assert.match(run(dir).checks.market.note, /ссылка на Маркет в тексте есть/);
+  });
+});
+
+// Маркер с проваленным факчеком выглядит как маркер: файл есть, дата
+// есть. Разница только в поле result — и её легко не заметить глазами.
+test('маркер с непройденным факчеком — блокер', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
+      date: '2026-08-13', result: 'failed', criticalMismatches: 0,
+      report: `src/data/factcheck/results/${SLUG}.json`,
+    }));
+    const r = run(dir);
+    assert.equal(r.checks.factcheck.ok, false);
+    assert.match(r.checks.factcheck.note, /«failed»/);
+  });
+});
+
+test('критические расхождения в факчеке — блокер', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
+      date: '2026-08-13', result: 'passed', criticalMismatches: 2,
+      report: `src/data/factcheck/results/${SLUG}.json`,
+    }));
+    assert.match(run(dir).checks.factcheck.note, /критических расхождений 2/);
+  });
+});
+
+test('отчёт факчека прописан, но его нет на диске — блокер', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
+      date: '2026-08-13', result: 'passed', criticalMismatches: 0,
+      report: 'src/data/factcheck/results/нет-такого.json',
+    }));
+    assert.match(run(dir).checks.factcheck.note, /нет на диске/);
+  });
+});
+
+test('повреждённый маркер не роняет гейт', () => {
+  withRepo((dir) => {
+    writeFileSync(join(dir, '.claude/factchecked', SLUG), 'не json');
+    const r = run(dir);
+    assert.equal(r.checks.factcheck.ok, false);
+    assert.match(r.checks.factcheck.note, /повреждён/);
+  });
+});
+
+// Ссылки считаются по уникальным адресам: три ссылки на одну и ту же
+// статью — это одна связь, а не три.
+test('повторные ссылки на одну статью не считаются тремя', () => {
+  withRepo((dir) => {
+    const same = '[раз](/blog/2026-01-01-a/) [два](/blog/2026-01-01-a/) [три](/blog/2026-01-01-a/)';
+    writeFileSync(join(dir, 'src/content/blog', `${SLUG}.md`), `${frontmatter()}\n\n${same}\n\n${body(1600, 0)}`);
+    const r = run(dir);
+    assert.equal(r.checks.internalLinks.ok, false);
+    assert.match(r.checks.internalLinks.note, /1 внутренних/);
+  });
+});
+
+test('две категории вместо одной — блокер', () => {
+  withRepo((dir) => {
+    assert.match(run(dir).checks.frontmatter.note, /категорий 2/);
+  }, { fm: frontmatter({ categories: ['kkt', 'markirovka'] }) });
+});
+
+test('нет seo.keywords — блокер, поле названо', () => {
+  withRepo((dir) => {
+    assert.match(run(dir).checks.frontmatter.note, /seo\.keywords/);
+  }, { fm: frontmatter().replace(/\n\s*keywords:[\s\S]*?(?=\n---)/, '') });
+});

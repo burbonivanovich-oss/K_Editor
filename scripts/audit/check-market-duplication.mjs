@@ -22,7 +22,10 @@ import { dirname, join } from 'node:path';
 import { tokenize, jaccard } from '../lib/text-similarity.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
-const ROOT = join(__dir, '..', '..');
+/* Корень подменяется в тестах и в прогоне гейта на фикстуре. Без этого
+ * скрипт всегда читает живой каталог Маркета: на тестовых данных он
+ * отвечает правду про чужой каталог — то есть врёт тихо. */
+const ROOT = process.env.MARKET_ROOT || join(__dir, '..', '..');
 
 const query = process.argv.slice(2).join(' ').trim();
 if (!query) {

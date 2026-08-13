@@ -10,10 +10,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import {
-  WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, APPROVAL_CELL,
-  colLetter, workIdx, COL, RU_STATUS, PRIORITIES, isPriority,
-} from './sheet-columns.mjs';
+import { WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, APPROVAL_CELL, colLetter, workIdx, COL, RU_STATUS, PRIORITIES, isPriority, parseAdaptations, ADAPTATION_VALUES } from './sheet-columns.mjs';
 
 test('ключи колонок уникальны', () => {
   const keys = WORK_COLS.map((c) => c.key);
@@ -87,4 +84,68 @@ test('приоритет принимается только из набора',
   assert.ok(!isPriority(''));
   assert.ok(!isPriority(undefined));
   assert.deepEqual(PRIORITIES, ['P0', 'P1', 'P2']);
+});
+
+/* ------------------------------------------------- колонка «Адаптация» */
+
+// Колонка появилась 13.08.2026 вместо «Приоритета». Отдельная колонка, а
+// не значения «Решения», потому что адаптаций у статьи бывает несколько
+// сразу — в одном списке пришлось бы выбирать между Телеграмом и Дзеном
+// там, где выбирать не нужно.
+
+test('несколько каналов через запятую разбираются все', () => {
+  assert.deepEqual(parseAdaptations('Телеграм, Дзен, Промостраница'), ['telegram', 'dzen', 'promo']);
+});
+
+// Разделитель и регистр нигде не оговорены, и оговаривать их значило бы
+// завести ещё одно правило, которое редакция обязана помнить.
+test('разделители и регистр значения не имеют', () => {
+  const expected = ['telegram', 'dzen'];
+  for (const cell of ['ТГ, Дзен', 'тг; дзен', 'Телеграм / Дзен', 'ТГ и Дзен', 'ТГ|ДЗЕН']) {
+    assert.deepEqual(parseAdaptations(cell), expected, cell);
+  }
+});
+
+test('сокращения редакции понимаются', () => {
+  assert.deepEqual(parseAdaptations('тг'), ['telegram']);
+  assert.deepEqual(parseAdaptations('промо'), ['promo']);
+  assert.deepEqual(parseAdaptations('вк'), ['vk']);
+  assert.deepEqual(parseAdaptations('рассылка'), ['email']);
+});
+
+test('повтор канала в одной ячейке не удваивает заказ', () => {
+  assert.deepEqual(parseAdaptations('Телеграм, ТГ, telegram'), ['telegram']);
+});
+
+test('порядок сохраняется — в нём редакция расставила приоритет', () => {
+  assert.deepEqual(parseAdaptations('Дзен, Телеграм'), ['dzen', 'telegram']);
+});
+
+test('пустая ячейка ничего не заказывает', () => {
+  for (const cell of ['', '   ', null, undefined]) assert.deepEqual(parseAdaptations(cell), []);
+});
+
+test('незнакомый канал не выдумывается', () => {
+  assert.deepEqual(parseAdaptations('Одноклассники'), []);
+  assert.deepEqual(parseAdaptations('Одноклассники, Дзен'), ['dzen'], 'знакомое рядом с незнакомым не теряется');
+});
+
+test('значения выпадающего списка совпадают с тем, что разбирается обратно', () => {
+  for (const v of ADAPTATION_VALUES) {
+    assert.equal(parseAdaptations(v).length, 1, `значение списка «${v}» должно разбираться`);
+  }
+});
+
+/* Колонки «Приоритет» больше нет: редакция её не заполняла. Проверка
+ * приоритета осталась — значение приходит из планов и очередей. */
+test('колонки «Приоритет» в раскладке нет, а проверка значения осталась', () => {
+  assert.equal(WORK_COLS.some((c) => c.key === 'priority'), false);
+  assert.equal(isPriority('P0'), true);
+  assert.equal(isPriority('высокий'), false);
+});
+
+test('«Адаптация» — колонка редактора, а не бота', () => {
+  const col = WORK_COLS.find((c) => c.key === 'adaptation');
+  assert.ok(col, 'колонка должна быть в раскладке');
+  assert.equal(col.owner, 'editor');
 });

@@ -1,24 +1,88 @@
 {
   "slug": "2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
-  "score": 100,
-  "blocker": false,
-  "categories": {
-    "quality": { "score": 20, "issues": [] },
-    "seo": { "score": 20, "issues": [] },
-    "eeat": { "score": 20, "issues": [] },
+  "checkedAt": "2026-08-13",
+  "gradedBy": "свежее чтение, не автор текста",
+  "checks": {
+    "frontmatter": {
+      "ok": true,
+      "note": "поля на месте, тегов 6"
+    },
+    "words": {
+      "ok": true,
+      "value": 1844,
+      "note": "1844 слов"
+    },
+    "internalLinks": {
+      "ok": true,
+      "note": "8 внутренних ссылок"
+    },
+    "seo": {
+      "ok": true,
+      "note": "без P0-ошибок"
+    },
+    "ai": {
+      "ok": true,
+      "value": 0,
+      "note": "0/10"
+    },
+    "links": {
+      "ok": true,
+      "note": "ссылки рабочие"
+    },
+    "npa": {
+      "ok": true,
+      "note": "нормы действующие"
+    },
+    "factcheck": {
+      "ok": true,
+      "note": "проверено 2026-08-13"
+    },
+    "duplication": {
+      "ok": true,
+      "note": "0.33 — «ТС ПИоТ: кто обязан подключить модуль до 1 октября 2026 года»: сузить угол и сослаться"
+    },
+    "market": {
+      "ok": true,
+      "note": "совпадений нет"
+    },
     "graph": {
-      "score": 20,
-      "issues": [
-        "check-blog-links.mjs: ссылка на /blog/2026-08-11-razreshitelnyy-rezhim-markirovki-... станет текстом в Google Doc, т.к. у целевой статьи нет konturUrl во frontmatter — не блокер (exit 0), но стоит поправить донора отдельно"
-      ]
+      "ok": true,
+      "note": "входящие ссылки есть"
     },
-    "tech": {
-      "score": 20,
-      "issues": [
-        "промоблоки взяты из соседнего кластера kkt — у ts-piot нет собственных записей в cpa-blocks.json (0 из 257), задокументировано в src/data/visuals/<slug>.md"
-      ]
-    },
-    "ai_citation": { "score": 10, "issues": [] }
+    "pillar": {
+      "ok": true,
+      "note": "pillar ts-piot ссылается"
+    }
   },
-  "checkedAt": "2026-08-13"
+  "categories": {
+    "lead": {
+      "score": 23,
+      "issues": [
+        "обещание «большинство решается за минуту» нигде не выполняется — в тексте сроки от получаса до дня",
+        "«Разберём, что означают…» — служебный оборот перед содержанием"
+      ]
+    },
+    "structure": {
+      "score": 24,
+      "issues": [
+        "раздел «5 причин» на треть повторяет таблицу кодов и шаги устранения — похоже, вставлен под промоблок"
+      ]
+    },
+    "language": {
+      "score": 23,
+      "issues": [
+        "две подводки к промоблокам сделаны одним ходом («сами долго — передайте специалистам») и читаются как повтор",
+        "«не повод паниковать» в заключении выпадает из делового тона остального текста"
+      ]
+    },
+    "usefulness": {
+      "score": 24,
+      "issues": [
+        "для кода null действие «при необходимости пересоздайте регистрацию» размыто на фоне точных действий в остальных строках таблицы"
+      ]
+    }
+  },
+  "score": 94,
+  "maxScore": 100,
+  "blocker": false
 }
