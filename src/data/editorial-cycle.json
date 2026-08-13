@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-13T05:45:46.544Z",
+  "updatedAt": "2026-08-13T07:05:12.258Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -547,7 +547,7 @@
       "rationale": "добавлено редактором",
       "row": 42,
       "owner": "bot",
-      "status": "planned",
+      "status": "writing",
       "docId": null,
       "docUrl": null,
       "seenComments": [],
@@ -562,7 +562,7 @@
       "rationale": "добавлено редактором",
       "row": 43,
       "owner": "bot",
-      "status": "planned",
+      "status": "writing",
       "docId": null,
       "docUrl": null,
       "seenComments": [],
@@ -584,7 +584,17 @@
       "urgent": true
     }
   ],
-  "batches": [],
+  "batches": [
+    {
+      "n": 1,
+      "slugs": [
+        "aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
+        "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht"
+      ],
+      "startedAt": "2026-08-13T07:05:12.245Z",
+      "state": "writing"
+    }
+  ],
   "log": [
     {
       "at": "2026-08-11T18:17:09.688Z",
@@ -673,6 +683,10 @@
     {
       "at": "2026-08-13T05:45:46.544Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-13T07:05:12.258Z",
+      "event": "батч 1 начат: aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k, zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht"
     }
   ]
 }
