@@ -1,0 +1,24 @@
+{
+  "slug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
+  "score": 100,
+  "blocker": false,
+  "categories": {
+    "quality": { "score": 20, "issues": [] },
+    "seo": { "score": 20, "issues": [] },
+    "eeat": { "score": 20, "issues": [] },
+    "graph": {
+      "score": 20,
+      "issues": [
+        "check-blog-links.mjs: ссылка на /blog/2026-08-11-razreshitelnyy-rezhim-markirovki-... станет текстом в Google Doc, т.к. у целевой статьи нет konturUrl во frontmatter — не блокер (exit 0), но стоит поправить донора отдельно"
+      ]
+    },
+    "tech": {
+      "score": 20,
+      "issues": [
+        "промоблоки egais — родной кластер, замены соседним не потребовалось"
+      ]
+    },
+    "ai_citation": { "score": 10, "issues": [] }
+  },
+  "checkedAt": "2026-08-13"
+}
