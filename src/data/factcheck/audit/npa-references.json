@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-13T07:41:23.345Z",
+  "generatedAt": "2026-08-13T08:23:37.617Z",
   "totals": {
-    "files": 8,
+    "files": 10,
     "unknownFz": 0,
     "unknownPp": 0,
     "unknownPrikaz": 0,
-    "topicMismatch": 3,
+    "topicMismatch": 6,
     "ambiguousPrikaz": 0
   },
   "findings": {
@@ -31,6 +31,36 @@
         "title": "О налоговой реформе 2026 (НДС 22%, лимиты УСН/ПСН)",
         "categories": [
           "kkt"
+        ]
+      },
+      {
+        "slug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+        "type": "fz",
+        "num": "425",
+        "topic": "nalogi",
+        "title": "О налоговой реформе 2026 (НДС 22%, лимиты УСН/ПСН)",
+        "categories": [
+          "banki"
+        ]
+      },
+      {
+        "slug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+        "type": "fz",
+        "num": "54",
+        "topic": "kkt",
+        "title": "О применении ККТ",
+        "categories": [
+          "banki"
+        ]
+      },
+      {
+        "slug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+        "type": "fz",
+        "num": "192",
+        "topic": "kkt",
+        "title": "О внесении изменений в отдельные законодательные акты РФ (правки в 54-ФЗ: момент формирования чека при расчётах без непосредственного взаимодействия — не позднее рабочего дня, следующего за днём расчёта, но не позднее момента передачи товара)",
+        "categories": [
+          "banki"
         ]
       },
       {
