@@ -275,6 +275,14 @@
         "title": "О маркировке безалкогольных напитков",
         "date": "2022-12-31",
         "topic": "markirovka"
+      },
+      "2466": {
+        "title": "О ведении и функционировании единой государственной автоматизированной информационной системы учёта объёма производства и оборота этилового спирта, алкогольной и спиртосодержащей продукции",
+        "date": "2020-12-31",
+        "topic": "egais",
+        "source": "http://publication.pravo.gov.ru/",
+        "verifiedAt": "2026-08-13",
+        "note": "Подтверждено двумя независимыми источниками (pravo.gov.ru + government.ru/garant.ru) в рамках брифа .claude/research/2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k-brief.md"
       }
     },
     "prikaz": {
