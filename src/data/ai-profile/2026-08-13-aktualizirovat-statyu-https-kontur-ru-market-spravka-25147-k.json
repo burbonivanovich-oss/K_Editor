@@ -1,0 +1,40 @@
+{
+  "slug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+  "analyzerVersion": 1,
+  "checkedAt": "2026-08-13",
+  "regexScore": 2,
+  "finalScore": 2,
+  "hits": 5,
+  "structure": {
+    "rhythm": {
+      "sentenceCount": 89,
+      "meanWords": 19.8,
+      "cv": 0.91
+    },
+    "sections": {
+      "sectionCount": 9,
+      "meanWords": 181,
+      "cv": 0.34
+    },
+    "ngrams": {
+      "totalNgrams": 1780,
+      "uniqueRatio": 0.94,
+      "topRepeats": [
+        {
+          "phrase": "| --- | ---",
+          "count": 5
+        },
+        {
+          "phrase": "--- | --- |",
+          "count": 5
+        },
+        {
+          "phrase": "с 1 января 2026",
+          "count": 3
+        }
+      ]
+    }
+  },
+  "suggestions": [],
+  "history": []
+}

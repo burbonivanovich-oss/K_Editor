@@ -1,0 +1,40 @@
+{
+  "slug": "2026-08-13-korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit",
+  "analyzerVersion": 1,
+  "checkedAt": "2026-08-13",
+  "regexScore": 2,
+  "finalScore": 2,
+  "hits": 5,
+  "structure": {
+    "rhythm": {
+      "sentenceCount": 110,
+      "meanWords": 18.4,
+      "cv": 0.5
+    },
+    "sections": {
+      "sectionCount": 8,
+      "meanWords": 240,
+      "cv": 0.5
+    },
+    "ngrams": {
+      "totalNgrams": 2058,
+      "uniqueRatio": 0.93,
+      "topRepeats": [
+        {
+          "phrase": "ст 145 коап рф",
+          "count": 9
+        },
+        {
+          "phrase": "на фискальный признак ошибочного",
+          "count": 5
+        },
+        {
+          "phrase": "вообще не был пробит",
+          "count": 4
+        }
+      ]
+    }
+  },
+  "suggestions": [],
+  "history": []
+}
