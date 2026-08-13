@@ -58,6 +58,10 @@ import { isSuppressed, load as loadSuppressions } from './topics/suppressions.mj
 // туда «Актуализировать статью <URL> …» вместе с инструкцией. Разбор —
 // в lib/update-task.mjs, там же история, почему он понадобился.
 import { parseTopicCell } from './lib/update-task.mjs';
+// Текст из таблицы — данные, не команды. Рутины автономны и имеют доступ
+// к репозиторию; доступ к таблице шире доступа к репозиторию. См. шапку
+// lib/untrusted-text.mjs.
+import { scanForInstructions, describeFindings, isAllowedSource } from './lib/untrusted-text.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 // Переопределяется в тестах (cycle-state.test.mjs), чтобы гонять машину
@@ -164,10 +168,22 @@ function marketCatalog() {
  *  и add-candidates (бот), и apply-decisions (редактор вписал руками). */
 function taskFields(cell) {
   const t = parseTopicCell(cell, { catalog: marketCatalog() });
+  /* Просьба редактора остаётся просьбой и выполняется как редакционная.
+   * Но если в ней есть обороты, адресованные процессу, а не тексту, —
+   * тема помечается, и рутина показывает это владельцу вместо того,
+   * чтобы исполнять. */
+  const suspect = scanForInstructions(t.brief || t.raw);
+  /* Ссылку на актуализацию загружает автономная сессия и читает целиком.
+   * Домен вне списка — не отказ в работе, а отказ грузить автоматически:
+   * содержимое чужой страницы иначе попадает в контекст процесса с
+   * доступом к репозиторию. */
+  const fetchable = t.sourceUrl ? isAllowedSource(t.sourceUrl) : null;
   return {
     title: t.title,
     kind: t.kind,
     brief: t.brief || '',
+    ...(suspect.length ? { suspectedInstructions: describeFindings(suspect) } : {}),
+    ...(fetchable === false ? { sourceNotFetchable: 'домен вне списка разрешённых — открыть вручную, автоматически не загружаем' } : {}),
     sourceUrl: t.sourceUrl,
     sourceTitle: t.sourceTitle,
     refUrls: t.refUrls,
@@ -374,6 +390,9 @@ switch (cmd) {
       rewrite: [],
       // Заказы на адаптацию под каналы — колонка «Адаптация».
       adaptations: [],
+      /* Ячейки, текст которых адресован процессу, а не статье. Рутина
+       * такие не исполняет — показывает владельцу. */
+      suspectedInstructions: [],
       notes: [], added: [], missing: [], unrecognized: [], designBrief: [],
     };
 
@@ -544,7 +563,12 @@ switch (cmd) {
 
       if (row.note && row.note !== t.lastNote) {
         t.lastNote = row.note;
-        changes.notes.push({ slug: t.slug, title: t.title, note: row.note });
+        const suspect = scanForInstructions(row.note);
+        changes.notes.push({
+          slug: t.slug, title: t.title, note: row.note,
+          ...(suspect.length ? { suspectedInstructions: describeFindings(suspect) } : {}),
+        });
+        if (suspect.length) changes.suspectedInstructions.push({ slug: t.slug, title: t.title, where: 'Правка', what: describeFindings(suspect) });
       }
     }
 

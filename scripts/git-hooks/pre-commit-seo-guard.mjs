@@ -39,7 +39,7 @@ let failed = false;
 for (const f of blogFiles) {
   let content;
   try {
-    content = execSync(`git show :${f}`, { encoding: 'utf8' });
+    content = execFileSync('git', ['show', `:${f}`], { encoding: 'utf8' });
   } catch {
     continue;
   }

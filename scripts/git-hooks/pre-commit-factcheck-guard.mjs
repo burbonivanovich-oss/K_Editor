@@ -15,7 +15,11 @@
 // Установка: scripts/git-hooks/install.sh
 // Bypass (только при крайней необходимости): git commit --no-verify
 
-import { execSync } from 'node:child_process';
+/* execFileSync, а не execSync со склейкой: имя файла приходит из
+ * `git diff --cached` и может содержать метасимволы шелла — `$( )`,
+ * `;`, кавычки. Git такие имена допускает, и подстановка в строку
+ * означала бы выполнение чужого кода при обычном коммите. */
+import { execSync, execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -49,7 +53,7 @@ const stale = [];
 for (const f of blogFiles) {
   let staged_content;
   try {
-    staged_content = execSync(`git show :${f}`, { encoding: 'utf8' });
+    staged_content = execFileSync('git', ['show', `:${f}`], { encoding: 'utf8' });
   } catch {
     continue;
   }

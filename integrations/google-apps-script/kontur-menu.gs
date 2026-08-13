@@ -213,7 +213,7 @@ function sendRequest_(kind, question, allowEmpty) {
     kind: kind,
     topic: topic.title,
     note: note,
-    who: Session.getActiveUser().getEmail() || 'редактор',
+    who: maskEmail_(Session.getActiveUser().getEmail()),
   });
 
   if (result.ok) {
@@ -248,6 +248,27 @@ function readTopic_() {
  * Запускает workflow. GitHub на успех отвечает 204 без тела — поэтому
  * проверяем именно код, а не содержимое ответа.
  */
+/**
+ * Почта редактора не уезжает из Google целиком.
+ *
+ * Запрос попадает в workflow, тот кладёт его файлом в репозиторий и
+ * коммитит. Репозиторий публичный, и логи Actions в нём тоже публичные —
+ * то есть полный рабочий адрес оказался бы в двух открытых местах сразу.
+ * Ровно это правило проект уже соблюдает для EDITOR_EMAILS: адреса живут
+ * в переменной репозитория и в локальном .env, а не в коммитах.
+ *
+ * Маска сохраняет ровно столько, сколько нужно владельцу: различить
+ * двух-трёх человек редакции. Собрать по ней адрес для рассылки нельзя.
+ */
+function maskEmail_(email) {
+  var value = String(email || '').trim();
+  if (!value || value.indexOf('@') === -1) return 'редактор';
+  var parts = value.split('@');
+  var name = parts[0];
+  var head = name.length > 1 ? name.charAt(0) : name;
+  return head + '***@' + parts[1];
+}
+
 function dispatch_(token, inputs) {
   var url =
     'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME +
