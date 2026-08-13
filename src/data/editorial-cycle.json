@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-13T13:36:43.486Z",
+  "updatedAt": "2026-08-13T13:40:00.403Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -576,7 +576,12 @@
       "status": "review",
       "docId": "1Qj4yHcnlz3XRZA37n5HosH8lZjlC1FDHSppe7HaNtng",
       "docUrl": "https://docs.google.com/document/d/1Qj4yHcnlz3XRZA37n5HosH8lZjlC1FDHSppe7HaNtng/edit",
-      "seenComments": [],
+      "seenComments": [
+        "AAACFfn2Fxw",
+        "AAACFfn2Fxs",
+        "AAACFfn2Fxo",
+        "AAACFfn2Fxg"
+      ],
       "urgent": true,
       "reviewSince": "2026-08-13",
       "originalTitle": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
@@ -780,8 +785,16 @@
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
+      "at": "2026-08-13T13:35:56.076Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
       "at": "2026-08-13T13:36:43.486Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-13T13:40:00.403Z",
+      "event": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht: отмечено 4 замечаний"
     }
   ]
 }
