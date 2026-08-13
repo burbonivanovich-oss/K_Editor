@@ -9,7 +9,7 @@
     "rhythm": {
       "sentenceCount": 89,
       "meanWords": 19.8,
-      "cv": 0.91
+      "cv": 0.9
     },
     "sections": {
       "sectionCount": 9,
@@ -17,7 +17,7 @@
       "cv": 0.34
     },
     "ngrams": {
-      "totalNgrams": 1780,
+      "totalNgrams": 1781,
       "uniqueRatio": 0.94,
       "topRepeats": [
         {
@@ -36,5 +36,13 @@
     }
   },
   "suggestions": [],
-  "history": []
+  "history": [
+    {
+      "checkedAt": "2026-08-13",
+      "analyzerVersion": 1,
+      "finalScore": 2,
+      "regexScore": 2,
+      "hits": 5
+    }
+  ]
 }
