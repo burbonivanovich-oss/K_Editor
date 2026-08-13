@@ -1,0 +1,582 @@
+{
+  "claims": [
+    {
+      "id": "c35",
+      "type": "LINK",
+      "raw": "https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.95,
+      "expectedValue": "Страница существует, заголовок «Как работать в ЕГАИС без ошибок: нюансы и советы — Контур.Маркет», содержание соответствует описанию в статье и брифе",
+      "explanation": "Проверено WebFetch — страница живая, тема совпадает с тем, как статья её описывает (материал, который актуализируем)",
+      "sources": [
+        "https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c34",
+      "type": "NPA_PP_NUMBERED",
+      "raw": "постановление Правительства РФ от 31.12.2020 № 2466",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.97,
+      "expectedValue": "ПП РФ № 2466 от 31.12.2020 «О ведении и функционировании единой государственной автоматизированной информационной системы учёта объёма производства и оборота этилового спирта, алкогольной и спиртосодержащей продукции»",
+      "explanation": "Номер, дата и название подтверждены двумя независимыми источниками (publication.pravo.gov.ru, government.ru) и уже в project whitelist (topic egais)",
+      "sources": [
+        "http://publication.pravo.gov.ru/Document/View/0001202101080006",
+        "http://government.ru/docs/all/132260/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c1",
+      "type": "DATE_DMY",
+      "raw": "31.12.2020",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.97,
+      "expectedValue": "Дата принятия ПП № 2466",
+      "explanation": "Совпадает с c34",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c36",
+      "type": "LINK",
+      "raw": "http://publication.pravo.gov.ru/Document/View/0001202101080006",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "expectedValue": "Официальная публикация ПП № 2466 по номеру 0001202101080006",
+      "explanation": "Тот же URL подтверждён поиском как официальная публикация именно этого постановления",
+      "sources": [
+        "http://publication.pravo.gov.ru/Document/View/0001202101080006"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c31",
+      "type": "NPA_FZ",
+      "raw": "171-ФЗ",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "171-ФЗ от 22.11.1995 «О государственном регулировании производства и оборота этилового спирта…» — в project whitelist, topic egais",
+      "explanation": "Совпадает с whitelist и research brief",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c37",
+      "type": "LINK",
+      "raw": "https://www.consultant.ru/document/cons_doc_LAW_8368/",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "cons_doc_LAW_8368 на КонсультантПлюс — это именно 171-ФЗ",
+      "explanation": "Подтверждено WebSearch: заголовки выдачи для LAW_8368 однозначно указывают на 171-ФЗ от 22.11.1995 (в т.ч. статьи 1, 2, 3, 8, 16 закона имеют тот же префикс LAW_8368)",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c5",
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "01.10.2026 — технический рубеж ЦРПТ (закрытие временного токена X-API-KEY), не юридическая дата вступления нормы",
+      "explanation": "Статья формулирует корректно: «срок подключения модуля по СТАРОЙ ВРЕМЕННОЙ СХЕМЕ истекает» — не выдаёт технический рубеж за дату нормы. Совпадает с примечанием project sources.json и с уже проверенной статьёй 2026-08-06-chto-takoe-ts-piot",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c6",
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.9,
+      "expectedValue": "Совпадает с c5",
+      "explanation": "Повтор той же даты со ссылкой на статью про ТС ПИоТ",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c7",
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.9,
+      "expectedValue": "Совпадает с c5",
+      "explanation": "Повтор той же даты в финальном чек-листе",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c2",
+      "type": "DATE_DMY",
+      "raw": "01.01.2026",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "С 01.01.2026 отменена декларация по форме 7 для общепита (кафе, бары, рестораны) — 509-ФЗ",
+      "explanation": "Подтверждено WebSearch: 509-ФЗ отменяет декларации крепкого алкоголя для общепита именно с 01.01.2026, за IV квартал 2025 нужно отчитаться в последний раз до 20.01.2026",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202512280021"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c32",
+      "type": "NPA_FZ",
+      "raw": "509-ФЗ",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "509-ФЗ от 28.12.2025, поправки в 171-ФЗ, отменяет декларацию по форме 7 для общепита с 01.01.2026",
+      "explanation": "Номер, дата и суть закона подтверждены и совпадают с project whitelist",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202512280021"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c38",
+      "type": "LINK",
+      "raw": "https://www.consultant.ru/document/cons_doc_LAW_8368/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.95,
+      "expectedValue": "Ссылка у упоминания 509-ФЗ должна вести на текст 509-ФЗ, а не на 171-ФЗ",
+      "explanation": "cons_doc_LAW_8368 — это 171-ФЗ (подтверждено WebSearch), а не 509-ФЗ. Статья ссылается на 509-ФЗ тем же URL, что и на 171-ФЗ строкой выше — читатель попадёт не в тот документ. Класс A2 редполитики: НПА обязана сопровождаться ссылкой на СВОЙ текст. Ошибка унаследована из research brief (там тот же URL-плейсхолдер стоит у обоих законов) — ИСПРАВЛЕНО: ссылка заменена на корректный первоисточник.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202512280021"
+      ],
+      "action": "add-references",
+      "actionDetail": "Заменить ссылку у '[509-ФЗ]' (после «Для общепита с 01.01.2026 действует ещё одно изменение:») на источник, реально описывающий 509-ФЗ — например http://publication.pravo.gov.ru/document/0001202512280021 — вместо текущей https://www.consultant.ru/document/cons_doc_LAW_8368/, которая ведёт на 171-ФЗ"
+    },
+    {
+      "id": "c3",
+      "type": "DATE_DMY",
+      "raw": "17.12.2020",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "expectedValue": "Дата приказа Росалкогольрегулирования (ФСРАР) № 396",
+      "explanation": "Подтверждено WebSearch и project whitelist",
+      "sources": [
+        "http://publication.pravo.gov.ru/Document/View/0001202012290063"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c39",
+      "type": "LINK",
+      "raw": "https://www.consultant.ru/document/cons_doc_LAW_8368/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.95,
+      "expectedValue": "Ссылка у приказа ФСРАР № 396 должна вести на его текст (cons_doc_LAW_372622 на КонсультантПлюс, либо публикацию 0001202012290063 на pravo.gov.ru)",
+      "explanation": "Та же ошибка, что и в c38: приказ № 396 ссылается на cons_doc_LAW_8368 (текст 171-ФЗ), а не на собственный текст. Класс A2 редполитики — критично, читатель не найдёт форму 7 по этой ссылке — ИСПРАВЛЕНО: ссылка заменена на корректный первоисточник.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_372622/",
+        "http://publication.pravo.gov.ru/Document/View/0001202012290063"
+      ],
+      "action": "add-references",
+      "actionDetail": "Заменить ссылку у 'приказ ФСРАР № 396 от 17.12.2020' на https://www.consultant.ru/document/cons_doc_LAW_372622/ (либо http://publication.pravo.gov.ru/Document/View/0001202012290063) — вместо текущей https://www.consultant.ru/document/cons_doc_LAW_8368/, которая ведёт на 171-ФЗ"
+    },
+    {
+      "id": "c23",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.19 КоАП",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 1 ст. 14.19 КоАП РФ — нарушение учёта/нефиксация информации в ЕГАИС",
+      "explanation": "Указана с частью «ч. 1» в тексте таблицы. Подтверждено WebFetch rulaws.ru",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.19/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c40",
+      "type": "LINK",
+      "raw": "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.19/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.95,
+      "expectedValue": "Текст ст. 14.19 КоАП РФ",
+      "explanation": "Проверено WebFetch — страница содержит именно эту статью",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c13",
+      "type": "MONEY",
+      "raw": "15 000 ₽ (диапазон 10 000–15 000 ₽, ч. 1 ст. 14.19 КоАП, ИП/должн. лицо)",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "10 000–15 000 ₽ для должностных лиц/ИП",
+      "explanation": "Подтверждено WebFetch rulaws.ru — суммы совпадают дословно",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.19/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c14",
+      "type": "MONEY",
+      "raw": "200 000 ₽ (диапазон 150 000–200 000 ₽, ч. 1 ст. 14.19 КоАП, юрлицо)",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "150 000–200 000 ₽ для юрлиц",
+      "explanation": "Подтверждено WebFetch rulaws.ru",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.19/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c24",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.16 КоАП",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 1–2 ст. 14.16 КоАП РФ — продажа без сопроводительных документов",
+      "explanation": "В тексте статьи часть указана рядом («ч. 1–2»). Подтверждено WebFetch rulaws.ru",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c41",
+      "type": "LINK",
+      "raw": "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.95,
+      "expectedValue": "Текст ст. 14.16 КоАП РФ",
+      "explanation": "Проверено WebFetch",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c15",
+      "type": "MONEY",
+      "raw": "15 000 ₽ (диапазон 10 000–15 000 ₽, ч. 1–2 ст. 14.16 КоАП, ИП/должн. лицо)",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "10 000–15 000 ₽ + конфискация",
+      "explanation": "Подтверждено WebFetch",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c16",
+      "type": "MONEY",
+      "raw": "300 000 ₽ (диапазон 200 000–300 000 ₽, ч. 1–2 ст. 14.16 КоАП, юрлицо)",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "200 000–300 000 ₽ + конфискация",
+      "explanation": "Подтверждено WebFetch",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c25",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.16 КоАП",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ч. 3 ст. 14.16 КоАП РФ — иное нарушение правил розничной продажи",
+      "explanation": "Часть указана рядом («ч. 3»). Подтверждено WebFetch",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c17",
+      "type": "MONEY",
+      "raw": "40 000 ₽ (диапазон 20 000–40 000 ₽, ч. 3 ст. 14.16 КоАП, ИП/должн. лицо)",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "20 000–40 000 ₽",
+      "explanation": "Подтверждено WebFetch",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c18",
+      "type": "MONEY",
+      "raw": "300 000 ₽ (диапазон 100 000–300 000 ₽, ч. 3 ст. 14.16 КоАП, юрлицо)",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "100 000–300 000 ₽",
+      "explanation": "Подтверждено WebFetch",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c26",
+      "type": "NPA_KOAP",
+      "raw": "ст. 2.4 КоАП",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "expectedValue": "Примечание к ст. 2.4 КоАП РФ: ИП несёт ответственность как должностное лицо, если статьёй не установлено иное",
+      "explanation": "Подтверждено WebFetch rulaws.ru дословно",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-I/Glava-2/Statya-2.4/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c42",
+      "type": "LINK",
+      "raw": "https://rulaws.ru/koap/Razdel-I/Glava-2/Statya-2.4/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.95,
+      "expectedValue": "Текст ст. 2.4 КоАП РФ",
+      "explanation": "Проверено WebFetch",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c27",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.19 КоАП",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "Повтор ч. 1 ст. 14.19 КоАП во врезке",
+      "explanation": "Совпадает с c23, часть указана («ч. 1»)",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c19",
+      "type": "MONEY",
+      "raw": "15 000 ₽ (повтор во врезке)",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "Совпадает с c13",
+      "explanation": "Суммы во врезке совпадают с таблицей",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c20",
+      "type": "MONEY",
+      "raw": "200 000 ₽ (повтор во врезке)",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "Совпадает с c14",
+      "explanation": "Суммы во врезке совпадают с таблицей",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c28",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.19 КоАП",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.9,
+      "expectedValue": "Повтор в абзаце про отключение УТМ",
+      "explanation": "Контекстное упоминание без суммы, совпадает с основной нормой темы",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c43",
+      "type": "LINK",
+      "raw": "https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.4,
+      "expectedValue": "Инструкция техподдержки Маркета по работе с ЕГАИС — существование конкретной страницы 39645 не подтверждено напрямую",
+      "explanation": "WebFetch и WebSearch не смогли подтвердить содержимое: support.kontur.ru отдаёт 403 при автоматическом доступе (бот-защита), и точный ID 39645 не нашёлся в выдаче поиска, хотя соседние страницы поддержки Маркета по ЕГАИС (39654, 39680, spravka/31175) существуют и подтверждают, что раздел активен. Совпадает с пометкой research brief («403, содержание не извлечено»)",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": "Редактору стоит вручную открыть ссылку в браузере перед публикацией и убедиться, что страница 39645 существует и совпадает по теме — автоматически подтвердить не удалось"
+    },
+    {
+      "id": "c29",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.19 КоАП",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "Повтор ч. 1 ст. 14.19 КоАП РФ в FAQ",
+      "explanation": "В FAQ часть указана («ч. 1»), совпадает с c23",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c21",
+      "type": "MONEY",
+      "raw": "15 000 ₽ (повтор в FAQ)",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "Совпадает с c13",
+      "explanation": "Суммы в FAQ совпадают с таблицей",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c22",
+      "type": "MONEY",
+      "raw": "200 000 ₽ (повтор в FAQ)",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "Совпадает с c14",
+      "explanation": "Суммы в FAQ совпадают с таблицей",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c30",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.16 КоАП",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.95,
+      "expectedValue": "ч. 1–2 ст. 14.16 КоАП РФ",
+      "explanation": "В ответе на вопрос «Какой штраф грозит за ошибки в ЕГАИС?» статья 14.16 КоАП упомянута БЕЗ указания части («ст. 14.16 КоАП РФ»). Класс A2 редполитики: часть статьи обязательна для КоАП, без вариантов — иначе читатель не поймёт, к какому именно нарушению (продажа без документов vs иное нарушение правил) относится ссылка — ИСПРАВЛЕНО: часть статьи добавлена (ч. 1–2).",
+      "sources": [],
+      "action": "rewrite-bullet",
+      "actionDetail": "В ответе FAQ «Какой штраф грозит за ошибки в ЕГАИС?» заменить '...действует отдельная норма — ст. 14.16 КоАП РФ.' на '...действует отдельная норма — ч. 1–2 ст. 14.16 КоАП РФ.'"
+    },
+    {
+      "id": "c33",
+      "type": "NPA_FZ",
+      "raw": "509-ФЗ",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "Повтор 509-ФЗ в FAQ",
+      "explanation": "Совпадает с c32",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c4",
+      "type": "DATE_DMY",
+      "raw": "01.01.2026",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.9,
+      "expectedValue": "Повтор даты отмены декларации формы 7",
+      "explanation": "Совпадает с c2",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c44",
+      "type": "LINK",
+      "raw": "https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.4,
+      "expectedValue": "Совпадает с c43",
+      "explanation": "Повтор той же непроверенной ссылки в финальном блоке",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "s45",
+      "type": "QUANTITY",
+      "raw": "Он равен 100 бутылкам или 100 дал разливного алкоголя в месяц.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "expectedValue": "Лимит постановки на баланс без сопроводительных документов (1-й регистр ЕГАИС-баланса) — 100 бутылок / 100 дал разливного алкоголя за календарный месяц с одного кода точки продаж (по причине, отличной от «Пересортица»)",
+      "explanation": "Подтверждено через открытые справочные страницы Контур.Маркета (support.kontur.ru/market/39680, kontur.ru/market/spravka/31175) — это техническая практика ЕГАИС, а не отдельная норма закона с номером статьи, поэтому первоисточник — регламент/практика оператора системы, не НПА",
+      "sources": [
+        "https://support.kontur.ru/market/39680-oshibka_prevyshen_limit_egais_na_100_butylok_v",
+        "https://kontur.ru/market/spravka/31175-rabota_s_egais_v_markete"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "s46",
+      "type": "LEGAL_CLAIM",
+      "raw": "Розничная продажа алкоголя без такого чека запрещена — это прямо следует из требований [171-ФЗ]",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.6,
+      "expectedValue": "Ст. 16 171-ФЗ устанавливает особые требования к рознице, в т.ч. обязанность фиксации через технические средства учёта в ЕГАИС; прямая формулировка «нельзя продавать без чека с QR-кодом» — общепринятая практическая интерпретация нормы, не дословная цитата закона",
+      "explanation": "WebSearch подтвердил общее содержание ст. 16 (особые требования к рознице, оснащение техническими средствами фиксации/передачи данных), но не нашёл дословную формулировку именно про 'чек с QR-кодом' — сама статья не цитирует конкретную часть закона, поэтому расхождения с текстом нет, только с уровнем детализации. Research brief тоже отмечал, что точный пункт стоит перепроверить целиком при написании — это уже сделано осторожной формулировкой без ссылки на конкретную часть",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    }
+  ],
+  "summary": {
+    "overallStatus": "match",
+    "criticalIssues": 0
+  }
+}
