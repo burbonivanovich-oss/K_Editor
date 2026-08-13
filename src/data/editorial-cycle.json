@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-13T08:07:25.086Z",
+  "updatedAt": "2026-08-13T08:13:36.509Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -541,7 +541,7 @@
     },
     {
       "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
-      "title": "Актуализировать статью https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety  Не менять в тексте то, что еще актуально, только предложить новые правки. Предложить места в статье, куда можно вставить промо Контур.Маркета по работе с ЕГАИС с текстовой подводкой к нему. Возможности Маркета: в инструкциях https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
+      "title": "7 ошибок ЕГАИС: что делать, если касса не пропускает продажу",
       "priority": "P1",
       "cluster": "",
       "targetKeyword": "егаис ошибки",
@@ -553,11 +553,13 @@
       "docUrl": "https://docs.google.com/document/d/17WSu4jJrTuWsHwcPOGfl-k9fXEJVsJib78BS2jUyE_w/edit",
       "seenComments": [],
       "urgent": true,
-      "reviewSince": "2026-08-13"
+      "reviewSince": "2026-08-13",
+      "originalTitle": "Актуализировать статью https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety  Не менять в тексте то, что еще актуально, только предложить новые правки. Предложить места в статье, куда можно вставить промо Контур.Маркета по работе с ЕГАИС с текстовой подводкой к нему. Возможности Маркета: в инструкциях https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
+      "fileSlug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k"
     },
     {
       "slug": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
-      "title": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
+      "title": "Ошибки ТС ПИоТ 2026: как исправить и что означают коды",
       "priority": "P1",
       "cluster": "",
       "targetKeyword": "ошибки тс пиот",
@@ -569,7 +571,9 @@
       "docUrl": "https://docs.google.com/document/d/1Qj4yHcnlz3XRZA37n5HosH8lZjlC1FDHSppe7HaNtng/edit",
       "seenComments": [],
       "urgent": true,
-      "reviewSince": "2026-08-13"
+      "reviewSince": "2026-08-13",
+      "originalTitle": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
+      "fileSlug": "2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht"
     },
     {
       "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
@@ -724,6 +728,14 @@
     {
       "at": "2026-08-13T08:07:25.086Z",
       "event": "kassa-ot-banka-ili-otdelno-kak-banki-predlagayut-onlayn-kass → на вычитке"
+    },
+    {
+      "at": "2026-08-13T08:13:36.481Z",
+      "event": "set-title zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht: «Заголовок: Ошибки при работе с ТС ПИоТ: » → «Ошибки ТС ПИоТ 2026: как исправить и что»"
+    },
+    {
+      "at": "2026-08-13T08:13:36.509Z",
+      "event": "set-title aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k: «Актуализировать статью https://kontur.ru» → «7 ошибок ЕГАИС: что делать, если касса н»"
     }
   ]
 }

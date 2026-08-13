@@ -637,3 +637,37 @@ test('add-candidates не пускает тему, заглушённую отк
     assert.deepEqual(added.map((t) => t.title), ['Маркировка шин в 2026 году: что обязана делать розница']);
   });
 });
+
+// 13.08.2026: в колонку «Тема» редактор писал задачи — «Актуализировать
+// статью https://…», «Заголовок: Ошибки при работе с ТС ПИоТ…». Это
+// попало в состояние как заголовок, и файлы статей получили имена вида
+// 2026-08-13-aktualizirovat-statyu-https-kontur-ru-…
+test('set-title возвращает настоящий заголовок и помнит исходную формулировку', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Актуализировать статью https://kontur.ru/market/spravka/38077' }]);
+    const slug = getState(statePath).plan[0].slug;
+    run(statePath, ['set-title', '--slug', slug, '--title', '7 ошибок ЕГАИС: что делать, если касса не пропускает продажу']);
+    const t = getState(statePath).plan[0];
+    assert.equal(t.title, '7 ошибок ЕГАИС: что делать, если касса не пропускает продажу');
+    assert.match(t.originalTitle, /Актуализировать статью/);
+    assert.equal(t.slug, slug, 'slug — первичный ключ, он меняться не должен');
+  });
+});
+
+test('set-title запоминает имя файла статьи отдельно от slug темы', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Заголовок: Ошибки ТС ПИоТ' }]);
+    const slug = getState(statePath).plan[0].slug;
+    run(statePath, ['set-title', '--slug', slug, '--title', 'Ошибки ТС ПИоТ 2026', '--file-slug', '2026-08-13-oshibki-ts-piot-2026']);
+    assert.equal(getState(statePath).plan[0].fileSlug, '2026-08-13-oshibki-ts-piot-2026');
+  });
+});
+
+test('set-title без темы или заголовка отказывает', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Тема' }]);
+    runFail(statePath, ['set-title', '--slug', 'tema']);
+    runFail(statePath, ['set-title', '--title', 'Только заголовок']);
+    runFail(statePath, ['set-title', '--slug', 'нет-такой', '--title', 'X']);
+  });
+});
