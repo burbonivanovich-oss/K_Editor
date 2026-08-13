@@ -52,8 +52,10 @@ export const SOFT_CATEGORIES = {
   usefulness: { title: 'Польза', max: 25 },
 };
 
-/** Обязательные детерминированные проверки. Баллов не приносят. */
+/** Обязательные детерминированные проверки. Баллов не приносят.
+ *  Ровно то, что отдаёт `gates.mjs --json`: список один, копий нет. */
 export const REQUIRED_CHECKS = [
+  'frontmatter', 'words', 'internalLinks',
   'seo', 'ai', 'links', 'npa', 'factcheck', 'duplication', 'market', 'graph', 'pillar',
 ];
 

@@ -39,10 +39,10 @@
 
 Как писать статьи (шаг 3, только kind: new):
 
-- Каждая статья — полный пайплайн .claude/commands/create-article.md, все девять стадий со шлюзами. Не сокращать ради скорости.
+- Каждая статья — полный пайплайн .claude/commands/create-article.md: четыре стадии — ресёрч, текст, гейты, оценка. Не сокращать ради скорости.
 - Категория с НПА (ts-piot, markirovka, zakonodatelstvo, egais, kkt) — research-specialist обязателен, все источники в брифе с verified: true. Номера ПП, приказов и ФЗ не выдумывать: проверяй по первоисточнику и сверяй с whitelist в src/data/factcheck/sources.json. Незнакомый номер — либо подтвердить и дописать в whitelist, либо убрать из текста.
-- Обязательные артефакты по каждой статье: src/content/blog/YYYY-MM-DD-slug.md с draft: true, бриф на визуал src/data/visuals/<slug>.md, оценка src/data/analyze/<slug>.json, маркер .claude/factchecked/<slug>.
-- Шлюзы прогонять скриптами, а не на глаз: node scripts/factcheck/audit-npa-references.mjs --strict, node scripts/check-seo.mjs, node scripts/check-ai-markers.mjs --save-profile (скор меньше 6), node scripts/audit/check-blog-links.mjs. Внутренние ссылки на статьи блога пишутся с датой в пути: /blog/YYYY-MM-DD-slug/ — так их проверяет check-blog-links.mjs.
+- Обязательные артефакты по каждой статье: src/content/blog/YYYY-MM-DD-slug.md с draft: true, бриф на визуал src/data/visuals/<slug>.md (артефакт для принимающего проекта, шлюзом не является), оценка src/data/analyze/<slug>.json, маркер .claude/factchecked/<slug>. Оценку ставит субагент article-grader отдельным прогоном, а не та сессия, которая писала: порог 85, проверка оформления — node scripts/check-analysis.mjs <slug>.
+- Шлюзы — одна команда: npm run gates -- <slug>. Она гоняет все двенадцать детерминированных проверок (frontmatter, объём, внутренние ссылки, SEO, машинный текст, битые ссылки, нормы, факчек, дубли, каталог Маркета, граф, опорный материал) и отдаёт один отчёт. Код 1 — блокер, чинить и прогнать заново; код 2 — «требует решения», решение записать в отчёт строкой, а не пропустить. Отдельные чек-листы по SEO, объёму и перелинковке отменены: они внутри. Внутренние ссылки на статьи блога пишутся с датой в пути: /blog/YYYY-MM-DD-slug/ — так их проверяет check-blog-links.mjs.
 - Промоблоки брать из кластера статьи по src/data/cpa-blocks.json. У кластера ts-piot своих блоков нет — тогда взять соседние (markirovka, kkt) и зафиксировать это в брифе на визуал.
 - Сбой одной статьи не отменяет батч: не прошла шлюз после двух попыток — вернуть тему в planned, записать причину, остальные довести.
 - Бюджет сессии: видно, что не дотянешь — доведи текущую статью, выложи готовое и завершись. Недописанные темы остаются planned.
