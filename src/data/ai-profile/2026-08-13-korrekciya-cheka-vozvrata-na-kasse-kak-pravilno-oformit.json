@@ -2,9 +2,9 @@
   "slug": "2026-08-13-korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit",
   "analyzerVersion": 1,
   "checkedAt": "2026-08-13",
-  "regexScore": 2,
-  "finalScore": 2,
-  "hits": 5,
+  "regexScore": 1,
+  "finalScore": 1,
+  "hits": 3,
   "structure": {
     "rhythm": {
       "sentenceCount": 110,
@@ -17,7 +17,7 @@
       "cv": 0.5
     },
     "ngrams": {
-      "totalNgrams": 2058,
+      "totalNgrams": 2060,
       "uniqueRatio": 0.93,
       "topRepeats": [
         {
@@ -36,5 +36,13 @@
     }
   },
   "suggestions": [],
-  "history": []
+  "history": [
+    {
+      "checkedAt": "2026-08-13",
+      "analyzerVersion": 1,
+      "finalScore": 2,
+      "regexScore": 2,
+      "hits": 5
+    }
+  ]
 }
