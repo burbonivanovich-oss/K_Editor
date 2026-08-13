@@ -1,0 +1,40 @@
+{
+  "slug": "2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
+  "analyzerVersion": 1,
+  "checkedAt": "2026-08-13",
+  "regexScore": 0,
+  "finalScore": 0,
+  "hits": 1,
+  "structure": {
+    "rhythm": {
+      "sentenceCount": 91,
+      "meanWords": 19.8,
+      "cv": 1.57
+    },
+    "sections": {
+      "sectionCount": 7,
+      "meanWords": 244,
+      "cv": 0.36
+    },
+    "ngrams": {
+      "totalNgrams": 1825,
+      "uniqueRatio": 0.92,
+      "topRepeats": [
+        {
+          "phrase": "| --- | ---",
+          "count": 6
+        },
+        {
+          "phrase": "--- | --- |",
+          "count": 6
+        },
+        {
+          "phrase": "в личном кабинете честного",
+          "count": 3
+        }
+      ]
+    }
+  },
+  "suggestions": [],
+  "history": []
+}

@@ -1,0 +1,564 @@
+{
+  "claims": [
+    {
+      "id": "c21",
+      "type": "NPA_FZ",
+      "raw": "54-ФЗ",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.9,
+      "expectedValue": "Ст. 4.7 54-ФЗ — реквизиты кассового чека; тег 1162 «код товара» для Data Matrix маркированных товаров",
+      "explanation": "Подтверждено WebSearch: ст. 4.7 54-ФЗ прямо даёт Правительству РФ право устанавливать доп. реквизит «код товара» (тег 1162), в который попадает код маркировки.",
+      "sources": [
+        "https://base.garant.ru/12130951/d93151fb5e2b2b1b7d4329097599cac5/",
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7a607e9ee7058b0c3bcb22e564e88190964aee72/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c25",
+      "type": "LINK",
+      "raw": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.85,
+      "expectedValue": "Ссылка ведёт на текст 54-ФЗ на consultant.ru",
+      "explanation": "Домен в blocked-списке (WebFetch недоступен), но WebSearch подтверждает документ существует и соответствует контексту (ст. 4.7 54-ФЗ).",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7a607e9ee7058b0c3bcb22e564e88190964aee72/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c26",
+      "type": "LINK",
+      "raw": "https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": "Инструкция Контура «Ошибки при работе с ТС ПИоТ на кассах Windows»",
+      "explanation": "Страница существует (подтверждено WebSearch — точное совпадение URL и заголовка), но WebFetch повторно вернул 403 Forbidden — содержимое не проверено напрямую ни в брифе, ни в этом прогоне. Статья, однако, НЕ выдаёт содержимое ссылки за дословную инструкцию — формулировка «алгоритм ниже подходит для большинства решений, а точный набор шагов уточняйте у поставщика» корректно хеджирует неопределённость. Риск для читателя низкий.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": "Не критично: авторская формулировка уже избегает прямого цитирования недоступного источника. Если появится ручной доступ к странице — свериться отдельно."
+    },
+    {
+      "id": "c23",
+      "type": "NPA_PP_NUMBERED",
+      "raw": "Постановление Правительства РФ от 21.11.2023 № 1944",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "ПП РФ от 21.11.2023 № 1944 (ред. от 07.03.2026) — перечень случаев запрета продажи маркированных товаров на основании данных/отсутствия данных в ГИС МТ",
+      "explanation": "Номер, дата и предмет подтверждены WebSearch (garant.ru, consultant.ru, sudact.ru, publication.pravo.gov.ru совпадают). Уже в whitelist, verifiedAt 2026-08-04, повторно верифицирован в брифе 2026-08-13.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202311270058",
+        "https://www.garant.ru/products/ipo/prime/doc/407981403/",
+        "https://sudact.ru/law/postanovlenie-pravitelstva-rf-ot-21112023-n-1944/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c1",
+      "type": "DATE_DMY",
+      "raw": "21.11.2023",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "Дата ПП РФ № 1944 — 21.11.2023",
+      "explanation": "Совпадает с whitelist и WebSearch.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202311270058"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c27",
+      "type": "LINK",
+      "raw": "http://publication.pravo.gov.ru/document/0001202311270058",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.9,
+      "expectedValue": "Официальная публикация ПП РФ № 1944",
+      "explanation": "URL точно совпадает с результатом WebSearch (publication.pravo.gov.ru). Домен в blocked-списке для WebFetch, но независимо подтверждён через выдачу.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202311270058"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c24",
+      "type": "NPA_PP_NUMBERED",
+      "raw": "постановление Правительства РФ от 19.03.2020 № 303",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.6,
+      "expectedValue": "ПП № 303 устанавливает функциональные требования к ТС ПИоТ (распознавание Data Matrix, приём/передача сведений о коде в ККТ и в ГИС МТ), но не содержит явной формулировки «до пробития чека» — эта последовательность (когда именно продажа блокируется) прямо устанавливается ПП № 1944, а не ПП № 303",
+      "explanation": "WebFetch двух источников (normativ.kontur.ru, base.garant.ru) по тексту ПП № 303 не нашёл формулировки о моменте проверки относительно пробития чека — документ описывает функциональные возможности модуля (распознавание кода, обмен данными с ГИС МТ), а не временную последовательность. Номер/дата/редакция постановления в статье указаны верно, ссылка корректна — расхождение только в том, что именно ПП № 303 «обязывает» конкретно эту последовательность действий. Существо утверждения (система проверяет код и блокирует продажу при негативном ответе) верно по сути и подтверждается ПП № 1944, который в статье процитирован отдельно и правильно. — ИСПРАВЛЕНО в тексте статьи.",
+      "sources": [
+        "https://base.garant.ru/73780927/",
+        "https://normativ.kontur.ru/document?documentId=490184&moduleId=1"
+      ],
+      "action": "rewrite-bullet",
+      "actionDetail": "В предложении «Требования к самому модулю как техническому средству устанавливает постановление Правительства РФ от 19.03.2020 № 303 в редакции от 29.11.2024: модуль обязан сверять код с ГИС МТ до пробития чека» — смягчить атрибуцию. Например: «...устанавливает постановление № 303: модуль должен распознавать код маркировки и обмениваться данными с ГИС МТ. Именно на основании этого обмена постановление № 1944 (см. ниже) запрещает продажу, если ГИС МТ не подтвердила код». Так последовательность «сверка → блокировка при негативном ответе» останется, но будет привязана к верному НПА (№ 1944), а не приписана № 303."
+    },
+    {
+      "id": "c2",
+      "type": "DATE_DMY",
+      "raw": "19.03.2020",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "expectedValue": "Дата ПП РФ № 303 — 19.03.2020",
+      "explanation": "Совпадает с whitelist и WebSearch.",
+      "sources": [
+        "https://base.garant.ru/73780927/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c28",
+      "type": "LINK",
+      "raw": "https://base.garant.ru/73780927/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.9,
+      "expectedValue": "Текст ПП РФ № 303 на base.garant.ru",
+      "explanation": "URL совпадает с whitelist (verifiedAt 2026-08-04) и с результатами WebSearch.",
+      "sources": [
+        "https://base.garant.ru/73780927/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c3",
+      "type": "DATE_DMY",
+      "raw": "29.11.2024",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "Дата редакции ПП № 303, внесённой ПП № 1674 от 29.11.2024",
+      "explanation": "Whitelist фиксирует ПП № 1674 «О внесении изменений в постановление... № 303» датой 2024-11-29 (verifiedAt 2026-08-05) — совпадает с датой редакции, указанной в статье.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c22",
+      "type": "NPA_FZ",
+      "raw": "54-ФЗ",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.85,
+      "expectedValue": "ОФД передаёт фискальные данные в налоговую по 54-ФЗ",
+      "explanation": "Общее и верное описание роли ОФД по 54-ФЗ, соответствует ранее верифицированному кластеру.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c5",
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "01.10.2026 — технический рубеж ЦРПТ закрытия временного токена X-API-KEY, не дата НПА",
+      "explanation": "Статья использует дату только как часть заголовка ссылки на статью кластера от 2026-08-09, где дата уже разобрана и корректно помечена как решение оператора ГИС МТ, а не норма права — соответствует прим. в sources.json npaWhitelist.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c8",
+      "type": "DATE_YEAR",
+      "raw": "2026 года",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.85,
+      "expectedValue": "Часть даты 1 октября 2026 года",
+      "explanation": "См. c5.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c4",
+      "type": "DATE_DMY",
+      "raw": "25.04.2025",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "Приказ Минпромторга России № 2044 от 25.04.2025 — правила функциональной совместимости ТС ПИоТ с ГИС МТ",
+      "explanation": "Номер, дата, издатель и предмет подтверждены WebSearch (alta.ru, garant.ru, publication.pravo.gov.ru, consultant.ru). Уже в whitelist, verifiedAt 2026-08-05.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202506270011",
+        "https://www.garant.ru/products/ipo/prime/doc/412140946/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c29",
+      "type": "LINK",
+      "raw": "http://publication.pravo.gov.ru/document/0001202506270011",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.9,
+      "expectedValue": "Официальная публикация приказа № 2044",
+      "explanation": "URL точно совпадает с результатами WebSearch.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202506270011"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c17",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.5 КоАП",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "Ч. 2 ст. 14.5 КоАП РФ: ИП/должн. лица — 25–50 % суммы расчёта, не менее 10 000 ₽; юрлица — 75–100 %, не менее 30 000 ₽",
+      "explanation": "В окружающем тексте часть указана («ч. 2 ст. 14.5 КоАП РФ»), regex просто не захватил «ч. 2» в это конкретное совпадение. Суммы подтверждены WebSearch (vitvet.com, pos-center.ru): «25 до 50% суммы расчета без кассы, но не менее 10 000 рублей; для юрлиц — от 75 до 100%, но не менее 30 000 рублей» — точное совпадение с таблицей статьи.",
+      "sources": [
+        "https://vitvet.com/articles/koap/sostavy/shtraf-neprimenenie-kkt-2026/",
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c30",
+      "type": "LINK",
+      "raw": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.85,
+      "expectedValue": "Текст ст. 14.5 КоАП РФ на consultant.ru",
+      "explanation": "Blocked-домен для WebFetch, но URL и содержание подтверждены через WebSearch-сниппеты.",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c11",
+      "type": "MONEY",
+      "raw": "10 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "Минимальный штраф по ч. 2 ст. 14.5 КоАП для ИП/должн. лиц",
+      "explanation": "Подтверждено WebSearch, см. c17.",
+      "sources": [
+        "https://vitvet.com/articles/koap/sostavy/shtraf-neprimenenie-kkt-2026/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c12",
+      "type": "MONEY",
+      "raw": "30 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "Минимальный штраф по ч. 2 ст. 14.5 КоАП для юрлиц",
+      "explanation": "Подтверждено WebSearch, см. c17.",
+      "sources": [
+        "https://vitvet.com/articles/koap/sostavy/shtraf-neprimenenie-kkt-2026/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c18",
+      "type": "NPA_KOAP",
+      "raw": "ст. 15.12 КоАП",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "Ч. 2 ст. 15.12 КоАП РФ: должн. лица/ИП — 5 000–10 000 ₽ с конфискацией; юрлица — 50 000–300 000 ₽ с конфискацией",
+      "explanation": "Подтверждено WebFetch rulaws.ru: «Officials: 5,000-10,000 rubles; Legal entities: 50,000-300,000 rubles; Confiscation: Yes, для всех категорий» — точное совпадение с таблицей статьи.",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c31",
+      "type": "LINK",
+      "raw": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.85,
+      "expectedValue": "Текст ст. 15.12 КоАП РФ на consultant.ru",
+      "explanation": "Blocked-домен для WebFetch, но содержание подтверждено через rulaws.ru (см. c18).",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c13",
+      "type": "MONEY",
+      "raw": "10 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "Верхняя граница вилки 5 000–10 000 ₽ по ч. 2 ст. 15.12 КоАП",
+      "explanation": "Подтверждено WebFetch rulaws.ru, см. c18.",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c14",
+      "type": "MONEY",
+      "raw": "300 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "Верхняя граница вилки 50 000–300 000 ₽ по ч. 2 ст. 15.12 КоАП",
+      "explanation": "Подтверждено WebFetch rulaws.ru, см. c18.",
+      "sources": [
+        "https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c20",
+      "type": "NPA_UK",
+      "raw": "ст. 171.1 УК РФ",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.85,
+      "expectedValue": "Ст. 171.1 УК РФ — крупный размер: 400 000 ₽ (прод. товары), 2 250 000 ₽ (непрод. товары)",
+      "explanation": "Подтверждено WebFetch/WebSearch: прим. 1 к ст. 171.1 УК РФ — крупный размер немаркированных продтоваров свыше 400 000 ₽ (особо крупный — 1 500 000 ₽); для непродовольственных товаров крупный размер — свыше 2 250 000 ₽, особо крупный — 9 000 000 ₽ (по прим. 3 к ст. 170.2 УК РФ, на которое ссылается 171.1). Оба порога в статье точно совпадают с крупным размером.",
+      "sources": [
+        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c15",
+      "type": "MONEY",
+      "raw": "400 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.85,
+      "expectedValue": "Крупный размер по прим. 1 ст. 171.1 УК РФ для продовольственных товаров",
+      "explanation": "Подтверждено, см. c20.",
+      "sources": [
+        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c16",
+      "type": "MONEY",
+      "raw": "2 250 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.8,
+      "expectedValue": "Крупный размер для непродовольственных товаров (по прим. 3 ст. 170.2 УК РФ, на которое ссылается 171.1)",
+      "explanation": "Подтверждено WebSearch, совпадает с whitelist. Confidence 0.8, т.к. сама структура перекрёстной ссылки (171.1 → прим. 3 ст. 170.2) взята из сниппетов поиска, не из прямого чтения текста УК.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c6",
+      "type": "DATE_TEXT",
+      "raw": "28 декабря 2025 года",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "ТС ПИоТ обязателен с 28.12.2025 — истёк переходный период п. 19 ПП № 303",
+      "explanation": "Совпадает с whitelist (npaWhitelist note) и ранее верифицированным фактом в статьях кластера от 2026-08-06 и 2026-08-09.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c9",
+      "type": "DATE_YEAR",
+      "raw": "2025 года",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.9,
+      "expectedValue": "Часть даты 28 декабря 2025 года",
+      "explanation": "См. c6.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c19",
+      "type": "NPA_KOAP",
+      "raw": "ст. 15.12 КоАП",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "expectedValue": "См. c18",
+      "explanation": "Повторное упоминание в FAQ, суммы/часть не приведены здесь повторно — используется только номер статьи в общем контексте, ошибок нет.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c32",
+      "type": "LINK",
+      "raw": "https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.5,
+      "expectedValue": "См. c26",
+      "explanation": "Повторная ссылка на тот же недоступный для WebFetch источник (403). Формулировка в FAQ также корректно хеджирует: «Общий алгоритм... применим к большинству кассовых решений, а нюансы уточняйте у поставщика своей модели».",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c7",
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "См. c5",
+      "explanation": "Повторное упоминание той же даты как части заголовка ссылки, контекст не меняется.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "c10",
+      "type": "DATE_YEAR",
+      "raw": "2026 года",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.85,
+      "expectedValue": "См. c5/c7",
+      "explanation": "См. c5.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "sem1",
+      "type": "DURATION",
+      "raw": "Прошивка кассы под актуальные требования занимает от получаса до дня",
+      "status": "uncertain",
+      "severity": "minor",
+      "confidence": 0.4,
+      "expectedValue": "Не найдено ни одного вендорского или НПА-источника, который бы называл именно этот диапазон длительности",
+      "explanation": "Ни один из проверенных вендорских материалов (Астрал, Клеверенс, Эвотор, b-rs.ru) не даёт оценку длительности прошивки в часах/днях. Утверждение правдоподобно, но не подкреплено конкретным источником — похоже на авторскую оценку.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": "Не критично, т.к. это не юридический или денежный факт, а операционная оценка. Рекомендация: смягчить до «от получаса до нескольких дней — по опыту сервисных партнёров» либо убрать точный диапазон, если источника нет."
+    },
+    {
+      "id": "sem2",
+      "type": "LEGAL_CLAIM",
+      "raw": "модуль обязан сверять код с ГИС МТ до пробития чека",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.6,
+      "expectedValue": "См. подробный разбор в c24 — то же расхождение, тот же claim",
+      "explanation": "Дубль смыслового утверждения к c24 (regex поймал номер/дату НПА отдельно, смысловой проход — саму юридическую формулировку). См. actionDetail в c24. — ИСПРАВЛЕНО в тексте статьи.",
+      "sources": [
+        "https://base.garant.ru/73780927/",
+        "https://normativ.kontur.ru/document?documentId=490184&moduleId=1"
+      ],
+      "action": "rewrite-bullet",
+      "actionDetail": "См. actionDetail в c24 — та же правка закрывает оба claim."
+    },
+    {
+      "id": "sem3",
+      "type": "LEGAL_CLAIM",
+      "raw": "прямо перечисляет случаи, когда продажа маркированного товара запрещена именно на основании ответа ГИС МТ или его отсутствия",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.85,
+      "expectedValue": "ПП № 1944 — перечень случаев запрета продажи на основании данных/отсутствия данных ГИС МТ (нет данных о маркировке, товар выведен из оборота, заблокирован, некорректный код проверки, истёк срок годности)",
+      "explanation": "Подтверждено WebSearch: «запрет введут, если в ГИС нет данных о маркировке или вводе товара в оборот... товар выведен из оборота, заблокирован или приостановлен для реализации, имеет некорректный код проверки или у него истек срок годности» — точно соответствует формулировке статьи.",
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202311270058",
+        "https://www.garant.ru/products/ipo/prime/doc/407981403/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "sem4",
+      "type": "CLAIM",
+      "raw": "Единого справочника кодов в нормативных актах нет",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.75,
+      "expectedValue": "Коды ошибок (null, 401, 453, 500, 514 и т.д.) — внутренняя система кодирования вендоров кассового ПО, не установлены ПП № 303, ПП № 1944 или приказом № 2044",
+      "explanation": "Ни один из проверенных НПА (ПП № 303, ПП № 1944, приказ Минпромторга № 2044) не содержит перечня числовых кодов ошибок — они устанавливаются только вендорами кассового ПО (Астрал, Клеверенс, Эвотор и др.), что и утверждает статья.",
+      "sources": [],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "sem5",
+      "type": "CLAIM",
+      "raw": "тега 1162 «код товара»",
+      "status": "match",
+      "severity": "minor",
+      "confidence": 0.85,
+      "expectedValue": "Тег 1162 ФФД — «Код товара», используется для передачи Data Matrix маркированного товара",
+      "explanation": "Подтверждено WebSearch (robokassa.com, astral.ru, online-check.business.ru): «в структуру предмета расчета включается тег 1162 «Код товара», содержащий код маркировки (Data Matrix)».",
+      "sources": [
+        "https://robokassa.com/blog/articles/tegi-v-kassovykh-chekakh/"
+      ],
+      "action": "keep",
+      "actionDetail": ""
+    },
+    {
+      "id": "sem6",
+      "type": "CLAIM",
+      "raw": "таблица кодов ошибок ТС ПИоТ (null, 401, 453, 500, 514/408, «код выведен из оборота», сертификат, ФФД)",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.55,
+      "expectedValue": "Общая форма таблицы подтверждается несколькими независимыми вендорами (Астрал, Клеверенс, b-rs.ru, gk-mact.ru), но конкретно код 514 у Эвотора описан иначе",
+      "explanation": "Проверка нескольких вендорских источников (Астрал, Клеверенс, b-rs.ru, Эвотор) в целом подтверждает форму таблицы: 500 — проблема лицензии; 453 — модуль не виден/служба не настроена, порт/сертификаты; 408 — сертификаты/порт 51401/синхронизация; 401 — ошибка авторизации (шире, чем только истёкший токен — Астрал также называет истёкший корневой сертификат и лицензию КриптоПро). Но у Эвотора отдельная страница по коду 514 даёт другое определение: «ТС ПИоТ не смог проверить марку ни онлайн через ГИС МТ, ни офлайн через Локальный модуль» — то есть отсутствие ответа по обоим каналам, а не «рассинхронизация времени / отозванный ключ», как в таблице статьи. Поскольку коды не стандартизированы (см. sem4) и разные вендоры трактуют их по-разному, это не столько фактическая ошибка, сколько неполнота: таблица подаёт значение кода 514 как единое, хотя оно вендор-специфично. — ИСПРАВЛЕНО в тексте статьи.",
+      "sources": [
+        "https://evotorg.com/articles/ts-piot/oshibka-514/",
+        "https://astral.ru/aj/elem/oshibki-pri-rabote-s-ts-piot-tipovye-problemy-na-kasse-i-kak-ikh-reshit/",
+        "https://www.cleverence.ru/articles/markirovka-tovarov/-oshibki-ts-piot-kak-ustranit-problemy-registratsii/"
+      ],
+      "action": "expand-bullet",
+      "actionDetail": "В строке таблицы «514 / 408» добавить оговорку о вендорской вариативности, например: «Точный смысл кода 514 зависит от поставщика кассы — у части решений это истечение ключа/рассинхронизация времени, у других (например, Эвотор) — отсутствие ответа и от ГИС МТ, и от офлайн-модуля одновременно. Уточните трактовку у своего поставщика». Это соответствует общей оговорке в начале статьи («коды присваивают поставщики... а не закон»), но конкретно для 514 стоит проговорить явно, т.к. расхождение в диагностике (сеть vs двойной сбой проверки) meняет порядок действий кассира."
+    }
+  ],
+  "summary": {
+    "overallStatus": "good-with-minor-addition",
+    "criticalIssues": 0,
+    "checkedAt": "2026-08-13",
+    "verified": 37,
+    "unverified": 0,
+    "note": "Все статьи КоАП/УК/номера-даты НПА подтверждены точным совпадением (в т.ч. суммы штрафов и пороги 171.1 УК РФ). Два moderate-расхождения: (1) ПП №303 приписана формулировка «до пробития чека», которую напрямую содержит скорее ПП №1944 — рекомендована правка атрибуции (см. c24/sem2); (2) код ошибки 514 в таблице описан по одному вендорскому шаблону (Астрал/Клеверенс), тогда как у Эвотора отдельная статья даёт другое значение — рекомендовано добавить оговорку о вендорской вариативности (см. sem6). Оба расхождения — moderate/minor, не critical: ни цифры, ни номера статей КоАП/УК, ни суммы штрафов не искажены. Ссылка на support.kontur.ru/market/84217 остаётся недоступной для WebFetch (403, подтверждено повторно) — риск низкий, т.к. статья не цитирует её дословно."
+  }
+}
