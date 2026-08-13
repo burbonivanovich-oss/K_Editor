@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-13T08:13:36.509Z",
+  "updatedAt": "2026-08-13T08:39:46.251Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -79,11 +79,12 @@
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "row": 9,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
+      "status": "review",
+      "docId": "1bZ1kZo3ZViBOVYz9nc8dLnB-fVEfEvdfx-Nw5073U88",
+      "docUrl": "https://docs.google.com/document/d/1bZ1kZo3ZViBOVYz9nc8dLnB-fVEfEvdfx-Nw5073U88/edit",
       "seenComments": [],
-      "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета."
+      "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета.",
+      "reviewSince": "2026-08-13"
     },
     {
       "slug": "markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica",
@@ -584,11 +585,12 @@
       "rationale": "добавлено редактором",
       "row": 44,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
+      "status": "review",
+      "docId": "1y1GFfiaR9-6Jz_LFCuyWvkLqwaw8C5wlkbVsKq72ZWQ",
+      "docUrl": "https://docs.google.com/document/d/1y1GFfiaR9-6Jz_LFCuyWvkLqwaw8C5wlkbVsKq72ZWQ/edit",
       "seenComments": [],
-      "urgent": true
+      "urgent": true,
+      "reviewSince": "2026-08-13"
     }
   ],
   "batches": [
@@ -609,7 +611,7 @@
         "korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit"
       ],
       "startedAt": "2026-08-13T08:01:48.884Z",
-      "state": "writing"
+      "state": "review"
     }
   ],
   "log": [
@@ -736,6 +738,14 @@
     {
       "at": "2026-08-13T08:13:36.509Z",
       "event": "set-title aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k: «Актуализировать статью https://kontur.ru» → «7 ошибок ЕГАИС: что делать, если касса н»"
+    },
+    {
+      "at": "2026-08-13T08:39:46.199Z",
+      "event": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k → на вычитке"
+    },
+    {
+      "at": "2026-08-13T08:39:46.251Z",
+      "event": "korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit → на вычитке"
     }
   ]
 }
