@@ -178,12 +178,17 @@ function taskFields(cell) {
    * содержимое чужой страницы иначе попадает в контекст процесса с
    * доступом к репозиторию. */
   const fetchable = t.sourceUrl ? isAllowedSource(t.sourceUrl) : null;
+  /* Опорные ссылки редактор даёт сколько угодно, и процедура велит на
+   * них опираться — значит их тоже загружает автономная сессия. Проверка
+   * одного sourceUrl оставляла дыру ровно там, где ссылок больше всего. */
+  const blockedRefs = (t.refUrls || []).filter((u) => !isAllowedSource(u));
   return {
     title: t.title,
     kind: t.kind,
     brief: t.brief || '',
     ...(suspect.length ? { suspectedInstructions: describeFindings(suspect) } : {}),
     ...(fetchable === false ? { sourceNotFetchable: 'домен вне списка разрешённых — открыть вручную, автоматически не загружаем' } : {}),
+    ...(blockedRefs.length ? { refUrlsNotFetchable: blockedRefs } : {}),
     sourceUrl: t.sourceUrl,
     sourceTitle: t.sourceTitle,
     refUrls: t.refUrls,
@@ -672,11 +677,22 @@ switch (cmd) {
        * выглядит как «Актуализация: <название статьи>». Прогон такого
        * заголовка через разбор второй раз ссылку не находил (её в строке
        * уже нет) и превращал тему в «Актуализация: статья без ссылки». */
-      const task = it.sourceUrl
+      /* Разобранная тема из очереди актуализации не разбирается заново
+       * (иначе теряется ссылка), но проверки к ней применяются те же.
+       * До 13.08.2026 эта ветка шла мимо них целиком — то есть мимо
+       * главного пути, ради которого очередь и делалась: пачка ссылок
+       * от редакции входила без единой проверки домена и текста. */
+      const preparsed = it.sourceUrl;
+      const suspect = preparsed ? scanForInstructions(`${cell} ${it.brief || ''}`) : [];
+      const blockedRefs = preparsed ? (it.refUrls || []).filter((u) => !isAllowedSource(u)) : [];
+      const task = preparsed
         ? {
           title: cell, kind: 'update', brief: it.brief || '',
           sourceUrl: it.sourceUrl, sourceTitle: it.sourceTitle ?? null,
           refUrls: it.refUrls || [], rawTopic: cell,
+          ...(suspect.length ? { suspectedInstructions: describeFindings(suspect) } : {}),
+          ...(isAllowedSource(it.sourceUrl) ? {} : { sourceNotFetchable: 'домен вне списка разрешённых — открыть вручную, автоматически не загружаем' }),
+          ...(blockedRefs.length ? { refUrlsNotFetchable: blockedRefs } : {}),
         }
         : taskFields(cell);
       const title = task.title;
