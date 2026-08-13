@@ -7,17 +7,17 @@
   "hits": 1,
   "structure": {
     "rhythm": {
-      "sentenceCount": 91,
+      "sentenceCount": 92,
       "meanWords": 19.8,
       "cv": 1.57
     },
     "sections": {
       "sectionCount": 7,
-      "meanWords": 244,
-      "cv": 0.36
+      "meanWords": 246,
+      "cv": 0.35
     },
     "ngrams": {
-      "totalNgrams": 1825,
+      "totalNgrams": 1841,
       "uniqueRatio": 0.92,
       "topRepeats": [
         {
@@ -36,5 +36,13 @@
     }
   },
   "suggestions": [],
-  "history": []
+  "history": [
+    {
+      "checkedAt": "2026-08-13",
+      "analyzerVersion": 1,
+      "finalScore": 0,
+      "regexScore": 0,
+      "hits": 1
+    }
+  ]
 }
