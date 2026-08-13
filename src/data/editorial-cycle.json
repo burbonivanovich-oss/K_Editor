@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-13T09:20:41.338Z",
+  "updatedAt": "2026-08-13T11:06:34.585Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -556,7 +556,13 @@
       "urgent": true,
       "reviewSince": "2026-08-13",
       "originalTitle": "Актуализировать статью https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety  Не менять в тексте то, что еще актуально, только предложить новые правки. Предложить места в статье, куда можно вставить промо Контур.Маркета по работе с ЕГАИС с текстовой подводкой к нему. Возможности Маркета: в инструкциях https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
-      "fileSlug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k"
+      "fileSlug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
+      "kind": "new",
+      "brief": "",
+      "sourceUrl": null,
+      "sourceTitle": null,
+      "refUrls": [],
+      "rawTopic": "7 ошибок ЕГАИС: что делать, если касса не пропускает продажу"
     },
     {
       "slug": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
@@ -574,7 +580,13 @@
       "urgent": true,
       "reviewSince": "2026-08-13",
       "originalTitle": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
-      "fileSlug": "2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht"
+      "fileSlug": "2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
+      "kind": "new",
+      "brief": "",
+      "sourceUrl": null,
+      "sourceTitle": null,
+      "refUrls": [],
+      "rawTopic": "Ошибки ТС ПИоТ 2026: как исправить и что означают коды"
     },
     {
       "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
@@ -753,6 +765,10 @@
     },
     {
       "at": "2026-08-13T09:20:41.338Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-13T11:06:34.585Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ]
