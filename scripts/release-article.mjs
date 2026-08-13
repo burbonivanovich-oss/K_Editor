@@ -19,7 +19,7 @@
 //     # подтверждение, что вычитка человеком всё равно была; причина
 //     # записывается в src/data/analyze/<slug>.json.cycleReleaseOverride
 //   node scripts/release-article.mjs <slug> --override-score "<причина>"
-//     # редактор принимает статью с баллом /analyze-article < 70 —
+//     # редактор принимает статью с баллом /analyze-article ниже порога —
 //     # решение записывается в src/data/analyze/<slug>.json.releaseOverride,
 //     # остальные гейты (НПА, ссылки, SEO P0, AI-маркеры, факчек-хеш)
 //     # override не снимает — это единственный канонический путь
@@ -32,6 +32,11 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+/* Порог допуска берём из check-analysis.mjs, а не зашиваем вторым числом:
+ * два места с одним порогом расходятся ровно тогда, когда порог меняют.
+ * 70 не отсекал ничего при реальном разбросе 84–100 — шлюза не было
+ * вовсе; подняли до 85 вместе с переделкой шкалы 13.08.2026. */
+import { PASS as PASS_SCORE, isLegacy } from './check-analysis.mjs';
 
 // Гейт-скрипты (audit-npa-references.mjs и т. п.) — реальные, всегда из
 // настоящего репозитория, не из тестовой фикстуры: у них своих оверрайдов
@@ -67,7 +72,7 @@ if (CONFIRM_NO_CYCLE && (!CONFIRM_NO_CYCLE_REASON || CONFIRM_NO_CYCLE_REASON.sta
 
 // Редактор может принять статью с баллом ниже 70 — это решение
 // человека, не техническая ошибка (docs/tools.md: «/analyze-article —
-// не публиковать статью с баллом < 70 без явного решения пользователя»,
+// не публиковать статью с баллом ниже порога без явного решения»,
 // не «никогда»). Раньше единственный способ был обойти весь release-
 // article.mjs целиком (см. cycle-listen.md, шаг 5 — прямая правка
 // draft:false в обход этого скрипта: то самое расхождение путей
@@ -77,7 +82,7 @@ if (CONFIRM_NO_CYCLE && (!CONFIRM_NO_CYCLE_REASON || CONFIRM_NO_CYCLE_REASON.sta
 const OVERRIDE_SCORE_IDX = args.indexOf('--override-score');
 const OVERRIDE_SCORE_REASON = OVERRIDE_SCORE_IDX !== -1 ? args[OVERRIDE_SCORE_IDX + 1] : null;
 if (OVERRIDE_SCORE_IDX !== -1 && (!OVERRIDE_SCORE_REASON || OVERRIDE_SCORE_REASON.startsWith('--'))) {
-  console.error('--override-score требует причину: --override-score "<почему редактор принял балл ниже 70>"');
+  console.error('--override-score требует причину: --override-score "<почему редактор принял балл ниже порога>"');
   process.exit(2);
 }
 
@@ -285,7 +290,13 @@ if (!existsSync(analyzePath)) {
     const age = ageDays(analysis.checkedAt);
     if (age === null || age > ANALYZE_STALE_DAYS) {
       block('Оценка /analyze-article', `устарела (${age ?? '?'} дн.) — перезапустить /analyze-article ${slug}`);
-    } else if (analysis.blocker || (analysis.score ?? 0) < 70) {
+    } else if (isLegacy(analysis)) {
+      /* Балл по старой шкале выглядит проходным (там 100 набиралось с
+       * бонусом и нормировкой), но означает не то же самое. Пропустить
+       * его — значит выпустить статью по той самой оценке, ради починки
+       * которой шкалу и переделывали. */
+      block('Оценка /analyze-article', `оценка по старой шкале (${analysis.score}) — переоценить: /analyze-article ${slug}`);
+    } else if (analysis.blocker || (analysis.score ?? 0) < PASS_SCORE) {
       if (OVERRIDE_SCORE_REASON) {
         note(
           'Оценка /analyze-article',

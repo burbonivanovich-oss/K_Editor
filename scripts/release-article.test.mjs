@@ -16,6 +16,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'nod
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { PASS } from './check-analysis.mjs';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'release-article.mjs');
 
@@ -78,7 +79,9 @@ function writeArticle(dir, slug, { fm = GOOD_FM, body = GOOD_BODY, extra = '' } 
   return p;
 }
 
-function writeAnalysis(dir, slug, { score = 85, blocker = false, checkedAt = today() } = {}) {
+// По умолчанию 95, а не 85: 85 — это ровно порог, и тест на «нормальную
+// статью» не должен стоять на границе. Границу проверяют отдельные тесты.
+function writeAnalysis(dir, slug, { score = 95, blocker = false, checkedAt = today() } = {}) {
   writeFileSync(join(dir, 'src/data/analyze', `${slug}.json`), JSON.stringify({ score, blocker, checkedAt }));
 }
 
@@ -199,7 +202,7 @@ test('оценка старше 30 дней — блокер', () => {
   });
 });
 
-test('score < 70 — блокер', () => {
+test('балл ниже порога — блокер', () => {
   withFixture((dir) => {
     const slug = fullyReady(dir);
     writeAnalysis(dir, slug, { score: 55 });
@@ -223,7 +226,7 @@ test('--override-score без причины — ошибка использов
   });
 });
 
-test('score < 70, но --override-score с причиной — RELEASED, причина записана в audit-trail', () => {
+test('балл ниже порога, но --override-score с причиной — RELEASED, причина записана в audit-trail', () => {
   withFixture((dir) => {
     const slug = fullyReady(dir);
     writeAnalysis(dir, slug, { score: 55, blocker: true });
@@ -450,5 +453,37 @@ test('F-02: тема уже done в плане — не трогаем, заме
     const out = run(dir, [slug]);
     assert.equal(out.status, 'RELEASED');
     assert.ok(!out.findings.some((f) => f.name === 'Контент-план'));
+  });
+});
+
+/* Граница порога. До 13.08.2026 её не проверял никто: порог стоял на 70
+ * при реальном разбросе баллов 84–100, то есть шлюз не срабатывал ни
+ * разу, и подъём порога прошёл бы мимо тестов. */
+test('балл ровно на пороге проходит, на балл ниже — нет', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeAnalysis(dir, slug, { score: PASS });
+    run(dir, [slug]);
+  });
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeAnalysis(dir, slug, { score: PASS - 1 });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Оценка')), 'балл под порогом обязан блокировать');
+  });
+});
+
+/* Старая оценка выглядит проходной — там 100 набиралось с бонусом и
+ * нормировкой отсутствующего pillar. Пропустить её значит выпустить
+ * статью по той самой шкале, ради починки которой всё и затевалось. */
+test('оценка по старой шкале не пускает статью в выпуск', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeFileSync(join(dir, 'src/data/analyze', `${slug}.json`), JSON.stringify({
+      slug, score: 100, blocker: false, checkedAt: today(),
+      categories: { quality: { score: 20, issues: [] }, ai_citation: { score: 10, issues: [] } },
+    }));
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.includes('старой шкале')), `ожидался блокер про старую шкалу:\n${JSON.stringify(out.blockers)}`);
   });
 });
