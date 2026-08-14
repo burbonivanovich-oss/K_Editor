@@ -39,6 +39,7 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { checkReport } from './factcheck/check-report.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ROOT = process.env.GATES_ROOT || REPO;
@@ -156,6 +157,16 @@ function checkFactcheck(slug, raw) {
   if (m.hash && m.hash !== hash) {
     return { status: FAIL, note: 'статью правили после факчека — маркер недействителен' };
   }
+  /* Маркер и отчёт на месте — но доказывает ли отчёт проверку. До
+   * 13.08.2026 гейт останавливался здесь, и статья с шестью
+   * фактическими ошибками проходила: отчёт был, вердикт в нём стоял
+   * «passed», а сверить его было не с чем. */
+  try {
+    const problems = checkReport(JSON.parse(readFileSync(join(ROOT, m.report), 'utf8')));
+    if (problems.length) {
+      return { status: FAIL, note: `отчёт не доказывает проверку: ${problems.length} замечаний (check-report.mjs)` };
+    }
+  } catch { return { status: FAIL, note: 'отчёт факчека нечитаем' }; }
   return { status: OK, note: `проверено ${m.date}` };
 }
 

@@ -28,8 +28,9 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { join, dirname } from 'node:path';
+import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { checkReport } from './check-report.mjs';
 
 const ROOT = process.env.FACTCHECK_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const slug = process.argv[2];
@@ -77,6 +78,25 @@ if (!existsSync(reportPath)) {
 try {
   const report = JSON.parse(readFileSync(reportPath, 'utf8'));
   if (!report.summary) throw new Error('в отчёте нет summary');
+
+  /* Вердикт брался из summary самого отчёта — то есть проверяющий сам
+   * себе ставил «passed», а маркер это переписывал. 13.08.2026 редактор
+   * прислала разбор статьи, где так прошли шесть фактических ошибок,
+   * включая занижённые почти в полтора раза пороги ст. 171.1 УК РФ.
+   *
+   * Теперь между отчётом и маркером стоит проверка доказательств:
+   * сформулировано ли утверждение, есть ли дословная цитата
+   * первоисточника с этим значением, согласована ли уверенность со
+   * статусом. Не сходится — маркера не будет. */
+  const problems = checkReport(report, basename(reportPath));
+  if (problems.length) {
+    console.error(`✖ Отчёт не доказывает проверку — ${problems.length} замечаний:`);
+    for (const pr of problems.slice(0, 10)) console.error(`    [${pr.id ?? '—'}] ${pr.problem}`);
+    if (problems.length > 10) console.error(`    … и ещё ${problems.length - 10}`);
+    console.error('\n  Маркер не выписан. Разбор правил — scripts/factcheck/check-report.mjs.');
+    process.exit(1);
+  }
+
   criticalMismatches = report.summary.criticalIssues ?? 0;
   result = report.summary.overallStatus === 'needs-rewrite' ? 'failed' : 'passed';
 } catch (e) {

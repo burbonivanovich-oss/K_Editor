@@ -51,7 +51,16 @@ function withRepo(fn, { fm = frontmatter(), text = body(), marker = true } = {})
   writeFileSync(join(dir, 'src/data/interlinking/market-articles.json'),
     JSON.stringify({ generatedFrom: 'test', articles: [] }));
   if (marker) {
-    writeFileSync(join(dir, 'src/data/factcheck/results', `${SLUG}.json`), '{}');
+    writeFileSync(join(dir, 'src/data/factcheck/results', `${SLUG}.json`), JSON.stringify({
+      claims: [{
+        id: 'c1', type: 'MONEY', raw: '10 000 ₽',
+        statement: 'штраф по ч. 2 ст. 14.5 КоАП РФ для должностных лиц — не менее 10 000 ₽',
+        status: 'match', severity: 'critical', confidence: 0.95,
+        quote: 'влечёт наложение административного штрафа на должностных лиц в размере не менее 10 000 рублей',
+        sources: ['http://publication.pravo.gov.ru/document/0001202301010001'],
+      }],
+      summary: { overallStatus: 'ok', criticalIssues: 0 },
+    }));
     writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
       date: '2026-08-13', hash: createHash('sha256').update(raw).digest('hex'),
       result: 'passed', criticalMismatches: 0,
