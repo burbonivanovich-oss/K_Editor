@@ -87,6 +87,51 @@ export function numbersIn(text) {
     .filter((n) => n.length >= 2);
 }
 
+/* Числительные прописью. В нормативных текстах суммы пишутся словами —
+ * «превышающая четыреста тысяч рублей», — и требование найти в цитате
+ * цифры делает гейт непроходимым для настоящей цитаты первоисточника.
+ *
+ * Это опаснее, чем кажется: невыполнимое требование не защищает, а
+ * толкает подогнать цитату под проверку. Гейт, который нельзя пройти
+ * честно, хуже отсутствующего. */
+const WORD_UNITS = {
+  ноль: 0, один: 1, одна: 1, два: 2, две: 2, три: 3, четыре: 4, пять: 5,
+  шесть: 6, семь: 7, восемь: 8, девять: 9, десять: 10, одиннадцать: 11,
+  двенадцать: 12, тринадцать: 13, четырнадцать: 14, пятнадцать: 15,
+  шестнадцать: 16, семнадцать: 17, восемнадцать: 18, девятнадцать: 19,
+  двадцать: 20, тридцать: 30, сорок: 40, пятьдесят: 50, шестьдесят: 60,
+  семьдесят: 70, восемьдесят: 80, девяносто: 90, сто: 100, двести: 200,
+  триста: 300, четыреста: 400, пятьсот: 500, шестьсот: 600,
+  семьсот: 700, восемьсот: 800, девятьсот: 900,
+};
+const WORD_SCALES = [
+  [/^тысяч/, 1000], [/^миллион/, 1000000], [/^миллиард/, 1000000000],
+];
+
+/** Все суммы, записанные прописью, как числа: «четыреста тысяч» → 400000. */
+export function numeralWordsIn(text) {
+  const words = String(text ?? '').toLowerCase().match(/[а-яё]+/g) || [];
+  const out = [];
+  let group = 0, total = 0, seen = false;
+  const flush = () => {
+    if (seen) out.push(total + group);
+    group = 0; total = 0; seen = false;
+  };
+  for (const w of words) {
+    if (w in WORD_UNITS) { group += WORD_UNITS[w]; seen = true; continue; }
+    const scale = WORD_SCALES.find(([re]) => re.test(w));
+    if (scale) {
+      total += (group || 1) * scale[1];
+      group = 0; seen = true;
+      continue;
+    }
+    if (/^(рубл|и|целых)/.test(w)) continue;   // не разрывают число
+    flush();
+  }
+  flush();
+  return out.filter((n) => n > 0).map(String);
+}
+
 /** Ссылки на нормы в сравнимом виде: «ст. 171.1 УК» → «171.1». */
 export function normRefsIn(text) {
   return (String(text ?? '').match(/\d+(?:\.\d+)?/g) || []);
@@ -154,8 +199,12 @@ export function checkReport(report, name = 'отчёт') {
     if (!quote) {
       add(id, 'нет дословной цитаты первоисточника — «подтверждено поиском» доказательством не является');
     } else {
-      const wanted = c.type === 'MONEY' || c.type === 'DURATION' ? numbersIn(c.raw) : normRefsIn(c.raw);
-      const inQuote = c.type === 'MONEY' || c.type === 'DURATION' ? numbersIn(quote) : normRefsIn(quote);
+      const isAmount = c.type === 'MONEY' || c.type === 'DURATION';
+      const wanted = isAmount ? numbersIn(c.raw) : normRefsIn(c.raw);
+      // Суммы в цитате ищем и цифрами, и прописью: НПА пишет словами.
+      const inQuote = isAmount
+        ? [...numbersIn(quote), ...numeralWordsIn(quote)]
+        : [...normRefsIn(quote), ...numeralWordsIn(quote)];
       if (wanted.length && !wanted.some((w) => inQuote.includes(w))) {
         add(id, `в цитате нет значения «${String(c.raw).slice(0, 30)}» — цитата не подтверждает именно это число`);
       }

@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-13T08:23:37.617Z",
+  "generatedAt": "2026-08-14T06:03:37.764Z",
   "totals": {
     "files": 10,
     "unknownFz": 0,
     "unknownPp": 0,
     "unknownPrikaz": 0,
-    "topicMismatch": 6,
+    "topicMismatch": 8,
     "ambiguousPrikaz": 0
   },
   "findings": {
@@ -61,6 +61,26 @@
         "title": "О внесении изменений в отдельные законодательные акты РФ (правки в 54-ФЗ: момент формирования чека при расчётах без непосредственного взаимодействия — не позднее рабочего дня, следующего за днём расчёта, но не позднее момента передачи товара)",
         "categories": [
           "banki"
+        ]
+      },
+      {
+        "slug": "2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
+        "type": "fz",
+        "num": "79",
+        "topic": "zakonodatelstvo",
+        "title": "О внесении изменений в УК РФ и УПК РФ — поднял крупный размер по гл. 22 УК до 3 500 000 ₽ (прим. к ст. 170.2)",
+        "categories": [
+          "ts-piot"
+        ]
+      },
+      {
+        "slug": "2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
+        "type": "fz",
+        "num": "234",
+        "topic": "zakonodatelstvo",
+        "title": "О внесении изменений в УК РФ — пороги по ч. 5–6 ст. 171.1 для алкоголя, табака и никотинсодержащей продукции",
+        "categories": [
+          "ts-piot"
         ]
       },
       {

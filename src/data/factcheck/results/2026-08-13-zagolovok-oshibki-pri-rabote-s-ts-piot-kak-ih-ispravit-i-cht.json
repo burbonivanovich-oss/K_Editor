@@ -1,35 +1,108 @@
 {
   "claims": [
     {
-      "id": "c21",
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
+      "id": "v1",
+      "type": "MONEY",
+      "raw": "400 000 ₽",
+      "statement": "крупный размер по ч. 3–4 ст. 171.1 УК РФ для немаркированных продовольственных товаров — свыше 400 000 ₽",
       "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Ст. 4.7 54-ФЗ — реквизиты кассового чека; тег 1162 «код товара» для Data Matrix маркированных товаров",
-      "explanation": "Подтверждено WebSearch: ст. 4.7 54-ФЗ прямо даёт Правительству РФ право устанавливать доп. реквизит «код товара» (тег 1162), в который попадает код маркировки.",
+      "severity": "critical",
+      "confidence": 0.95,
+      "quote": "стоимость немаркированных продовольственных товаров, превышающая четыреста тысяч рублей",
       "sources": [
-        "https://base.garant.ru/12130951/d93151fb5e2b2b1b7d4329097599cac5/",
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/7a607e9ee7058b0c3bcb22e564e88190964aee72/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"
+      ]
     },
     {
-      "id": "c25",
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+      "id": "v2",
+      "type": "MONEY",
+      "raw": "1 500 000 ₽",
+      "statement": "особо крупный размер по ч. 3–4 ст. 171.1 УК РФ для продовольственных товаров — 1 500 000 ₽",
       "status": "match",
-      "severity": "minor",
-      "confidence": 0.85,
-      "expectedValue": "Ссылка ведёт на текст 54-ФЗ на consultant.ru",
-      "explanation": "Домен в blocked-списке (WebFetch недоступен), но WebSearch подтверждает документ существует и соответствует контексту (ст. 4.7 54-ФЗ).",
+      "severity": "critical",
+      "confidence": 0.95,
+      "quote": "особо крупным — один миллион пятьсот тысяч рублей",
       "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/7a607e9ee7058b0c3bcb22e564e88190964aee72/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"
+      ]
+    },
+    {
+      "id": "v3",
+      "type": "MONEY",
+      "raw": "100 000 ₽",
+      "statement": "крупный размер по ч. 5–6 ст. 171.1 УК РФ для алкогольной, табачной и никотинсодержащей продукции — свыше 100 000 ₽ (ред. ФЗ от 23.07.2025 № 234-ФЗ)",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "quote": "стоимость алкогольной, табачной и (или) никотинсодержащей продукции без маркировки, превышающая сто тысяч рублей",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"
+      ]
+    },
+    {
+      "id": "v4",
+      "type": "MONEY",
+      "raw": "1 000 000 ₽",
+      "statement": "особо крупный размер по ч. 5–6 ст. 171.1 УК РФ для алкоголя и табака — 1 000 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "quote": "особо крупным — один миллион рублей",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"
+      ]
+    },
+    {
+      "id": "v5",
+      "type": "MONEY",
+      "raw": "3 500 000 ₽",
+      "statement": "крупный размер по ч. 1–2 ст. 171.1 УК РФ (прочие маркируемые товары) определяется общей нормой главы 22 — примечанием к ст. 170.2 УК РФ: свыше 3 500 000 ₽. В статье ранее стояло устаревшее 2 250 000 ₽, поднято ФЗ от 06.04.2024 № 79-ФЗ",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "quote": "крупным размером признается сумма, превышающей три миллиона пятьсот тысяч рублей",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/"
+      ]
+    },
+    {
+      "id": "v6",
+      "type": "MONEY",
+      "raw": "13 500 000 ₽",
+      "statement": "особо крупный размер по общей норме главы 22 УК РФ (прим. к ст. 170.2) — 13 500 000 ₽",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "quote": "особо крупным — тринадцать миллионов пятьсот тысяч рублей",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/"
+      ]
+    },
+    {
+      "id": "v7",
+      "type": "LEGAL_CLAIM",
+      "raw": "части третья–шестая статьи 171.1",
+      "statement": "части 3–6 ст. 171.1 УК РФ исключены из общей нормы прим. к ст. 170.2 и имеют собственные пороги",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "quote": "за исключением … частей третьей–шестой статьи 171.1",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/"
+      ]
+    },
+    {
+      "id": "v8",
+      "type": "LEGAL_CLAIM",
+      "raw": "теги 1300–1309 и 1320–1325",
+      "statement": "в ФФД 1.2 реквизит «предмет расчёта» (тег 1059) содержит совокупность тегов 1300–1309 и 1320–1325 вместо тега 1162 «код товара», применявшегося в ФФД 1.05 и 1.1",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "вместо тега 1162 «код товара» в него теперь входит совокупность тегов (1300 - 1309, 1320 - 1325)",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_362322/"
+      ]
     },
     {
       "id": "c26",
@@ -146,19 +219,6 @@
       "confidence": 0.85,
       "expectedValue": "Дата редакции ПП № 303, внесённой ПП № 1674 от 29.11.2024",
       "explanation": "Whitelist фиксирует ПП № 1674 «О внесении изменений в постановление... № 303» датой 2024-11-29 (verifiedAt 2026-08-05) — совпадает с датой редакции, указанной в статье.",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c22",
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.85,
-      "expectedValue": "ОФД передаёт фискальные данные в налоговую по 54-ФЗ",
-      "explanation": "Общее и верное описание роли ОФД по 54-ФЗ, соответствует ранее верифицированному кластеру.",
       "sources": [],
       "action": "keep",
       "actionDetail": ""
@@ -342,49 +402,6 @@
       "actionDetail": ""
     },
     {
-      "id": "c20",
-      "type": "NPA_UK",
-      "raw": "ст. 171.1 УК РФ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.85,
-      "expectedValue": "Ст. 171.1 УК РФ — крупный размер: 400 000 ₽ (прод. товары), 2 250 000 ₽ (непрод. товары)",
-      "explanation": "Подтверждено WebFetch/WebSearch: прим. 1 к ст. 171.1 УК РФ — крупный размер немаркированных продтоваров свыше 400 000 ₽ (особо крупный — 1 500 000 ₽); для непродовольственных товаров крупный размер — свыше 2 250 000 ₽, особо крупный — 9 000 000 ₽ (по прим. 3 к ст. 170.2 УК РФ, на которое ссылается 171.1). Оба порога в статье точно совпадают с крупным размером.",
-      "sources": [
-        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c15",
-      "type": "MONEY",
-      "raw": "400 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.85,
-      "expectedValue": "Крупный размер по прим. 1 ст. 171.1 УК РФ для продовольственных товаров",
-      "explanation": "Подтверждено, см. c20.",
-      "sources": [
-        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c16",
-      "type": "MONEY",
-      "raw": "2 250 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.8,
-      "expectedValue": "Крупный размер для непродовольственных товаров (по прим. 3 ст. 170.2 УК РФ, на которое ссылается 171.1)",
-      "explanation": "Подтверждено WebSearch, совпадает с whitelist. Confidence 0.8, т.к. сама структура перекрёстной ссылки (171.1 → прим. 3 ст. 170.2) взята из сниппетов поиска, не из прямого чтения текста УК.",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
       "id": "c6",
       "type": "DATE_TEXT",
       "raw": "28 декабря 2025 года",
@@ -521,21 +538,6 @@
       "actionDetail": ""
     },
     {
-      "id": "sem5",
-      "type": "CLAIM",
-      "raw": "тега 1162 «код товара»",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.85,
-      "expectedValue": "Тег 1162 ФФД — «Код товара», используется для передачи Data Matrix маркированного товара",
-      "explanation": "Подтверждено WebSearch (robokassa.com, astral.ru, online-check.business.ru): «в структуру предмета расчета включается тег 1162 «Код товара», содержащий код маркировки (Data Matrix)».",
-      "sources": [
-        "https://robokassa.com/blog/articles/tegi-v-kassovykh-chekakh/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
       "id": "sem6",
       "type": "CLAIM",
       "raw": "таблица кодов ошибок ТС ПИоТ (null, 401, 453, 500, 514/408, «код выведен из оборота», сертификат, ФФД)",
@@ -554,11 +556,8 @@
     }
   ],
   "summary": {
-    "overallStatus": "good-with-minor-addition",
+    "overallStatus": "ok",
     "criticalIssues": 0,
-    "checkedAt": "2026-08-13",
-    "verified": 37,
-    "unverified": 0,
-    "note": "Все статьи КоАП/УК/номера-даты НПА подтверждены точным совпадением (в т.ч. суммы штрафов и пороги 171.1 УК РФ). Два moderate-расхождения: (1) ПП №303 приписана формулировка «до пробития чека», которую напрямую содержит скорее ПП №1944 — рекомендована правка атрибуции (см. c24/sem2); (2) код ошибки 514 в таблице описан по одному вендорскому шаблону (Астрал/Клеверенс), тогда как у Эвотора отдельная статья даёт другое значение — рекомендовано добавить оговорку о вендорской вариативности (см. sem6). Оба расхождения — moderate/minor, не critical: ни цифры, ни номера статей КоАП/УК, ни суммы штрафов не искажены. Ссылка на support.kontur.ru/market/84217 остаётся недоступной для WebFetch (403, подтверждено повторно) — риск низкий, т.к. статья не цитирует её дословно."
+    "note": "Пересобран 13.08.2026 после разбора редакции: пороги ст.171.1 и теги ФФД 1.2 проверены по первоисточникам с дословными цитатами. Утверждения, унаследованные от прежнего отчёта, доказательств пока не несут."
   }
 }
