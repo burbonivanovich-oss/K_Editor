@@ -31,6 +31,7 @@ import { createHash } from 'node:crypto';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkReport } from './check-report.mjs';
+import { checkCoverage } from './check-coverage.mjs';
 
 const ROOT = process.env.FACTCHECK_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const slug = process.argv[2];
@@ -94,6 +95,17 @@ try {
     for (const pr of problems.slice(0, 10)) console.error(`    [${pr.id ?? '—'}] ${pr.problem}`);
     if (problems.length > 10) console.error(`    … и ещё ${problems.length - 10}`);
     console.error('\n  Маркер не выписан. Разбор правил — scripts/factcheck/check-report.mjs.');
+    process.exit(1);
+  }
+
+  /* Второй вопрос к отчёту: всё ли из статьи в него попало. Ст. 15.12.1
+   * КоАП РФ 13.08.2026 не разбиралась вовсе — и это не было видно ни по
+   * одному признаку, потому что отсутствующее следа не оставляет. */
+  const cov = checkCoverage(content, report);
+  if (cov.missing.length) {
+    console.error(`✖ В статье ${cov.missing.length} значений, которых нет в отчёте:`);
+    for (const m of cov.missing.slice(0, 10)) console.error(`    [${m.kind}] ${m.text}`);
+    console.error('\n  Маркер не выписан: разобрать эти значения и дописать в отчёт.');
     process.exit(1);
   }
 

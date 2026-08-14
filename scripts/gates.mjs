@@ -40,6 +40,7 @@ import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkReport } from './factcheck/check-report.mjs';
+import { checkCoverage } from './factcheck/check-coverage.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ROOT = process.env.GATES_ROOT || REPO;
@@ -162,9 +163,19 @@ function checkFactcheck(slug, raw) {
    * фактическими ошибками проходила: отчёт был, вердикт в нём стоял
    * «passed», а сверить его было не с чем. */
   try {
-    const problems = checkReport(JSON.parse(readFileSync(join(ROOT, m.report), 'utf8')));
+    const report = JSON.parse(readFileSync(join(ROOT, m.report), 'utf8'));
+    const problems = checkReport(report);
     if (problems.length) {
       return { status: FAIL, note: `отчёт не доказывает проверку: ${problems.length} замечаний (check-report.mjs)` };
+    }
+    /* Доказанность разобранного — половина дела. Вторая: не осталось ли
+     * в статье значений, которых в отчёте нет вовсе. Отсутствующее не
+     * оставляет следа: 38 утверждений, все подтверждены, а норма, о
+     * которой не вспомнили, нигде не видна. */
+    const cov = checkCoverage(raw, report);
+    if (cov.missing.length) {
+      const list = cov.missing.slice(0, 3).map((x) => x.text).join(', ');
+      return { status: FAIL, note: `факчеком не разбирались: ${list}${cov.missing.length > 3 ? ` и ещё ${cov.missing.length - 3}` : ''}` };
     }
   } catch { return { status: FAIL, note: 'отчёт факчека нечитаем' }; }
   return { status: OK, note: `проверено ${m.date}` };
