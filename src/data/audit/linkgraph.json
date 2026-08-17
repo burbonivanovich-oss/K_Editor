@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-17T07:54:18.198Z",
+  "generatedAt": "2026-08-17T07:54:48.839Z",
   "totals": {
-    "total": 12,
+    "total": 13,
     "published": 3,
-    "drafts": 9,
+    "drafts": 10,
     "orphans": 0,
     "weak": 0,
     "deadends": 0
@@ -25,7 +25,7 @@
     {
       "slug": "2026-08-11-razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
       "title": "Разрешительный режим маркировки: что проверяет касса и что делать",
-      "inboundCount": 3
+      "inboundCount": 4
     }
   ]
 }
