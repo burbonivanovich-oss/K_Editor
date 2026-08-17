@@ -1,289 +1,193 @@
 {
   "claims": [
     {
+      "id": "c1",
       "type": "NPA_PUNKT",
-      "raw": "пункту 1",
+      "raw": "пункту 1 статьи 4.2",
+      "statement": "По пункту 1 статьи 4.2 Федерального закона от 22.05.2003 № 54-ФЗ заявление о регистрации кассы можно подать на бумаге в любой территориальный налоговый орган, без привязки к месту установки кассы.",
       "status": "match",
-      "severity": "moderate",
+      "severity": "critical",
       "confidence": 0.85,
-      "expectedValue": "п. 1 ст. 4.2 54-ФЗ: заявление о регистрации подаётся в любой налоговый орган, в т. ч. на бумаге",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "quote": "1. на бумажном носителе в любой территориальный налоговый орган",
       "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/",
         "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "c2",
       "type": "NPA_FZ_FULL",
       "raw": "Федерального закона от 22.05.2003 № 54",
+      "statement": "Порядок регистрации ККТ через кабинет ККТ и на бумаге устанавливает Федеральный закон от 22.05.2003 № 54-ФЗ «О применении ККТ».",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "54-ФЗ «О применении ККТ», действует",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+      "quote": "Федеральный закон от 22.05.2003 № 54-ФЗ \"О применении контрольно-кассовой техники при осуществлении расчетов в Российской Федерации\"",
+      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_42359/"],
+      "action": "keep"
     },
     {
-      "type": "DATE_DMY",
-      "raw": "22.05.2003",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата принятия 54-ФЗ",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "краткое имя того же закона",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 марта 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "c3",
       "type": "DATE_DMY",
       "raw": "08.08.2024",
+      "statement": "Способ подачи заявления о регистрации ККТ через изготовителя кассы добавлен Федеральным законом от 08.08.2024 № 274-ФЗ.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата принятия 274-ФЗ",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "confidence": 0.85,
+      "quote": "Федеральный закон от 8 августа 2024 г. N 274-ФЗ \"О внесении изменений в Федеральный закон \"О применении контрольно-кассовой техники при осуществлении расчетов в Российской Федерации\" и статью 76 Федерального закона \"Об образовании в Российской Федерации\"",
       "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
+        "https://www.garant.ru/hotlaw/federal/1746752/",
         "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "c4",
       "type": "NPA_FZ",
       "raw": "274-ФЗ",
+      "statement": "Федеральный закон от 08.08.2024 № 274-ФЗ упростил порядок регистрации ККТ: сократил сроки и добавил новые способы подачи заявления.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ФЗ от 08.08.2024 № 274-ФЗ — изменения в порядок регистрации ККТ",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "confidence": 0.85,
+      "quote": "Федеральный закон от 08.08.2024 №274-ФЗ, упростившие порядок регистрации приобретаемых онлайн-касс",
       "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html",
+        "https://www.garant.ru/hotlaw/federal/1746752/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "NPA_PUNKT",
-      "raw": "пункт 7",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "п. 7 ст. 4.2 54-ФЗ: карточка регистрации формируется в течение 5 рабочих дней (было 10 до 01.03.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "c5",
       "type": "DATE_TEXT",
       "raw": "1 марта 2025 года",
+      "statement": "С 01.03.2025 срок формирования карточки регистрации ККТ по п. 7 ст. 4.2 54-ФЗ сокращён с 10 до 5 рабочих дней Федеральным законом № 274-ФЗ.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "confidence": 0.85,
+      "quote": "Федеральный закон от 08.08.2024 №274-ФЗ, вступающий в силу с 1 марта 2025 года, упростил порядок регистрации ККТ и сократил ее сроки",
       "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+        "https://buh.ru/articles/kak-pomenyayutsya-pravila-registratsii-kkt-s-1-marta-2025-goda.html",
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "DATE_TEXT",
-      "raw": "28 декабря 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "50 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "100 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "30 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для юрлиц (75–100 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "c6",
       "type": "NPA_PUNKT",
       "raw": "пункт 7",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "п. 7 ст. 4.2 54-ФЗ: карточка регистрации формируется в течение 5 рабочих дней (было 10 до 01.03.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
+      "statement": "По п. 7 ст. 4.2 54-ФЗ карточку регистрации ККТ налоговый орган формирует в течение 5 рабочих дней с даты подачи заявления; до 01.03.2025 срок составлял 10 рабочих дней.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "краткое имя того же закона",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "confidence": 0.85,
+      "quote": "7. в течение 5 рабочих дней с даты подачи заявления на регистрацию ККТ направит пользователю (ОФД) карточку регистрации кассы",
       "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html",
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "DATE_TEXT",
-      "raw": "1 марта 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "краткое имя того же закона",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "c7",
       "type": "DATE_TEXT",
       "raw": "1 сентября 2025 года",
+      "statement": "С 01.09.2025 заявление о регистрации ККТ можно подать через изготовителя кассы или через портал Госуслуг — эти способы добавлены отдельными подпунктами п. 8 ст. 1 Федерального закона № 274-ФЗ, вступающими в силу позже основной части закона (01.03.2025).",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.8,
+      "quote": "подпункты \"а\", \"б\", \"е\", \"ж\" и \"з\" пункта 8 статьи 1 закона вступают в силу с 1 сентября 2025 г.; в электронной форме через портал Госуслуг; в электронной форме через изготовителя онлайн-кассы",
+      "sources": [
+        "https://www.garant.ru/hotlaw/federal/1746752/",
+        "https://normativ.kontur.ru/document?documentId=475906&moduleId=1",
+        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      ],
+      "action": "keep",
+      "actionDetail": "Дата уже была правкой предыдущего прогона факчека (12.08.2026): в тексте изначально стояло «с 1 марта 2025 года заявление за вас подаёт изготовитель», исправлено на 1 сентября 2025 года. Текущая проверка подтверждает: 274-ФЗ вступает в силу поэтапно — основная часть с 01.03.2025, а способы подачи через изготовителя и Госуслуги — отдельными подпунктами п. 8 ст. 1 с 01.09.2025."
+    },
+    {
+      "id": "c8",
+      "type": "DATE_TEXT",
+      "raw": "28 декабря 2025 года",
+      "statement": "Обязанность применять ТС ПИоТ при продаже маркированных товаров действует с 28.12.2025.",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "Подача заявления о регистрации ККТ через изготовителя и через Госуслуги действует с 01.09.2025",
-      "explanation": "Найдено расхождение: в тексте стояло «с 1 марта 2025 года заявление за вас подаёт изготовитель». 01.03.2025 по 274-ФЗ сократился срок регистрации с 10 до 5 рабочих дней, а способы подачи через изготовителя и Госуслуги добавились с 01.09.2025. Текст исправлен 12.08.2026, поэтому claim закрыт как match.",
+      "quote": "С 28 декабря 2025 года продавцы маркированных товаров должны передавать данные в Честный знак только с использованием ТС ПИоТ, которое включено в специальный реестр",
       "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+        "http://publication.pravo.gov.ru/document/0001202506270011",
+        "https://its.1c.ru/db/content/newsclar/src/498090.htm"
       ],
-      "action": "rewrite-bullet",
-      "actionDetail": "«с 1 марта 2025 года» → «с 1 сентября 2025 года», Госуслуги перенесены в тот же абзац"
+      "action": "keep"
+    },
+    {
+      "id": "c9",
+      "type": "NPA_KOAP",
+      "raw": "части 2 статьи 14.5 КоАП РФ",
+      "statement": "Неприменение ККТ (расчёт без применения кассы) наказывается по ч. 2 ст. 14.5 КоАП РФ: для должностных лиц и ИП — от 25 до 50 % суммы расчёта, не менее 10 000 ₽; для организаций — от 75 до 100 %, не менее 30 000 ₽.",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "2. Неприменение контрольно-кассовой техники в установленных законодательством Российской Федерации о применении контрольно-кассовой техники случаях... влечет наложение административного штрафа на должностных лиц в размере от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей; на юридических лиц — от трех четвертых до одного размера суммы расчета, но не менее тридцати тысяч рублей",
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+        "https://pravo.ppt.ru/kodeks/koap/st-14.5"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "c10",
+      "type": "PERCENT",
+      "raw": "50 %",
+      "statement": "Верхняя граница штрафа для должностных лиц и ИП по ч. 2 ст. 14.5 КоАП РФ — 50 % суммы расчёта.",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "для должностных лиц — от 25% до 50% суммы расчета без применения ККТ, но не менее 10 000 рублей",
+      "sources": ["https://astral.ru/aj/elem/primenenie-kkt-pri-raschyetakh-mezhdu-yuridicheskimi-litsami/", "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"],
+      "action": "keep",
+      "actionDetail": "Первоисточник (консультант.ру) выражает долю как «от одной четвертой до одной второй» (1/4–1/2), что арифметически равно 25–50 %; вторичный источник (astral.ru) даёт то же значение в процентах."
+    },
+    {
+      "id": "c11",
+      "type": "PERCENT",
+      "raw": "100 %",
+      "statement": "Верхняя граница штрафа для организаций по ч. 2 ст. 14.5 КоАП РФ — 100 % суммы расчёта.",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "для юридических лиц — от 75% до 100% суммы расчета без использования кассы, но не менее 30 000 рублей",
+      "sources": ["https://astral.ru/aj/elem/primenenie-kkt-pri-raschyetakh-mezhdu-yuridicheskimi-litsami/", "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"],
+      "action": "keep",
+      "actionDetail": "Первоисточник (консультант.ру) выражает долю как «от трех четвертых до одного размера» (3/4–1), что арифметически равно 75–100 %; вторичный источник (astral.ru) даёт то же значение в процентах."
+    },
+    {
+      "id": "c12",
+      "type": "MONEY",
+      "raw": "10 000 ₽",
+      "statement": "Минимальный штраф по ч. 2 ст. 14.5 КоАП РФ для должностных лиц и ИП — 10 000 ₽.",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "но не менее десяти тысяч рублей",
+      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"],
+      "action": "keep"
+    },
+    {
+      "id": "c13",
+      "type": "MONEY",
+      "raw": "30 000 ₽",
+      "statement": "Минимальный штраф по ч. 2 ст. 14.5 КоАП РФ для юрлиц — 30 000 ₽.",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "но не менее тридцати тысяч рублей",
+      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"],
+      "action": "keep"
     }
   ],
   "summary": {
     "overallStatus": "match",
     "criticalIssues": 0,
-    "checkedAt": "2026-08-12",
-    "verified": 19,
-    "unverified": 0,
-    "note": "Второй проход 12.08.2026 закрыл все uncertain. Найдено и исправлено одно расхождение: дата появления подачи заявления через изготовителя ККТ (было 01.03.2025, верно 01.09.2025)."
+    "note": "Переоформление отчёта в новый формат (statement/quote) после перелинковки 17.08.2026 — маркер стал недействителен из-за смены хеша. Повторная проверка всех критичных claims (54-ФЗ, 274-ФЗ, сроки регистрации ККТ, дата ТС ПИоТ, штрафы по ч. 2 ст. 14.5 КоАП РФ) не выявила новых фактических ошибок — расхождение с 01.03.2025 на 01.09.2025 для способов подачи через изготовителя/Госуслуги было найдено и исправлено в предыдущем прогоне (12.08.2026), сейчас подтверждено повторно с дополнительным источником (normativ.kontur.ru — поэтапное вступление в силу 274-ФЗ по подпунктам)."
   }
 }

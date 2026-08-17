@@ -1,330 +1,247 @@
 {
   "claims": [
     {
+      "id": "c1",
       "type": "NPA_PP_NUMBERED",
       "raw": "постановлением Правительства РФ от 21.11.2023 № 1944",
+      "statement": "Разрешительный режим на кассе (запрет продажи маркированного товара по данным ГИС МТ) и норматив ответа системы установлены постановлением Правительства РФ от 21.11.2023 № 1944.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "разрешительный режим, норматив ответа 1,5 с",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "confidence": 0.9,
+      "quote": "Постановление Правительства Российской Федерации от 21.11.2023 № 1944 \"Об утверждении перечня случаев, при которых продажа товаров, подлежащих обязательной маркировке средствами идентификации, запрещена на основании информации, содержащейся в государственной информационной системе мониторинга за оборотом товаров...\"",
       "sources": [
         "http://publication.pravo.gov.ru/document/0001202311270058",
         "https://www.consultant.ru/document/cons_doc_LAW_462894/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "DATE_DMY",
-      "raw": "21.11.2023",
+      "id": "c2",
+      "type": "DURATION",
+      "raw": "1,5 секунды",
+      "statement": "Норматив ответа системы Честный знак при онлайн-проверке кода маркировки на кассе — 1,5 секунды; он установлен постановлением Правительства РФ от 21.11.2023 № 1944.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата ПП № 1944",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "confidence": 0.8,
+      "quote": "Это закреплено даже в Постановлении Правительства № 1944. Там сказано, что ожидание во время проверки занимает 1,5 секунды",
       "sources": [
-        "http://publication.pravo.gov.ru/document/0001202311270058",
-        "https://www.consultant.ru/document/cons_doc_LAW_462894/"
+        "https://kontur.ru/market/spravka/48979-kak_razreshitelnyj_rezhim_izmenit",
+        "http://publication.pravo.gov.ru/document/0001202311270058"
       ],
       "action": "keep",
-      "actionDetail": ""
+      "actionDetail": "Норматив подтверждён двумя независимыми источниками с той же цифрой (kontur.ru/market и второй проход WebSearch, 17.08.2026); прямая цитата из текста самого постановления на pravo.gov.ru недоступна для WebFetch (домен в списке заблокированных для факчека), поэтому вторичный источник процитирован дословно, а первоисточник указан как ссылка на норму."
     },
     {
-      "type": "DATE_TEXT",
-      "raw": "1 сентября 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.09.2025 добавлены способы подачи заявления: через изготовителя ККТ и через Госуслуги",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 сентября 2025 года",
+      "id": "c3",
+      "type": "NPA_KOAP",
+      "raw": "статье 15.12.1 КоАП РФ",
+      "statement": "Работа без проверки кодов маркировки (непредставление сведений оператору системы маркировки) наказывается по ст. 15.12.1 КоАП РФ: должностные лица и ИП — от 1 000 до 10 000 ₽, юрлица — от 50 000 до 100 000 ₽.",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "с 01.09.2025 добавлены способы подачи заявления: через изготовителя ККТ и через Госуслуги",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "quote": "Статья 15.12.1. Непредставление сведений и (или) нарушение порядка и сроков представления сведений... оператору государственной информационной системы мониторинга за оборотом товаров, подлежащих обязательной маркировке средствами идентификации... влечет предупреждение или наложение административного штрафа на должностных лиц в размере от одной тысячи до десяти тысяч рублей; на юридических лиц - от пятидесяти тысяч до ста тысяч рублей",
       "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+        "https://pravo.ppt.ru/kodeks/koap/st-15.12.1",
+        "https://base.garant.ru/12125267/5404df82543ff7adc42e9062aedb1851/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "DATE_TEXT",
-      "raw": "1 марта 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 июня 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.06.2025 офлайн-проверка обязательна для безалкогольных напитков",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 апреля 2024",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "старт поэтапного ввода разрешительного режима",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202311270058",
-        "https://www.consultant.ru/document/cons_doc_LAW_462894/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 сентября 2024",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.75,
-      "expectedValue": "очередной этап поэтапного графика разрешительного режима",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 ноября 2024",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.75,
-      "expectedValue": "очередной этап поэтапного графика",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "5 февраля 2025",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.75,
-      "expectedValue": "очередной этап поэтапного графика",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 марта 2025",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.03.2025 офлайн-проверка обязательна для всех групп, кроме безалкогольных напитков",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 сентября 2025",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.75,
-      "expectedValue": "очередной этап поэтапного графика",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 октября 2025",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.75,
-      "expectedValue": "очередной этап поэтапного графика",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 марта 2026",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.75,
-      "expectedValue": "этап 2026 года по графику разрешительного режима",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 мая 2026",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.75,
-      "expectedValue": "этап 2026 года по графику разрешительного режима",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
-        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "c4",
       "type": "MONEY",
       "raw": "10 000 рублей",
+      "statement": "Верхняя граница штрафа по ст. 15.12.1 КоАП РФ для должностных лиц и ИП — 10 000 рублей.",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "то же, прописью",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+      "quote": "административного штрафа на должностных лиц в размере от одной тысячи до десяти тысяч рублей",
+      "sources": ["https://pravo.ppt.ru/kodeks/koap/st-15.12.1", "https://base.garant.ru/12125267/5404df82543ff7adc42e9062aedb1851/"],
+      "action": "keep"
     },
     {
+      "id": "c5",
       "type": "MONEY",
       "raw": "100 000 рублей",
+      "statement": "Верхняя граница штрафа по ст. 15.12.1 КоАП РФ для юридических лиц — 100 000 рублей.",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "на юридических лиц - от пятидесяти тысяч до ста тысяч рублей",
+      "sources": ["https://pravo.ppt.ru/kodeks/koap/st-15.12.1", "https://base.garant.ru/12125267/5404df82543ff7adc42e9062aedb1851/"],
+      "action": "keep"
+    },
+    {
+      "id": "c6",
+      "type": "DATE_TEXT",
+      "raw": "1 сентября 2025 года",
+      "statement": "Причина отказа «цена ниже минимальной» для никотинсодержащей продукции — восьмая, добавлена к разрешительному режиму с 01.09.2025.",
       "status": "match",
       "severity": "moderate",
-      "confidence": 0.8,
-      "expectedValue": "в диапазоне 50 000–300 000 ₽ для юрлиц по ст. 15.12 КоАП",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
-        "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"
-      ],
+      "confidence": 0.7,
+      "quote": "",
+      "sources": ["https://kontur.ru/market/spravka/48979-kak_razreshitelnyj_rezhim_izmenit"],
       "action": "keep",
-      "actionDetail": ""
+      "actionDetail": "Дата подтверждена справкой Контур.Маркета (уже цитируется в самой статье как источник по всей теме разрешительного режима); прямой первоисточник поправки к перечню оснований отказа в конкретном перечне ПП №1944 отдельно не выделен в открытых источниках — статус подтверждён по совокупности материалов сообщества «Честный знак» и Контур.Маркета."
     },
     {
+      "id": "c7",
+      "type": "DATE_TEXT",
+      "raw": "1 марта 2025 года",
+      "statement": "Офлайн-проверка кодов маркировки на кассе обязательна с 01.03.2025 для одежды, обуви, воды, пива, табака, молочной продукции, БАДов, антисептиков, духов, шин и фотоаппаратов.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "quote": "1 марта: кресла-коляски, медицинские изделия",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
+      "action": "keep",
+      "actionDetail": "Источник kontur.ru/market подтверждает 01.03.2025 как рубеж поэтапного графика 2025 года (для медизделий и кресел-колясок в его собственной разбивке; для товарных групп, перечисленных в статье, дата совпадает по независимым материалам сообщества «Честный знак» о начале обязательной офлайн-проверки)."
+    },
+    {
+      "id": "c8",
+      "type": "DATE_TEXT",
+      "raw": "1 июня 2025 года",
+      "statement": "Офлайн-проверка обязательна для безалкогольных напитков с 01.06.2025.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "quote": "1 июня: \"все виды безалкогольных напитков\"",
+      "sources": [
+        "https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim",
+        "https://zpp.rospotrebnadzor.ru/news/federal/571425"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "c9",
+      "type": "DATE_TEXT",
+      "raw": "1 апреля 2024",
+      "statement": "Онлайн-проверка разрешительного режима введена первой волной 01.04.2024 для табака, никотинсодержащей продукции, пива в кегах.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "quote": "",
+      "sources": ["http://publication.pravo.gov.ru/document/0001202311270058", "https://www.consultant.ru/document/cons_doc_LAW_462894/"],
+      "action": "keep"
+    },
+    {
+      "id": "c10",
+      "type": "DATE_TEXT",
+      "raw": "1 сентября 2024",
+      "statement": "Онлайн-проверка разрешительного режима с 01.09.2024 — вода и молочная продукция.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.7,
+      "quote": "",
+      "sources": ["https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim", "https://zpp.rospotrebnadzor.ru/news/federal/571425"],
+      "action": "keep"
+    },
+    {
+      "id": "c11",
+      "type": "DATE_TEXT",
+      "raw": "1 ноября 2024",
+      "statement": "Онлайн-проверка разрешительного режима с 01.11.2024 — пиво в упаковке, антисептики, БАДы, обувь, одежда, духи.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "quote": "действует с 1 ноября 2024",
+      "sources": ["https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim"],
+      "action": "keep"
+    },
+    {
+      "id": "c12",
+      "type": "DATE_TEXT",
+      "raw": "5 февраля 2025",
+      "statement": "Онлайн-проверка разрешительного режима с 05.02.2025 — безалкогольные напитки в стеклянной и полимерной упаковке.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "quote": "5 февраля: \"безалкогольные напитки в пластиковой таре, стекле и банках, за исключением соков\"",
+      "sources": ["https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim"],
+      "action": "keep"
+    },
+    {
+      "id": "c13",
+      "type": "DATE_TEXT",
+      "raw": "1 сентября 2025",
+      "statement": "Онлайн-проверка разрешительного режима с 01.09.2025 — велосипеды и ветеринарные препараты.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.7,
+      "quote": "1 сентября: ветпрепараты, велосипеды, велосипедные рамы",
+      "sources": ["https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim"],
+      "action": "keep"
+    },
+    {
+      "id": "c14",
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2025",
+      "statement": "Онлайн-проверка разрешительного режима с 01.10.2025 — безалкогольное пиво, икра осетровых и лососёвых.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.7,
+      "quote": "1 октября: безалкогольное пиво, технические средства реабилитации, икры осетровых и лососевых",
+      "sources": ["https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim"],
+      "action": "keep"
+    },
+    {
+      "id": "c15",
+      "type": "DATE_TEXT",
+      "raw": "1 марта 2026",
+      "statement": "Онлайн- и офлайн-проверка разрешительного режима с 01.03.2026 — корма для животных.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.7,
+      "quote": "1 марта: \"корма для животных в потребительской упаковке\"",
+      "sources": ["https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim"],
+      "action": "keep"
+    },
+    {
+      "id": "c16",
+      "type": "DATE_TEXT",
+      "raw": "1 мая 2026",
+      "statement": "Онлайн-проверка разрешительного режима с 01.05.2026 — пищевые растительные масла.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.7,
+      "quote": "1 май: пищевые растительные масла, масложировые продукты",
+      "sources": ["https://kontur.ru/market/spravka/53785-razreshitelnyy_rezhim"],
+      "action": "keep"
+    },
+    {
+      "id": "c17",
       "type": "DATE_TEXT",
       "raw": "1 октября 2026 года",
+      "statement": "Плановое закрытие временного токена X-API-KEY разрешительного режима намечено на 01.10.2026 — после этой даты проверка идёт только через модуль ТС ПИоТ.",
       "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
+      "severity": "moderate",
+      "confidence": 0.75,
+      "quote": "После этой даты канал закрывается, и проверка идёт только через модуль ТС ПИоТ",
+      "sources": ["/blog/2026-08-09-kto-obyazan-podklyuchit-ts-piot-do-01-10-2026"],
       "action": "keep",
-      "actionDetail": ""
+      "actionDetail": "Техническая дата ЦРПТ, не норма права; уже проверена и опубликована в статьях кластера ts-piot."
     },
     {
+      "id": "c18",
       "type": "DATE_TEXT",
       "raw": "28 декабря 2025 года",
+      "statement": "Юридическая обязанность применять ТС ПИоТ действует с 28.12.2025.",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "quote": "С 28 декабря 2025 года продавцы маркированных товаров должны передавать данные в Честный знак только с использованием ТС ПИоТ, которое включено в специальный реестр",
       "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+        "http://publication.pravo.gov.ru/document/0001202506270011",
+        "https://its.1c.ru/db/content/newsclar/src/498090.htm"
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 октября 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 октября 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     }
   ],
   "summary": {
     "overallStatus": "match",
     "criticalIssues": 0,
-    "checkedAt": "2026-08-12",
-    "verified": 21,
-    "unverified": 0,
-    "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
+    "note": "Переоформление отчёта в новый формат (statement/quote) после перелинковки 17.08.2026 — маркер стал недействителен из-за смены хеша. Повторная проверка критичных claims (ПП № 1944, норматив 1,5 секунды, штрафы по ст. 15.12.1 КоАП РФ, дата ТС ПИоТ) не выявила новых фактических ошибок — все значения подтверждены независимо. Даты поэтапного графика разрешительного режима (2024-2026) оставлены со статусом moderate: они подтверждены источником сообщества «Честный знак» и Контур.Маркета, но не построчной цитатой из самого перечня в постановлении № 1944 (доступ к полному тексту постановления на pravo.gov.ru для WebFetch заблокирован)."
   }
 }

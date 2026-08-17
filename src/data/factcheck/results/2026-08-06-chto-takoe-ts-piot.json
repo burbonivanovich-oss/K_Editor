@@ -1,357 +1,190 @@
 {
   "claims": [
     {
-      "type": "DATE_DMY",
-      "raw": "28.12.2025",
+      "id": "c1",
+      "type": "DATE_TEXT",
+      "raw": "28 декабря 2025 года",
+      "statement": "Юридическая обязанность применять ТС ПИоТ на кассе при продаже маркированных товаров действует с 28.12.2025 — с этой даты истёк переходный период, отсчитанный от публикации приказа Минпромторга № 2044.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "28.12.2025 — истёк переходный период п. 19 ПП №303, обязанность действует юридически",
-      "explanation": "Подтверждено research brief и src/content/pillars/ts-piot.md (проверено ранее в этой сессии)",
+      "confidence": 0.9,
+      "quote": "С 28 декабря 2025 года продавцы маркированных товаров должны передавать данные в Честный знак только с использованием ТС ПИоТ, которое включено в специальный реестр... обязательное применение ТС ПИоТ становится действующим через 6 месяцев с момента публикации – то есть с 28 декабря 2025 года",
       "sources": [
         "http://publication.pravo.gov.ru/document/0001202506270011",
-        "https://base.garant.ru/73780927/"
+        "https://its.1c.ru/db/content/newsclar/src/498090.htm",
+        "https://kontur.ru/market/news/82918-roznice_i_obshchepitu_ponadobitsya_ts_piot"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "DATE_DMY",
-      "raw": "01.07.2026",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Технический рубеж ЦРПТ (не юридическая дата) — статья корректно не называет его нормой права",
-      "explanation": "Совпадает с research brief; статья явно разводит с 28.12.2025",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "01.10.2026",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Плановое закрытие X-API-KEY — статья корректно не называет его нормой права",
-      "explanation": "Совпадает с research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "19.03.2020",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата принятия ПП №303",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "https://base.garant.ru/73780927/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "29.11.2024",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата ПП №1674 (редакция ПП №303)",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "http://government.ru/docs/all/156474/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "25.04.2025",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата Приказа Минпромторга №2044",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202506270011"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "27.06.2025",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата публикации приказа №2044 на pravo.gov.ru",
-      "explanation": "Совпадает с research brief — эта дата запускает отсчёт переходного периода",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202506270011"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "c2",
       "type": "NPA_PP_NUMBERED",
       "raw": "постановление Правительства РФ от 19.03.2020 № 303",
+      "statement": "Требования к ТС ПИоТ и саму обязанность его применения устанавливает постановление Правительства РФ от 19.03.2020 № 303 «Об утверждении требований к техническим средствам, используемым участниками оборота товаров, подлежащих обязательной маркировке средствами идентификации, для обмена информацией с ГИС МТ», в редакции постановления от 29.11.2024.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ПП №303 — базовое постановление о ТС ПИоТ",
-      "explanation": "В whitelist проекта, подтверждено research brief",
+      "confidence": 0.9,
+      "quote": "Постановление Правительства Российской Федерации от 19.03.2020 № 303 \"Об утверждении требований к техническим средствам, используемым участниками оборота товаров, подлежащих обязательной маркировке средствами идентификации, для обмена информацией с государственной информационной системой мониторинга за оборотом товаров, подлежащих обязательной маркировке средствами идентификации\"",
       "sources": [
-        "https://base.garant.ru/73780927/"
+        "http://publication.pravo.gov.ru/Document/View/0001202003230014",
+        "https://base.garant.ru/73780927/",
+        "https://www.consultant.ru/document/cons_doc_LAW_348262/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "c3",
       "type": "NPA_PP_NUMBERED",
       "raw": "постановления Правительства РФ от 29.11.2024 № 1674",
+      "statement": "Постановление Правительства РФ от 29.11.2024 № 1674 внесло изменения в постановление № 303 — уточнило требования к считыванию Data Matrix и к совместимости ТС ПИоТ с ГИС МТ.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ПП №1674 — внесло изменения в ПП №303",
-      "explanation": "В whitelist проекта, подтверждено research brief",
+      "confidence": 0.85,
+      "quote": "Постановление Правительства Российской Федерации от 29.11.2024 № 1674 вносит изменения в требования к техническим средствам, используемым участниками оборота товаров, подлежащих обязательной маркировке средствами идентификации, которые были утверждены постановлением Правительства Российской Федерации от 19 марта 2020 г. № 303",
       "sources": [
-        "http://government.ru/docs/all/156474/"
+        "http://publication.pravo.gov.ru/document/0001202411290106",
+        "http://government.ru/docs/all/156474/",
+        "https://normativ.kontur.ru/document?documentId=490184&moduleId=1"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "c4",
       "type": "NPA_PRIKAZ",
-      "raw": "приказа Минпромторга № 2044",
+      "raw": "приказ Минпромторга России от 25.04.2025 № 2044",
+      "statement": "Порядок проверки совместимости ТС ПИоТ с ГИС МТ с 8 июля 2025 года устанавливает приказ Минпромторга России от 25.04.2025 № 2044, опубликованный на pravo.gov.ru 27.06.2025 — с этой публикации отсчитан переходный период до 28.12.2025.",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "Приказ Минпромторга №2044 от 25.04.2025 — правила проверки функциональной совместимости",
-      "explanation": "В whitelist проекта, подтверждено research brief",
+      "confidence": 0.9,
+      "quote": "Приказ Министерства промышленности и торговли Российской Федерации от 25.04.2025 № 2044 \"Об утверждении Правил обеспечения функциональной совместимости технических средств получения информации о товаре с техническими средствами оператора государственной информационной системы мониторинга...\"; зарегистрирован 27.06.2025, дата официального опубликования — 27 июня 2025 г., дата вступления в силу — 8 июля 2025 г.",
       "sources": [
-        "http://publication.pravo.gov.ru/document/0001202506270011"
+        "http://publication.pravo.gov.ru/document/0001202506270011",
+        "https://www.alta.ru/tamdoc/25a02044/",
+        "https://www.consultant.ru/document/cons_doc_LAW_508803/2ff7a8c72de3994f30496a0ccbb1ddafdaddf518/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "c5",
+      "type": "DATE_DMY",
+      "raw": "01.07.2026",
+      "statement": "С 01.07.2026 оператор ГИС МТ (ЦРПТ) начинает фиксировать продажи без ТС ПИоТ там, где для модели кассы уже есть совместимое решение в реестре — это операционный технический рубеж ЦРПТ, а не отдельная норма права.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "quote": "",
+      "sources": ["https://xn--80ajghhoc2aj1c8b.xn--p1ai/business/projects/tyres/checkout/"],
+      "action": "keep",
+      "actionDetail": "Дата устанавливается оператором ГИС МТ (ЦРПТ), не отдельной нормой права — прямого аналога на pravo.gov.ru/consultant.ru для операционных дат ЦРПТ не существует, тот же паттерн уже применялся в кластере ts-piot (см. отчёт по статье о шинах 2026-08-17)."
+    },
+    {
+      "id": "c6",
+      "type": "DATE_DMY",
+      "raw": "01.10.2026",
+      "statement": "Плановое закрытие временного токена X-API-KEY разрешительного режима намечено на 01.10.2026 — после этой даты продать маркированный товар без подключённого ТС ПИоТ станет невозможно технически.",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.75,
+      "quote": "После этой даты канал закрывается, и проверка идёт только через модуль ТС ПИоТ",
+      "sources": ["/blog/2026-08-09-kto-obyazan-podklyuchit-ts-piot-do-01-10-2026/"],
+      "action": "keep",
+      "actionDetail": "Техническая дата ЦРПТ, не норма права; уже проверена и опубликована в статьях кластера ts-piot (проверка внутренней ссылкой на ранее факчекнутую статью, не отдельным внешним источником)."
+    },
+    {
+      "id": "c7",
       "type": "NPA_FZ",
       "raw": "54-ФЗ",
+      "statement": "ТС ПИоТ работает поверх кассового ПО, которое передаёт фискальные данные через ОФД в рамках требований Федерального закона от 22.05.2003 № 54-ФЗ «О применении ККТ».",
       "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "54-ФЗ «О применении ККТ» — обязывает передавать фискальные данные через ОФД",
-      "explanation": "В whitelist проекта, подтверждено research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+      "severity": "minor",
+      "confidence": 0.8,
+      "quote": "Федеральный закон от 22.05.2003 № 54-ФЗ \"О применении контрольно-кассовой техники при осуществлении расчетов в Российской Федерации\"",
+      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_42359/"],
+      "action": "keep"
     },
     {
+      "id": "c8",
       "type": "NPA_KOAP",
-      "raw": "ст. 14.5 КоАП",
+      "raw": "ч. 2 ст. 14.5 КоАП РФ",
+      "statement": "Неприменение ККТ, в том числе фактическая блокировка продажи без корректного пробития чека, наказывается по ч. 2 ст. 14.5 КоАП РФ: для должностных лиц и ИП — от 1/4 до 1/2 суммы расчёта, не менее 10 000 ₽.",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "Ч. 2 ст. 14.5 КоАП — неприменение ККТ",
-      "explanation": "В whitelist проекта, подтверждено research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+      "quote": "2. Неприменение контрольно-кассовой техники в установленных законодательством Российской Федерации о применении контрольно-кассовой техники случаях... влечет наложение административного штрафа на должностных лиц в размере от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей",
+      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/", "https://pravo.ppt.ru/kodeks/koap/st-14.5"],
+      "action": "keep"
     },
     {
-      "type": "NPA_KOAP",
-      "raw": "ст. 15.12 КоАП",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Ч. 2 ст. 15.12 КоАП — продажа немаркированного товара",
-      "explanation": "В whitelist проекта, подтверждено research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_UK",
-      "raw": "ст. 171.1 УК РФ",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "Ст. 171.1 УК РФ — незаконный оборот немаркированных товаров в крупном размере",
-      "explanation": "В whitelist проекта (npaWhitelist.uk)",
-      "sources": [
-        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Минимальный штраф ИП по ч. 2 ст. 14.5 КоАП",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "c9",
       "type": "MONEY",
       "raw": "30 000 ₽",
+      "statement": "По ч. 2 ст. 14.5 КоАП РФ для юрлиц штраф за неприменение ККТ — от 3/4 до 1 суммы расчёта, не менее 30 000 ₽.",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "Минимальный штраф юрлица по ч. 2 ст. 14.5 КоАП",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+      "quote": "от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей",
+      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"],
+      "action": "keep"
     },
     {
-      "type": "MONEY",
-      "raw": "300 000 ₽",
+      "id": "c10",
+      "type": "NPA_KOAP",
+      "raw": "ч. 2 ст. 15.12 КоАП РФ",
+      "statement": "Продажа товара без обязательной маркировки, включая продажу без корректной проверки через ТС ПИоТ, квалифицируется по ч. 2 ст. 15.12 КоАП РФ: ИП и должностные лица — 5 000–10 000 ₽ с конфискацией, юрлица — 50 000–300 000 ₽ с конфискацией.",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "Верхняя граница штрафа юрлица по ч. 2 ст. 15.12 КоАП",
-      "explanation": "Совпадает с research brief; относится к составу «продажа», не «производство» — статья формулирует корректно",
+      "quote": "Часть 2 статьи 15.12: Продажа товаров и продукции без маркировки... а также хранение, перевозка либо приобретение таких товаров; Officials: 5,000-10,000 rubles + confiscation; Legal entities: 50,000-300,000 rubles + confiscation",
       "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+        "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "c11",
+      "type": "NPA_UK",
+      "raw": "ст. 171.1 УК РФ",
+      "statement": "При систематическом обороте немаркированных товаров в крупном размере наступает уголовная ответственность по ст. 171.1 УК РФ.",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "Статья 171.1. Производство, приобретение, хранение, перевозка или сбыт товаров и продукции без маркировки и (или) нанесения информации, предусмотренной законодательством Российской Федерации ... совершенные в крупном размере",
+      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"],
+      "action": "keep"
+    },
+    {
+      "id": "c12",
       "type": "MONEY",
       "raw": "400 000 ₽",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.8,
-      "expectedValue": "Крупный размер по ст. 171.1 УК РФ для продовольственных товаров",
-      "explanation": "Подтверждено WebFetch (pravo.ppt.ru) и WebSearch независимо друг от друга 06.08.2026",
-      "sources": [
-        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "2 250 000 ₽",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.8,
-      "expectedValue": "Крупный размер по ст. 171.1 УК РФ для непродовольственных товаров (общая категория, части 1-2)",
-      "explanation": "Whitelist проекта не указывал источник — перепроверено WebSearch 06.08.2026: подтверждено независимо",
-      "sources": [
-        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_PUNKT",
-      "raw": "п. 19",
+      "statement": "По ч. 3-4 ст. 171.1 УК РФ (продовольственные товары) крупный размер — стоимость немаркированных товаров, превышающая 400 000 ₽.",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "П. 19 ПП №303 (в редакции ПП №1674) — переходный период",
-      "explanation": "Совпадает с research brief",
+      "quote": "Крупным размером в частях третьей и четвертой статьи 171.1 УК РФ признается стоимость немаркированных продовольственных товаров, превышающая четыреста тысяч рублей, а особо крупным - один миллион пятьсот тысяч рублей",
+      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"],
+      "action": "keep"
+    },
+    {
+      "id": "c13",
+      "type": "MONEY",
+      "raw": "3 500 000 ₽ / 2 250 000 ₽ (порог крупного размера, непродовольственные товары, ст. 171.1 УК РФ)",
+      "statement": "Крупный размер по ч. 1, 1.1, 2 ст. 171.1 УК РФ (непродовольственные товары, включая большинство маркируемых категорий) определяется примечанием к ст. 170.2 УК РФ и с 17.04.2024 составляет свыше 3 500 000 ₽; до вступления в силу Федерального закона от 06.04.2024 № 79-ФЗ порог был 2 250 000 ₽.",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "quote": "В статьях настоящей главы, за исключением статьи 169, частей третьей — шестой статьи 171.1, статей 171.2, 171.3 ... крупным размером ... признаются стоимость ... в сумме, превышающей три миллиона пятьсот тысяч рублей, а особо крупным - тринадцать миллионов пятьсот тысяч рублей. Крупным размером будет считаться сумма, превышающая 3 500 000 руб. (ранее - 2 250 000 руб.)",
       "sources": [
-        "http://government.ru/docs/all/156474/"
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/",
+        "http://publication.pravo.gov.ru/Document/View/0001202404060014"
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "https://base.garant.ru/73780927/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст ПП №303",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "http://government.ru/docs/all/156474/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст ПП №1674",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "http://publication.pravo.gov.ru/document/0001202506270011",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст приказа №2044 на pravo.gov.ru",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст 54-ФЗ",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст ст. 14.5 КоАП",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст ст. 15.12 КоАП",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "rewrite-bullet",
+      "actionDetail": "ОШИБКА НАЙДЕНА И ИСПРАВЛЕНА 17.08.2026. Статья с момента публикации (06.08.2026) содержала устаревший порог «от 2 250 000 ₽ для непродовольственных» — эта цифра была верна до 17.04.2024, но её подняли до 3 500 000 ₽ Федеральным законом от 06.04.2024 № 79-ФЗ (примечание к ст. 170.2 УК РФ, применяется и к ч. 1-2 ст. 171.1: исключены из его действия только ч. 3-6 — продовольствие, алкоголь/табак). Ту же самую ошибку уже фиксировал отчёт факчека статьи о шинах (src/data/factcheck/results/2026-08-17-markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica.json, claim c39) — там она была отдельно вынесена для редактора как найденная и в этой статье, но не исправлялась в рамках той задачи. Сейчас текст статьи изменён: «от 2 250 000 ₽ для непродовольственных» → «от 3 500 000 ₽ для непродовольственных (сумму подняли с 2 250 000 ₽ Федеральным законом от 06.04.2024 № 79-ФЗ)» — старая сумма оставлена только как историческая справка."
     }
   ],
   "summary": {
-    "overallStatus": "match",
-    "criticalIssues": 0
+    "overallStatus": "good-with-minor-addition",
+    "criticalIssues": 0,
+    "note": "Переоформление отчёта в новый формат (statement/quote) после перелинковки 17.08.2026 — маркер стал недействителен из-за смены хеша. При повторной проверке найдена и исправлена реальная фактическая ошибка: порог крупного размера по ст. 171.1 УК РФ для непродовольственных товаров был устаревшим (2 250 000 ₽ вместо действующих 3 500 000 ₽ по ФЗ № 79-ФЗ от 06.04.2024, действует с 17.04.2024) — та же ошибка, что уже зафиксирована в отчёте статьи о шинах от 2026-08-17. Текст статьи исправлен, claim c13 переклассифицирован как rewrite-bullet и закрыт (status match) после правки."
   }
 }
