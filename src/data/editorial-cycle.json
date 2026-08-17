@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-17T08:54:24.046Z",
+  "updatedAt": "2026-08-17T09:10:02.774Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -95,10 +95,11 @@
       "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
       "row": 10,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
+      "status": "review",
+      "docId": "1MvpHL5VfNIV6IOBNpBGNWsUey52UUCUABzuA1KKshBM",
+      "docUrl": "https://docs.google.com/document/d/1MvpHL5VfNIV6IOBNpBGNWsUey52UUCUABzuA1KKshBM/edit",
+      "seenComments": [],
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-formiro",
@@ -109,11 +110,12 @@
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "row": 11,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
+      "status": "review",
+      "docId": "1WNHxoQvotEoye76ig44Y6Dwhpp4B_Tw2Sixpse08J1I",
+      "docUrl": "https://docs.google.com/document/d/1WNHxoQvotEoye76ig44Y6Dwhpp4B_Tw2Sixpse08J1I/edit",
       "seenComments": [],
-      "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета."
+      "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета.",
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "internet-ekvayring-dlya-onlayn-magazina-kak-vybrat-bank-i-ta",
@@ -224,10 +226,11 @@
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "row": 19,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
+      "status": "review",
+      "docId": "1W9VgQ_GUiaOzmv2JMlcaw39fHlJzLz-2ks0rRUesMtI",
+      "docUrl": "https://docs.google.com/document/d/1W9VgQ_GUiaOzmv2JMlcaw39fHlJzLz-2ks0rRUesMtI/edit",
+      "seenComments": [],
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "markirovka-chestnogo-znaka-v-2026-godu-kakie-tovary-dobavili",
@@ -322,10 +325,11 @@
       "rationale": "новая фраза в выдаче: 2649 показов в месяц, статьи по запросу нет, кластер egais",
       "row": 26,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
+      "status": "review",
+      "docId": "12RVBjW1Z12oEZCaiNjHIs8dGGpQAd3H2qcR3yTeM0_Y",
+      "docUrl": "https://docs.google.com/document/d/12RVBjW1Z12oEZCaiNjHIs8dGGpQAd3H2qcR3yTeM0_Y/edit",
+      "seenComments": [],
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "merkuriy-kak-oformit-veterinarnoe-svidetelstvo-na-partiyu",
@@ -392,10 +396,11 @@
       "rationale": "новая фраза в выдаче: 893 показов в месяц, статьи по запросу нет, кластер egais",
       "row": 31,
       "owner": "bot",
-      "status": "writing",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
+      "status": "review",
+      "docId": "1U2UQ9ZZcgB1QH2ybNMRsEK3PeEDt9cqcNdULxpoTZeM",
+      "docUrl": "https://docs.google.com/document/d/1U2UQ9ZZcgB1QH2ybNMRsEK3PeEDt9cqcNdULxpoTZeM/edit",
+      "seenComments": [],
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "kategorii-vsd-v-merkurii-chem-otlichayutsya-i-kogda-kakaya-n",
@@ -642,30 +647,10 @@
         "otmenyat-li-egais-chto-izvestno-o-planah-i-k-chemu-gotovitsy"
       ],
       "startedAt": "2026-08-17T07:13:44.814Z",
-      "state": "writing"
+      "state": "review"
     }
   ],
   "log": [
-    {
-      "at": "2026-08-11T19:20:22.732Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-12T05:16:02.551Z",
-      "event": "add-candidates: +6 из 6"
-    },
-    {
-      "at": "2026-08-12T05:41:21.448Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-12T05:43:24.750Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-12T06:17:38.713Z",
-      "event": "set-limits: потолок очереди 6 → 10"
-    },
     {
       "at": "2026-08-12T06:24:49.733Z",
       "event": "set-limits: порция 3 → 5"
@@ -885,6 +870,26 @@
     {
       "at": "2026-08-17T08:54:24.046Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-17T09:10:02.578Z",
+      "event": "otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-formiro → на вычитке"
+    },
+    {
+      "at": "2026-08-17T09:10:02.629Z",
+      "event": "markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica → на вычитке"
+    },
+    {
+      "at": "2026-08-17T09:10:02.678Z",
+      "event": "prodazha-alkogolya-bez-akciznoy-marki-chem-grozit-i-kak-prov → на вычитке"
+    },
+    {
+      "at": "2026-08-17T09:10:02.726Z",
+      "event": "ostatki-v-egais-kak-sverit-s-fakticheskimi-i-chto-delat-pri- → на вычитке"
+    },
+    {
+      "at": "2026-08-17T09:10:02.774Z",
+      "event": "otmenyat-li-egais-chto-izvestno-o-planah-i-k-chemu-gotovitsy → на вычитке"
     }
   ],
   "lastNudgeAt": "2026-08-17"
