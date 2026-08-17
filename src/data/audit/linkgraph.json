@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2026-08-17T07:54:48.839Z",
+  "generatedAt": "2026-08-17T07:59:06.507Z",
   "totals": {
-    "total": 13,
+    "total": 15,
     "published": 3,
-    "drafts": 10,
+    "drafts": 12,
     "orphans": 0,
     "weak": 0,
     "deadends": 0
@@ -20,12 +20,12 @@
     {
       "slug": "2026-08-06-chto-takoe-ts-piot",
       "title": "Что такое ТС ПИоТ: кому нужен и как подключить в 2026 году",
-      "inboundCount": 4
+      "inboundCount": 5
     },
     {
       "slug": "2026-08-11-razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
       "title": "Разрешительный режим маркировки: что проверяет касса и что делать",
-      "inboundCount": 4
+      "inboundCount": 5
     }
   ]
 }
