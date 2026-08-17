@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-08-17T08:01:08.325Z",
+  "generatedAt": "2026-08-17T08:05:27.712Z",
   "totals": {
     "files": 15,
     "unknownFz": 0,
     "unknownPp": 0,
     "unknownPrikaz": 0,
-    "topicMismatch": 12,
+    "topicMismatch": 13,
     "ambiguousPrikaz": 0
   },
   "findings": {
@@ -99,6 +99,16 @@
         "num": "54",
         "topic": "kkt",
         "title": "О применении ККТ",
+        "categories": [
+          "markirovka"
+        ]
+      },
+      {
+        "slug": "2026-08-17-markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica",
+        "type": "fz",
+        "num": "79",
+        "topic": "zakonodatelstvo",
+        "title": "О внесении изменений в УК РФ и УПК РФ — поднял крупный размер по гл. 22 УК до 3 500 000 ₽ (прим. к ст. 170.2)",
         "categories": [
           "markirovka"
         ]
