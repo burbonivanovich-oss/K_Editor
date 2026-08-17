@@ -12,7 +12,7 @@ sources:
     number: "274"
     date: "2024-08-08"
     title: "О внесении изменений в Федеральный закон «О применении контрольно-кассовой техники…» (упрощение регистрации/перерегистрации/снятия с учёта ККТ, с 01.03.2025)"
-    url: https://www.consultant.ru/document/cons_doc_LAW_42359/
+    url: http://publication.pravo.gov.ru/Document/View/0001202408080079
     verified: true
   - type: koap
     number: "14.5"
