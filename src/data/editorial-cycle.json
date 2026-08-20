@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-20T11:35:16.546Z",
+  "updatedAt": "2026-08-20T13:04:40.895Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -652,10 +652,6 @@
   ],
   "log": [
     {
-      "at": "2026-08-17T07:13:44.815Z",
-      "event": "батч 3 начат: markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica, otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-formiro, prodazha-alkogolya-bez-akciznoy-marki-chem-grozit-i-kak-prov, ostatki-v-egais-kak-sverit-s-fakticheskimi-i-chto-delat-pri-, otmenyat-li-egais-chto-izvestno-o-planah-i-k-chemu-gotovitsy"
-    },
-    {
       "at": "2026-08-17T07:35:09.654Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
@@ -889,6 +885,10 @@
     },
     {
       "at": "2026-08-20T11:35:16.546Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T13:04:40.895Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ],
