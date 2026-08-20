@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-20T04:46:25.114Z",
+  "updatedAt": "2026-08-20T05:38:24.517Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -652,10 +652,6 @@
   ],
   "log": [
     {
-      "at": "2026-08-14T12:03:16.639Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
       "at": "2026-08-14T13:24:44.380Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
@@ -890,6 +886,10 @@
     {
       "at": "2026-08-20T04:46:25.114Z",
       "event": "nudge: напоминание о вычитке отправлено"
+    },
+    {
+      "at": "2026-08-20T05:38:24.517Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ],
   "lastNudgeAt": "2026-08-20"
