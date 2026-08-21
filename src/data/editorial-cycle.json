@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-21T04:49:06.572Z",
+  "updatedAt": "2026-08-21T05:40:03.445Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -652,10 +652,6 @@
   ],
   "log": [
     {
-      "at": "2026-08-17T09:10:02.678Z",
-      "event": "prodazha-alkogolya-bez-akciznoy-marki-chem-grozit-i-kak-prov → на вычитке"
-    },
-    {
       "at": "2026-08-17T09:10:02.726Z",
       "event": "ostatki-v-egais-kak-sverit-s-fakticheskimi-i-chto-delat-pri- → на вычитке"
     },
@@ -890,6 +886,10 @@
     {
       "at": "2026-08-21T04:49:06.572Z",
       "event": "nudge: напоминание о вычитке отправлено"
+    },
+    {
+      "at": "2026-08-21T05:40:03.445Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ],
   "lastNudgeAt": "2026-08-21"
