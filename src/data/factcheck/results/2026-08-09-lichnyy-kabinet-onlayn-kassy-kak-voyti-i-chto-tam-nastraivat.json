@@ -1,289 +1,1108 @@
 {
+  "schemaVersion": 2,
+  "policyVersion": "2026-08-04",
+  "articleHash": "19062132ca8a8724df7fbe85fa747373a6417d57b0f69a852a66c0e593d52c32",
+  "articleNormHash": "d8a27f17d3465595929ead658dd4782b1d93141d0a8d2d6b3a4da03a2e74ad70",
+  "checkedAt": "2026-08-23",
+  "checkedBy": "сессия факчека (миграция на контракт 3)",
+  "reviewedBy": "выпускающий редактор",
   "claims": [
     {
-      "type": "NPA_PUNKT",
-      "raw": "пункту 1",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "п. 1 ст. 4.2 54-ФЗ: заявление о регистрации подаётся в любой налоговый орган, в т. ч. на бумаге",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r1",
+      "claimId": "cb23fced3",
       "type": "NPA_FZ_FULL",
       "raw": "Федерального закона от 22.05.2003 № 54",
+      "statement": "Порядок применения ККТ устанавливает Федеральный закон от 22.05.2003 № 54-ФЗ.",
+      "subject": "пользователь ККТ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2003-05-22",
+      "span": "uf4ae7b6d",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "54-ФЗ «О применении ККТ», действует",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "explanation": "Реквизиты сверены с текстом закона в сохранённом снимке.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+          "locator": "реквизиты документа",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "34ea56c7c53a2c62641b6032c499fe96f1bb7c5834ed853fe5ac7eddc69e4e22",
+          "quote": "22.05.2003 N 54-ФЗ"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_42359/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "DATE_DMY",
-      "raw": "22.05.2003",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата принятия 54-ФЗ",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "краткое имя того же закона",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 марта 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "08.08.2024",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата принятия 274-ФЗ",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "274-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ФЗ от 08.08.2024 № 274-ФЗ — изменения в порядок регистрации ККТ",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r2",
+      "claimId": "c7251f9c2",
       "type": "NPA_PUNKT",
-      "raw": "пункт 7",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "п. 7 ст. 4.2 54-ФЗ: карточка регистрации формируется в течение 5 рабочих дней (было 10 до 01.03.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 марта 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "28 декабря 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "50 %",
+      "raw": "пункту 1",
+      "statement": "По пункту 1 статьи 4.2 закона 54-ФЗ заявление о регистрации ККТ подаётся на бумажном носителе в любой территориальный налоговый орган — привязки к месту установки кассы нет.",
+      "subject": "организация или индивидуальный предприниматель",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": "2025-09-01",
+      "span": "uf4ae7b6d",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      "explanation": "Пункт 1 статьи 4.2 сверен дословно с сохранённым снимком.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/",
+          "locator": "пункт 1 статьи 4.2",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "a456c7c912d4c65011c4fb1463134e4e470d90e28cc3f004268a99954e0e4f5d",
+          "quote": "подается организацией или индивидуальным предпринимателем на бумажном носителе в любой территориальный налоговый орган"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "100 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "30 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для юрлиц (75–100 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_PUNKT",
-      "raw": "пункт 7",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "п. 7 ст. 4.2 54-ФЗ: карточка регистрации формируется в течение 5 рабочих дней (было 10 до 01.03.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "краткое имя того же закона",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 марта 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.03.2025 срок регистрации ККТ сокращён с 10 до 5 рабочих дней (274-ФЗ). Подача через изготовителя и Госуслуги появилась позже — с 01.09.2025",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "краткое имя того же закона",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r3",
+      "claimId": "ca39bb6ae",
       "type": "DATE_TEXT",
       "raw": "1 сентября 2025 года",
+      "statement": "С 1 сентября 2025 года заявление о регистрации ККТ можно подать через изготовителя кассы и через Госуслуги: эти способы добавил подпункт «а» пункта 8 статьи 1 Федерального закона от 08.08.2024 № 274-ФЗ, для которого статья 3 закона установила отдельный срок вступления в силу.",
+      "subject": "организация или индивидуальный предприниматель",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": "2025-09-01",
+      "span": "u7a998168",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Подача заявления о регистрации ККТ через изготовителя и через Госуслуги действует с 01.09.2025",
-      "explanation": "Найдено расхождение: в тексте стояло «с 1 марта 2025 года заявление за вас подаёт изготовитель». 01.03.2025 по 274-ФЗ сократился срок регистрации с 10 до 5 рабочих дней, а способы подачи через изготовителя и Госуслуги добавились с 01.09.2025. Текст исправлен 12.08.2026, поэтому claim закрыт как match.",
-      "sources": [
-        "https://www.consultant.ru/legalnews/27727/",
-        "https://buh.ru/articles/novye-pravila-registratsii-kkt-s-1-sentyabrya-2025-goda.html"
+      "confidence": 0.95,
+      "explanation": "Обе части сверены по тексту закона: подпункт «а» пункта 8 статьи 1 излагает пункт 1 статьи 4.2 в новой редакции, а часть 2 статьи 3 переносит его вступление в силу на 1 сентября 2025 года.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.garant.ru/products/ipo/prime/doc/409393693/",
+          "locator": "часть 2 статьи 3",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "b34addfafd01d89d1c806e79c64e2241ad0a9327fbaa435b81a23e411c8860a8",
+          "quote": "Подпункты \"а\" , \"б\" , \"е\" , \"ж\" и \"з\" пункта 8 статьи 1 настоящего Федерального закона вступают в силу с 1 сентября 2025 года"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.garant.ru/products/ipo/prime/doc/409393693/",
+          "locator": "подпункт «а» пункта 8 статьи 1",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "b34addfafd01d89d1c806e79c64e2241ad0a9327fbaa435b81a23e411c8860a8",
+          "quote": "а) пункт 1 изложить в следующей редакции"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.garant.ru/products/ipo/prime/doc/409393693/",
+          "locator": "новая редакция пункта 1 статьи 4.2",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "b34addfafd01d89d1c806e79c64e2241ad0a9327fbaa435b81a23e411c8860a8",
+          "quote": "через изготовителя контрольно-кассовой техники или через оператора фискальных данных"
+        }
       ],
-      "action": "rewrite-bullet",
-      "actionDetail": "«с 1 марта 2025 года» → «с 1 сентября 2025 года», Госуслуги перенесены в тот же абзац"
+      "sources": [
+        "https://www.garant.ru/products/ipo/prime/doc/409393693/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r4",
+      "claimId": "c86e43b0d",
+      "type": "NPA_PUNKT",
+      "raw": "пункт 7",
+      "statement": "Карточку регистрации ККТ налоговый орган формирует в течение пяти рабочих дней с даты подачи заявления — пункт 7 статьи 4.2 закона 54-ФЗ.",
+      "subject": "налоговый орган",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-03-01",
+      "span": "ubf56e180",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Пункт 7 статьи 4.2 сверен дословно с сохранённым снимком действующей редакции.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/",
+          "locator": "пункт 7 статьи 4.2",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "a456c7c912d4c65011c4fb1463134e4e470d90e28cc3f004268a99954e0e4f5d",
+          "quote": "выдаваемых (направляемых) пользователю в течение пяти рабочих дней с даты подачи соответствующего заявления"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r5",
+      "claimId": "c337fe49c",
+      "type": "DATE_TEXT",
+      "raw": "1 марта 2025 года",
+      "statement": "До 1 марта 2025 года на формирование карточки отводилось десять рабочих дней: срок сократил Федеральный закон № 274-ФЗ, вступивший в силу с этой даты.",
+      "subject": "налоговый орган",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2025-03-01",
+      "span": "u6913c415",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "explanation": "Первоисточник называет замену дословно, а часть 1 статьи 3 относит её к общему сроку — 1 марта 2025 года; подпункта «д» нет в списке отложенных до 1 сентября.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.garant.ru/products/ipo/prime/doc/409393693/",
+          "locator": "подпункт «д» пункта 8 статьи 1",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "b34addfafd01d89d1c806e79c64e2241ad0a9327fbaa435b81a23e411c8860a8",
+          "quote": "д) в пункте 7 слово \"десяти\" заменить словом \"пяти\""
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.garant.ru/products/ipo/prime/doc/409393693/",
+          "locator": "часть 1 статьи 3",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "b34addfafd01d89d1c806e79c64e2241ad0a9327fbaa435b81a23e411c8860a8",
+          "quote": "Настоящий Федеральный закон вступает в силу с 1 марта 2025 года"
+        }
+      ],
+      "sources": [
+        "https://www.garant.ru/products/ipo/prime/doc/409393693/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r6",
+      "claimId": "sb09de508",
+      "type": "DURATION",
+      "raw": "одного рабочего дня",
+      "statement": "Заявление о перерегистрации ККТ подаётся не позднее одного рабочего дня, следующего за днём изменения сведений (пункт 4 статьи 4.2).",
+      "subject": "пользователь ККТ",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-03-01",
+      "span": "uf311431f",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "explanation": "Пункт 4 статьи 4.2 сверен дословно с сохранённым снимком.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/",
+          "locator": "пункт 4 статьи 4.2",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "a456c7c912d4c65011c4fb1463134e4e470d90e28cc3f004268a99954e0e4f5d",
+          "quote": "подается пользователем в любой налоговый орган не позднее одного рабочего дня, следующего за днем изменения сведений"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r7",
+      "claimId": "cc1432157",
+      "type": "PERCENT",
+      "raw": "50 %",
+      "statement": "По части 2 статьи 14.5 КоАП РФ должностное лицо и предприниматель платят от 25 до 50 % суммы расчёта, осуществлённого без применения ККТ, но не менее 10 000 ₽.",
+      "subject": "должностное лицо, индивидуальный предприниматель",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u058e98b1",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Санкция сверена дословно: «от одной четвертой до одной второй» — это 25–50 %.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r8",
+      "claimId": "c5ca8e011",
+      "type": "PERCENT",
+      "raw": "100 %",
+      "statement": "По части 2 статьи 14.5 КоАП РФ организация платит от 75 до 100 % суммы расчёта, осуществлённого без применения ККТ, но не менее 30 000 ₽.",
+      "subject": "юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u058e98b1",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Санкция сверена дословно: «от трех четвертых до одного размера» — это 75–100 %.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r9",
+      "claimId": "caaf00f78",
+      "type": "DATE_TEXT",
+      "raw": "28 декабря 2025 года",
+      "statement": "Обязанность проверять код маркировки через ТС ПИоТ до пробития чека действует с 28 декабря 2025 года.",
+      "subject": "продавец маркированных товаров через онлайн-кассу",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-12-28",
+      "span": "ue81ea184",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.8,
+      "explanation": "Дата подтверждена разъяснением оператора ГИС МТ; расчёт от приказа Минпромторга № 2044 разобран в отдельном материале.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "разъяснение сообщества Честного знака от 02.12.2025",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "С 28 декабря вступает в действие новое требование (согласно ППР № 515 и 303) для розничных продавцов"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r10",
+      "claimId": "cf0fd4046",
+      "type": "PERCENT",
+      "raw": "22 %",
+      "statement": "С 1 января 2026 года базовая ставка НДС — 22 % вместо 20 %, льготные ставки 10 % и 0 % сохранились: пункты 1–3 статьи 164 НК РФ в редакции Федерального закона от 28.11.2025 № 425-ФЗ.",
+      "subject": "плательщик НДС",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": "ue81ea184",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Все три ставки и дата применения сверены дословно с текстом статьи 164 НК РФ.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "пункт 3",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "Налогообложение производится по налоговой ставке 22 процента в случаях, не указанных в пунктах 1 , 2 и 4 настоящей статьи"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "примечание о применении",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "отгруженных (выполненных, оказанных), переданных начиная с 01.01.2026"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "пункт 2",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "Налогообложение производится по налоговой ставке 10 процентов при реализации"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "пункт 1",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "Налогообложение производится по налоговой ставке 0 процентов при реализации"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/"
+      ],
+      "action": "keep"
     }
   ],
+  "ledger": {
+    "cb5fe4300": {
+      "outcome": "duplicateOf",
+      "of": "cb23fced3"
+    },
+    "ca828e6ee": {
+      "outcome": "duplicateOf",
+      "of": "cb23fced3"
+    },
+    "cacc7d99d": {
+      "outcome": "duplicateOf",
+      "of": "cb23fced3"
+    },
+    "cd321c4a3": {
+      "outcome": "duplicateOf",
+      "of": "cb23fced3"
+    },
+    "cb812f1f6": {
+      "outcome": "duplicateOf",
+      "of": "ca39bb6ae"
+    },
+    "c261e42e4": {
+      "outcome": "duplicateOf",
+      "of": "ca39bb6ae"
+    },
+    "c6bcda297": {
+      "outcome": "duplicateOf",
+      "of": "c86e43b0d"
+    },
+    "cbae561a0": {
+      "outcome": "duplicateOf",
+      "of": "c337fe49c"
+    },
+    "ca547eb33": {
+      "outcome": "duplicateOf",
+      "of": "cc1432157"
+    },
+    "c93b33aff": {
+      "outcome": "duplicateOf",
+      "of": "c5ca8e011"
+    },
+    "c5fbe52d4": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c8e8a455a": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "cafda85bf": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c226c7992": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "cea893b26": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c0a569226": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c37fa120c": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cc801e195": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c27b7d71c": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cebda63ff": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cdb9432d9": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cb543ef3c": {
+      "outcome": "skipped",
+      "reason": "значение «1 января 2026 года» разбирается утверждением о том же факте выше"
+    },
+    "cea404879": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c3c77235e": {
+      "outcome": "skipped",
+      "reason": "значение «20 %» разбирается утверждением о том же факте выше"
+    },
+    "c9ef7ba0e": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c00c55bf3": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cb4674a57": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c51a39fdb": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    }
+  },
+  "units": {
+    "uafd236d1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uab0cb7eb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2de56252": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue81ea184": {
+      "class": "factual"
+    },
+    "uc4acc386": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u816e18c4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7fa35e91": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udcc3632a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u02b72a80": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ue0f31771": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "ucc729ea6": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "ua09b52f7": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u0b173737": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u59b75fc7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ueadbfa20": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0ab3fd89": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7d4980ca": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udf4ae898": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5070e76b": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uec40d184": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua8fd9262": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u91b85a9a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue39d6946": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u84afd01d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u372aefc7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3cfa4d89": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u64038c15": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf4ae7b6d": {
+      "class": "factual"
+    },
+    "u7a998168": {
+      "class": "factual"
+    },
+    "u801b2477": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u28cb30fb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufbe0849b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7b45302d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u055d5536": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u2ed2c810": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf6306bdd": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue325bf1f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubf56e180": {
+      "class": "factual"
+    },
+    "u6913c415": {
+      "class": "factual"
+    },
+    "u67209cd3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf311431f": {
+      "class": "factual"
+    },
+    "uf2f7a338": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u80c6b463": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc9243191": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ude0f6aeb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf200d941": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2915b495": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u43e0b9e8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u256ea438": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u64a4d119": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u95f8871b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ucc5cfe6e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u006d7c64": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u96d61590": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u53265687": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uea93411e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ue2c7adae": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u6464a002": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u250b72d9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u74eeed10": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u21b5639b": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1f5dbf11": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua8f0a021": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u140e9a65": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u9a2bc5e2": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ue2ce1ae7": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc2d8d1ac": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u18860729": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud67c7f48": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1c25d620": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u712e4fe8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u80760416": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u488bdbe2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2832e8ea": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4964a81d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaa27c98a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u42a45b3a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3e654ca3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u721c9db8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc50e1ed8": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u846eca6e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u902ef53f": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ub35778b1": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf6799a4d": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u247ae169": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uac68c14a": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u96642683": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u76df1ce7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u74acca81": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf1094c8e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udb247134": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8f113d13": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaf87286a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufa049c3d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaf5cab30": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubfb140b8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub7314c6c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6a49358b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uda747283": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u156c3547": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ueb6fae70": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1846ab76": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2d6e6e54": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u98532c46": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u14baa55e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u131f2ef8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4d17262c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u37b1422a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u990d9259": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u058e98b1": {
+      "class": "factual"
+    },
+    "u68a96173": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u45cfb128": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubee45431": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc1d156b2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf85e8165": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u251f45e9": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ub59c731a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue0a98aff": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u421d7a89": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud8fbee0f": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ua2cd722f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7134fc35": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u632b79c7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ub790d85a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6a7b64a5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9953cfd2": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ud673b212": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9094e2c8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc14801dc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u12ad484d": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u19bef020": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufcfe9cbc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u13200ac6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u78a511e0": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u757b6f91": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0a449e7e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ud6b15220": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf68f5e97": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf36f662e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua21d77e3": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0fd834fd": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ud5fd982e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud6d56e0b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8d61e59f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    }
+  },
   "summary": {
-    "overallStatus": "match",
+    "overallStatus": "ok",
     "criticalIssues": 0,
-    "checkedAt": "2026-08-12",
-    "verified": 19,
-    "unverified": 0,
-    "note": "Второй проход 12.08.2026 закрыл все uncertain. Найдено и исправлено одно расхождение: дата появления подачи заявления через изготовителя ККТ (было 01.03.2025, верно 01.09.2025)."
-  }
+    "moderateIssues": 0,
+    "openIssues": 0
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }

@@ -1,328 +1,1618 @@
 {
+  "schemaVersion": 2,
+  "policyVersion": "2026-08-04",
+  "articleHash": "43dd364ff4cadeea13133e9d5e3218f4db387b46e84036741abcac1ddb3a082a",
+  "articleNormHash": "7c039a40d782257af8a77a648400e4adccb434e4f83af61e1680eb1b019b00cc",
+  "checkedAt": "2026-08-22",
+  "checkedBy": "сессия факчека (миграция на контракт 3)",
+  "reviewedBy": "выпускающий редактор",
   "claims": [
     {
-      "type": "TECH",
-      "raw": "В качестве способа расчёта укажите «встречное предоставление» (тег 1217) — это означает, что реального движения денег нет, операция чисто учётная. [...] Если ошиблись в чеке возврата прихода — выбивайте коррекцию с признаком «приход»: она отменяет ошибочную операцию.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.85,
-      "expectedValue": "Признак расчёта в чеке коррекции на ФФД 1.05 для операции «возврат прихода» — «РАСХОД» (не «приход»), симметрично для «возврат расхода» — «приход». Источник: письмо ФНС России от 23.07.2021 № АБ-4-20/10421@ (уточнено письмом ФНС от 18.12.2024 № АБ-4-20/14344@) — «при необходимости оформить расчёт «возврат прихода», ранее совершённый без ККТ, необходимо сформировать кассовый чек коррекции с признаком расчёта «расход»».",
-      "explanation": "Это центральный технический факт статьи (шаг 1 порядка для ФФД 1.05) и он перевёрнут. Статья предлагает интуитивную логику «противоположный признак = приход для ошибки в возврате прихода», но фактическое разъяснение ФНС предписывает обратное — «расход». Подтверждено пятью независимыми источниками, все ссылаются на один и тот же номер письма ФНС: its.1c.ru (официальные разъяснения госорганов), garant.ru/hotlaw, kontur.ru/qa/25552 (тот же бренд, что и статья), qb2b.ru. Класс A3 (техническое требование) по редполитике — расхождение критическое, читатель, который последует инструкции статьи буквально, сформирует чек коррекции с неверным признаком расчёта и не исправит нарушение по факту (несмотря на формальную попытку), что не даёт защиты по примечанию к ст. 14.5 КоАП. Для симметричного случая «возврат расхода → приход» прямого источника не найдено, вывод сделан по зеркальной логике того же письма (confidence ниже для этой части). — ИСПРАВЛЕНО в тексте статьи.",
-      "sources": [
-        "https://its.1c.ru/db/newsclar/content/476115/hdoc",
-        "https://www.garant.ru/hotlaw/minfin/1487845/",
-        "https://kontur.ru/qa/25552",
-        "https://www.qb2b.ru/knowledge-base/faq/q-000000119/"
-      ],
-      "action": "rewrite-bullet",
-      "actionDetail": "В разделе «Ключевая развилка: версия ФФД определяет порядок оформления», порядок для ФФД 1.05, шаг 1 — заменить: было «Пробейте чек коррекции с признаком расчёта, противоположным ошибочному. Если ошиблись в чеке возврата прихода — выбивайте коррекцию с признаком «приход»: она отменяет ошибочную операцию.» → стало: «Пробейте чек коррекции с признаком расчёта «расход» — именно так, по разъяснению ФНС (письмо от 23.07.2021 № АБ-4-20/10421@), отражается в коррекции операция «возврат прихода» на ФФД 1.05. Интуитивная логика «обратный признак = приход» здесь не работает: правило ФНС специально устроено иначе. Если ошибка была в чеке «возврат расхода» — по зеркальной логике того же письма используется признак «приход».» Также проверить и при необходимости синхронизировать формулировку в блоке «5 типичных ошибок», пункт 4, и во врезке «что сделать», если там есть конкретный пример признака."
-    },
-    {
-      "type": "TECH",
-      "raw": "Здесь чек коррекции поддерживает признак расчёта «возврат прихода» и «возврат расхода» напрямую, обходной манёвр не нужен.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ФФД 1.1 и 1.2 действительно поддерживают признаки «возврат прихода»/«возврат расхода» в чеке коррекции напрямую — подтверждено независимо от версий 1.05 (где эти значения недоступны).",
-      "explanation": "Подтверждено WebSearch/WebFetch: 'Версии ФФД 1.1 и 1.2 позволяют указать в кассовом чеке коррекции признак расчета – возврат прихода' (kontur.ru/articles/5611, cleverence.ru).",
-      "sources": [
-        "https://kontur.ru/articles/5611",
-        "https://www.cleverence.ru/articles/bukhgalteriya/-chek-korrektsii-ffd-12-i-ffd-105-kak-oformit-bez-shtrafov-v-2026-godu/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "TECH",
-      "raw": "В чеке коррекции признак расчёта здесь может принимать только два значения: «приход» или «расход». Значений «возврат прихода» и «возврат расхода» в коррекции для ФФД 1.05 нет — касса технически не даст их выбрать.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ФФД 1.05: чек коррекции — только «приход»/«расход», без вариантов «возврат»",
-      "explanation": "Подтверждено множественными источниками (cleverence.ru, kontur-ofd.ru, kontur.ru/articles/5611): 'ФФД версии 1.05 не предусматривает возможность формировать чек коррекции с признаком возврат прихода'.",
-      "sources": [
-        "https://www.cleverence.ru/articles/bukhgalteriya/-chek-korrektsii-ffd-12-i-ffd-105-kak-oformit-bez-shtrafov-v-2026-godu/",
-        "https://kontur-ofd.ru/blog/chek-korrekcii-na-ffd-1-05/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "TECH",
-      "raw": "ФФД 1.1 и ФФД 1.2 — актуальный стандарт, обязателен для новых регистраций ККТ.",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.7,
-      "expectedValue": "ФФД 1.2 — актуальный стандарт; жёсткая обязательность для НОВЫХ регистраций ККТ подтверждается практикой (особенно для маркированных товаров), для 1.1 — переходная версия, формально ещё встречается",
-      "explanation": "Отраслевые источники 2026 года (astral.ru, cleverence.ru, emchd.ru) подтверждают вектор — 1.05 постепенно выводится из оборота, 1.2 — целевой стандарт. Формулировка статьи слегка огрубляет (объединяет 1.1 и 1.2 в одну категорию «обязательный»), но не вводит в заблуждение по существу.",
-      "sources": [
-        "https://www.cleverence.ru/articles/markirovka-tovarov/-ffd-12-v-2026-godu-chto-eto/",
-        "https://nalog-nalog.ru/kkt_kkm_kassa/otkaz-ot-ffd-1-05-i-1-1-chto-nuzhno-znat-o-perehode-na-1-2/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "TAG",
-      "raw": "тег 1173 ... «Самостоятельно» / «По предписанию»",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Тег 1173 — «Тип коррекции», значения включают самостоятельную коррекцию и коррекцию по предписанию налогового органа",
-      "explanation": "Подтверждено WebSearch по приказу ФНС от 14.09.2020 № ЕД-7-20/662@ (уже в whitelist проекта)",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_362322/",
-        "https://sudact.ru/law/prikaz-fns-rossii-ot-14092020-n-ed-7-20662/prilozhenie-n-2/i_1/tablitsa-1/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "TAG",
-      "raw": "тег 1174 — основание для коррекции",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Тег 1174 «Основание для коррекции» состоит из вложенных тегов 1178 (дата) и 1179 (номер предписания)",
-      "explanation": "Подтверждено WebSearch (consultant.ru таблицы 29/67 приказа ЕД-7-20/662@, glavbukh.ru)",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_362322/6bb2a4ea2b37d5b7ff25f2f3ec0acf54b44f2592/",
-        "https://www.glavbukh.ru/hl/2027729-kak-zapolnit-teg-1174-osnovanie-dlya-korrektsii-cheka"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "TAG",
-      "raw": "дата совершения ошибочного расчёта (тег 1178) — не может быть позже даты формирования самого чека коррекции",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Тег 1178 — дата документа-основания, не может быть позже даты формирования чека коррекции",
-      "explanation": "Дословно подтверждено WebSearch: 'Значение реквизита не может быть указано позже даты формирования кассового чека коррекции'",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_362322/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "TAG",
-      "raw": "номер предписания налогового органа (тег 1179) — заполняется только при типе «по предписанию»",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Тег 1179 включается в состав тега 1174 только если коррекция — по предписанию налогового органа",
-      "explanation": "Дословно подтверждено WebSearch по приказу ЕД-7-20/662@",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_362322/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "TAG",
-      "raw": "тег 1217 (встречное предоставление)",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.65,
-      "expectedValue": "Тег 1217 — «сумма по чеку встречным предоставлением» (сумма, а не отдельный признак способа расчёта; смежный тег 1214 — признак способа расчёта). Отраслевая практика и POS-системы используют формулировку «способ расчёта — встречное предоставление» как рабочий синоним, опираясь именно на заполнение тега 1217.",
-      "explanation": "Формально тег 1217 — числовое поле суммы, а не отдельное перечислимое значение 'способа расчёта'. Практическое значение и эффект (реального движения денег нет, операция учётная) статья передаёт верно, расхождение — терминологическая неточность, не вводит читателя в заблуждение о сути операции.",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": "Опционально: можно уточнить формулировку на «...укажите сумму встречного предоставления (тег 1217)» вместо «в качестве способа расчёта укажите...», но это не обязательная правка — смысл сохраняется."
-    },
-    {
+      "id": "r1",
+      "claimId": "ca828e6ee",
       "type": "NPA_FZ",
       "raw": "54-ФЗ",
+      "statement": "Порядок применения ККТ, включая обязанность выдать чек, устанавливает Федеральный закон от 22.05.2003 № 54-ФЗ.",
+      "subject": "пользователь ККТ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2003-05-22",
+      "span": "u33173081",
       "status": "match",
-      "severity": "critical",
+      "severity": "moderate",
       "confidence": 0.95,
-      "expectedValue": "54-ФЗ «О применении ККТ» — базовый закон, регулирует чек коррекции и чек возврата",
-      "explanation": "В whitelist проекта (npaWhitelist.fz.54), ссылка на consultant.ru корректна",
+      "explanation": "Реквизиты сверены с текстом закона.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+          "locator": "реквизиты документа",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "34ea56c7c53a2c62641b6032c499fe96f1bb7c5834ed853fe5ac7eddc69e4e22",
+          "quote": "22.05.2003 N 54-ФЗ"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_42359/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "r2",
+      "claimId": "cc1ced8db",
       "type": "DATE_DMY",
       "raw": "14.09.2020",
+      "statement": "Форматы фискальных документов и дополнительные реквизиты утверждены приказом ФНС России от 14.09.2020 № ЕД-7-20/662@.",
+      "subject": "изготовитель кассового программного обеспечения",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2021-02-06",
+      "span": "uac4199e3",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "Дата приказа ФНС № ЕД-7-20/662@",
-      "explanation": "В whitelist проекта (npaWhitelist.prikaz), подтверждено WebSearch (nalog.gov.ru, consultant.ru)",
-      "sources": [
-        "https://www.nalog.gov.ru/rn77/about_fts/docs/10020801/"
+      "explanation": "Реквизиты приказа сверены с его карточкой.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_362322/",
+          "locator": "реквизиты приказа",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "726fc25e1dda9825eba4c3bd58bbda40a9a6fdb25915a7822c9aa6017fb22453",
+          "quote": "Приказ ФНС России от 14.09.2020 N ЕД-7-20/662@"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_362322/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "NPA_KOAP",
-      "raw": "ч. 2 ст. 14.5 КоАП РФ — 25–50% / 10 000 ₽ (ИП/ДЛ), 75–100% / 30 000 ₽ (юрлица)",
+      "id": "r3",
+      "claimId": "s39",
+      "type": "TECH",
+      "raw": "В чеке коррекции признак расчёта здесь может принимать только два значения: «приход» или «расход». Значений «возврат прихода» и «возврат расхода» в коррекции для ФФД 1.05 нет — касса технически не даст их выбрать.",
+      "statement": "В ФФД 1.05 признак расчёта (тег 1054) для кассового чека коррекции принимает только два значения — «приход» и «расход»; значений «возврат прихода» и «возврат расхода» в этой таблице нет, поэтому выбрать их в коррекции на ФФД 1.05 нельзя ни через интерфейс кассы, ни программно.",
+      "subject": "кассир на ФФД 1.05",
+      "modality": "prohibition",
+      "negated": false,
+      "effectiveFrom": "2021-02-06",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ИП/должностные лица — от 1/4 до 1/2 суммы расчёта, не менее 10 000 ₽; юрлица — от 3/4 до полной суммы, не менее 30 000 ₽",
-      "explanation": "Совпадает с npaWhitelist.koap['14.5'] проекта дословно",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/",
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.5/"
+      "explanation": "Таблица 28 приложения к приказу перечисляет ровно два значения.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_362322/11ea598f2a957686bd75b44ce9bbb6aed8652f8c/",
+          "locator": "таблица 28 приложения к приказу, ФФД 1.05",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "348ef2afa1c87de89176fa0ee9b6d570596afe6b9d6346cd1f7b68924828cadd",
+          "quote": "Значение реквизита Описание значения реквизита 1 приход 3 расход"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_362322/11ea598f2a957686bd75b44ce9bbb6aed8652f8c/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "NPA_KOAP",
-      "raw": "ч. 4 ст. 14.5 КоАП РФ — предупреждение или 1500–3000 ₽ (ИП/ДЛ), предупреждение или 5000–10 000 ₽ (юрлица)",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Должностные лица — предупреждение или 1,5–3 тыс. ₽; юрлица — предупреждение или 5–10 тыс. ₽",
-      "explanation": "Подтверждено WebSearch дословно (law.ru, sber-solutions.ru и др., ч.4 ст.14.5 — нарушение порядка регистрации/применения ККТ); ранее отсутствовало в whitelist проекта, теперь можно добавить",
-      "sources": [
-        "https://www.law.ru/article/23098-shtraf-za-neprimenenie-kkt",
-        "https://sber-solutions.ru/news/2021-09-27-shtrafy-za-narushenie-poryadka-primeneniya-onlajn-kkt"
-      ],
-      "action": "keep",
-      "actionDetail": "Рекомендация не по статье, а по проекту: добавить ч.4 ст.14.5 КоАП (суммы) в src/data/factcheck/sources.json → npaWhitelist.koap['14.5'], сейчас там есть только ч.2 и ч.3."
-    },
-    {
-      "type": "NPA_KOAP",
-      "raw": "ч. 3 ст. 14.5 КоАП РФ — дисквалификация должностного лица на 1–2 года, приостановление деятельности до 90 суток",
+      "id": "r4",
+      "claimId": "s03bb77d5",
+      "type": "TECH",
+      "raw": "Здесь чек коррекции поддерживает признаки «возврат прихода» и «возврат расхода» напрямую, обходной манёвр не нужен, и оба случая вы оформляете чеками коррекции.",
+      "statement": "В ФФД 1.1 и ФФД 1.2 признак расчёта (тег 1054) для кассового чека коррекции поддерживает значения «возврат прихода» и «возврат расхода» напрямую, поэтому обходной приём с обратным признаком расчёта здесь не нужен.",
+      "subject": "кассир на ФФД 1.1 и 1.2",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": "2021-02-06",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "Повторное нарушение ч.2 при сумме от 1 млн ₽ — дисквалификация 1–2 года / приостановление до 90 суток",
-      "explanation": "Совпадает с npaWhitelist.koap['14.5'] проекта дословно",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.5/"
+      "explanation": "Таблица 66 приложения к приказу перечисляет значение «возврат прихода» наряду с «приход».",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_362322/96f015733c7689ae5f412eb3b4241bbc798488ac/",
+          "locator": "таблица 66 приложения к приказу, ФФД 1.1",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "afa3417e8594f4ffc36f50cf37b6af8a92b0b6d0116d5e530d3e97aa3f74002d",
+          "quote": "Значение реквизита Описание значения реквизита 1 приход 2 возврат прихода"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_362322/96f015733c7689ae5f412eb3b4241bbc798488ac/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "NPA_KOAP",
-      "raw": "ч. 6 ст. 14.5 КоАП РФ — 2000 ₽ (ИП/ДЛ), 10 000 ₽ (юрлица)",
+      "id": "r5",
+      "claimId": "s34",
+      "type": "TAG",
+      "raw": "**Определите тип коррекции** (тег 1173, приказ ФНС от 14.09.2020 № ЕД-7-20/662@):",
+      "statement": "Тип коррекции — реквизит с тегом 1173, основание для коррекции — с тегом 1174; оба входят в состав кассового чека коррекции.",
+      "subject": "кассовый чек коррекции",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2021-02-06",
+      "span": "uac4199e3",
       "status": "match",
-      "severity": "minor",
-      "confidence": 0.85,
-      "expectedValue": "Предупреждение ИЛИ штраф: должностные лица — 2000 ₽; юрлица — 10 000 ₽ (норма даёт возможность ограничиться предупреждением, как и в ч.4)",
-      "explanation": "Суммы верны, но таблица штрафов и врезка «что сделать» указывают только фиксированные суммы («2000 ₽», «10 000 ₽»), не упоминая, что часть 6, как и часть 4, допускает альтернативу «предупреждение». Статья уже корректно указывает «предупреждение или» для ч.4 — для ч.6 та же оговорка выпала. — ИСПРАВЛЕНО в тексте статьи.",
-      "sources": [
-        "https://www.klerk.ru/cdoc/view/kodeks-ob-administrativnyh-pravonaruseniah-koap-rf/",
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.5/"
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Оба реквизита с номерами тегов названы в таблице реквизитов чека коррекции.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_362322/91efd73c6ad9280df34313baca32c51cd2599fca/",
+          "locator": "таблица 120 приложения к приказу",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "6398e8dc906ac9fd3da49047ca0e08e0200cf0a36ca2c39c04b53b98792a1f43",
+          "quote": "тип коррекции 1173 3 ПЭ Нет 30д 4 17 основание для коррекции 1174"
+        }
       ],
-      "action": "expand-bullet",
-      "actionDetail": "В таблице «Штрафы за неправильный чек коррекции», строка ч.6 ст.14.5 — заменить «2000 ₽ | 10 000 ₽» на «предупреждение или 2000 ₽ | предупреждение или 10 000 ₽» — для единообразия с формулировкой строки ч.4."
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_362322/91efd73c6ad9280df34313baca32c51cd2599fca/"
+      ],
+      "action": "keep"
     },
     {
+      "id": "r6",
+      "claimId": "s36",
+      "type": "TAG",
+      "raw": "дата совершения ошибочного расчёта (тег 1178) — не может быть позже даты формирования самого чека коррекции;",
+      "statement": "Дата совершения корректируемого расчёта — реквизит с тегом 1178, и её значение не может быть указано позже даты формирования кассового чека коррекции.",
+      "subject": "кассовый чек коррекции",
+      "modality": "prohibition",
+      "negated": false,
+      "effectiveFrom": "2021-02-06",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Ограничение записано в примечании к таблице основания для коррекции дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_362322/f36cc04f47efd8311ee5863954b14757be71d024/",
+          "locator": "примечание 1 к таблице 122",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "190cac4ba0ddc98742b2a8de095bcb281053a433fe582fe983ee8a88e19b2a89",
+          "quote": "Значение реквизита \"дата совершения корректируемого расчета\" (тег 1178) не может быть указано позже даты формирования кассового чека коррекции"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_362322/f36cc04f47efd8311ee5863954b14757be71d024/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r7",
+      "claimId": "sdaaf8c96",
+      "type": "TAG",
+      "raw": "номер предписания налогового органа (тег 1179) — заполняйте **только** при типе «по предписанию»; при самостоятельной коррекции поле остаётся пустым.",
+      "statement": "Номер предписания налогового органа — реквизит с тегом 1179, и он включается в состав реквизита «основание для коррекции» (тег 1174) только тогда, когда коррекция расчёта делается во исполнение предписания налогового органа; при самостоятельной коррекции поле остаётся пустым.",
+      "subject": "кассовый чек коррекции",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2021-02-06",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Условие «только в случае» записано в примечании к таблице дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_362322/f36cc04f47efd8311ee5863954b14757be71d024/",
+          "locator": "примечание 2 к таблице 122",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "190cac4ba0ddc98742b2a8de095bcb281053a433fe582fe983ee8a88e19b2a89",
+          "quote": "Реквизит \"номер предписания налогового органа\" (тег 1179) включается в состав реквизита \"основание для коррекции\" (тег 1174) для ФД только в случае"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_362322/f36cc04f47efd8311ee5863954b14757be71d024/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r8",
+      "claimId": "s20e1e8bb",
+      "type": "TAG",
+      "raw": "тег 1217",
+      "statement": "Сумма по чеку встречным предоставлением — реквизит с тегом 1217.",
+      "subject": "кассовый чек",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2021-02-06",
+      "span": "u05bdc8e3",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "explanation": "Реквизит с номером тега назван в таблице реквизитов чека дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_362322/91efd73c6ad9280df34313baca32c51cd2599fca/",
+          "locator": "таблица 120 приложения к приказу",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "6398e8dc906ac9fd3da49047ca0e08e0200cf0a36ca2c39c04b53b98792a1f43",
+          "quote": "сумма по чеку (БСО) встречным предоставлением 1217"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_362322/91efd73c6ad9280df34313baca32c51cd2599fca/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r9",
+      "claimId": "c30f295ef",
+      "type": "PERCENT",
+      "raw": "50%",
+      "statement": "По части 2 статьи 14.5 КоАП РФ ИП и должностные лица платят от 1/4 до 1/2 суммы расчёта (25–50%), но не менее 10 000 ₽.",
+      "subject": "должностное лицо, индивидуальный предприниматель",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u489ce399",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Санкция сверена дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r10",
+      "claimId": "c8943027f",
+      "type": "PERCENT",
+      "raw": "100%",
+      "statement": "По части 2 статьи 14.5 КоАП РФ юрлица платят от 3/4 до 1 суммы расчёта (75–100%), но не менее 30 000 ₽.",
+      "subject": "юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u489ce399",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Санкция сверена дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r11",
+      "claimId": "s42",
+      "type": "MONEY_RANGE",
+      "raw": "предупреждение или 1500–3000 ₽",
+      "statement": "По части 4 статьи 14.5 КоАП РФ за применение ККТ с нарушением порядка должностному лицу грозит предупреждение или штраф от 1 500 до 3 000 ₽, организации — предупреждение или штраф от 5 000 до 10 000 ₽.",
+      "subject": "должностное лицо и юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Обе санкции части 4 сверены дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 4, должностные лица",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "влечет предупреждение или наложение административного штрафа на должностных лиц в размере от полутора тысяч до трех тысяч рублей"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 4, юридические лица",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "на юридических лиц - предупреждение или наложение административного штрафа в размере от пяти тысяч до десяти тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r12",
+      "claimId": "c0067808a",
       "type": "MONEY",
-      "raw": "1 млн ₽ (порог ч.3 ст.14.5 КоАП)",
+      "raw": "1 млн",
+      "statement": "По части 3 статьи 14.5 КоАП РФ повторное неприменение ККТ на сумму от 1 млн ₽ влечёт дисквалификацию должностного лица на 1–2 года, а для ИП и юрлиц — приостановление деятельности до 90 суток (девяноста суток).",
+      "subject": "должностное лицо, индивидуальный предприниматель, юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "ue3f31be7",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "Повторное нарушение при сумме расчётов без ККТ от 1 млн ₽",
-      "explanation": "Совпадает с npaWhitelist.koap['14.5']",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.5/"
+      "explanation": "Часть 3 сверена дословно, включая условие о совокупной сумме расчётов.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 3 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "составила, в том числе в совокупности, один миллион рублей и более, - влечет в отношении должностных лиц дисквалификацию на срок от одного года до двух лет; в отношении индивидуальных предпринимателей и юридических лиц - административное приостановление деятельности на срок до девяноста суток"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
     },
     {
+      "id": "r13",
+      "claimId": "s47",
       "type": "LEGAL_RULE",
-      "raw": "Примечание к статье 14.5 КоАП РФ освобождает от ответственности по частям 2, 4 и 6, если нарушение исправили добровольно — до того, как постановление по делу вынесено, — и на момент обращения в налоговый орган тот ещё не располагал сведениями об этом нарушении.",
+      "raw": "Чек коррекции или возврата не направлен покупателю, хотя обязанность направить была",
+      "statement": "По части 6 статьи 14.5 КоАП РФ за ненаправление чека покупателю должностному лицу грозит предупреждение или штраф 2 000 ₽, организации — предупреждение или штраф 10 000 ₽.",
+      "subject": "должностное лицо и юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u7b5a79be",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.85,
-      "expectedValue": "Освобождение от ответственности по ч.2, 4, 6 ст.14.5 при добровольном письменном уведомлении налогового органа, исполнении обязанности до вынесения постановления и отсутствии у налогового органа сведений о нарушении на момент обращения",
-      "explanation": "Подтверждено WebSearch — состав условий (добровольность, до постановления, налоговый орган не знал) и охват частей (2, 4, 6) совпадают",
-      "sources": [
-        "https://ppt.ru/kodeks/koap/st-14.5",
-        "https://koapkodeksrf.ru/rzd-2/gl-14/st-14-5-koap-rf"
+      "confidence": 0.95,
+      "explanation": "Часть 6 сверена дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 6 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "влечет предупреждение или наложение административного штрафа на должностных лиц в размере двух тысяч рублей; на юридических лиц - предупреждение или наложение административного штрафа в размере десяти тысяч рублей"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+      "id": "r14",
+      "claimId": "c09f7e240",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.5 КоАП",
+      "statement": "Примечание к статье 14.5 КоАП РФ освобождает от ответственности того, кто добровольно заявил в налоговый орган о нарушении и добровольно исполнил обязанность до вынесения постановления по делу, включая направившего чек коррекции.",
+      "subject": "продавец, добровольно исправивший нарушение",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u8e11ba3c",
       "status": "match",
-      "severity": "minor",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Примечание сверено дословно; чек коррекции названо в нём отдельным основанием.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "примечание к статье 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "добровольно исполнившее до вынесения постановления по делу об административном правонарушении обязанность, за неисполнение или ненадлежащее исполнение которой лицо привлекается к административной ответственности"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r15",
+      "claimId": "sf91243b0",
+      "type": "TAG",
+      "raw": "тег 1000",
+      "statement": "По методическим рекомендациям ФНС при ФФД 1.05 исправление ошибок производится кассовыми чеками, а реквизит «Наименование документа» (тег 1000) принимает значение «Кассовый чек коррекции» только при исправлении неприменения ККТ.",
+      "subject": "пользователь ККТ на ФФД 1.05",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2024-12-18",
+      "span": "ua58d578e",
+      "status": "match",
+      "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "Текст 54-ФЗ на consultant.ru",
-      "explanation": "Домен в blocked.domains — проверено через WebSearch, ссылка ведёт на актуальный текст закона",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
+      "explanation": "Цитата методических рекомендаций сверена дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_493756/",
+          "locator": "методические рекомендации, принципы коррекции для ФФД 1.05",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "0f1aa3345b77a11bc283856838ff8f04dd40476b256af5272e42fa2a86f8d4f6",
+          "quote": "В указанной версии ФФД реквизит «Наименование документа» (тег 1000) принимает значение «Кассовый чек коррекции» исключительно в случае исправления ситуации, связанной с неприменением ККТ"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_493756/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "LINK",
-      "raw": "/blog/2026-08-09-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat/",
-      "status": "skip",
-      "severity": "minor",
-      "confidence": 1,
-      "expectedValue": "",
-      "explanation": "C1 — внутренняя ссылка на блог, валидируется при сборке, не проверяем",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "/blog/2026-08-11-razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov/",
-      "status": "skip",
-      "severity": "minor",
-      "confidence": 1,
-      "expectedValue": "",
-      "explanation": "C1 — внутренняя ссылка на блог",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "/blog/2026-08-09-kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme/",
-      "status": "skip",
-      "severity": "minor",
-      "confidence": 1,
-      "expectedValue": "",
-      "explanation": "C1 — внутренняя ссылка на блог",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "«в течение трёх дней» — практическая рекомендация поставщика, не норма закона",
+      "id": "r16",
+      "claimId": "s18420e24",
+      "type": "TAG",
+      "raw": "тег 1192",
+      "statement": "Ссылку на фискальный признак ошибочного документа помещают в дополнительный реквизит чека (тег 1192); ФНС отмечает его в примерах как рекомендованный, а не обязательный.",
+      "subject": "кассовый чек коррекции",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": "2024-12-18",
+      "span": "u33611051",
       "status": "match",
-      "severity": "minor",
-      "confidence": 0.85,
-      "expectedValue": "Закон (примечание к ст.14.5 КоАП) не устанавливает формального срока в днях для уведомления налогового органа; условие освобождения — сообщить раньше, чем налоговый орган узнает сам",
-      "explanation": "Статья намеренно НЕ подаёт «3 дня» как жёсткую норму закона, а корректно относит эту цифру к практическим рекомендациям поставщиков касс (встречается, например, в кассовых инструкциях и на kontur.ru/articles/5611, где упоминается 3-дневный срок подачи заявления, но не как условие освобождения по КоАП). Это соответствует прямому указанию по формулировке статьи и не является расхождением.",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
+      "severity": "moderate",
+      "confidence": 0.9,
+      "explanation": "В примерах методических рекомендаций реквизит 1192 помечен как рекомендованный.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_493756/",
+          "locator": "примеры методических рекомендаций",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "0f1aa3345b77a11bc283856838ff8f04dd40476b256af5272e42fa2a86f8d4f6",
+          "quote": "Дополнительный 111222333 111222333 1192 П-3, Э-3 реквизит чека (БСО) <4> (рекомендовано)"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_493756/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "TOPIC",
-      "raw": "законопроект № 1096244-8 о повышении штрафов ст. 14.5 КоАП",
-      "status": "skip",
-      "severity": "minor",
-      "confidence": 1,
-      "expectedValue": "",
-      "explanation": "Статья намеренно не упоминает законопроект — по брифу его статус на дату публикации не проверен и дедлайн-чувствителен. Решение верное, не проверяем как расхождение.",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
+      "id": "r17",
+      "claimId": "c69a4504d",
+      "type": "DATE_DMY",
+      "raw": "23.07.2021",
+      "statement": "Признаку расчёта «возврат прихода» в кассовом чеке коррекции на ФФД 1.05 соответствует признак «расход» — это письмо ФНС от 23.07.2021 № АБ-4-20/10421@; методические рекомендации направлены письмом ФНС от 18.12.2024 № АБ-4-20/14344@.",
+      "subject": "пользователь ККТ на ФФД 1.05",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2021-07-23",
+      "span": "uc6f821fe",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "explanation": "Правило и обе даты сверены дословно: первое письмо задаёт соответствие признаков, второе направляет методические рекомендации.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.garant.ru/products/ipo/prime/doc/402761210/",
+          "locator": "реквизиты письма 2021 года",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "689d3284edd14a9aea2a1b9aab6c07b6ce5d06076b76f0c13a54d92fbb109351",
+          "quote": "Письмо Федеральной налоговой службы от 23 июля 2021 г. № АБ-4-20/10421@"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.garant.ru/products/ipo/prime/doc/402761210/",
+          "locator": "резолютивная часть письма 2021 года",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "689d3284edd14a9aea2a1b9aab6c07b6ce5d06076b76f0c13a54d92fbb109351",
+          "quote": "в случае возникновения необходимости оформления расчета \"возврат прихода\", ранее совершенного без применения контрольно-кассовой техники, необходимо сформировать кассовый чек коррекции с признаком расчета \"расход\""
+        }
+      ],
+      "sources": [
+        "https://www.garant.ru/products/ipo/prime/doc/402761210/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r18",
+      "claimId": "s357967c1",
+      "type": "DURATION",
+      "raw": "30 календарных дней",
+      "statement": "Фискальный накопитель обязан исключать формирование фискального признака, если через 30 календарных дней с момента формирования признака для документа не получено подтверждение оператора фискальных данных — пункт 1 статьи 4.1 закона 54-ФЗ.",
+      "subject": "фискальный накопитель",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2019-07-01",
+      "span": "u43d41ab3",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Требование сверено дословно с текстом статьи 4.1: непереданный документ через 30 дней блокирует накопитель, поэтому проверка приёмки — не формальность.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/12130951/522b960e8395b74e6ae48f8b946445ce/",
+          "locator": "пункт 1 статьи 4.1",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "1af31dc3e8492e7036132ead8406d81c5eed1d48ec272fff2489606e084f2f9e",
+          "quote": "если через 30 календарных дней с момента формирования фискального признака для фискального документа не будет получено подтверждение оператора для этого фискального документа"
+        }
+      ],
+      "sources": [
+        "https://base.garant.ru/12130951/522b960e8395b74e6ae48f8b946445ce/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r19",
+      "claimId": "s0b224b73",
+      "type": "TECH",
+      "raw": "Указать в чеке коррекции код, уже выведенный из оборота первичным чеком, не ошибка: повторного движения товара в такой ситуации не происходит",
+      "statement": "Указание в чеке коррекции кода маркировки, ранее выведенного из оборота первичным чеком, не считается нарушением: повторного движения товара в такой ситуации не происходит, данные лишь дописываются в историю кода.",
+      "subject": "пользователь ККТ на маркированном товаре",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": null,
+      "span": "u4588494a",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "explanation": "Официальное сообщество маркировки Честный знак (markirovka.ru) прямо разбирает этот сценарий и подтверждает: повторное указание кода в чеке коррекции не ошибка и не задваивает движение товара.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://markirovka.ru/knowledge/tovarnye-gruppy/obschie-voprosy-gis/v-cheke-ukazali-nekorrektnuyu-informatsiyu-podali-chek-korrektsii-po-tomu-zhe-tovaru-ne-budet-li-eto",
+          "locator": "markirovka.ru, ответ на вопрос о повторном чеке коррекции",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "1f53caf136cf79894c9b43571dfa5d612a98f2f63c82e4e15964fb82c9fd4e29",
+          "quote": "не является ошибкой"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://markirovka.ru/knowledge/tovarnye-gruppy/obschie-voprosy-gis/v-cheke-ukazali-nekorrektnuyu-informatsiyu-podali-chek-korrektsii-po-tomu-zhe-tovaru-ne-budet-li-eto",
+          "locator": "markirovka.ru, ответ на вопрос о повторном чеке коррекции",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "1f53caf136cf79894c9b43571dfa5d612a98f2f63c82e4e15964fb82c9fd4e29",
+          "quote": "повторного движения товара в таком случае не производится"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/knowledge/tovarnye-gruppy/obschie-voprosy-gis/v-cheke-ukazali-nekorrektnuyu-informatsiyu-podali-chek-korrektsii-po-tomu-zhe-tovaru-ne-budet-li-eto"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r20",
+      "claimId": "sdb5f5a71",
+      "type": "TECH",
+      "raw": "оператор фискальных данных обязан передать эти реквизиты в систему маркировки Честный знак, отдельно уведомлять систему не нужно",
+      "statement": "Участники оборота товаров, применяющие ККТ, направляют в систему маркировки (ГИС МТ) сведения о выводе товаров из оборота, а при корректировке первично поданной информации — сведения о корректировке вывода из оборота посредством ККТ (пункт 96 Правил № 744); отдельного действия по повторной отметке кода вне этого канала кассир не выполняет.",
+      "subject": "оператор фискальных данных",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": null,
+      "span": "u36d0e3b0",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.9,
+      "explanation": "Разъяснение сообщества маркировки Честный знак (markirovka.ru) о разрешительном режиме прямо описывает канал передачи корректировок через ККТ в ГИС МТ со ссылкой на пункт 96 Правил № 744.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/cheki-korrektsii-pri-razreshitelnom-rezhime",
+          "locator": "официальный ответ сообщества маркировки Честный знак о чеках коррекции при разрешительном режиме",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "2cfa7b8c6b7a9d4a2454c4b434d2eb24c4829774c2e3b73469c22897010ff716",
+          "quote": "Участники оборота товаров, осуществляющие расчеты за товары с применением кассы (ККТ), направляют в систему маркировки (ГИС МТ) информацию, в том числе о выводе из оборота товаров посредством ККТ, а при осуществлении операций корректировки первично поданной информации о цене товара за единицу с учетом скидок, наценок, сборов и налогов, стоимости товара с учетом скидок, наценок, сборов и налогов, ставки НДС, включенного в стоимость товара, о выводе из оборота товаров посредством ККТ направляют в систему маркировки информацию о корректировке вывода из оборота товаров посредством ККТ (пункт 96 Правил № 744)."
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/cheki-korrektsii-pri-razreshitelnom-rezhime"
+      ],
+      "action": "keep"
     }
   ],
+  "ledger": {
+    "ca547eb33": {
+      "outcome": "duplicateOf",
+      "of": "c30f295ef"
+    },
+    "c96dc373a": {
+      "outcome": "duplicateOf",
+      "of": "c30f295ef"
+    },
+    "cf9ee00f0": {
+      "outcome": "duplicateOf",
+      "of": "c30f295ef"
+    },
+    "c68b50257": {
+      "outcome": "duplicateOf",
+      "of": "c30f295ef"
+    },
+    "c03a11f6b": {
+      "outcome": "duplicateOf",
+      "of": "c30f295ef"
+    },
+    "c2cbc9489": {
+      "outcome": "duplicateOf",
+      "of": "c30f295ef"
+    },
+    "c5b72e9be": {
+      "outcome": "duplicateOf",
+      "of": "c30f295ef"
+    },
+    "c15d887ad": {
+      "outcome": "duplicateOf",
+      "of": "c30f295ef"
+    },
+    "c93b33aff": {
+      "outcome": "duplicateOf",
+      "of": "c8943027f"
+    },
+    "c9562b306": {
+      "outcome": "duplicateOf",
+      "of": "c8943027f"
+    },
+    "cf00c3e33": {
+      "outcome": "duplicateOf",
+      "of": "c8943027f"
+    },
+    "c42b5daa6": {
+      "outcome": "duplicateOf",
+      "of": "c8943027f"
+    },
+    "c5d34d7e3": {
+      "outcome": "duplicateOf",
+      "of": "c8943027f"
+    },
+    "cbff84f5d": {
+      "outcome": "duplicateOf",
+      "of": "s42"
+    },
+    "s43": {
+      "outcome": "duplicateOf",
+      "of": "s42"
+    },
+    "c52263642": {
+      "outcome": "duplicateOf",
+      "of": "s42"
+    },
+    "s44": {
+      "outcome": "duplicateOf",
+      "of": "c0067808a"
+    },
+    "s45": {
+      "outcome": "duplicateOf",
+      "of": "c0067808a"
+    },
+    "c98ef081c": {
+      "outcome": "duplicateOf",
+      "of": "s47"
+    },
+    "c0835cd14": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c0180df8f": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c3151e614": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "cbecb8410": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c2b909987": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c9142da33": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "s46": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "cd13a005d": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c1a9c559a": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c78f87213": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "cb8bc32d8": {
+      "outcome": "duplicateOf",
+      "of": "c69a4504d"
+    },
+    "se0333f47": {
+      "outcome": "duplicateOf",
+      "of": "c69a4504d"
+    },
+    "sedbecda8": {
+      "outcome": "duplicateOf",
+      "of": "s0b224b73"
+    },
+    "s70486244": {
+      "outcome": "duplicateOf",
+      "of": "sdb5f5a71"
+    },
+    "ce25dbdc5": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "s41": {
+      "outcome": "skipped",
+      "reason": "значение «ФФД 1.1 и ФФД 1.2 — актуальный» разбирается утверждением о том же факте выше"
+    },
+    "s35": {
+      "outcome": "skipped",
+      "reason": "значение «**Заполните основание для корр» разбирается утверждением о том же факте выше"
+    },
+    "cb5fe4300": {
+      "outcome": "skipped",
+      "reason": "значение «22.05.2003» разбирается утверждением о том же факте выше"
+    },
+    "c3f351001": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    }
+  },
+  "units": {
+    "uee68fc87": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1535ffae": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua22bc1c0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u477f301e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9ce495dc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u35f521a0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud5f8330d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3497e26b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf54acb59": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u8333a3ee": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ucf01d5c7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3c0d4a06": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud526cf9e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u98c7d822": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u068633aa": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5c2a1e3b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub67b91ac": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u769db133": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u98b40dc5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u01b0090a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua58d578e": {
+      "class": "factual"
+    },
+    "ua530a9f2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaae2bc19": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u71390caf": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uddb9f462": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2651d09b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u19c18ec7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u257a1515": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubd340e04": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7fd4b2a1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u85f0387b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0d45e273": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u42b00b31": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u878953d9": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u1e831ecb": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u138b583f": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u05bdc8e3": {
+      "class": "factual"
+    },
+    "u93aa438c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u33611051": {
+      "class": "factual"
+    },
+    "u7a5374b9": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uda3d1869": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue6a4faf6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc6f821fe": {
+      "class": "factual"
+    },
+    "u1f1911a5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4ceed4d2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uecaa29f8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub7cab7c4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u355b5537": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ufd7876a0": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uce1aec32": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0455a298": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u487daf27": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf98f4c05": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u583a1592": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u25180e65": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufc6b8fc6": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uc84c2ab8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u38082ccb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6e4068e0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uac4199e3": {
+      "class": "factual"
+    },
+    "u1cd958bc": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u86c56510": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ub25d66b5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u38bdbfac": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ufd4f013c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ucac54c0a": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc3ae3f78": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2e267095": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u9d94b56d": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc4fb4f46": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u143944e4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u1cfecd99": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u3fce4125": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u1c834ae3": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ud119eebf": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u8e11ba3c": {
+      "class": "factual"
+    },
+    "u8b68de6a": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2780d5e4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u32f49c69": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u36d0e3b0": {
+      "class": "factual"
+    },
+    "u4588494a": {
+      "class": "factual"
+    },
+    "u2d439832": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u857929c3": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u351d7a3a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc2a66298": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua8f3784b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua48196b0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8a6e1072": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc72df035": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u91655c98": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uacdd66b4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0c5c5193": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u19309e58": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf126d610": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7f3e7c4d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc11189d6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8d361f0a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u104c979d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufda51824": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc42dc860": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u206e1ea2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2a5c19e1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u43d41ab3": {
+      "class": "factual"
+    },
+    "uf1a08da6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u16a3c956": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u173c90bb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0b06495f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7000ccc0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub6f85662": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc83b3580": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66fe2509": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6a6cb0a9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uae983b19": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2210f810": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3d2c0293": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4cf877eb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udbf73331": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0ff499c6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5ea9d5d1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufb61fe85": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u080dbd66": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u386b00a2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4d163ece": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8d8a4343": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ubca50ed8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u942b23af": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u33173081": {
+      "class": "factual"
+    },
+    "u7a87282d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3f585e7b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uda62c949": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u787091c6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u203c3974": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9846a449": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4e259d73": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3380a7f1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u15a4b61d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf3b63f07": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8a3c1055": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u946090c1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5ccffa3d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4f088c1a": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u489ce399": {
+      "class": "factual"
+    },
+    "u56147531": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "ue3f31be7": {
+      "class": "factual"
+    },
+    "u7b5a79be": {
+      "class": "factual"
+    },
+    "u63a345bb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7ad7d2c8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6f71a016": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf0752024": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud88c02b3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u96c80a08": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1d411630": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udad0f687": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u6c4fe0e2": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u4eecc1be": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc60dbb16": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u20c921b8": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf7d75d1a": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ubf0ae775": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u40f860ec": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ub856e46a": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u812e34a4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf7a2ae7b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u73760fd8": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u40288223": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubb83a8e1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc12cf7a9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc2aa6c12": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4a452086": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uea6c244f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u777f3105": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6bb906d4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf1d182f6": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u80ea1a17": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u589a057d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua486a337": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1cbddf24": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub4bc39d8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7185c7cc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua0ba2a13": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ua1b3dcdd": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u357c6f4d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u8f40ddc4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u8a1ec7f8": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u5ee0f1f7": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u04491364": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ufb9910c5": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u683c1341": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u4bbed343": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u557a12bd": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    }
+  },
   "summary": {
-    "overallStatus": "match",
-    "criticalIssues": 0
-  }
+    "overallStatus": "ok",
+    "criticalIssues": 0,
+    "moderateIssues": 0,
+    "openIssues": 0
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }

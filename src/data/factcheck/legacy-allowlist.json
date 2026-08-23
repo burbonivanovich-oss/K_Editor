@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-08-21",
+  "reason": "зафакчекано по контракту до C-01 — ждут перепроверки (C-04)",
+  "note": "Список только отделяет известный долг от новой поломки. Эти статьи не считаются проверенными: release-article.mjs их не выпускает, а состояние печатает каждый прогон audit-bundles.mjs. Строка удаляется, когда статья перепроверена по текущему контракту; добавлять новые строки нельзя — новая статья обязана проходить контракт сразу. Список пуст с 2026-08-22: все десять связок перепроверены по текущему контракту. Пустой список — не повод его удалять: baseline остаётся, и любая новая строка в articles будет видна как рост долга.",
+  "articles": [],
+  "migratedAt": "2026-08-21",
+  "migrationNote": "Механическая часть миграции применена (migrate-bundle.mjs --apply): контракт, привязка к тексту, id, пересчитанные итоги. Осталось доказательное: node scripts/factcheck/migrate-bundle.mjs --todo",
+  "frozenAt": "2026-08-21",
+  "baseline": [
+    "2026-08-06-chto-takoe-ts-piot",
+    "2026-08-09-kak-pereyti-na-novuyu-stavku-nds-v-kassovoy-programme",
+    "2026-08-09-kassa-ot-banka-ili-otdelno-chto-vybrat-malomu-biznesu",
+    "2026-08-09-kto-obyazan-podklyuchit-ts-piot-do-01-10-2026",
+    "2026-08-09-lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
+    "2026-08-11-razreshitelnyy-rezhim-markirovki-kak-on-rabotaet-i-chto-prov",
+    "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+    "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
+    "2026-08-13-korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit",
+    "2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht"
+  ],
+  "baselineNote": "Список, с которым сверяется текущий: articles обязан быть его подмножеством. Строка удаляется, когда статья перепроверена. Добавить новую можно только правкой baseline — и это видно в диффе, в отличие от тихого дописывания в articles. Проверяет audit-bundles.mjs (I-03).",
+  "closed": [
+    {
+      "slug": "2026-08-06-chto-takoe-ts-piot",
+      "closedAt": "2026-08-21",
+      "note": "перепроверена по текущему контракту: 15 утверждений с доказательствами, сверенными со снимками первоисточников; реестр замкнут, 150 единиц текста классифицированы"
+    }
+  ],
+  "closedAt": "2026-08-22"
+}

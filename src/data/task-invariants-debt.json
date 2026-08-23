@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-08-21",
+  "reason": "находки внешнего аудита (E-03): решения по ним принимает редакция, а не скрипт",
+  "note": "Список не делает находки решёнными: они печатаются каждым прогоном check-task-invariants.mjs и висят в health-check. Он отделяет известное от нового, чтобы --strict в CI краснел на новом. Строка удаляется, когда решение принято и данные приведены в порядок.",
+  "issues": [
+    {
+      "slug": "kassa-ot-banka-ili-otdelno-kak-banki-predlagayut-onlayn-kass",
+      "code": "no-article",
+      "problem": "статус «review», а статьи в src/content/blog/ нет"
+    },
+    {
+      "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
+      "code": "kind-drift",
+      "problem": "в ячейке задача типа «update» («Актуализировать статью https://kontur.ru/market/spravka/3807…»), а в состоянии «new»"
+    },
+    {
+      "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+      "code": "materialized-as-article",
+      "problem": "задача на актуализацию, но по ней написана новая статья src/content/blog/2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k.md — документ актуализации в src/content/updates/ так и не появился"
+    },
+    {
+      "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+      "code": "no-update-doc",
+      "problem": "статус «review», а документа актуализации src/content/updates/*aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k.md нет"
+    }
+  ]
+}

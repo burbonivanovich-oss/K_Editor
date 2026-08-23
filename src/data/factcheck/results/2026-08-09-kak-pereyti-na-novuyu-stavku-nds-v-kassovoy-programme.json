@@ -1,533 +1,1061 @@
 {
+  "schemaVersion": 2,
+  "policyVersion": "2026-08-04",
+  "articleHash": "1b62c8d4383ccdd3981e5a7fbc41f35c0a792efcb894815f00e229d819e969f1",
+  "articleNormHash": "63745df2249c303844e5b69e111d9f2c055c9d6f8bb39b181698c900e9bb6d94",
+  "checkedAt": "2026-08-22",
+  "checkedBy": "сессия факчека (миграция на контракт 3)",
+  "reviewedBy": "выпускающий редактор",
   "claims": [
     {
+      "id": "r1",
+      "claimId": "cf0fd4046",
       "type": "PERCENT",
       "raw": "22 %",
+      "statement": "С 1 января 2026 года базовая ставка НДС — 22 % вместо 20 %: пункт 3 статьи 164 НК РФ в редакции Федерального закона от 28.11.2025 № 425-ФЗ, для товаров, отгруженных начиная с 01.01.2026.",
+      "subject": "плательщик НДС по общей ставке",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": "u15fe9386",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      "explanation": "Ставка и дата сверены дословно с текстом статьи 164 НК РФ; редакция прямо названа в примечании к пункту.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "пункт 3 статьи 164 НК РФ",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "Налогообложение производится по налоговой ставке 22 процента в случаях, не указанных в пунктах 1 , 2 и 4 настоящей статьи"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "примечание о применении новой ставки",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "отгруженных (выполненных, оказанных), переданных начиная с 01.01.2026"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "указание редакции пункта 3",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "от 28.11.2025 N 425-ФЗ"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/"
+      ],
+      "action": "keep"
     },
     {
+      "id": "r2",
+      "claimId": "cafda85bf",
       "type": "PERCENT",
-      "raw": "20 %",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "прежняя ставка НДС до 01.01.2026",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 января 2026 года",
+      "raw": "10 %",
+      "statement": "Льготная ставка 10 % сохранилась: пункт 2 статьи 164 НК РФ применяется к перечисленным в нём продовольственным и другим товарам.",
+      "subject": "плательщик НДС по льготной ставке",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": "u72b44fac",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      "explanation": "Пункт 2 статьи 164 в действующей редакции сверен дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "пункт 2 статьи 164 НК РФ",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "Налогообложение производится по налоговой ставке 10 процентов при реализации"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "DATE_DMY",
-      "raw": "28.11.2025",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "дата подписания ФЗ № 425-ФЗ президентом",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "425-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ФЗ № 425-ФЗ — второй этап налоговой реформы, НДС 22 %",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r3",
+      "claimId": "c226c7992",
       "type": "PERCENT",
-      "raw": "22 %",
+      "raw": "0 %",
+      "statement": "Ставка 0 % сохранилась: пункт 1 статьи 164 НК РФ применяется при реализации товаров, вывезенных в таможенной процедуре экспорта, и в других перечисленных случаях.",
+      "subject": "плательщик НДС по нулевой ставке",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": "u15fe9386",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      "explanation": "Пункт 1 статьи 164 в действующей редакции сверен дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "пункт 1 статьи 164 НК РФ",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "Налогообложение производится по налоговой ставке 0 процентов при реализации"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/"
+      ],
+      "action": "keep"
     },
     {
+      "id": "r4",
+      "claimId": "c44f8506c",
       "type": "DATE_DMY",
       "raw": "11.12.2025",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "письмо ФНС № АБ-4-20/11176@ «О переходе с НДС 20 % на 22 % с 1 января 2026 года»",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/",
-        "https://www.garant.ru/products/ipo/prime/doc/413181749/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_CONTEXT",
-      "raw": "в первом квартале 2026",
+      "statement": "Письмом ФНС России от 11.12.2025 № АБ-4-20/11176@ территориальным налоговым органам поручено на период первого квартала 2026 года сместить фокус с контроля за отображением ставки 22 % в чеке на информирование налогоплательщиков.",
+      "subject": "территориальный налоговый орган",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": "udc415f24",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "ФНС поручила инспекциям в I квартале 2026 информировать, а не контролировать отображение ставки в чеках",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/",
-        "https://www.garant.ru/products/ipo/prime/doc/413181749/"
+      "explanation": "Поручение сверено дословно; послабление касается контроля за реквизитом чека, но не отчётности.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "реквизиты письма",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "ФНС России от 11.12.2025 N АБ-4-20/11176@"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "резолютивная часть письма",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "поручает территориальным налоговым органам на период первого квартала 2026 года сместить фокус внимания с контроля за соблюдением требований перехода"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "резолютивная часть письма",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "на информирование налогоплательщиков о вступлении в силу Федерального закона N 425-ФЗ"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "резолютивная часть письма",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "необходимости формирования налоговой отчетности за налоговый период с расчетом действующей ставки НДС"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_CONTEXT",
-      "raw": "в первом квартале 2026",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ФНС поручила инспекциям в I квартале 2026 информировать, а не контролировать отображение ставки в чеках",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
       "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/",
-        "https://www.garant.ru/products/ipo/prime/doc/413181749/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "22 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
         "https://www.consultant.ru/document/cons_doc_LAW_521742/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "PERCENT",
-      "raw": "22 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "10 %",
+      "id": "r5",
+      "claimId": "scaa7af2a",
+      "type": "DURATION",
+      "raw": "три-четыре месяца",
+      "statement": "ФНС оценила срок доработки и внедрения внешнего программного обеспечения в три-четыре месяца — на этом основании и введено послабление.",
+      "subject": "производитель внешнего программного обеспечения",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2025-12-11",
+      "span": "u4e10ee20",
       "status": "match",
       "severity": "moderate",
       "confidence": 0.9,
-      "expectedValue": "льготная ставка НДС 10 % сохранена после перехода на 22 %",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.buhgalteria.ru/article/vse-stavki-nds-v-2026-godu",
-        "https://buh.ru/articles/lgoty-po-nds-s-2026-goda.html"
+      "explanation": "Оценка сверена дословно по тексту письма.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "мотивировочная часть письма",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "срок доработки внешнего программного обеспечения и его внедрения может достигать трех-четырех месяцев"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "0 %",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "нулевая ставка НДС сохранена после перехода на 22 %",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
       "sources": [
-        "https://www.buhgalteria.ru/article/vse-stavki-nds-v-2026-godu",
-        "https://buh.ru/articles/lgoty-po-nds-s-2026-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "22 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
         "https://www.consultant.ru/document/cons_doc_LAW_521742/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "PERCENT",
-      "raw": "22 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 января 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "22 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r6",
+      "claimId": "c0e81257b",
       "type": "MONEY",
       "raw": "3 000 ₽",
+      "statement": "По части 4 статьи 14.5 КоАП РФ должностному лицу и предпринимателю грозит предупреждение или штраф от 1 500 до 3 000 ₽.",
+      "subject": "должностное лицо, индивидуальный предприниматель",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u425c0f20",
       "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "ч. 4 ст. 14.5 КоАП: должностные лица — предупреждение или 1 500–3 000 ₽, организации — 5 000–10 000 ₽",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Санкция сверена дословно: «от полутора тысяч до трех тысяч рублей».",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 4 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "влечет предупреждение или наложение административного штрафа на должностных лиц в размере от полутора тысяч до трех тысяч рублей"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "r7",
+      "claimId": "ca547eb33",
       "type": "MONEY",
       "raw": "10 000 ₽",
+      "statement": "По части 4 статьи 14.5 КоАП РФ организации грозит предупреждение или штраф от 5 000 до 10 000 ₽.",
+      "subject": "юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u04a3e29c",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "confidence": 0.95,
+      "explanation": "Санкция сверена дословно по тексту части 4.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 4 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "на юридических лиц - предупреждение или наложение административного штрафа в размере от пяти тысяч до десяти тысяч рублей"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "r8",
+      "claimId": "sf8ad7a29",
       "type": "PERCENT",
-      "raw": "20 %",
+      "raw": "не должна возвращать 20 %",
+      "statement": "После перехода учётная система не должна возвращать ставку 20 %: с 01.01.2026 пункт 3 статьи 164 НК РФ устанавливает 22 % для всех случаев, кроме перечисленных в пунктах 1, 2 и 4.",
+      "subject": "учётная система продавца",
+      "modality": "prohibition",
+      "negated": true,
+      "effectiveFrom": "2026-01-01",
+      "span": "u57f6e79b",
       "status": "match",
       "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "прежняя ставка НДС до 01.01.2026",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "confidence": 0.9,
+      "explanation": "ФНС описывает переход прямо: применявшим 20 % в чеке нужно перейти на 22 % с 01.01.2026 — старая ставка после этой даты не остаётся допустимой.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "мотивировочная часть письма",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "применяющим в настоящее время НДС 20% в кассовом чеке (БСО) и кассовом чеке коррекции (БСО коррекции), необходимо незамедлительно установить соответствующее обновление"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "мотивировочная часть письма",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "позволяющее перейти с 01.01.2026 на отображение новой ставки НДС 22%"
+        }
+      ],
       "sources": [
-        "https://www.garant.ru/news/1915060/",
         "https://www.consultant.ru/document/cons_doc_LAW_521742/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "PERCENT",
-      "raw": "20 %",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "прежняя ставка НДС до 01.01.2026",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "22 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 января 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r9",
+      "claimId": "c950c6a4f",
       "type": "DATE_DMY",
-      "raw": "28.11.2025",
+      "raw": "08.12.2025",
+      "statement": "Форматы фискальных документов версий 1.05, 1.1 и 1.2 дополнил ставкой НДС 22 % приказ ФНС России от 08.12.2025 № ЕД-7-20/1050@, вносящий изменения в приложение № 2 к приказу ФНС России от 14.09.2020 № ЕД-7-20/662@.",
+      "subject": "изготовитель контрольно-кассовой техники",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": "ub4aada39",
       "status": "match",
       "severity": "critical",
       "confidence": 0.9,
-      "expectedValue": "дата подписания ФЗ № 425-ФЗ президентом",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "explanation": "Реквизиты обоих приказов и предмет изменений названы в письме ФНС дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "реквизиты приказа по ФФД",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "утвержден приказ ФНС России от 08.12.2025 N ЕД-7-20/1050@ \"О внесении изменений в приложение N 2 к приказу Федеральной налоговой службы от 14.09.2020 N ЕД-7-20/662@\""
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "officialGuidance",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_521742/",
+          "locator": "предмет изменений",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "592dcd9cfd63883297743f08266598e777fe6cbcdbf5b0dcbfc71ebbadc57738",
+          "quote": "Приказом ФНС России вносятся изменения в форматы фискальных документов версии 1.05, 1.1 и 1.2 в части отображения новой ставки налога на добавленную стоимость 22%"
+        }
+      ],
       "sources": [
-        "https://www.garant.ru/news/1915060/",
         "https://www.consultant.ru/document/cons_doc_LAW_521742/"
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "425-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ФЗ № 425-ФЗ — второй этап налоговой реформы, НДС 22 %",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "20 %",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "прежняя ставка НДС до 01.01.2026",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_CONTEXT",
-      "raw": "в первом квартале 2026",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ФНС поручила инспекциям в I квартале 2026 информировать, а не контролировать отображение ставки в чеках",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/",
-        "https://www.garant.ru/products/ipo/prime/doc/413181749/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "3 000 ₽",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "ч. 4 ст. 14.5 КоАП: должностные лица — предупреждение или 1 500–3 000 ₽, организации — 5 000–10 000 ₽",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "10 %",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "льготная ставка НДС 10 % сохранена после перехода на 22 %",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.buhgalteria.ru/article/vse-stavki-nds-v-2026-godu",
-        "https://buh.ru/articles/lgoty-po-nds-s-2026-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "10 %",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "льготная ставка НДС 10 % сохранена после перехода на 22 %",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.buhgalteria.ru/article/vse-stavki-nds-v-2026-godu",
-        "https://buh.ru/articles/lgoty-po-nds-s-2026-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "0 %",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "нулевая ставка НДС сохранена после перехода на 22 %",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.buhgalteria.ru/article/vse-stavki-nds-v-2026-godu",
-        "https://buh.ru/articles/lgoty-po-nds-s-2026-goda.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 января 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "22 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "20 %",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "прежняя ставка НДС до 01.01.2026",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     }
   ],
+  "ledger": {
+    "c3c77235e": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "cb543ef3c": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c5907b88a": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "cdf39edc6": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c23d710f7": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c8e8a455a": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c901c5856": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "cb0f57bad": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c4cad9d4a": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c872dd7f5": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c6eb9a3d9": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c41ccaf27": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c5f2f23ae": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "cdbf98f58": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c1dd44eb8": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c6b642a2f": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c7f0cf6db": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "cd55b5ed1": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c4f483ddc": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c813dae29": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c5cd4fa6c": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "c54a719d6": {
+      "outcome": "duplicateOf",
+      "of": "cf0fd4046"
+    },
+    "ceafec66a": {
+      "outcome": "duplicateOf",
+      "of": "cafda85bf"
+    },
+    "c588fed3f": {
+      "outcome": "duplicateOf",
+      "of": "cafda85bf"
+    },
+    "cb7f87e9b": {
+      "outcome": "duplicateOf",
+      "of": "c226c7992"
+    },
+    "ceedae8d6": {
+      "outcome": "duplicateOf",
+      "of": "c44f8506c"
+    },
+    "c780ac0b8": {
+      "outcome": "duplicateOf",
+      "of": "c44f8506c"
+    },
+    "c180ec502": {
+      "outcome": "duplicateOf",
+      "of": "c44f8506c"
+    },
+    "c92e7b34c": {
+      "outcome": "duplicateOf",
+      "of": "c0e81257b"
+    },
+    "c96dc373a": {
+      "outcome": "duplicateOf",
+      "of": "ca547eb33"
+    },
+    "cc1ced8db": {
+      "outcome": "duplicateOf",
+      "of": "c950c6a4f"
+    },
+    "cea404879": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cb822f691": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c6d2aad96": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c9a357c21": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c7c58beb0": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "ce1fec0b8": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c0a569226": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cb0f73ca0": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cdcd218c0": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cea893b26": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c00c55bf3": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c09f7e240": {
+      "outcome": "skipped",
+      "reason": "значение «ст. 14.5 КоАП» разбирается утверждением о том же факте выше"
+    },
+    "c5c9b56d5": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c377c7a1b": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cbff811cf": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c137932f4": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cb9e63dc8": {
+      "outcome": "skipped",
+      "reason": "значение «01.01.2026» разбирается утверждением о том же факте выше"
+    }
+  },
+  "units": {
+    "u15fe9386": {
+      "class": "factual"
+    },
+    "u4f0a5822": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5c351afb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud4b26718": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedb3d162": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8e98fd31": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u85033d40": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4bef7ee5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u080d74f5": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u4e10ee20": {
+      "class": "factual"
+    },
+    "ub4aada39": {
+      "class": "factual"
+    },
+    "u731c465b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udc415f24": {
+      "class": "factual"
+    },
+    "u90f27362": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ude5d7397": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u930b9dd7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u25e605b8": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u45be0925": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u714bf24c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7cd83562": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua781d1b0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue0f56dfc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf3b6bde4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ucb6b809b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub8147ab3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4a1092bb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9fb27c3a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2d98b817": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uafa2ef39": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua25471cf": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u12b9de46": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8f16d783": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uf846f93e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue30145ee": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u878cb6e5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9114ab41": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uea559353": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u7a3bc269": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "uc4b369ec": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u99e643dd": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u2ac3e039": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uff1df7cd": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u86a58ec7": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc2b5c8b5": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u1938c750": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u72b44fac": {
+      "class": "factual"
+    },
+    "u612c1ed7": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u62091a0e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u9c41d72f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u98e7047c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u717c795f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6fb27425": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ufbeedee5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8dd2c87d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue0f649fe": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u26d61013": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue565b7e2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u96e116cb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u095ea8cc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u16547343": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u7ca61305": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf2e6ddfa": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u23de1fb5": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u425c0f20": {
+      "class": "factual"
+    },
+    "u04a3e29c": {
+      "class": "factual"
+    },
+    "u944e9b1a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufc4b9961": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ucfe063cf": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue629e213": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u60ec22cd": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u07697c14": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u772a0db1": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf6f3b206": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u74de837c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u6fca0426": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u7249bc20": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u7fecaa4a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uba4e66e5": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u8edffcb8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u23f70133": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u990ead5c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u82382377": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ude39b82e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uba8af3a9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf2b4cbe4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u861d0053": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u166656ba": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4f2b8192": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaf607abd": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua3a66e7e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u376dea7c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaaab7d94": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4aa6da36": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u713fcc18": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8eb19f69": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u60e9b1f1": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u9d469e07": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua61f1f98": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8391f0ed": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8a1bf14c": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ua10743cf": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8d8d428d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u28e28399": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u50672815": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u43845492": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1771c44a": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u0a8e0279": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u212852cb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u009aa012": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud76b852c": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1514390f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u81e77520": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uda75e0b8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u57f6e79b": {
+      "class": "factual"
+    },
+    "ufb50afdd": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u9febda4b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u9619b6b8": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u8dcdf9a9": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    }
+  },
   "summary": {
-    "overallStatus": "match",
+    "overallStatus": "ok",
     "criticalIssues": 0,
-    "checkedAt": "2026-08-12",
-    "verified": 35,
-    "unverified": 0,
-    "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
-  }
+    "moderateIssues": 0,
+    "openIssues": 0
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }

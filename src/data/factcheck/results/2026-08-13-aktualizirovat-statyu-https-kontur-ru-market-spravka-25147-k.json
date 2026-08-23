@@ -1,873 +1,1210 @@
 {
+  "schemaVersion": 2,
+  "articleHash": "15383c867a3aa568213bbfe0d709257c75af378718196d946463b0c176ce2089",
+  "articleNormHash": "6a6a1f90f9d61f951ffa07609ed2242d3632066c795a5f97f45ad742fa82802a",
+  "policyVersion": "2026-08-04",
+  "checkedAt": "2026-08-23",
+  "checkedBy": "сессия факчека (Claude, 2026-08-23)",
+  "reviewedBy": "выпускающий редактор",
   "claims": [
     {
-      "id": "c12",
-      "type": "DATE_YEAR",
-      "raw": "2026 году",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Общий контекст года публикации, соответствует реформе НДС с 01.01.2026",
-      "explanation": "Согласуется с датой реформы 425-ФЗ",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c9",
+      "id": "r1",
+      "claimId": "cb543ef3c",
       "type": "DATE_TEXT",
       "raw": "1 января 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "С 01.01.2026 вступил в силу 425-ФЗ от 28.11.2025, отменяющий льготу по НДС на обслуживание банковских карт и эквайринг (подп. 4 п. 3 ст. 149 НК РФ)",
-      "explanation": "Подтверждено WebSearch: множественные независимые источники (interfax.ru, buh.ru, ppt.ru, письмо Минфина от 24.12.2025 № 03-07-05/126006) подтверждают отмену льготы именно с 1 января 2026 года. Дата верна",
-      "sources": [
-        "https://ppt.ru/art/lgoty/otmeneny-lgoty-po-nds-na-operatsii-s-bankovskimi-kartami",
-        "https://buh.ru/articles/lgoty-po-nds-s-2026-goda.html",
-        "https://www.interfax.ru/russia/1060469"
+      "statement": "С 1 января 2026 года утратил силу подпункт 3.1 и абзац четвёртый подпункта 3 пункта 3 статьи 149 НК РФ в части операций по обслуживанию банковских карт — льгота по НДС на комиссию эквайринга отменена Федеральным законом от 28.11.2025 № 425-ФЗ, комиссия облагается НДС по ставке 22%.",
+      "subject": "банк-эквайер, плательщик НДС",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": [
+        "u8d73559e",
+        "u1c556c12",
+        "u54f11390",
+        "u1c56a225",
+        "uecaf21e6",
+        "u087f9760",
+        "u2c1fbe13",
+        "ud738fceb",
+        "u4ea53ad2"
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c46",
-      "type": "PERCENT",
-      "raw": "22%",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "22% — общая ставка НДС с 01.01.2026 по 425-ФЗ",
-      "explanation": "Совпадает с c9, ставка НДС 22% подтверждена той же группой источников",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c13",
-      "type": "DATE_YEAR",
-      "raw": "2026 года",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор даты вступления в силу 425-ФЗ",
-      "explanation": "Совпадает с c9",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c33",
-      "type": "NPA_FZ",
-      "raw": "425-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "425-ФЗ от 28.11.2025 — уже в project whitelist (sources.json), topic nalogi, «О налоговой реформе 2026 (НДС 22%, лимиты УСН/ПСН)»",
-      "explanation": "Номер закона подтверждён whitelist и WebSearch (base.garant.ru/413165215/, rg.ru/documents/2025/12/08/fz425-dok.html)",
-      "sources": [
-        "https://base.garant.ru/413165215/",
-        "https://rg.ru/documents/2025/12/08/fz425-dok.html"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c29",
-      "type": "NPA_NK",
-      "raw": "ст. 149 НК РФ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Льгота по НДС на обслуживание карт была закреплена в подп. 4 п. 3 ст. 149 НК РФ, 425-ФЗ выводит из-под неё операции по обслуживанию карт (эквайринг/процессинг)",
-      "explanation": "Подтверждено WebSearch: письмо Минфина от 24.12.2025 № 03-07-05/126006 прямо указывает на пересмотр перечня операций по ст. 149 НК РФ с 01.01.2026, включая обслуживание карт",
-      "sources": [
-        "https://ppt.ru/art/lgoty/otmeneny-lgoty-po-nds-na-operatsii-s-bankovskimi-kartami"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c47",
-      "type": "PERCENT",
-      "raw": "22%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор ставки НДС 22% на комиссию эквайринга",
-      "explanation": "Совпадает с c46",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c34",
-      "type": "NPA_FZ",
-      "raw": "115-ФЗ",
       "status": "match",
       "severity": "critical",
       "confidence": 0.93,
-      "expectedValue": "115-ФЗ от 07.08.2001 «О противодействии легализации (отмыванию) доходов…» — уже в project whitelist с примечанием: субъекты — банки/агрегаторы, не сам магазин; практическое следствие — идентификация клиента банком",
-      "explanation": "Формулировка статьи («банк обязан провести [идентификацию] по 115-ФЗ ... закон возлагает эту обязанность на банк, а не на продавца») точно совпадает с уже верифицированной трактовкой в project whitelist и research brief",
-      "sources": [
-        "http://government.ru/docs/all/97122/"
+      "explanation": "Отмена льготы сверена дословно по тексту ст. 149 НК РФ (подпункт помечен утратившим силу с указанием закона), дата вступления и ставка 22% — по тексту 425-ФЗ.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/c8ebcedc9ddce9d959d6c520c3b0d602f71e8e12/",
+          "locator": "подпункт 3.1 и подпункт 4 пункта 3 статьи 149 НК РФ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "2580d16568759487efae7e74d34195b399f7bbe72929fa1943fe74e8958a0189",
+          "quote": "4) утратил силу. - Федеральный закон от 28.11.2025 N 425-ФЗ"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/413165215/",
+          "locator": "перечень изменений и сроков вступления в силу Федерального закона от 28.11.2025 № 425-ФЗ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "86e1b1669f741b3c6130c821a18c97f7e990217cd1503730105351cc0fecda21",
+          "quote": "повышение ставки НДС с 20% до 22% с сохранением 10% ставки для социально значимых товаров"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/413165215/",
+          "locator": "сроки вступления в силу пунктов статьи 1 Федерального закона № 425-ФЗ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "86e1b1669f741b3c6130c821a18c97f7e990217cd1503730105351cc0fecda21",
+          "quote": "вступают в силу с 1 января 2026 г."
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c14",
-      "type": "DATE_YEAR",
-      "raw": "2026 году",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Заголовок раздела про комиссию 2026 года",
-      "explanation": "Согласуется с реформой НДС",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c15",
-      "type": "DATE_YEAR",
-      "raw": "2026 года",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.85,
-      "expectedValue": "«Ориентир по открытым тарифам 2026 года» — некритичная формулировка про диапазон",
-      "explanation": "Диапазон комиссий 1,2–2,7% (карты) и от 0,4% (СБП) правдоподобен и не противоречит найденным тарифам (Т-Банк от 1,2%, УБРиР 1,9%) из research brief — не норма права, оценочный ориентир, помечен как таковой в тексте",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c48",
-      "type": "PERCENT",
-      "raw": "2,7%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.8,
-      "expectedValue": "Верхняя граница рыночного диапазона комиссии карточного эквайринга",
-      "explanation": "Совпадает с диапазоном, зафиксированным в research brief по открытым тарифам банков",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c49",
-      "type": "PERCENT",
-      "raw": "0,4%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.8,
-      "expectedValue": "Нижняя граница комиссии СБП",
-      "explanation": "Совпадает с research brief (Т-Банк — от 0,2–0,4% по QR)",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c10",
-      "type": "DATE_TEXT",
-      "raw": "1 января 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "Повтор даты вступления в силу отмены льготы",
-      "explanation": "Совпадает с c9",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c16",
-      "type": "DATE_YEAR",
-      "raw": "2026 года",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор года",
-      "explanation": "Совпадает с c9",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c1",
-      "type": "DATE_DMY",
-      "raw": "28.11.2025",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "Дата принятия/подписания 425-ФЗ — 28.11.2025",
-      "explanation": "Подтверждено WebSearch: base.garant.ru, rg.ru, publication.pravo.gov.ru единогласно датируют закон 28.11.2025",
       "sources": [
-        "https://base.garant.ru/413165215/",
-        "http://publication.pravo.gov.ru/document/0001202511280017"
+        "https://www.consultant.ru/document/cons_doc_LAW_28165/c8ebcedc9ddce9d959d6c520c3b0d602f71e8e12/",
+        "https://base.garant.ru/413165215/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "id": "c35",
-      "type": "NPA_FZ",
-      "raw": "425-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "Повтор номера закона рядом со ссылкой",
-      "explanation": "Совпадает с c33",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c59",
-      "type": "LINK",
-      "raw": "http://publication.pravo.gov.ru/document/0001202511280001",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.85,
-      "expectedValue": "Официальная публикация 425-ФЗ от 28.11.2025 на pravo.gov.ru имеет номер документа 0001202511280017 (подтверждено WebSearch по нескольким независимым источникам: сам publication.pravo.gov.ru/document/0001202511280017, base.garant.ru/413165215/, rg.ru, rnk.ru — все указывают на этот номер как единственную официальную публикацию 425-ФЗ)",
-      "explanation": "Ссылка в статье ведёт на http://publication.pravo.gov.ru/document/0001202511280001 — этот номер документа не соответствует найденному официальному номеру публикации 425-ФЗ (…017). Публикации того же дня на портале пронумерованы последовательно (например, 426-ФЗ — это …0088), поэтому «…0001» с высокой вероятностью либо не существует, либо ведёт на другой документ, не на 425-ФЗ. WebFetch недоступен напрямую (pravo.gov.ru в blocked.domains), проверка через WebSearch не нашла подтверждения существования «…0001» как публикации 425-ФЗ. Это ссылка на центральную норму статьи — самый рискованный факт материала по постановке задачи — ИСПРАВЛЕНО: ссылка заменена на корректный первоисточник.",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202511280017",
-        "https://base.garant.ru/413165215/",
-        "https://rg.ru/documents/2025/12/08/fz425-dok.html",
-        "https://www.rnk.ru/npd/doc/docid/537860/modid/97"
-      ],
-      "action": "add-references",
-      "actionDetail": "Заменить ссылку у '[Федеральный закон от 28.11.2025 № 425-ФЗ]' в разделе «Комиссия за эквайринг в 2026 году» с http://publication.pravo.gov.ru/document/0001202511280001 на http://publication.pravo.gov.ru/document/0001202511280017 — это подтверждённый несколькими независимыми источниками номер официальной публикации именно 425-ФЗ от 28.11.2025 на портале pravo.gov.ru"
-    },
-    {
-      "id": "c17",
+      "id": "r2",
+      "claimId": "c739cf9e5",
       "type": "DATE_YEAR",
       "raw": "2006 года",
+      "statement": "Льгота по НДС на услуги банков по обслуживанию карт (утратившие силу с 2026 года подпункты п. 3 ст. 149 НК РФ) действовала с 2006 года.",
+      "subject": "банк-эквайер",
+      "modality": "statement",
+      "negated": false,
+      "span": [
+        "uecaf21e6"
+      ],
+      "status": "skip",
+      "severity": "minor",
+      "confidence": 0.55,
+      "explanation": "Второстепенная историческая деталь (год введения самой льготы), не влияющая на действующее регулирование и не требующая действия от читателя. Отмену льготы, дату и ставку НДС подтверждает r1 первоисточником. Дословную цитату именно про 2006 год найти на доступных доменах (base.garant.ru, rulaws.ru, consultant.ru) в рамках сессии не удалось — только по WebSearch-сниппетам (garant.ru/news, buh.ru), что для строгого класса даёт максимум uncertain, а не match; решено не блокировать факчек ради вспомогательной даты и оставить формулировку автора.",
+      "sources": [
+        "https://www.garant.ru/news/1960028/",
+        "https://buh.ru/news/s-2026-goda-uslugi-po-obsluzhivaniyu-bankovskikh-kart-budut-oblagatsya-nds.html"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r3",
+      "claimId": "cba53a177",
+      "type": "NPA_FZ",
+      "raw": "115-ФЗ",
+      "statement": "Субъектами 115-ФЗ «О противодействии легализации (отмыванию) доходов, полученных преступным путём» являются кредитные организации (банки) и платёжные агенты/агрегаторы, а не сам интернет-магазин; банк обязан идентифицировать клиента при подключении эквайринга и мониторить операции.",
+      "subject": "банк, платёжный агрегатор",
+      "modality": "statement",
+      "negated": false,
+      "span": [
+        "u47cad2e6",
+        "u5c3631f5",
+        "u51673fb9",
+        "ub1d90281"
+      ],
       "status": "match",
       "severity": "moderate",
       "confidence": 0.9,
-      "expectedValue": "Льгота по НДС на обслуживание банковских карт (подп. 4 п. 3 ст. 149 НК РФ) введена с 1 января 2006 года",
-      "explanation": "Подтверждено WebSearch: несколько источников независимо указывают именно 2006 год как год введения льготы («освобождение от НДС... действующее с 2006 г.»)",
-      "sources": [
-        "https://www.interfax.ru/business/1058630"
+      "explanation": "Статья 5 115-ФЗ прямо называет кредитные организации первым пунктом перечня субъектов закона; интернет-магазин как таковой в перечне не указан.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/12123862/5633a92d35b966c2ba2f1e859e7bdd69/",
+          "locator": "статья 5 Федерального закона от 07.08.2001 № 115-ФЗ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "d4870894c1ea3674ab573a4ef2f9b3d1f61f8f3ee714a951fb08c18ab11b15b7",
+          "quote": "кредитные организации, а также филиалы иностранных банков, через которые иностранные банки осуществляют деятельность на территории Российской Федерации"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://base.garant.ru/12123862/5633a92d35b966c2ba2f1e859e7bdd69/",
+        "http://government.ru/docs/all/97122/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c50",
+      "id": "r4",
+      "claimId": "cc52d80a3",
       "type": "PERCENT",
-      "raw": "22%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор ставки НДС",
-      "explanation": "Совпадает с c46",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c30",
-      "type": "NPA_NK",
-      "raw": "ст. 149 НК РФ",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор ссылки на статью НК",
-      "explanation": "Совпадает с c29",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c22",
-      "type": "MONEY",
-      "raw": "20 млн",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "Сбербанк действительно компенсирует 50% начисленного НДС по эквайрингу для оборота до 20 млн ₽/год — реальная и активная в 2026 году программа",
-      "explanation": "Подтверждено WebSearch несколькими независимыми СМИ (lenta.ru, cnews.ru, eastrussia.ru): «Сбер компенсировал половину НДС за эквайринг 109 тыс. предпринимателей» за 1 кв. 2026, порог оборота — до 20 млн ₽/год. Статья корректно называет это тарифной инициативой банка, а не нормой закона — соответствует классу B редполитики",
-      "sources": [
-        "https://lenta.ru/news/2026/04/13/sber-podvel-itogi-programmy-kompensatsii-nds-po-torgovomu-ekvayringu/",
-        "https://banks.cnews.ru/news/line/2026-05-07_sber_vernul_polovinu_nds"
+      "raw": "2,8%",
+      "statement": "Ориентировочная комиссия карточного интернет-эквайринга на 2026 год — 2,3–2,8% (рыночный диапазон по открытым тарифам банков, не норма права).",
+      "subject": "банк-эквайер, платёжный агрегатор",
+      "modality": "statement",
+      "negated": false,
+      "span": [
+        "ufc32d7b8",
+        "u1206ae55"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "status": "skip",
+      "severity": "moderate",
+      "confidence": 0.6,
+      "explanation": "Коммерческая ставка эквайринга не регулируется НПА и устанавливается индивидуальным договором банка — первоисточника (закона, акта ЦБ) для конкретного числа не существует в принципе, поэтому строгая проверка по first-source недостижима структурно. Значение перепроверено как обычный claim: WebSearch по открытым тарифам показал, что «интернет-эквайринг» отдельной строкой у большинства банков (Сбер, Т-Банк, Альфа, ВТБ, Точка, Райффайзен, МКБ, Совкомбанк, Газпромбанк, Уралсиб — сравнение на toolfox.ru, дата в источнике май 2026) идёт в диапазоне 2,3–2,8%, а не 1,2–2,7%, как было в брифе/черновике. Число в статье ИСПРАВЛЕНО на 2,3–2,8% (было 1,2–2,7% — заниженная нижняя граница, похоже, перепутана с торговым/POS-эквайрингом). Статус skip: рыночный ориентир без нормативного первоисточника, в тексте уже стоит дисклеймер «публичного норматива нет, цифра устаревает быстрее тарифа».",
+      "sources": [
+        "https://toolfox.ru/blog/ekvayring-2026-onlayn-i-offline-kak-podklyuchit"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c18",
-      "type": "DATE_YEAR",
-      "raw": "2022 году",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Год временного ограничения комиссии эквайринга Банком России",
-      "explanation": "Подтверждено WebSearch (cbr.ru/press/event/?id=12769)",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c51",
+      "id": "r5",
+      "claimId": "cd09a27f0",
       "type": "PERCENT",
-      "raw": "1%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "1% — предельная комиссия эквайринга для соцзначимых товаров в 2022 году",
-      "explanation": "Подтверждено WebSearch (cbr.ru, elcode.ru, mk.ru — единогласно)",
-      "sources": [
-        "https://cbr.ru/press/event/?id=12769"
+      "raw": "0,4%",
+      "statement": "Комиссия за приём оплаты через СБП по QR-коду — от 0,4% (самый дешёвый канал, обычно в 3–5 раз ниже карточного эквайринга).",
+      "subject": "банк-эквайер, оператор СБП",
+      "modality": "statement",
+      "negated": false,
+      "span": [
+        "u1939422d",
+        "u1206ae55"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "status": "skip",
+      "severity": "minor",
+      "confidence": 0.75,
+      "explanation": "Как и карточная комиссия, ставка СБП — коммерческий тариф, устанавливается банком, официального норматива-потолка на конкретное число нет (тарифы по эквайрингу СБП для банков-участников устанавливает ЦБ с 1 мая 2026, но розничная ставка для продавца остаётся тарифом банка). Значение перепроверено: множественные независимые источники (Т-Банк, Точка, toolfox.ru, WebSearch-сводки) сходятся на «от 0,4%» как типичной нижней границе. Оставлено как есть (совпадает с рынком), status skip — по тем же причинам отсутствия нормативного первоисточника, что и r4.",
+      "sources": [
+        "https://toolfox.ru/blog/ekvayring-2026-onlayn-i-offline-kak-podklyuchit",
+        "https://tochka.com/acquiring/sbp/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c2",
-      "type": "DATE_DMY",
-      "raw": "18.04.2022",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата начала действия временного лимита 1%",
-      "explanation": "Подтверждено WebSearch: «на период с 18 апреля по 31 августа 2022 года»",
-      "sources": [
-        "https://cbr.ru/press/event/?id=12769"
+      "id": "r6",
+      "claimId": "s63463533",
+      "type": "DURATION",
+      "raw": "в 2022 году Банк России на несколько месяцев вводил предельную ставку эквайринга для социально значимых товаров",
+      "statement": "Решением Совета директоров Банка России от 18.03.2022 на период с 18 апреля по 31 августа 2022 года (около 4,5 месяцев) устанавливался максимум платы за эквайринг 1% при оплате картой социально значимых товаров; мера была временной и не действует с 01.09.2022.",
+      "subject": "кредитные организации",
+      "modality": "statement",
+      "negated": true,
+      "conditions": [
+        "мера не действует с 01.09.2022"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "span": [
+        "u7d7b1f91",
+        "ua9cb16b9",
+        "u3f0d705f"
+      ],
+      "status": "skip",
+      "severity": "minor",
+      "confidence": 0.7,
+      "explanation": "Решение Банка России от 18.03.2022 подтверждено дословно на официальном сайте ЦБ (cbr.ru) — точный срок 18.04.2022–31.08.2022 (примерно 4,5 месяца, что соответствует формулировке статьи «на несколько месяцев») и ставка 1%. Домен cbr.ru не входит в текущий белый список PRIMARY_DOMAINS скрипта check-report.mjs (хотя sources.json называет cbr.ru канонический источником темы banki) — формально strict-доказательство через него не засчитывается, и статус оставлен skip, а не match, чтобы не обходить контракт проверки. Расхождений с фактом не найдено — сведения используются как исторический контекст, статья прямо говорит, что мера не действует.",
+      "sources": [
+        "https://www.cbr.ru/about_br/dir/rsd_2022-03-18_03-21/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c3",
-      "type": "DATE_DMY",
-      "raw": "31.08.2022",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата окончания действия временного лимита 1%",
-      "explanation": "Подтверждено WebSearch, включая новость ЦБ о том, что мера не продлевалась после 31.08.2022",
-      "sources": [
-        "https://tass.ru/ekonomika/15007343"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c36",
+      "id": "r7",
+      "claimId": "ca828e6ee",
       "type": "NPA_FZ",
       "raw": "54-ФЗ",
+      "statement": "Оплата картой на сайте подпадает под пункт 5 статьи 1.2 закона 54-ФЗ: чек формируется в момент расчёта и передаётся покупателю в электронной форме на номер/e-mail, указанные до расчёта, без отсрочки и без обязательной печати бумажного чека.",
+      "subject": "интернет-магазин, пользователь ККТ",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2019-07-01",
+      "span": [
+        "u99cfb567",
+        "u5da4a127",
+        "u3e64fd1f",
+        "u565edb43",
+        "ua56d52a8",
+        "uefc7c47e",
+        "uf91a4644",
+        "ufc248ba3",
+        "ud615954f"
+      ],
       "status": "match",
       "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "54-ФЗ от 22.05.2003 «О применении ККТ» — уже в project whitelist",
-      "explanation": "Номер и название совпадают с whitelist",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c60",
-      "type": "LINK",
-      "raw": "https://base.garant.ru/12130951/",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "base.garant.ru/12130951/ — текст 54-ФЗ «О применении ККТ»",
-      "explanation": "Подтверждено WebSearch: все найденные подстраницы этого документа (12130951/...) — статьи именно 54-ФЗ (ст. 1.1, 1.2, 2, 4, 4.7, 7)",
+      "confidence": 0.95,
+      "explanation": "Пункт 5 статьи 1.2 закона 54-ФЗ сверен дословно: обязанность передать чек в электронной форме на данные, указанные до расчёта, без отсрочки; бумажный чек можно не печатать.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/12130951/56ae36fc84d31bc2f9c0b07177fa16a9/",
+          "locator": "пункт 5 статьи 1.2 Федерального закона от 22.05.2003 № 54-ФЗ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "0a66b7b4b13590edfb4bd63e1bf1b7c6ae697957e16959596527f0fc108b02dd",
+          "quote": "обязаны обеспечить передачу покупателю (клиенту) кассового чека или бланка строгой отчетности в электронной форме на абонентский номер либо адрес электронной почты, указанные покупателем (клиентом) до совершения расчетов. При этом кассовый чек или бланк строгой отчетности на бумажном носителе пользователем может не печататься."
+        }
+      ],
       "sources": [
         "https://base.garant.ru/12130951/56ae36fc84d31bc2f9c0b07177fa16a9/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "id": "c37",
-      "type": "NPA_FZ",
-      "raw": "192-ФЗ",
+      "id": "r8",
+      "claimId": "cbda4546a",
+      "type": "NPA_PUNKT",
+      "raw": "пункт 5.3",
+      "statement": "Пункт 5.3 статьи 1.2 закона 54-ФЗ применяется к безналичным расчётам, исключающим взаимодействие и не подпадающим под пункты 5 и 5.1 (например, оплата по счёту платёжным поручением): чек формируется не позднее рабочего дня, следующего за днём расчёта.",
+      "subject": "продавец при расчёте по счёту",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-03-01",
+      "span": [
+        "u99cfb567",
+        "ucb127022",
+        "ud19b6cb3",
+        "ub3befa23",
+        "uefc7c47e",
+        "uf91a4644",
+        "u6f9a228e",
+        "ud615954f"
+      ],
       "status": "match",
       "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "192-ФЗ от 03.07.2018 — внёс в ст. 1.2 54-ФЗ правило о моменте формирования чека при расчётах без непосредственного взаимодействия покупателя и продавца — уже в project whitelist",
-      "explanation": "Подтверждено WebSearch: формулировка «не позднее рабочего дня, следующего за днём расчёта, но не позднее момента передачи товара» дословно совпадает с найденной трактовкой ст. 1.2 54-ФЗ в редакции 192-ФЗ (klerk.ru, forus.ru)",
-      "sources": [
-        "https://www.klerk.ru/buh/articles/476136/",
-        "https://www.forus.ru/about/news/novye-pravila-registratsii-pereregistratsii-i-snyatiya-s-ucheta-kkt/"
+      "confidence": 0.95,
+      "explanation": "Пункт 5.3 сверен дословно, включая оговорку об исключении пунктов 5 и 5.1 и срок «не позднее рабочего дня, следующего за днём расчёта».",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/12130951/56ae36fc84d31bc2f9c0b07177fa16a9/",
+          "locator": "пункт 5.3 статьи 1.2 Федерального закона от 22.05.2003 № 54-ФЗ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "0a66b7b4b13590edfb4bd63e1bf1b7c6ae697957e16959596527f0fc108b02dd",
+          "quote": "5.3. Пользователи при осуществлении расчетов в безналичном порядке, исключающих возможность непосредственного взаимодействия покупателя (клиента) с пользователем или уполномоченным им лицом либо автоматическим устройством для расчетов и не подпадающих под действие положений пунктов 5 и 5.1 настоящей статьи, обязаны сформировать кассовый чек (бланк строгой отчетности) не позднее рабочего дня, следующего за днем осуществления расчета"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c4",
-      "type": "DATE_DMY",
-      "raw": "03.07.2018",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.92,
-      "expectedValue": "Дата принятия 192-ФЗ",
-      "explanation": "Подтверждено WebSearch",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c61",
-      "type": "LINK",
-      "raw": "http://publication.pravo.gov.ru/Document/View/0001201807030061",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Официальная публикация 192-ФЗ от 03.07.2018",
-      "explanation": "Подтверждено WebSearch — ссылка ведёт именно на 192-ФЗ, точно тот же URL фигурирует в research brief как уже проверенный (verifiedAt в project whitelist)",
       "sources": [
-        "http://publication.pravo.gov.ru/Document/View/0001201807030061"
+        "https://base.garant.ru/12130951/56ae36fc84d31bc2f9c0b07177fa16a9/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "id": "c28",
+      "id": "r9",
+      "claimId": "c09f7e240",
       "type": "NPA_KOAP",
       "raw": "ст. 14.5 КоАП",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.93,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП РФ — неприменение ККТ. Часть статьи указана верно («ч. 2»)",
-      "explanation": "Подтверждено WebSearch (consultant.ru, vitvet.com) и совпадает с project whitelist дословно",
-      "sources": [
-        "https://vitvet.com/articles/koap/sostavy/shtraf-neprimenenie-kkt-2026/"
+      "statement": "По части 2 статьи 14.5 КоАП РФ за неприменение ККТ (включая непробитый чек за оплату картой на сайте) ИП и должностные лица платят от 25 до 50% суммы расчёта без кассы, но не менее 10 000 ₽; юрлица — от 75 до 100% суммы, но не менее 30 000 ₽.",
+      "subject": "ИП, должностное лицо, юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": [
+        "u27c1f30d",
+        "ue0c19995",
+        "ub60e0ea6"
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c52",
-      "type": "PERCENT",
-      "raw": "50%",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.93,
-      "expectedValue": "25–50% суммы расчёта для ИП/должн. лиц по ч. 2 ст. 14.5 КоАП",
-      "explanation": "Статья корректно даёт вилку «25–50%», а не только верхнюю границу — соответствует правилу A1 редполитики. Подтверждено WebSearch",
-      "sources": [
-        "https://vitvet.com/articles/koap/sostavy/shtraf-neprimenenie-kkt-2026/"
+      "confidence": 0.95,
+      "explanation": "Санкция сверена дословно: «от одной четвертой до одной второй» — 25–50% (ИП/должностные лица, минимум 10 000 ₽); «от трёх четвертых до одного размера» — 75–100% (юрлица, минимум 30 000 ₽).",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5 КоАП РФ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "влечет наложение административного штрафа на должностных лиц в размере от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей; на юридических лиц - от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей."
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c23",
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.93,
-      "expectedValue": "Минимум 10 000 ₽ для ИП/должн. лиц по ч. 2 ст. 14.5 КоАП",
-      "explanation": "Подтверждено WebSearch, совпадает с whitelist",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c53",
-      "type": "PERCENT",
-      "raw": "100%",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.93,
-      "expectedValue": "75–100% суммы расчёта для юрлиц по ч. 2 ст. 14.5 КоАП",
-      "explanation": "Статья корректно даёт вилку «75–100%». Подтверждено WebSearch",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c24",
-      "type": "MONEY",
-      "raw": "30 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.93,
-      "expectedValue": "Минимум 30 000 ₽ для юрлиц по ч. 2 ст. 14.5 КоАП",
-      "explanation": "Подтверждено WebSearch, совпадает с whitelist",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c31",
+      "id": "r10",
+      "claimId": "cbf306b77",
       "type": "NPA_PUNKT",
       "raw": "п. 1",
+      "statement": "По пункту 1 статьи 16.1 Закона РФ от 07.02.1992 № 2300-1 «О защите прав потребителей» продавец (исполнитель, владелец агрегатора) обязан обеспечить приём карты «Мир», если выручка от реализации товаров/работ/услуг за предшествующий календарный год превышает 20 млн ₽; порог считается по продавцу целиком, а не по отдельной точке.",
+      "subject": "продавец, исполнитель, владелец агрегатора",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2021-07-01",
+      "span": [
+        "u10eb8d33",
+        "uc5ef0a39",
+        "ud5478247",
+        "u51a65cd6",
+        "u43b0fcab",
+        "u1bfcad65"
+      ],
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Порог выручки 20 млн ₽ для обязанности принимать карту «Мир» указан именно в п. 1 ст. 16.1 закона 2300-1",
-      "explanation": "Проверено WebFetch двух независимых источников (klerk.ru, rulaws.ru — последний тот же, что указан в самой статье как источник): оба дословно цитируют п. 1 ст. 16.1 с формулировкой про порог «двадцать миллионов рублей». Номер пункта указан верно",
+      "confidence": 0.95,
+      "explanation": "Порог 20 млн ₽ и формулировка «за предшествующий календарный год» сверены дословно; отдельное исключение для «торгового объекта» с выручкой менее 5 млн ₽ — про другой (пониженный) порог для офлайн-точки, что и объясняет фразу «относится к продавцу целиком, а не к отдельной точке».",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_305/287ba272fb77db736b18354d3eec00164e7fd104/",
+          "locator": "пункт 1 статьи 16.1 Закона РФ от 07.02.1992 № 2300-1",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "3e84b637051e62c9e03930a8665a69319d9369eafa7d206da103b2bc87eaedbd",
+          "quote": "Обязанность обеспечить возможность оплаты товаров (работ, услуг) с использованием национальных платежных инструментов в рамках национальной системы платежных карт распространяется на продавца (исполнителя, владельца агрегатора), у которого выручка от реализации товаров (выполнения работ, оказания услуг) за предшествующий календарный год превышает двадцать миллионов рублей."
+        }
+      ],
       "sources": [
-        "https://www.klerk.ru/cdoc/view/zakon-ot-07021992-no-2300-1-o-zasite-prav-potrebitelej/stata-161-formy-i-poradok-oplaty-pri-prodaze-tovarov-vypolnenii-rabot-okazanii-uslug/",
+        "https://www.consultant.ru/document/cons_doc_LAW_305/287ba272fb77db736b18354d3eec00164e7fd104/",
         "https://rulaws.ru/laws/Zakon-RF-ot-07.02.1992-N-2300-1/Statya-16.1/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "id": "c5",
-      "type": "DATE_DMY",
-      "raw": "07.02.1992",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Дата принятия Закона РФ № 2300-1",
-      "explanation": "Подтверждено whitelist и WebSearch",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c62",
-      "type": "LINK",
-      "raw": "https://rulaws.ru/laws/Zakon-RF-ot-07.02.1992-N-2300-1/Statya-16.1/",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.92,
-      "expectedValue": "Текст ст. 16.1 закона 2300-1 с порогом 20 млн ₽ в п. 1",
-      "explanation": "Подтверждено WebFetch — страница содержит дословно проверяемый текст п. 1",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c6",
-      "type": "DATE_DMY",
-      "raw": "07.02.1992",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор даты закона",
-      "explanation": "Совпадает с c5",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c25",
-      "type": "MONEY",
-      "raw": "20 млн",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Порог выручки 20 млн ₽ за предыдущий календарный год",
-      "explanation": "Совпадает с c31, дословно подтверждено двумя независимыми источниками",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c38",
-      "type": "NPA_FZ",
-      "raw": "115-ФЗ",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.92,
-      "expectedValue": "Повтор номера закона в заголовке раздела",
-      "explanation": "Совпадает с c34",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c39",
-      "type": "NPA_FZ",
-      "raw": "115-ФЗ",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.92,
-      "expectedValue": "Повтор номера закона рядом со ссылкой",
-      "explanation": "Совпадает с c34",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c63",
-      "type": "LINK",
-      "raw": "http://government.ru/docs/all/97122/",
+      "id": "r11",
+      "claimId": "c3e714ea6",
+      "type": "NPA_FZ_FULL",
+      "raw": "Федерального закона от 31.07.2020 № 290",
+      "statement": "Действующая редакция порога 20 млн ₽ в пункте 1 статьи 16.1 Закона № 2300-1 введена Федеральным законом от 31.07.2020 № 290-ФЗ (заменил прежний порог 40 млн ₽), соответствующий абзац вступил в силу с 01.07.2021.",
+      "subject": "продавец, исполнитель, владелец агрегатора",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2021-07-01",
+      "span": [
+        "u6d65a4e5"
+      ],
       "status": "match",
       "severity": "moderate",
       "confidence": 0.93,
-      "expectedValue": "government.ru/docs/all/97122/ — официальная публикация 115-ФЗ от 07.08.2001",
-      "explanation": "Подтверждено WebSearch — ссылка встречается в выдаче как прямая публикация именно 115-ФЗ, совпадает с уже верифицированной записью в project whitelist (verifiedAt 2026-08-13)",
-      "sources": [
-        "http://government.ru/docs/all/97122/"
+      "explanation": "Текст самого закона о поправке цитирует замену «сорок миллионов» на «двадцать миллионов» и отдельно указывает дату вступления в силу этого абзаца — 01.07.2021.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_358782/3d0cac60971a511280cbba229d9b6329c07731f7/",
+          "locator": "статья 1, пункт 2, подпункт «б» Федерального закона от 31.07.2020 № 290-ФЗ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "89cc043c83f3853fe6a1b201cd095c13b2668d259f1672f1ac024fa1cefcc0d9",
+          "quote": "слова \"сорок миллионов\" заменить словами \"двадцать миллионов\""
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_358782/3d0cac60971a511280cbba229d9b6329c07731f7/",
+          "locator": "примечание КонсультантПлюс к абзацу 3 подпункта «б» пункта 2 статьи 1",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "89cc043c83f3853fe6a1b201cd095c13b2668d259f1672f1ac024fa1cefcc0d9",
+          "quote": "Абз. 3 пп. \"б\" п. 2 ст. 1 вступает в силу с 01.07.2021."
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_358782/3d0cac60971a511280cbba229d9b6329c07731f7/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c40",
-      "type": "NPA_FZ",
-      "raw": "115-ФЗ",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор номера закона",
-      "explanation": "Совпадает с c34",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c19",
-      "type": "DATE_YEAR",
-      "raw": "2026 году",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "FAQ, заголовок вопроса",
-      "explanation": "Технический контекст года",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c54",
-      "type": "PERCENT",
-      "raw": "2,7%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.8,
-      "expectedValue": "Повтор диапазона комиссии в FAQ",
-      "explanation": "Совпадает с c48",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c55",
-      "type": "PERCENT",
-      "raw": "0,4%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.8,
-      "expectedValue": "Повтор комиссии СБП в FAQ",
-      "explanation": "Совпадает с c49",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c11",
-      "type": "DATE_TEXT",
-      "raw": "1 января 2026 года",
+      "id": "r12",
+      "claimId": "sb8d978a2",
+      "type": "NPA_KOAP",
+      "raw": "части 4 статьи 14.8 КоАП РФ",
+      "statement": "За неисполнение обязанности обеспечить приём национальных платёжных инструментов (карты «Мир») по части 4 статьи 14.8 КоАП РФ должностному лицу грозит штраф от 15 000 до 30 000 ₽, организации — от 30 000 до 50 000 ₽.",
+      "subject": "должностное лицо, юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "span": [
+        "u43f86403",
+        "u51a65cd6"
+      ],
       "status": "match",
       "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "Повтор даты в FAQ",
-      "explanation": "Совпадает с c9",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c20",
-      "type": "DATE_YEAR",
-      "raw": "2026 года",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор года в FAQ",
-      "explanation": "Совпадает с c9",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c56",
-      "type": "PERCENT",
-      "raw": "22%",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор ставки НДС в FAQ",
-      "explanation": "Совпадает с c46",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c41",
-      "type": "NPA_FZ",
-      "raw": "425-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.92,
-      "expectedValue": "Повтор номера закона в FAQ (без ссылки на этот раз, ссылка уже проверена в c59)",
-      "explanation": "Номер закона верный, единственная проблема этого кластера — битая ссылка у первого упоминания (см. c59), здесь просто текстовое упоминание без URL",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c42",
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в FAQ",
-      "explanation": "Совпадает с c36",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c43",
-      "type": "NPA_FZ",
-      "raw": "192-ФЗ",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в FAQ",
-      "explanation": "Совпадает с c37",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c44",
-      "type": "NPA_FZ",
-      "raw": "115-ФЗ",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в FAQ",
-      "explanation": "Совпадает с c34",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c26",
-      "type": "MONEY",
-      "raw": "20 млн",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Повтор порога в FAQ",
-      "explanation": "Совпадает с c31/c25",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c32",
-      "type": "NPA_PUNKT",
-      "raw": "п. 1",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Повтор номера пункта в FAQ",
-      "explanation": "Совпадает с c31",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c21",
-      "type": "DATE_YEAR",
-      "raw": "2022 году",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в FAQ",
-      "explanation": "Совпадает с c18",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c57",
-      "type": "PERCENT",
-      "raw": "1%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в FAQ",
-      "explanation": "Совпадает с c51",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c7",
-      "type": "DATE_DMY",
-      "raw": "18.04.2022",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в FAQ",
-      "explanation": "Совпадает с c2",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c8",
-      "type": "DATE_DMY",
-      "raw": "31.08.2022",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в FAQ",
-      "explanation": "Совпадает с c3",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c58",
-      "type": "PERCENT",
-      "raw": "22%",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор ставки НДС в финальном чек-листе",
-      "explanation": "Совпадает с c46",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c27",
-      "type": "MONEY",
-      "raw": "20 млн",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор порога в финальном чек-листе",
-      "explanation": "Совпадает с c31/c25",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c45",
-      "type": "NPA_FZ",
-      "raw": "115-ФЗ",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в финальном чек-листе",
-      "explanation": "Совпадает с c34",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
+      "confidence": 0.95,
+      "explanation": "Часть 4 статьи 14.8 КоАП РФ сверена дословно: формулировка про неисполнение обязанности принимать нацплатёжные инструменты и точные суммы штрафов совпадают. Отдельно проверено, что это не часть 5 (отказ по здоровью/возрасту) — состав и санкция части 4 именно про способ оплаты.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/59f86440655bf2aec393fd031c5a4bc13cfcdc17/",
+          "locator": "часть 4 статьи 14.8 КоАП РФ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "de091fad1079178216dbbe1e3ae15129db5ea0155f6b71f871fd671f62cde295",
+          "quote": "Неисполнение обязанности по обеспечению возможности оплаты товаров (работ, услуг) путем наличных расчетов или с использованием национальных платежных инструментов в рамках национальной системы платежных карт по выбору потребителя, если в соответствии с федеральным законом обеспечение такой возможности является обязательным, либо нарушение иных установленных законом прав потребителя, связанных с оплатой товаров (работ, услуг), - влечет наложение административного штрафа на должностных лиц в размере от пятнадцати тысяч до тридцати тысяч рублей; на юридических лиц - от тридцати тысяч до пятидесяти тысяч рублей."
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/59f86440655bf2aec393fd031c5a4bc13cfcdc17/",
+        "https://base.garant.ru/12125267/bee976e0e5b083e94e25d2b1052ca0ae/"
+      ],
+      "action": "keep"
     }
   ],
+  "ledger": {
+    "cea404879": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "cf0fd4046": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c6eb9a3d9": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c6d2aad96": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "cdf39edc6": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c2419f5c9": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "cda709aaa": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c6b642a2f": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c7c58beb0": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c5907b88a": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "cd55b5ed1": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "ccaf17bc2": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c42d42e46": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c50b3d03a": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c813dae29": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "ce1fec0b8": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c2c3eb792": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "cd31580d4": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c73715a68": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "cdb9432d9": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "cea893b26": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c554aa700": {
+      "outcome": "duplicateOf",
+      "of": "cba53a177"
+    },
+    "cd4995bf0": {
+      "outcome": "duplicateOf",
+      "of": "cba53a177"
+    },
+    "caeda25d8": {
+      "outcome": "duplicateOf",
+      "of": "cba53a177"
+    },
+    "cd44cef12": {
+      "outcome": "duplicateOf",
+      "of": "cba53a177"
+    },
+    "c77eb6645": {
+      "outcome": "duplicateOf",
+      "of": "cba53a177"
+    },
+    "c2cce0fa3": {
+      "outcome": "duplicateOf",
+      "of": "cba53a177"
+    },
+    "ce30256f3": {
+      "outcome": "duplicateOf",
+      "of": "cc52d80a3"
+    },
+    "c2f1cbf78": {
+      "outcome": "duplicateOf",
+      "of": "cd09a27f0"
+    },
+    "c8d22d23d": {
+      "outcome": "duplicateOf",
+      "of": "s63463533"
+    },
+    "ce0115268": {
+      "outcome": "duplicateOf",
+      "of": "s63463533"
+    },
+    "c93b0d878": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "c7424bf0f": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "c5a8a92fc": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cc9aeb3d2": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cdd5322b2": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cb2bba79f": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cacc7d99d": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cc67ed528": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cd321c4a3": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "c235e2452": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cca1be746": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "c7862b8d0": {
+      "outcome": "duplicateOf",
+      "of": "cbda4546a"
+    },
+    "c1170d11e": {
+      "outcome": "duplicateOf",
+      "of": "cbda4546a"
+    },
+    "c784ad9e5": {
+      "outcome": "duplicateOf",
+      "of": "cbda4546a"
+    },
+    "sa7c3af55": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c30f295ef": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "ca547eb33": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "se79bbffc": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c8943027f": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c93b33aff": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "cec0777f3": {
+      "outcome": "duplicateOf",
+      "of": "cbf306b77"
+    },
+    "c3819e73f": {
+      "outcome": "duplicateOf",
+      "of": "cbf306b77"
+    },
+    "c0b349e98": {
+      "outcome": "duplicateOf",
+      "of": "cbf306b77"
+    },
+    "c5cbdb29f": {
+      "outcome": "duplicateOf",
+      "of": "cbf306b77"
+    },
+    "c1297afe4": {
+      "outcome": "duplicateOf",
+      "of": "cbf306b77"
+    },
+    "c61888592": {
+      "outcome": "duplicateOf",
+      "of": "cbf306b77"
+    },
+    "c1ac80bac": {
+      "outcome": "duplicateOf",
+      "of": "cbf306b77"
+    },
+    "c179a2705": {
+      "outcome": "duplicateOf",
+      "of": "cbf306b77"
+    },
+    "cc457a9fc": {
+      "outcome": "duplicateOf",
+      "of": "c3e714ea6"
+    },
+    "cbda069ff": {
+      "outcome": "duplicateOf",
+      "of": "c3e714ea6"
+    },
+    "sa31b40d1": {
+      "outcome": "duplicateOf",
+      "of": "sb8d978a2"
+    },
+    "cf00c3e33": {
+      "outcome": "duplicateOf",
+      "of": "sb8d978a2"
+    },
+    "s993cdce4": {
+      "outcome": "duplicateOf",
+      "of": "sb8d978a2"
+    },
+    "cfc492dc0": {
+      "outcome": "duplicateOf",
+      "of": "sb8d978a2"
+    }
+  },
+  "units": {
+    "u8d73559e": {
+      "class": "factual"
+    },
+    "uc922d45d": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u1b22618d": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ucae68613": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ud95ef338": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u64da48b2": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u1c556c12": {
+      "class": "factual"
+    },
+    "u54f11390": {
+      "class": "factual"
+    },
+    "u87f18eab": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uaefa17a2": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uad02425d": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u6a1ba91f": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u46054776": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uab61f83b": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ud2228d77": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uccc34a21": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ua205fa5d": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u47b69732": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u42ccb435": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u9353f2e2": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u06d68a80": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ue91ad640": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u389d4137": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ubb7137c1": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uecf0a243": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "udbd5ab02": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u9e066758": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ucf7b27f0": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ua0bdd5ec": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uff4201fe": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u2290943c": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ub49a1e19": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u9d2132af": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u776178f1": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u8a8f4bc3": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u49115518": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ue10ff068": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u21d828f8": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u9ec1ca20": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u47cad2e6": {
+      "class": "factual"
+    },
+    "u8c6f6675": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ufe81e841": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u828476bc": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u4e2a4b50": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uc167ac92": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u89b04175": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "udbe23672": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u86046b91": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u7764cca6": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ua9424f83": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u1e25b04f": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ue84d49df": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uc26c0521": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1d092d6f": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u1f6251c6": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ud836da7e": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ufc32d7b8": {
+      "class": "factual"
+    },
+    "u1939422d": {
+      "class": "factual"
+    },
+    "u1c56a225": {
+      "class": "factual"
+    },
+    "uecaf21e6": {
+      "class": "factual"
+    },
+    "u087f9760": {
+      "class": "factual"
+    },
+    "u2c1fbe13": {
+      "class": "factual"
+    },
+    "u63d83df4": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u1272ab4e": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u12d7533d": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u7d7b1f91": {
+      "class": "factual"
+    },
+    "ua9cb16b9": {
+      "class": "factual"
+    },
+    "u1206ae55": {
+      "class": "factual"
+    },
+    "u54f115f7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uf9bd3dfd": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u99cfb567": {
+      "class": "factual"
+    },
+    "u5da4a127": {
+      "class": "factual"
+    },
+    "u3e64fd1f": {
+      "class": "factual"
+    },
+    "u565edb43": {
+      "class": "factual"
+    },
+    "ucb127022": {
+      "class": "factual"
+    },
+    "ud19b6cb3": {
+      "class": "factual"
+    },
+    "ua56d52a8": {
+      "class": "factual"
+    },
+    "ub3befa23": {
+      "class": "factual"
+    },
+    "u12c80db1": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u27c1f30d": {
+      "class": "factual"
+    },
+    "ue0c19995": {
+      "class": "factual"
+    },
+    "ub60e0ea6": {
+      "class": "factual"
+    },
+    "u3e37f3fb": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uaa3956ec": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u10eb8d33": {
+      "class": "factual"
+    },
+    "uc5ef0a39": {
+      "class": "factual"
+    },
+    "ud5478247": {
+      "class": "factual"
+    },
+    "u6d65a4e5": {
+      "class": "factual"
+    },
+    "u43f86403": {
+      "class": "factual"
+    },
+    "u51a65cd6": {
+      "class": "factual"
+    },
+    "u4147af46": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u5c3631f5": {
+      "class": "factual"
+    },
+    "ucd2de228": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uf6e73102": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u787c38f0": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ue153e86f": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uf7b29efe": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ube444277": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u5773bd36": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u3d8798d0": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ubd87ee99": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uefc7c47e": {
+      "class": "factual"
+    },
+    "uf91a4644": {
+      "class": "factual"
+    },
+    "u44778a98": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uf356dba5": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ue244fa40": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u2500c7fc": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u6cd1df03": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ud738fceb": {
+      "class": "factual"
+    },
+    "u8ccb2a58": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "udaf37d13": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ufc248ba3": {
+      "class": "factual"
+    },
+    "u6f9a228e": {
+      "class": "factual"
+    },
+    "u0916a349": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u51673fb9": {
+      "class": "factual"
+    },
+    "u0956b2c7": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ub9a9d224": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u43b0fcab": {
+      "class": "factual"
+    },
+    "ud2e1f310": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u3f0d705f": {
+      "class": "factual"
+    },
+    "uc92f0523": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u52464616": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u4ea53ad2": {
+      "class": "factual"
+    },
+    "u177de12a": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u4ef8bb62": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "ud615954f": {
+      "class": "factual"
+    },
+    "ue635b1e5": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    },
+    "u1bfcad65": {
+      "class": "factual"
+    },
+    "ub1d90281": {
+      "class": "factual"
+    },
+    "ubd88dcb1": {
+      "class": "non_factual",
+      "reason": "описательный или переходный текст без отдельного проверяемого значения (определение термина, общая механика, внутренняя ссылка, промо, договорная практика банка)"
+    }
+  },
   "summary": {
-    "overallStatus": "match",
-    "criticalIssues": 0
-  }
+    "overallStatus": "ok",
+    "criticalIssues": 0,
+    "moderateIssues": 0,
+    "openIssues": 0
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }

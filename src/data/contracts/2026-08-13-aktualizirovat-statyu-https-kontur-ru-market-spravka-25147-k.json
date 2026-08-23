@@ -1,0 +1,37 @@
+{
+  "slug": "2026-08-13-aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
+  "contentType": "update",
+  "intent": "перечислить редактору точечные правки в справке об интернет-эквайринге после отмены льготы по НДС и назвать, что в исходном тексте править не нужно",
+  "audience": [
+    "редактор принимающего проекта",
+    "автор справки"
+  ],
+  "riskTier": "high",
+  "scope": {
+    "products": [],
+    "versions": [],
+    "validAsOf": "2026-08-21"
+  },
+  "mustCover": [
+    {
+      "id": "what-changed",
+      "what": "что именно изменилось",
+      "detect": "изменил|поменял|стало|теперь|вместо"
+    },
+    {
+      "id": "what-stayed",
+      "what": "что осталось прежним",
+      "detect": "остал|не\\s+измен|по-прежнему|как\\s+и\\s+раньше"
+    },
+    {
+      "id": "related",
+      "what": "какие связанные материалы затронуты",
+      "detect": "см\\.|также|связанн|смежн"
+    }
+  ],
+  "mustNotClaim": [],
+  "requiredSources": [
+    "norm",
+    "officialGuidance"
+  ]
+}

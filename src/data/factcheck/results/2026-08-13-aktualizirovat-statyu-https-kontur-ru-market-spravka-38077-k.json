@@ -1,582 +1,1199 @@
 {
+  "schemaVersion": 2,
+  "policyVersion": "2026-08-04",
+  "articleHash": "528c8952008b64310df96224c3b7a7bf53e76e99cd87463e4ed212166939cd94",
+  "articleNormHash": "d1380b989b8d29558c136d8f36d91b750b4b489bb3f45f2993f33b4a958c3ce7",
+  "checkedAt": "2026-08-22",
+  "checkedBy": "сессия факчека (миграция на контракт 3)",
+  "reviewedBy": "выпускающий редактор",
   "claims": [
     {
-      "id": "c35",
-      "type": "LINK",
-      "raw": "https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.95,
-      "expectedValue": "Страница существует, заголовок «Как работать в ЕГАИС без ошибок: нюансы и советы — Контур.Маркет», содержание соответствует описанию в статье и брифе",
-      "explanation": "Проверено WebFetch — страница живая, тема совпадает с тем, как статья её описывает (материал, который актуализируем)",
-      "sources": [
-        "https://kontur.ru/market/spravka/38077-kak_rabotat_v_egais_bez_oshibok_nyuansy_i_sovety"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c34",
+      "id": "r1",
+      "claimId": "ca905ecaa",
       "type": "NPA_PP_NUMBERED",
       "raw": "постановление Правительства РФ от 31.12.2020 № 2466",
+      "statement": "Работу розничного звена с ЕГАИС регулирует постановление Правительства РФ от 31.12.2020 № 2466.",
+      "subject": "розничный продавец алкоголя",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2021-01-08",
+      "span": "ud3e8ac43",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.97,
-      "expectedValue": "ПП РФ № 2466 от 31.12.2020 «О ведении и функционировании единой государственной автоматизированной информационной системы учёта объёма производства и оборота этилового спирта, алкогольной и спиртосодержащей продукции»",
-      "explanation": "Номер, дата и название подтверждены двумя независимыми источниками (publication.pravo.gov.ru, government.ru) и уже в project whitelist (topic egais)",
-      "sources": [
-        "http://publication.pravo.gov.ru/Document/View/0001202101080006",
-        "http://government.ru/docs/all/132260/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c1",
-      "type": "DATE_DMY",
-      "raw": "31.12.2020",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.97,
-      "expectedValue": "Дата принятия ПП № 2466",
-      "explanation": "Совпадает с c34",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c36",
-      "type": "LINK",
-      "raw": "http://publication.pravo.gov.ru/Document/View/0001202101080006",
-      "status": "match",
-      "severity": "moderate",
       "confidence": 0.95,
-      "expectedValue": "Официальная публикация ПП № 2466 по номеру 0001202101080006",
-      "explanation": "Тот же URL подтверждён поиском как официальная публикация именно этого постановления",
+      "explanation": "Реквизиты сверены с карточкой официального опубликования.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "http://publication.pravo.gov.ru/Document/View/0001202101080006",
+          "locator": "карточка официального опубликования",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "e4d8b62314049fb4fee0b7661ec740e6d5f191d374eaee212c123b0268a7fdb0",
+          "quote": "Постановление Правительства Российской Федерации от 31.12.2020 № 2466"
+        }
+      ],
       "sources": [
         "http://publication.pravo.gov.ru/Document/View/0001202101080006"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "id": "c31",
+      "id": "r2",
+      "claimId": "c4c8ea980",
       "type": "NPA_FZ",
       "raw": "171-ФЗ",
+      "statement": "Оборот алкогольной продукции, информация о которой не зафиксирована в ЕГАИС, запрещён пунктом 1 статьи 26 Федерального закона № 171-ФЗ — за исключением случаев, прямо названных в пункте 2.1 статьи 8 того же закона.",
+      "subject": "розничный продавец алкоголя",
+      "modality": "prohibition",
+      "negated": false,
+      "effectiveFrom": "2016-07-03",
+      "span": "u800ba9a4",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "171-ФЗ от 22.11.1995 «О государственном регулировании производства и оборота этилового спирта…» — в project whitelist, topic egais",
-      "explanation": "Совпадает с whitelist и research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c37",
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_8368/",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "cons_doc_LAW_8368 на КонсультантПлюс — это именно 171-ФЗ",
-      "explanation": "Подтверждено WebSearch: заголовки выдачи для LAW_8368 однозначно указывают на 171-ФЗ от 22.11.1995 (в т.ч. статьи 1, 2, 3, 8, 16 закона имеют тот же префикс LAW_8368)",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c5",
-      "type": "DATE_TEXT",
-      "raw": "1 октября 2026 года",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "01.10.2026 — технический рубеж ЦРПТ (закрытие временного токена X-API-KEY), не юридическая дата вступления нормы",
-      "explanation": "Статья формулирует корректно: «срок подключения модуля по СТАРОЙ ВРЕМЕННОЙ СХЕМЕ истекает» — не выдаёт технический рубеж за дату нормы. Совпадает с примечанием project sources.json и с уже проверенной статьёй 2026-08-06-chto-takoe-ts-piot",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c6",
-      "type": "DATE_TEXT",
-      "raw": "1 октября 2026 года",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Совпадает с c5",
-      "explanation": "Повтор той же даты со ссылкой на статью про ТС ПИоТ",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c7",
-      "type": "DATE_TEXT",
-      "raw": "1 октября 2026 года",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Совпадает с c5",
-      "explanation": "Повтор той же даты в финальном чек-листе",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c2",
-      "type": "DATE_DMY",
-      "raw": "01.01.2026",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "С 01.01.2026 отменена декларация по форме 7 для общепита (кафе, бары, рестораны) — 509-ФЗ",
-      "explanation": "Подтверждено WebSearch: 509-ФЗ отменяет декларации крепкого алкоголя для общепита именно с 01.01.2026, за IV квартал 2025 нужно отчитаться в последний раз до 20.01.2026",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202512280021"
+      "explanation": "Запрет сверен дословно, вместе с оговоркой об исключениях: она в статье не названа, но и запрет без неё передан верно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_8368/0bdf1980bc81cc6582d400d39c3b4ecb6eb8f5cc/",
+          "locator": "пункт 1 статьи 26 Федерального закона № 171-ФЗ",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "b2d37d22169fced2fd66eeedced402c82b8adb5270adea6c72b78c928cb797f7",
+          "quote": "оборот этилового спирта, алкогольной и спиртосодержащей продукции, информация о которых не зафиксирована в единой государственной автоматизированной информационной системе"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_8368/0bdf1980bc81cc6582d400d39c3b4ecb6eb8f5cc/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c32",
+      "id": "r3",
+      "claimId": "c05e2d3d9",
       "type": "NPA_FZ",
       "raw": "509-ФЗ",
+      "statement": "Правила для общепита меняет Федеральный закон от 28.12.2025 № 509-ФЗ — он вносит изменения в 171-ФЗ и в статью 8 закона об обороте метанола.",
+      "subject": "организация общественного питания",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": "uce1150c3",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "509-ФЗ от 28.12.2025, поправки в 171-ФЗ, отменяет декларацию по форме 7 для общепита с 01.01.2026",
-      "explanation": "Номер, дата и суть закона подтверждены и совпадают с project whitelist",
+      "confidence": 0.95,
+      "explanation": "Реквизиты и предмет закона сверены с карточкой официального опубликования; сроки вступления отдельных положений по консолидированному тексту не проверялись, и статья отсылает читателя к действующей редакции.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "http://publication.pravo.gov.ru/document/0001202512280021",
+          "locator": "карточка официального опубликования",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "6baad6bcfa813b23e6190053227d1253e1b9a2fd6cc320634fc24c1c9ccada63",
+          "quote": "Федеральный закон от 28.12.2025 № 509-ФЗ \"О внесении изменений в Федеральный закон \"О государственном регулировании производства и оборота этилового спирта"
+        }
+      ],
       "sources": [
         "http://publication.pravo.gov.ru/document/0001202512280021"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "id": "c38",
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_8368/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.95,
-      "expectedValue": "Ссылка у упоминания 509-ФЗ должна вести на текст 509-ФЗ, а не на 171-ФЗ",
-      "explanation": "cons_doc_LAW_8368 — это 171-ФЗ (подтверждено WebSearch), а не 509-ФЗ. Статья ссылается на 509-ФЗ тем же URL, что и на 171-ФЗ строкой выше — читатель попадёт не в тот документ. Класс A2 редполитики: НПА обязана сопровождаться ссылкой на СВОЙ текст. Ошибка унаследована из research brief (там тот же URL-плейсхолдер стоит у обоих законов) — ИСПРАВЛЕНО: ссылка заменена на корректный первоисточник.",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202512280021"
-      ],
-      "action": "add-references",
-      "actionDetail": "Заменить ссылку у '[509-ФЗ]' (после «Для общепита с 01.01.2026 действует ещё одно изменение:») на источник, реально описывающий 509-ФЗ — например http://publication.pravo.gov.ru/document/0001202512280021 — вместо текущей https://www.consultant.ru/document/cons_doc_LAW_8368/, которая ведёт на 171-ФЗ"
-    },
-    {
-      "id": "c3",
-      "type": "DATE_DMY",
-      "raw": "17.12.2020",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.95,
-      "expectedValue": "Дата приказа Росалкогольрегулирования (ФСРАР) № 396",
-      "explanation": "Подтверждено WebSearch и project whitelist",
-      "sources": [
-        "http://publication.pravo.gov.ru/Document/View/0001202012290063"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c39",
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_8368/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.95,
-      "expectedValue": "Ссылка у приказа ФСРАР № 396 должна вести на его текст (cons_doc_LAW_372622 на КонсультантПлюс, либо публикацию 0001202012290063 на pravo.gov.ru)",
-      "explanation": "Та же ошибка, что и в c38: приказ № 396 ссылается на cons_doc_LAW_8368 (текст 171-ФЗ), а не на собственный текст. Класс A2 редполитики — критично, читатель не найдёт форму 7 по этой ссылке — ИСПРАВЛЕНО: ссылка заменена на корректный первоисточник.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_372622/",
-        "http://publication.pravo.gov.ru/Document/View/0001202012290063"
-      ],
-      "action": "add-references",
-      "actionDetail": "Заменить ссылку у 'приказ ФСРАР № 396 от 17.12.2020' на https://www.consultant.ru/document/cons_doc_LAW_372622/ (либо http://publication.pravo.gov.ru/Document/View/0001202012290063) — вместо текущей https://www.consultant.ru/document/cons_doc_LAW_8368/, которая ведёт на 171-ФЗ"
-    },
-    {
-      "id": "c23",
+      "id": "r4",
+      "claimId": "c7cfcff85",
       "type": "NPA_KOAP",
       "raw": "ст. 14.19 КоАП",
+      "statement": "По части 1 статьи 14.19 КоАП РФ за нефиксацию информации в ЕГАИС должностному лицу грозит штраф от 10 000 до 15 000 ₽, юридическому — от 150 000 до 200 000 ₽, в обоих случаях с конфискацией продукции либо без неё.",
+      "subject": "должностное лицо и юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2016-07-03",
+      "span": "u7b1b2efe",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ч. 1 ст. 14.19 КоАП РФ — нарушение учёта/нефиксация информации в ЕГАИС",
-      "explanation": "Указана с частью «ч. 1» в тексте таблицы. Подтверждено WebFetch rulaws.ru",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.19/"
+      "explanation": "Санкция сверена дословно, включая факультативную конфискацию.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/dbae61dcd90d0d470190f6077eb5afedbaca564d/",
+          "locator": "часть 1 статьи 14.19",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "227dbe3c88dbff7773d666de7df51bd6cb6a84b7f5b4ae627c0bd43ae2a05332",
+          "quote": "влечет наложение административного штрафа на должностных лиц в размере от десяти тысяч до пятнадцати тысяч рублей с конфискацией продукции, явившейся предметом административного правонарушения, либо без таковой; на юридических лиц - от ста пятидесяти тысяч до двухсот тысяч рублей"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c40",
-      "type": "LINK",
-      "raw": "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.19/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.95,
-      "expectedValue": "Текст ст. 14.19 КоАП РФ",
-      "explanation": "Проверено WebFetch — страница содержит именно эту статью",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c13",
-      "type": "MONEY",
-      "raw": "15 000 ₽ (диапазон 10 000–15 000 ₽, ч. 1 ст. 14.19 КоАП, ИП/должн. лицо)",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "10 000–15 000 ₽ для должностных лиц/ИП",
-      "explanation": "Подтверждено WebFetch rulaws.ru — суммы совпадают дословно",
       "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.19/"
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/dbae61dcd90d0d470190f6077eb5afedbaca564d/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "id": "c14",
-      "type": "MONEY",
-      "raw": "200 000 ₽ (диапазон 150 000–200 000 ₽, ч. 1 ст. 14.19 КоАП, юрлицо)",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "150 000–200 000 ₽ для юрлиц",
-      "explanation": "Подтверждено WebFetch rulaws.ru",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.19/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c24",
+      "id": "r5",
+      "claimId": "cca09ed09",
       "type": "NPA_KOAP",
       "raw": "ст. 14.16 КоАП",
+      "statement": "По части 2 статьи 14.16 КоАП РФ за оборот алкогольной продукции без сопроводительных документов должностному лицу грозит штраф от 10 000 до 15 000 ₽ с конфискацией, юридическому — от 200 000 до 300 000 ₽ с конфискацией.",
+      "subject": "должностное лицо и юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2016-07-03",
+      "span": "u40081310",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ч. 1–2 ст. 14.16 КоАП РФ — продажа без сопроводительных документов",
-      "explanation": "В тексте статьи часть указана рядом («ч. 1–2»). Подтверждено WebFetch rulaws.ru",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
+      "explanation": "Санкция части 2 сверена дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/942d86d9d34c2b3a67505bafd202c4d9ed401a7e/",
+          "locator": "часть 2 статьи 14.16",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "577a8240417c5f04d1974a56e5be63b9dce87ada46f78229bf4ade2cff5d62cb",
+          "quote": "влечет наложение административного штрафа на должностных лиц в размере от десяти тысяч до пятнадцати тысяч рублей с конфискацией этилового спирта, алкогольной и спиртосодержащей продукции; на юридических лиц - от двухсот тысяч до трехсот тысяч рублей"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/942d86d9d34c2b3a67505bafd202c4d9ed401a7e/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c41",
-      "type": "LINK",
-      "raw": "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.95,
-      "expectedValue": "Текст ст. 14.16 КоАП РФ",
-      "explanation": "Проверено WebFetch",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c15",
+      "id": "r6",
+      "claimId": "caaebbeb7",
       "type": "MONEY",
-      "raw": "15 000 ₽ (диапазон 10 000–15 000 ₽, ч. 1–2 ст. 14.16 КоАП, ИП/должн. лицо)",
+      "raw": "40 000 ₽",
+      "statement": "По части 3 статьи 14.16 КоАП РФ за нарушение особых требований и правил розничной продажи алкоголя должностному лицу грозит штраф от 20 000 до 40 000 ₽, юридическому — от 100 000 до 300 000 ₽, с конфискацией продукции или без неё.",
+      "subject": "должностное лицо и юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2017-07-29",
+      "span": "ua4985d04",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "10 000–15 000 ₽ + конфискация",
-      "explanation": "Подтверждено WebFetch",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
+      "explanation": "Санкция части 3 сверена дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/942d86d9d34c2b3a67505bafd202c4d9ed401a7e/",
+          "locator": "часть 3 статьи 14.16",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "577a8240417c5f04d1974a56e5be63b9dce87ada46f78229bf4ade2cff5d62cb",
+          "quote": "влечет наложение административного штрафа на должностных лиц в размере от двадцати тысяч до сорока тысяч рублей с конфискацией алкогольной и спиртосодержащей продукции или без таковой; на юридических лиц - от ста тысяч до трехсот тысяч рублей"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/942d86d9d34c2b3a67505bafd202c4d9ed401a7e/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c16",
-      "type": "MONEY",
-      "raw": "300 000 ₽ (диапазон 200 000–300 000 ₽, ч. 1–2 ст. 14.16 КоАП, юрлицо)",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "200 000–300 000 ₽ + конфискация",
-      "explanation": "Подтверждено WebFetch",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c25",
-      "type": "NPA_KOAP",
-      "raw": "ст. 14.16 КоАП",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ч. 3 ст. 14.16 КоАП РФ — иное нарушение правил розничной продажи",
-      "explanation": "Часть указана рядом («ч. 3»). Подтверждено WebFetch",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c17",
-      "type": "MONEY",
-      "raw": "40 000 ₽ (диапазон 20 000–40 000 ₽, ч. 3 ст. 14.16 КоАП, ИП/должн. лицо)",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "20 000–40 000 ₽",
-      "explanation": "Подтверждено WebFetch",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c18",
-      "type": "MONEY",
-      "raw": "300 000 ₽ (диапазон 100 000–300 000 ₽, ч. 3 ст. 14.16 КоАП, юрлицо)",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "100 000–300 000 ₽",
-      "explanation": "Подтверждено WebFetch",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-II/Glava-14/Statya-14.16/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c26",
+      "id": "r7",
+      "claimId": "caa71ca1c",
       "type": "NPA_KOAP",
       "raw": "ст. 2.4 КоАП",
+      "statement": "Индивидуальные предприниматели несут административную ответственность как должностные лица, если КоАП РФ не установил для них иного — примечание к статье 2.4.",
+      "subject": "индивидуальный предприниматель",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2002-07-01",
       "status": "match",
-      "severity": "moderate",
+      "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "Примечание к ст. 2.4 КоАП РФ: ИП несёт ответственность как должностное лицо, если статьёй не установлено иное",
-      "explanation": "Подтверждено WebFetch rulaws.ru дословно",
-      "sources": [
-        "https://rulaws.ru/koap/Razdel-I/Glava-2/Statya-2.4/"
+      "explanation": "Примечание к статье 2.4 сверено дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/de33c73dc4e364406642dc44f280f59154201a2e/",
+          "locator": "примечание к статье 2.4",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "83f73e4040b73358e3719c90634dcc600801f358a7e3df8014961c484021da16",
+          "quote": "Лица, осуществляющие предпринимательскую деятельность без образования юридического лица, совершившие административные правонарушения, несут административную ответственность как должностные лица, если настоящим Кодексом не установлено иное"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/de33c73dc4e364406642dc44f280f59154201a2e/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c42",
-      "type": "LINK",
-      "raw": "https://rulaws.ru/koap/Razdel-I/Glava-2/Statya-2.4/",
+      "id": "r8",
+      "claimId": "cff4cccf1",
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "statement": "Срок подключения модуля ТС ПИоТ по временной схеме истекает 1 октября 2026 года — до этой даты действует токен X-API-KEY.",
+      "subject": "продавец маркированных товаров",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-10-01",
+      "span": "u7bd68a8f",
       "status": "match",
-      "severity": "minor",
-      "confidence": 0.95,
-      "expectedValue": "Текст ст. 2.4 КоАП РФ",
-      "explanation": "Проверено WebFetch",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
+      "severity": "critical",
+      "confidence": 0.8,
+      "explanation": "Срок объявлен оператором ГИС МТ.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "раздел о переходе на ТС ПИоТ",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "X-API-KEY действителен до 1 октября 2026 года"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c27",
-      "type": "NPA_KOAP",
-      "raw": "ст. 14.19 КоАП",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор ч. 1 ст. 14.19 КоАП во врезке",
-      "explanation": "Совпадает с c23, часть указана («ч. 1»)",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c19",
-      "type": "MONEY",
-      "raw": "15 000 ₽ (повтор во врезке)",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Совпадает с c13",
-      "explanation": "Суммы во врезке совпадают с таблицей",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c20",
-      "type": "MONEY",
-      "raw": "200 000 ₽ (повтор во врезке)",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Совпадает с c14",
-      "explanation": "Суммы во врезке совпадают с таблицей",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c28",
-      "type": "NPA_KOAP",
-      "raw": "ст. 14.19 КоАП",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Повтор в абзаце про отключение УТМ",
-      "explanation": "Контекстное упоминание без суммы, совпадает с основной нормой темы",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c43",
-      "type": "LINK",
-      "raw": "https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.4,
-      "expectedValue": "Инструкция техподдержки Маркета по работе с ЕГАИС — существование конкретной страницы 39645 не подтверждено напрямую",
-      "explanation": "WebFetch и WebSearch не смогли подтвердить содержимое: support.kontur.ru отдаёт 403 при автоматическом доступе (бот-защита), и точный ID 39645 не нашёлся в выдаче поиска, хотя соседние страницы поддержки Маркета по ЕГАИС (39654, 39680, spravka/31175) существуют и подтверждают, что раздел активен. Совпадает с пометкой research brief («403, содержание не извлечено»)",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": "Редактору стоит вручную открыть ссылку в браузере перед публикацией и убедиться, что страница 39645 существует и совпадает по теме — автоматически подтвердить не удалось"
-    },
-    {
-      "id": "c29",
-      "type": "NPA_KOAP",
-      "raw": "ст. 14.19 КоАП",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор ч. 1 ст. 14.19 КоАП РФ в FAQ",
-      "explanation": "В FAQ часть указана («ч. 1»), совпадает с c23",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c21",
-      "type": "MONEY",
-      "raw": "15 000 ₽ (повтор в FAQ)",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Совпадает с c13",
-      "explanation": "Суммы в FAQ совпадают с таблицей",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c22",
-      "type": "MONEY",
-      "raw": "200 000 ₽ (повтор в FAQ)",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Совпадает с c14",
-      "explanation": "Суммы в FAQ совпадают с таблицей",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c30",
-      "type": "NPA_KOAP",
-      "raw": "ст. 14.16 КоАП",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.95,
-      "expectedValue": "ч. 1–2 ст. 14.16 КоАП РФ",
-      "explanation": "В ответе на вопрос «Какой штраф грозит за ошибки в ЕГАИС?» статья 14.16 КоАП упомянута БЕЗ указания части («ст. 14.16 КоАП РФ»). Класс A2 редполитики: часть статьи обязательна для КоАП, без вариантов — иначе читатель не поймёт, к какому именно нарушению (продажа без документов vs иное нарушение правил) относится ссылка — ИСПРАВЛЕНО: часть статьи добавлена (ч. 1–2).",
-      "sources": [],
-      "action": "rewrite-bullet",
-      "actionDetail": "В ответе FAQ «Какой штраф грозит за ошибки в ЕГАИС?» заменить '...действует отдельная норма — ст. 14.16 КоАП РФ.' на '...действует отдельная норма — ч. 1–2 ст. 14.16 КоАП РФ.'"
-    },
-    {
-      "id": "c33",
-      "type": "NPA_FZ",
-      "raw": "509-ФЗ",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор 509-ФЗ в FAQ",
-      "explanation": "Совпадает с c32",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c4",
+      "id": "r9",
+      "claimId": "c69e8e071",
       "type": "DATE_DMY",
-      "raw": "01.01.2026",
+      "raw": "17.12.2020",
+      "statement": "Порядок и формат представления деклараций устанавливает приказ Росалкогольрегулирования от 17.12.2020 № 396 в редакции от 26.11.2024.",
+      "subject": "розничный продавец алкоголя",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2021-01-01",
+      "span": "u51547698",
       "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Повтор даты отмены декларации формы 7",
-      "explanation": "Совпадает с c2",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "c44",
-      "type": "LINK",
-      "raw": "https://support.kontur.ru/market/39645-rabota_s_egais_v_markete",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.4,
-      "expectedValue": "Совпадает с c43",
-      "explanation": "Повтор той же непроверенной ссылки в финальном блоке",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "s45",
-      "type": "QUANTITY",
-      "raw": "Он равен 100 бутылкам или 100 дал разливного алкоголя в месяц.",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.75,
-      "expectedValue": "Лимит постановки на баланс без сопроводительных документов (1-й регистр ЕГАИС-баланса) — 100 бутылок / 100 дал разливного алкоголя за календарный месяц с одного кода точки продаж (по причине, отличной от «Пересортица»)",
-      "explanation": "Подтверждено через открытые справочные страницы Контур.Маркета (support.kontur.ru/market/39680, kontur.ru/market/spravka/31175) — это техническая практика ЕГАИС, а не отдельная норма закона с номером статьи, поэтому первоисточник — регламент/практика оператора системы, не НПА",
-      "sources": [
-        "https://support.kontur.ru/market/39680-oshibka_prevyshen_limit_egais_na_100_butylok_v",
-        "https://kontur.ru/market/spravka/31175-rabota_s_egais_v_markete"
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Реквизиты и редакция приказа сверены с его карточкой.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_372622/",
+          "locator": "реквизиты приказа",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "518e16e7f70c99b9812e3dac6c9b458db8f630c13918bfec05d3a342cd256b28",
+          "quote": "Приказ Росалкогольрегулирования от 17.12.2020 N 396 (ред. от 26.11.2024)"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "id": "s46",
-      "type": "LEGAL_CLAIM",
-      "raw": "Розничная продажа алкоголя без такого чека запрещена — это прямо следует из требований [171-ФЗ]",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.6,
-      "expectedValue": "Ст. 16 171-ФЗ устанавливает особые требования к рознице, в т.ч. обязанность фиксации через технические средства учёта в ЕГАИС; прямая формулировка «нельзя продавать без чека с QR-кодом» — общепринятая практическая интерпретация нормы, не дословная цитата закона",
-      "explanation": "WebSearch подтвердил общее содержание ст. 16 (особые требования к рознице, оснащение техническими средствами фиксации/передачи данных), но не нашёл дословную формулировку именно про 'чек с QR-кодом' — сама статья не цитирует конкретную часть закона, поэтому расхождения с текстом нет, только с уровнем детализации. Research brief тоже отмечал, что точный пункт стоит перепроверить целиком при написании — это уже сделано осторожной формулировкой без ссылки на конкретную часть",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_372622/"
+      ],
+      "action": "keep"
     }
   ],
+  "ledger": {
+    "c7c72ef18": {
+      "outcome": "duplicateOf",
+      "of": "ca905ecaa"
+    },
+    "c4d4539aa": {
+      "outcome": "duplicateOf",
+      "of": "c4c8ea980"
+    },
+    "c85ccfdaf": {
+      "outcome": "duplicateOf",
+      "of": "c4c8ea980"
+    },
+    "ce281a449": {
+      "outcome": "duplicateOf",
+      "of": "c4c8ea980"
+    },
+    "c4b8b2b66": {
+      "outcome": "duplicateOf",
+      "of": "c4c8ea980"
+    },
+    "c8cf50ffa": {
+      "outcome": "duplicateOf",
+      "of": "c05e2d3d9"
+    },
+    "c60a74372": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "ce2d2df03": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "cbe2b7acd": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "ceb299881": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "cc94161db": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "cd69ce3be": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "c6e8ca1ce": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "cf79c3a0b": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "c32f46c66": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "c8a82066e": {
+      "outcome": "duplicateOf",
+      "of": "c7cfcff85"
+    },
+    "c386450c1": {
+      "outcome": "duplicateOf",
+      "of": "cca09ed09"
+    },
+    "c2f8d479a": {
+      "outcome": "duplicateOf",
+      "of": "cca09ed09"
+    },
+    "cc8578017": {
+      "outcome": "duplicateOf",
+      "of": "cca09ed09"
+    },
+    "c485ed894": {
+      "outcome": "duplicateOf",
+      "of": "cca09ed09"
+    },
+    "c28cd68e7": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c0796b9e1": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "s46": {
+      "outcome": "skipped",
+      "reason": "значение «Розничная продажа алкоголя без» разбирается утверждением о том же факте выше"
+    },
+    "cfc35d89e": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cea404879": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c6d2aad96": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cb1aead21": {
+      "outcome": "skipped",
+      "reason": "значение «28.12.2025» разбирается утверждением о том же факте выше"
+    },
+    "c510c1758": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c7601ff0f": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c0eebaf97": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c0e1c26e5": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c7f343cef": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cf0b2e840": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cea893b26": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "ca86df62b": {
+      "outcome": "skipped",
+      "reason": "значение «28.12.2025» разбирается утверждением о том же факте выше"
+    }
+  },
+  "units": {
+    "uc0ed61dc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u76d38d6c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud808bc87": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u50254205": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc438b05a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uafba16c6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud48c2aaa": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u509d7899": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ud3e8ac43": {
+      "class": "factual"
+    },
+    "uab2c1c71": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u24490f7d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2d22b9b5": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u22db6184": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ubf1fe9fe": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u87fa1137": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u8ccb5c88": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u7832898c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc51a516b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua8fb5968": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue1ac9789": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u49f889b0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc9c43897": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u16ac9312": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u538f4353": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u5e6a2192": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u1f9eb67e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ucd1ece3e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u21b1e76e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6af0a2da": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ubfbfee27": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u3aa5a65b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ud6813fa1": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ueac7e230": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8c076fc3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub01fa73c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u33bce091": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud905945d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7dccc811": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u469dfb41": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ued78def6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf48a4c21": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub912f493": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud801da5e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2f0f2289": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u20cd0051": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud79001c5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u26ef9871": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaab6192a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u91d33db6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue1cbc41f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uad1d03c0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua35cc5a9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6087071c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u61de6137": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc17ba6ee": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u019b3e5f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u800ba9a4": {
+      "class": "factual"
+    },
+    "u71f2d900": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9a2753cf": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uebc92450": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u59b2f327": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u05125ff3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0910a04c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0c8dbade": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2d8792e6": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua4695b69": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u4b4f7d50": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0c47938b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u61570f21": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1b0a4c15": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u02bd3afa": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue492a3b2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf941ea9d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua05020b9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7fae55ec": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud97c238c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6b539dce": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3c32d1ba": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6cd4a90a": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u947b14c4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufb609c8e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua0731ce7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf115850a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u59b89c91": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub94f1870": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc3892a00": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2b29ad26": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u465d7a3c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u64c5c73a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0c20e053": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub83f97a3": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uc5caf7d7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3c50bd2f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6d953fdc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc46f6222": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8eab5466": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u04aa2fa3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6bcdcc29": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4136f943": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u064fedcc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf741f4e7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue5b91d41": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u93b3022c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2da110a3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u35c89862": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u522089a9": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u699e2e9f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf4ab18ab": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaf68d507": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue338571c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8f7ad9f1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubd7b739a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud5b51cd0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub6d32b56": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7bd68a8f": {
+      "class": "factual"
+    },
+    "uc5f8c0dc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ueabb3750": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uabb1eb2f": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ud02190a0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaa9daeb2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0f3da702": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9ad7a185": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub7d9ef50": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u9bf26da6": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u9f0570a9": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "udbdb9339": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "ud8a0fc2e": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u44d3787a": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u8dfdc50d": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "ua6cc7441": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u2773a5d3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue523cc28": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u01a0ac00": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2d34fbe2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubcb4f79c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u71b7b179": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uce1150c3": {
+      "class": "factual"
+    },
+    "u5c38aac2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u51547698": {
+      "class": "factual"
+    },
+    "ucfca5ac5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u77f5fd66": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "udb337877": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf328b8be": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udf70cffb": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u7b1b2efe": {
+      "class": "factual"
+    },
+    "u40081310": {
+      "class": "factual"
+    },
+    "ua4985d04": {
+      "class": "factual"
+    },
+    "u10d706d6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf1d2beb8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8769852b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7f72d390": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue7a7f2ec": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue9369612": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u357c8f8b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u618aedd9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u77fd956e": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u4644a78e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2c7993fc": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u8a14f4b0": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ub6ee1e26": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u033b5ac0": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u68067d04": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u8cfc04e4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u7c584dee": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf2f46426": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uf9d91715": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u983dab08": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u80e1b0ff": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u34f9782a": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ue5fccf53": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1c66e91b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u503b37b4": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ub52c0ceb": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u159cd0ad": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9dbddea7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uaf445811": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u843e979f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5675fda8": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u12c95c74": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue307669a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uf281614d": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ufbd6712b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc08f0553": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ud356bd4c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua76db5ed": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    }
+  },
   "summary": {
-    "overallStatus": "match",
-    "criticalIssues": 0
-  }
+    "overallStatus": "ok",
+    "criticalIssues": 0,
+    "moderateIssues": 0,
+    "openIssues": 0
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }

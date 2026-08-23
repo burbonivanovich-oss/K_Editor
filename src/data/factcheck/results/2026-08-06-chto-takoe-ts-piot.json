@@ -1,357 +1,1522 @@
 {
+  "schemaVersion": 2,
+  "policyVersion": "2026-08-04",
+  "articleHash": "945caf4d820a5202a9b36e12c0b64e3057152757b88ced49345093e0f4e237ab",
+  "articleNormHash": "8c13453fff69e8bcc0f1199cdb3b95e7848abf75b9e468961ba2cd7c8c08b6c0",
+  "checkedAt": "2026-08-22",
+  "checkedBy": "сессия факчека (второй проход аудита)",
+  "reviewedBy": "выпускающий редактор",
   "claims": [
     {
-      "type": "DATE_DMY",
-      "raw": "28.12.2025",
+      "id": "r1",
+      "claimId": "caaf00f78",
+      "type": "DATE_TEXT",
+      "raw": "28 декабря 2025 года",
+      "statement": "Обязанность применять ТС ПИоТ действует с 28.12.2025: по п. 19 требований ПП РФ № 303 средство может применяться до включения в реестр в течение 6 календарных месяцев со дня официального опубликования акта Минпромторга о правилах совместимости, а приказ № 2044 опубликован 27.06.2025.",
+      "subject": "продавец маркированных товаров через онлайн-кассу",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-12-28",
+      "span": "u627f0345",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "28.12.2025 — истёк переходный период п. 19 ПП №303, обязанность действует юридически",
-      "explanation": "Подтверждено research brief и src/content/pillars/ts-piot.md (проверено ранее в этой сессии)",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202506270011",
-        "https://base.garant.ru/73780927/"
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "разъяснение сообщества Честного знака от 02.12.2025",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "С 28 декабря вступает в действие новое требование (согласно ППР № 515 и 303) для розничных продавцов"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep"
     },
     {
-      "type": "DATE_DMY",
-      "raw": "01.07.2026",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Технический рубеж ЦРПТ (не юридическая дата) — статья корректно не называет его нормой права",
-      "explanation": "Совпадает с research brief; статья явно разводит с 28.12.2025",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "01.10.2026",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.9,
-      "expectedValue": "Плановое закрытие X-API-KEY — статья корректно не называет его нормой права",
-      "explanation": "Совпадает с research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r2",
+      "claimId": "c1f7527b9",
       "type": "DATE_DMY",
       "raw": "19.03.2020",
+      "statement": "Требования к техническим средствам получения информации о товаре устанавливает постановление Правительства РФ от 19.03.2020 № 303 в редакции от 29.11.2024.",
+      "subject": "участник оборота маркированных товаров",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2025-03-01",
+      "span": "u627f0345",
       "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата принятия ПП №303",
-      "explanation": "Совпадает с research brief",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/73780927/",
+          "locator": "реквизиты документа",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "d904fdaa7522156324bb4189ac0b75d7d47eac2437c86c3de992cb568aa48e36",
+          "quote": "Постановление Правительства РФ от 19.03.2020 N 303 \"Об утверждении требований к техническим средствам"
+        }
+      ],
       "sources": [
         "https://base.garant.ru/73780927/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "r3",
+      "claimId": "c65fb9cdb",
       "type": "DATE_DMY",
       "raw": "29.11.2024",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата ПП №1674 (редакция ПП №303)",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "http://government.ru/docs/all/156474/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "25.04.2025",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата Приказа Минпромторга №2044",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202506270011"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "27.06.2025",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Дата публикации приказа №2044 на pravo.gov.ru",
-      "explanation": "Совпадает с research brief — эта дата запускает отсчёт переходного периода",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202506270011"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_PP_NUMBERED",
-      "raw": "постановление Правительства РФ от 19.03.2020 № 303",
+      "statement": "Редакцию требований от 29.11.2024 внесло постановление Правительства РФ от 29.11.2024 № 1674.",
+      "subject": "участник оборота маркированных товаров",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2025-03-01",
+      "span": "u627f0345",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ПП №303 — базовое постановление о ТС ПИоТ",
-      "explanation": "В whitelist проекта, подтверждено research brief",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/73780927/",
+          "locator": "примечание к пункту 18 требований",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "d904fdaa7522156324bb4189ac0b75d7d47eac2437c86c3de992cb568aa48e36",
+          "quote": "Постановление Правительства России от 29 ноября 2024 г. N 1674"
+        }
+      ],
       "sources": [
         "https://base.garant.ru/73780927/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "NPA_PP_NUMBERED",
-      "raw": "постановления Правительства РФ от 29.11.2024 № 1674",
+      "id": "r4",
+      "claimId": "c836dab61",
+      "type": "DATE_DMY",
+      "raw": "25.04.2025",
+      "statement": "Порядок проверки функциональной совместимости ТС ПИоТ с техническими средствами оператора ГИС МТ устанавливает приказ Минпромторга России от 25.04.2025 № 2044, официально опубликованный на pravo.gov.ru 27.06.2025.",
+      "subject": "изготовитель технического средства",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2025-06-27",
+      "span": "u67942f71",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ПП №1674 — внесло изменения в ПП №303",
-      "explanation": "В whitelist проекта, подтверждено research brief",
-      "sources": [
-        "http://government.ru/docs/all/156474/"
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "http://publication.pravo.gov.ru/document/0001202506270011",
+          "locator": "карточка официального опубликования",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "0c0b5f09e533cd8c7bba8f710fd0000813bca5f79896531bc07b592b674a9ba9",
+          "quote": "Приказ Министерства промышленности и торговли Российской Федерации от 25.04.2025 № 2044"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_PRIKAZ",
-      "raw": "приказа Минпромторга № 2044",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "Приказ Минпромторга №2044 от 25.04.2025 — правила проверки функциональной совместимости",
-      "explanation": "В whitelist проекта, подтверждено research brief",
       "sources": [
         "http://publication.pravo.gov.ru/document/0001202506270011"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
+      "id": "r5",
+      "claimId": "cff41b863",
+      "type": "NPA_PUNKT",
+      "raw": "пункты 16",
+      "statement": "Если ответ на онлайн-проверку не получен за полторы секунды (п. 16 Правил, утв. ПП РФ от 21.11.2023 № 1944), проверка переходит в офлайн-режим (п. 17); при отсутствии технической возможности обращения дольше двух часов продавец фиксирует это и в течение 72 часов устраняет причину, освобождаясь от запрета по онлайн-проверке, но не от офлайн-проверки (п. 18).",
+      "subject": "продавец маркированных товаров",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": "2024-04-01",
+      "span": "u5970c5f2",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "54-ФЗ «О применении ККТ» — обязывает передавать фискальные данные через ОФД",
-      "explanation": "В whitelist проекта, подтверждено research brief",
+      "explanation": "Три пункта Правил подтверждены дословно по сохранённому снимку: 16 — полторы секунды ожидания, 17 — переход в офлайн, 18 — освобождение от запрета по онлайн-проверке при сохранении обязанности офлайн-проверки.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "http://publication.pravo.gov.ru/document/0001202311270058",
+          "locator": "пункт 16 Правил",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "0856bb0b8a6953c40c3555c76fca40a3938f4b22ab762b4ac09c3d911bfa18b7",
+          "quote": "Ожидание продавцом результатов проверки кода маркировки информационной системой мониторинга в режиме проверки онлайн осуществляется в течение полутора секунд с момента направления им запроса на онлайн-проверку."
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "http://publication.pravo.gov.ru/document/0001202311270058",
+          "locator": "пункт 17 Правил",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "0856bb0b8a6953c40c3555c76fca40a3938f4b22ab762b4ac09c3d911bfa18b7",
+          "quote": "Проверка кода идентификации в режиме проверки офлайн осуществляется продавцом в случае, если ответ на запрос на онлайн-проверку не получен им в течение периода, указанного в пункте 16 настоящих Правил"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "http://publication.pravo.gov.ru/document/0001202311270058",
+          "locator": "пункт 18 Правил",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "0856bb0b8a6953c40c3555c76fca40a3938f4b22ab762b4ac09c3d911bfa18b7",
+          "quote": "обязан соблюдать требования настоящих Правил в отношении запрета розничной продажи товаров в режиме проверки офлайн"
+        }
+      ],
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202311270058"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r6",
+      "claimId": "c09f7e240",
+      "type": "NPA_KOAP",
+      "raw": "ст. 14.5 КоАП",
+      "statement": "По ч. 2 ст. 14.5 КоАП РФ должностное лицо платит от 1/4 до 1/2 суммы расчёта, осуществлённого без применения ККТ, но не менее 10 000 ₽.",
+      "subject": "должностное лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u9343b4be",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r7",
+      "claimId": "c93b33aff",
+      "type": "MONEY",
+      "raw": "30 000 ₽",
+      "statement": "По ч. 2 ст. 14.5 КоАП РФ юридическое лицо платит от 3/4 до одного размера суммы расчёта, осуществлённого без применения ККТ, но не менее 30 000 ₽.",
+      "subject": "юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u9343b4be",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r8",
+      "claimId": "sde97e054",
+      "type": "LEGAL_CLAIM",
+      "raw": "От ответственности по ст. 14.5 КоАП РФ освобождает примечание к этой статье",
+      "statement": "Примечание к ст. 14.5 КоАП РФ освобождает от ответственности того, кто добровольно заявил в налоговый орган о неприменении ККТ до вынесения постановления, если на момент обращения налоговый орган не располагал сведениями о нарушении.",
+      "subject": "продавец, добровольно исправивший нарушение",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "ufc163d3d",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "примечание к статье 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "добровольно заявившее в налоговый орган в письменной форме о неприменении им контрольно-кассовой техники"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r9",
+      "claimId": "c6805a23e",
+      "type": "NPA_KOAP",
+      "raw": "ст. 15.12 КоАП",
+      "statement": "По ч. 2 ст. 15.12 КоАП РФ должностное лицо (в том числе ИП) платит от 5 000 до 10 000 ₽ с конфискацией предметов правонарушения.",
+      "subject": "должностное лицо, индивидуальный предприниматель",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "ua0ba53de",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "часть 2 статьи 15.12",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "от пяти тысяч до десяти тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r10",
+      "claimId": "c386450c1",
+      "type": "MONEY",
+      "raw": "300 000 ₽",
+      "statement": "По ч. 2 ст. 15.12 КоАП РФ юридическое лицо платит от 50 000 до 300 000 ₽ с конфискацией предметов правонарушения.",
+      "subject": "юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "ua0ba53de",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "часть 2 статьи 15.12",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "от пятидесяти тысяч до трехсот тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r11",
+      "claimId": "cf6c9a0dd",
+      "type": "NPA_UK",
+      "raw": "ст. 171.1 УК РФ",
+      "statement": "Крупным размером в частях третьей и четвёртой ст. 171.1 УК РФ признаётся стоимость немаркированных продовольственных товаров, превышающая 400 000 ₽.",
+      "subject": "нарушитель по ч. 3–4 ст. 171.1 УК РФ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2016-07-15",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/",
+          "locator": "примечание 1 к статье 171.1",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "591579765bbc5e925aab2665c07214bbcf2fb2556d7760e8e7cd0a048b67a9e0",
+          "quote": "Крупным размером в частях третьей и четвертой настоящей статьи признается стоимость немаркированных продовольственных товаров, превышающая четыреста тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r12",
+      "claimId": "c077daadd",
+      "type": "MONEY",
+      "raw": "100 000 ₽",
+      "statement": "Крупным размером в частях пятой и шестой ст. 171.1 УК РФ признаётся стоимость алкогольной, табачной и никотинсодержащей продукции без маркировки, превышающая 100 000 ₽.",
+      "subject": "нарушитель по ч. 5–6 ст. 171.1 УК РФ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2025-07-23",
+      "span": "u65038974",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/",
+          "locator": "примечание 2 к статье 171.1",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "591579765bbc5e925aab2665c07214bbcf2fb2556d7760e8e7cd0a048b67a9e0",
+          "quote": "превышающая сто тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r13",
+      "claimId": "cffffd4ab",
+      "type": "MONEY",
+      "raw": "3 500 000 ₽",
+      "statement": "Для частей первой и второй ст. 171.1 УК РФ крупный размер задаёт не сама ст. 171.1, а общая норма главы 22 — примечание к ст. 170.2 УК РФ: сумма, превышающая 3 500 000 ₽. Редакция внесена Федеральным законом от 06.04.2024 № 79-ФЗ, прежнее значение — 2 250 000 ₽.",
+      "subject": "нарушитель по ч. 1–2 ст. 171.1 УК РФ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2024-04-06",
+      "span": "ude329765",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/",
+          "locator": "примечание к статье 170.2",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "671b3a03145c45d5d22e27bf3750f71abd92a21abe59d7a4fb11c807a7248518",
+          "quote": "в сумме, превышающей три миллиона пятьсот тысяч рублей, а особо крупным - тринадцать миллионов пятьсот тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r14",
+      "claimId": "c97ca04b8",
+      "type": "DATE_DMY",
+      "raw": "01.07.2026",
+      "statement": "С 1 июля 2026 года кассовое программное обеспечение участника оборота работает с ГИС МТ и локальным модулем по действующему токену разрешительного режима — кассы продолжают проверять коды маркировки.",
+      "subject": "кассовое программное обеспечение",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-07-01",
+      "span": "ue4ac25f6",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.8,
+      "explanation": "Формулировка оператора сверена дословно. Год в самой фразе не назван, но абзац целиком о переходе 2026 года и тут же называет 1 октября 2026 как срок действия токена — иного прочтения «1 июля» он не допускает. Фиксация отклонений в том же разъяснении дана без привязки к дате.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "разъяснение оператора, абзац про 01.07.2026",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "С 1 июля кассовое программное обеспечение участника оборота сможет взаимодействовать с ГИС МТ и Локальным модулем по действующему токену разрешительного режима"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "тот же абзац, год перехода",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "X-API-KEY действителен до 1 октября 2026 года"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r15",
+      "claimId": "cff4cccf1",
+      "type": "DATE_TEXT",
+      "raw": "1 октября 2026 года",
+      "statement": "Токен X-API-KEY разрешительного режима работает до 1 октября 2026 года — это решение оператора ГИС МТ, а не норма права; продление срока действия токена от обязанности применять ТС ПИоТ не освобождает.",
+      "subject": "продавец маркированных товаров",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-10-01",
+      "span": "u583e5112",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.8,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "разъяснение сообщества Честного знака, раздел про 1 июля",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "X-API-KEY действителен до 1 октября 2026 года"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r16",
+      "claimId": "ca828e6ee",
+      "type": "NPA_FZ",
+      "raw": "54-ФЗ",
+      "statement": "Передача фискальных данных оператору фискальных данных регулируется Федеральным законом от 22.05.2003 № 54-ФЗ — это отдельный от ТС ПИоТ контур.",
+      "subject": "пользователь ККТ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2003-05-22",
+      "span": "u43edb0d6",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+          "locator": "реквизиты документа",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "34ea56c7c53a2c62641b6032c499fe96f1bb7c5834ed853fe5ac7eddc69e4e22",
+          "quote": "54-ФЗ"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_42359/"
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_KOAP",
-      "raw": "ст. 14.5 КоАП",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Ч. 2 ст. 14.5 КоАП — неприменение ККТ",
-      "explanation": "В whitelist проекта, подтверждено research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_KOAP",
-      "raw": "ст. 15.12 КоАП",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Ч. 2 ст. 15.12 КоАП — продажа немаркированного товара",
-      "explanation": "В whitelist проекта, подтверждено research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_UK",
-      "raw": "ст. 171.1 УК РФ",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "expectedValue": "Ст. 171.1 УК РФ — незаконный оборот немаркированных товаров в крупном размере",
-      "explanation": "В whitelist проекта (npaWhitelist.uk)",
-      "sources": [
-        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Минимальный штраф ИП по ч. 2 ст. 14.5 КоАП",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "30 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Минимальный штраф юрлица по ч. 2 ст. 14.5 КоАП",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "300 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "Верхняя граница штрафа юрлица по ч. 2 ст. 15.12 КоАП",
-      "explanation": "Совпадает с research brief; относится к составу «продажа», не «производство» — статья формулирует корректно",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "400 000 ₽",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.8,
-      "expectedValue": "Крупный размер по ст. 171.1 УК РФ для продовольственных товаров",
-      "explanation": "Подтверждено WebFetch (pravo.ppt.ru) и WebSearch независимо друг от друга 06.08.2026",
-      "sources": [
-        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "2 250 000 ₽",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.8,
-      "expectedValue": "Крупный размер по ст. 171.1 УК РФ для непродовольственных товаров (общая категория, части 1-2)",
-      "explanation": "Whitelist проекта не указывал источник — перепроверено WebSearch 06.08.2026: подтверждено независимо",
-      "sources": [
-        "https://pravo.ppt.ru/kodeks/uk/st-171.1"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_PUNKT",
-      "raw": "п. 19",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "П. 19 ПП №303 (в редакции ПП №1674) — переходный период",
-      "explanation": "Совпадает с research brief",
-      "sources": [
-        "http://government.ru/docs/all/156474/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "https://base.garant.ru/73780927/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст ПП №303",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "http://government.ru/docs/all/156474/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст ПП №1674",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "http://publication.pravo.gov.ru/document/0001202506270011",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст приказа №2044 на pravo.gov.ru",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст 54-ФЗ",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст ст. 14.5 КоАП",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "LINK",
-      "raw": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.9,
-      "expectedValue": "Текст ст. 15.12 КоАП",
-      "explanation": "Из research brief",
-      "sources": [],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     }
   ],
+  "ledger": {
+    "c0a569226": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "ce9a6db9d": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c5fbe52d4": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "cc801e195": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "cb1aead21": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "ca86df62b": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c5012777b": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c7f53311d": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "cebda63ff": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "cdbb6f223": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "ce5c53940": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c9ef7ba0e": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c4502818d": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c6191755e": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "cb83969b1": {
+      "outcome": "duplicateOf",
+      "of": "c1f7527b9"
+    },
+    "ccf39df95": {
+      "outcome": "duplicateOf",
+      "of": "c1f7527b9"
+    },
+    "c8598e703": {
+      "outcome": "duplicateOf",
+      "of": "c65fb9cdb"
+    },
+    "c88bf90ed": {
+      "outcome": "duplicateOf",
+      "of": "c65fb9cdb"
+    },
+    "cc2e75020": {
+      "outcome": "duplicateOf",
+      "of": "c65fb9cdb"
+    },
+    "c5289840c": {
+      "outcome": "duplicateOf",
+      "of": "c836dab61"
+    },
+    "c0e6ad421": {
+      "outcome": "duplicateOf",
+      "of": "c836dab61"
+    },
+    "c0e4c707c": {
+      "outcome": "duplicateOf",
+      "of": "cff41b863"
+    },
+    "c79a88f45": {
+      "outcome": "duplicateOf",
+      "of": "cff41b863"
+    },
+    "c9db21408": {
+      "outcome": "duplicateOf",
+      "of": "cff41b863"
+    },
+    "c19fb95f8": {
+      "outcome": "duplicateOf",
+      "of": "cff41b863"
+    },
+    "c373dcbbc": {
+      "outcome": "duplicateOf",
+      "of": "cff41b863"
+    },
+    "c5030d363": {
+      "outcome": "duplicateOf",
+      "of": "cff41b863"
+    },
+    "ca547eb33": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c96dc373a": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c0835cd14": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "cf9ee00f0": {
+      "outcome": "duplicateOf",
+      "of": "c09f7e240"
+    },
+    "c0faf73e6": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "c09a43a30": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "cc8578017": {
+      "outcome": "duplicateOf",
+      "of": "c386450c1"
+    },
+    "c00a18163": {
+      "outcome": "duplicateOf",
+      "of": "cf6c9a0dd"
+    },
+    "c37a8a2f8": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "cad7626ff": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "cf73a7128": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "cd65bed18": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "ca7dcc43f": {
+      "outcome": "duplicateOf",
+      "of": "c97ca04b8"
+    },
+    "cea404879": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c037fe105": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "ceb77ede5": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c6d2aad96": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c28cd68e7": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c7c58beb0": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "cfadf2b91": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c1f271a54": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "ce1fec0b8": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "cb744b88d": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "cb0f73ca0": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "cc302a2ef": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c5c9b56d5": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "cedb09e00": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c377c7a1b": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c991ba630": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c137932f4": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "cacc7d99d": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cd321c4a3": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cff30551c": {
+      "outcome": "skipped",
+      "reason": "значение «постановлению Правительства РФ» разбирается утверждением о том же факте выше"
+    },
+    "c1a7134e1": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c3f351001": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "ceed84c0d": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c6f79a392": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cdb2a3513": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c5dbeb3d2": {
+      "outcome": "skipped",
+      "reason": "значение «постановления Правительства РФ» разбирается утверждением о том же факте выше"
+    },
+    "ca94dd849": {
+      "outcome": "skipped",
+      "reason": "значение «1 июля 2026 года» разбирается утверждением о том же факте выше"
+    },
+    "ca2a8f9b5": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c5fe07bf9": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c51dfc17e": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cedd52101": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "ccb0a290a": {
+      "outcome": "skipped",
+      "reason": "значение «постановления Правительства РФ» разбирается утверждением о том же факте выше"
+    },
+    "c5c2bb902": {
+      "outcome": "skipped",
+      "reason": "значение «21.11.2023» разбирается утверждением о том же факте выше"
+    },
+    "cffe2b569": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cee70929f": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cadf48ca6": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cca9300d6": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c90cfdc5c": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    }
+  },
+  "units": {
+    "ud23e6190": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u06f022c8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u627f0345": {
+      "class": "factual"
+    },
+    "uc57bf61a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u583e5112": {
+      "class": "factual"
+    },
+    "u130fc909": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2cc4e536": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6423be49": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1fe58be9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u85c309b9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9dc7990f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u716855c0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0f741bce": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u33bafad6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufc826576": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u43edb0d6": {
+      "class": "factual"
+    },
+    "u21d3f454": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u64384113": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u00b6b91d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u67942f71": {
+      "class": "factual"
+    },
+    "u0b90ab83": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uddb3ab1e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0effb142": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9b99bc47": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ua8ee94b8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc2bef961": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u041a7719": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5027b365": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u21604e17": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufc8fa0e5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4b45454b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub3bc9a2b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0d80df1e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6790b00a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud5823641": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua5e2c139": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue4ac25f6": {
+      "class": "factual"
+    },
+    "u9050d534": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3dddcbd1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub0255449": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "uf65047b2": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u9e8b2766": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u27e39b87": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "uf9add434": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubf425099": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u31ed9e83": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaf2c5318": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u311693ef": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u582e97e9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u755e5a6e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uab2c8b88": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub09fc7e2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udb9ebc6b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u11653755": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub5d6475b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf295d529": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc262e89a": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uc418811a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3bdd72f5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "udb95c86f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u247655fd": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u9343b4be": {
+      "class": "factual"
+    },
+    "ua0ba53de": {
+      "class": "factual"
+    },
+    "ufc163d3d": {
+      "class": "factual"
+    },
+    "ua1c5cbc5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3b2566b3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u10dfc13d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5aed578f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u65038974": {
+      "class": "factual"
+    },
+    "ude329765": {
+      "class": "factual"
+    },
+    "ue5705c37": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u358feee5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0bf03f3d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u28f7fbc0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u78271571": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub11df420": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub420e077": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf2d44295": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0752380d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue0cf3a84": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ucd8391ee": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u21c2352d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8e43110f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u17ad27c8": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u19652ada": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ud51c9184": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ue34e27df": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ucec7d659": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ucd465bd7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5970c5f2": {
+      "class": "factual"
+    },
+    "u6040a843": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u3f7bc20e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u03ec0a1e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ubae5ac6c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u55501d7b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u441da99c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u9534383f": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u4f3e0b9e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "udf0186e1": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u8e512972": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u17007088": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf4b7ceff": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua5700026": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u91636ea6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u12eb7f27": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6c7001f7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf150088e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5b92c580": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9dd62abf": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u463b6417": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ucb8ba777": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u6c44e454": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ufc3c2c5b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2577641b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf57f98dc": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ue6499641": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u4358f940": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u786c0d13": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc7271851": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ue91a19c4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ub3730873": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u839a02b4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u13163a02": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ued9ba78c": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u0a8e0279": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u042d641a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7d69e4a0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub7071cb3": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uc0d9aa7b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc76fdc1d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u426d57be": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u15a34c9a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4274dcc6": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1a37f87f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9eef391c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5d00126b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua60db6f0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0708f368": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u3bf4f765": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u93b32848": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u416cf1a5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3c53d737": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ub3103493": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua756d59e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7787bde3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ue15e03b4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u06b3d725": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue35d6d54": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u41ef7b13": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2f886c0d": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2447d4f7": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ucb59108a": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u87eecf31": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ufe5890d7": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u6a81323f": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ud385a8e8": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u50ff66ee": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uae9bb456": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf3c35da7": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2343b4dc": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u86224a03": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    }
+  },
   "summary": {
-    "overallStatus": "match",
-    "criticalIssues": 0
-  }
+    "overallStatus": "ok",
+    "criticalIssues": 0,
+    "moderateIssues": 0,
+    "openIssues": 0
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }

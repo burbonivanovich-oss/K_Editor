@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "sealedAt": "2026-08-22",
+  "metrics": {
+    "unchecked": 0,
+    "unclassifiedUnits": 0,
+    "orphans": 0,
+    "unlinked": 0,
+    "wrongTarget": 0,
+    "danglingId": 0,
+    "coverageMissing": 0,
+    "coveragePartial": 0,
+    "coverageConflicting": 0,
+    "weakEvidence": 0,
+    "allowlistDebt": 0
+  },
+  "concessions": [],
+  "note": "Потолок долга. Показатели могут только уменьшаться: рост роняет CI. Опустить потолок — --seal, поднять — --accept \"<причина>\" с записью в concessions. Правка чисел в обход --accept видна в диффе как изменение потолка без записи в журнале."
+}

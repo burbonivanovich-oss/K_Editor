@@ -1,287 +1,860 @@
 {
+  "schemaVersion": 2,
+  "policyVersion": "2026-08-04",
+  "articleHash": "98c9c47f8991a1e5ae791c577a66d4e4d90bd4155adac9284e879f2ba22643f8",
+  "articleNormHash": "62dc0d5ea9200d456fe7f7bf7662413607ed025ac548a7323155abc29f429cbf",
+  "checkedAt": "2026-08-23",
+  "checkedBy": "сессия факчека (проверка после разведения составов КоАП и правки токена)",
+  "reviewedBy": "выпускающий редактор",
   "claims": [
     {
+      "id": "r1",
+      "claimId": "caaf00f78",
       "type": "DATE_TEXT",
       "raw": "28 декабря 2025 года",
+      "statement": "Обязанность применять ТС ПИоТ действует с 28 декабря 2025 года — через 6 календарных месяцев после официального опубликования (27.06.2025) приказа Минпромторга № 2044, которым утверждены правила совместимости, упомянутые в п. 19 ПП РФ № 303.",
+      "subject": "продавец маркированных товаров через онлайн-кассу",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-12-28",
+      "span": "uabf778fd",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "confidence": 0.8,
+      "explanation": "Дата подтверждена официальным сообществом «Честного знака» и независимо сходится с расчётом от п. 19 ПП № 303: 27.06.2025 (дата опубликования приказа Минпромторга № 2044, см. отдельное утверждение) + 6 календарных месяцев = 27.12.2025, обязанность наступает на следующий день, 28.12.2025.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "официальное сообщество «Честного знака»",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "С 28 декабря вступает в действие новое требование (согласно ППР № 515 и 303) для розничных продавцов"
+        }
+      ],
       "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
         "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
+      "id": "r2",
+      "claimId": "cff4cccf1",
       "type": "DATE_TEXT",
       "raw": "1 октября 2026 года",
+      "statement": "Временный токен X-API-KEY разрешительного режима действует до 1 октября 2026 года; после этой даты авторизация по нему прекращается — это решение оператора, а не норма права.",
+      "subject": "продавец маркированных товаров через онлайн-кассу",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-10-01",
+      "span": "u416b380f",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "confidence": 0.8,
+      "explanation": "Срок объявлен оператором ГИС МТ на его официальной community-странице и сверен дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "официальное сообщество «Честного знака», раздел о переходе на ТС ПИоТ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "X-API-KEY действителен до 1 октября 2026 года"
+        }
+      ],
       "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
         "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "DATE_TEXT",
-      "raw": "1 октября 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "28.12.2025",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ТС ПИоТ обязателен с 28.12.2025 для продавцов маркированного через кассу",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r3",
+      "claimId": "ce9a6db9d",
       "type": "NPA_PUNKT",
       "raw": "п. 19",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.85,
-      "expectedValue": "п. 19 ПП РФ № 303 — переходный период, после которого применение ТС ПИоТ обязательно",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/news/86626-ts_piot_nuzhno_ustanovit_seychas",
-        "https://online.business.ru/novosti/staryj-token-dlya-ts-piot-prodlili-do-1-oktyabrya-2026-goda/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_PP_NUMBERED",
-      "raw": "постановления Правительства РФ № 303",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ПП РФ от 19.03.2020 № 303 — правила маркировки, содержит переходный п. 19",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/news/86626-ts_piot_nuzhno_ustanovit_seychas",
-        "https://online.business.ru/novosti/staryj-token-dlya-ts-piot-prodlili-do-1-oktyabrya-2026-goda/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "01.07.2026",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.07.2026 Честный знак фиксирует как отклонение проверку через токен там, где ТС ПИоТ уже доступен; полного отключения токена не произошло — срок продлили до 01.10.2026",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://kontur.ru/market/news/86626-ts_piot_nuzhno_ustanovit_seychas",
-        "https://online.business.ru/novosti/staryj-token-dlya-ts-piot-prodlili-do-1-oktyabrya-2026-goda/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "01.10.2026",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.10.2026 токен X-API-KEY перестаёт работать — продажа по старой схеме закрывается",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "28.12.2025",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ТС ПИоТ обязателен с 28.12.2025 для продавцов маркированного через кассу",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "01.10.2026",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "с 01.10.2026 токен X-API-KEY перестаёт работать — продажа по старой схеме закрывается",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "25.04.2025",
+      "statement": "По п. 19 требований, утв. постановлением Правительства РФ № 303, до включения ТС ПИоТ в реестр допускается применять их в течение 6 календарных месяцев со дня официального опубликования акта Минпромторга о правилах совместимости — это и есть переходный период, от которого считается срок 28.12.2025.",
+      "subject": "участник оборота маркированных товаров",
+      "modality": "permission",
+      "negated": false,
+      "effectiveFrom": "2025-03-01",
+      "span": "ueaef8aa5",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "приказ Минпромторга № 2044 от 25.04.2025 о правилах функциональной совместимости ТС ПИоТ с ГИС МТ",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202506270011",
-        "https://www.consultant.ru/document/cons_doc_LAW_508803/2ff7a8c72de3994f30496a0ccbb1ddafdaddf518/"
+      "explanation": "Пункт 19 сверен дословно с сохранённым снимком постановления.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/73780927/",
+          "locator": "пункт 19 требований",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "28a010822c703f888711316b3855c1e31031deb1e2aae8d616a709302e0f309a",
+          "quote": "они могут применяться в течение 6 календарных месяцев со дня официального опубликования нормативного правового акта Министерства промышленности и торговли Российской Федерации об утверждении правил совместимости"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://base.garant.ru/73780927/"
+      ],
+      "action": "keep"
     },
     {
+      "id": "r4",
+      "claimId": "c836dab61",
+      "type": "DATE_DMY",
+      "raw": "25.04.2025",
+      "statement": "Порядок проверки совместимости ТС ПИоТ с техническими средствами оператора ГИС МТ устанавливает приказ Минпромторга России от 25.04.2025 № 2044, официально опубликованный 27.06.2025.",
+      "subject": "изготовитель технического средства",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2025-06-27",
+      "span": "u1dfdd411",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Реквизиты и дата опубликования сверены с карточкой официального опубликования на pravo.gov.ru.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "http://publication.pravo.gov.ru/document/0001202506270011",
+          "locator": "карточка официального опубликования",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "4349e0662239a4602f742ed936ecf4d215980ed6d81a557b8070ffef45af4284",
+          "quote": "Приказ Министерства промышленности и торговли Российской Федерации от 25.04.2025 № 2044"
+        }
+      ],
+      "sources": [
+        "http://publication.pravo.gov.ru/document/0001202506270011"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r5",
+      "claimId": "s14fb63da",
+      "type": "NPA_KOAP",
+      "raw": "части 2 статьи 14.5 КоАП РФ",
+      "statement": "Часть 2 статьи 14.5 КоАП РФ — это состав именно за неприменение ККТ (расчёт без кассы), а не за нарушения маркировки товара; статья описывает этим составом сценарий «товар проводят мимо кассы».",
+      "subject": "должностное лицо, индивидуальный предприниматель, юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u27eb831c",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Диспозиция части 2 сверена дословно: речь именно о неприменении ККТ, что соответствует сценарию статьи «товар проводят мимо кассы», а не сценарию «оборот немаркированного товара» (тот разбирает ст. 15.12).",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5 КоАП РФ, диспозиция",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "Неприменение контрольно-кассовой техники в установленных законодательством Российской Федерации о применении контрольно-кассовой техники случаях"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r6",
+      "claimId": "cc1432157",
       "type": "PERCENT",
       "raw": "50 %",
+      "statement": "По части 2 статьи 14.5 КоАП РФ должностное лицо (и приравненный к нему ИП) платит от 25 до 50 % суммы расчёта без применения ККТ, но не менее 10 000 ₽.",
+      "subject": "должностное лицо, индивидуальный предприниматель",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u27eb831c",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "explanation": "Санкция сверена дословно: «от одной четвертой до одной второй» — это 25–50 %.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5, должностные лица",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r7",
+      "claimId": "c5ca8e011",
       "type": "PERCENT",
       "raw": "100 %",
+      "statement": "По части 2 статьи 14.5 КоАП РФ организация платит от 75 до 100 % суммы расчёта без применения ККТ, но не менее 30 000 ₽.",
+      "subject": "юридическое лицо",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u27eb831c",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "explanation": "Санкция сверена дословно: «от трех четвертых до одного размера» — это 75–100 %.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5, юридические лица",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "MONEY",
-      "raw": "30 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для юрлиц (75–100 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "28 декабря 2025 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_TEXT",
-      "raw": "1 октября 2026 года",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "25.04.2025",
+      "id": "r8",
+      "claimId": "sc5ee8374",
+      "type": "NPA_KOAP",
+      "raw": "части 2 статьи 15.12 КоАП РФ",
+      "statement": "Часть 2 статьи 15.12 КоАП РФ — это состав за продажу/оборот немаркированного товара (в т.ч. хранение и перевозку в целях сбыта), а не за неприменение ККТ; статья описывает этим составом сценарий «касса пропускает товар без проверки кода».",
+      "subject": "должностное лицо, юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "ufe2f09cc",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "приказ Минпромторга № 2044 от 25.04.2025 о правилах функциональной совместимости ТС ПИоТ с ГИС МТ",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "http://publication.pravo.gov.ru/document/0001202506270011",
-        "https://www.consultant.ru/document/cons_doc_LAW_508803/2ff7a8c72de3994f30496a0ccbb1ddafdaddf518/"
+      "explanation": "Диспозиция части 2 сверена дословно: речь о продаже, хранении, перевозке немаркированного товара — отдельный от ст. 14.5 состав, что и разводит статья.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "часть 2 статьи 15.12 КоАП РФ, диспозиция",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "Продажа товаров и продукции без маркировки и (или) нанесения информации, предусмотренной законодательством Российской Федерации, в случае, если такая маркировка и (или) нанесение такой информации обязательны, а также хранение, перевозка либо приобретение таких товаров и продукции в целях сбыта"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r9",
+      "claimId": "s961c484a",
+      "type": "MONEY_RANGE",
+      "raw": "от 5 000 до 10 000 ₽",
+      "statement": "По части 2 статьи 15.12 КоАП РФ за оборот немаркированного товара должностное лицо платит от 5 000 до 10 000 ₽, с конфискацией предметов правонарушения.",
+      "subject": "должностное лицо",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "ufe2f09cc",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Санкция для должностных лиц по части 2 сверена дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "часть 2 статьи 15.12, должностные лица",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "от пяти тысяч до десяти тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r10",
+      "claimId": "sc46a388a",
+      "type": "MONEY_RANGE",
+      "raw": "от 50 000 до 300 000 ₽",
+      "statement": "По части 2 статьи 15.12 КоАП РФ за оборот немаркированного товара организация платит от 50 000 до 300 000 ₽, с конфискацией предметов правонарушения.",
+      "subject": "юридическое лицо",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "ufe2f09cc",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Санкция для юридических лиц по части 2 сверена дословно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "часть 2 статьи 15.12, юридические лица",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "от пятидесяти тысяч до трехсот тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r11",
+      "claimId": "s13fcbaad",
+      "type": "LEGAL_CLAIM",
+      "raw": "Реестр ведёт оператор ГИС МТ, он же ЦРПТ",
+      "statement": "Реестр технических средств получения информации о товаре ведёт оператор ГИС МТ, обиходно называемый ЦРПТ («Оператор ЦРПТ» в терминологии самого оператора и приказа Минпромторга № 2044).",
+      "subject": "оператор ГИС МТ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u0f9f8b51",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.8,
+      "explanation": "Официальное community-пространство оператора само называет реестр и сертификацию «у Оператора ЦРПТ» — обиходное имя оператора ГИС МТ, точное юрлицо — ООО «Оператор-ЦРПТ», дочерняя структура ЦРПТ; для целей статьи (кто ведёт реестр) отождествление корректно.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "официальное сообщество «Честного знака»",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "ТС ПИоТ должен быть сертифицирован у Оператора ЦРПТ и находиться в реестре ТС ПИоТ на официальном сайте «Честный знак»"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r12",
+      "claimId": "s3381c694",
+      "type": "LEGAL_CLAIM",
+      "raw": "он уже дважды его переносил",
+      "statement": "Оператор ГИС МТ дважды переносил срок действия временного токена X-API-KEY: сначала ограничение 1 марта 2026 года было продлено до 1 июля 2026 года, затем срок до 1 июля 2026 года был продлён до 1 октября 2026 года.",
+      "subject": "оператор ГИС МТ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-06-30",
+      "span": "uf3cdb8ec",
+      "status": "needs-decision",
+      "severity": "moderate",
+      "confidence": 0.6,
+      "explanation": "Второй перенос (июль → октябрь) подтверждён основным текстом официальной community-страницы оператора. Первый перенос (март → июль) восстановлен только по пользовательскому комментарию, дословно цитирующему рассылку ЦРПТ («до 1 марта 2026 года… продлен до 1 июля 2026 года»), — это форумная реплика, а не редакционный материал самой страницы. Прямого пресс-релиза оператора, перечисляющего оба переноса вместе, найти не удалось. Ситуация не покрыта редполитикой однозначно (не A, не B) — решение по формулировке оставлено редактору.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "комментарий с дословной цитатой сообщения ЦРПТ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "В программных продуктах 1С установлено техническое ограничение на работу с X-API-KEY (действующий токен) до 1 марта 2026 года. Однако срок действия токена в разрешительном режиме продлен до 1 июля 2026 года."
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "основной текст страницы, раздел о разрешительном режиме",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "X-API-KEY действителен до 1 октября 2026 года"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "add-disclaimer",
+      "actionDetail": "Оставить на решение редактора: либо смягчить «он уже дважды его переносил» до «срок уже один раз откладывали» (уверенно подтверждён только перенос июль→октябрь), либо сохранить формулировку «дважды» со ссылкой на комментарий сообщества как источник, приняв более низкую доказательность первого переноса."
+    },
+    {
+      "id": "r13",
+      "claimId": "s5051b00d",
+      "type": "LEGAL_CLAIM",
+      "raw": "оператор ГИС МТ продлевал его дважды",
+      "statement": "Дублирует в FAQ то же утверждение о двух переносах токена X-API-KEY, что и в лиде статьи.",
+      "subject": "оператор ГИС МТ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2026-06-30",
+      "span": "u2a3e59f4",
+      "status": "needs-decision",
+      "severity": "moderate",
+      "confidence": 0.6,
+      "explanation": "То же утверждение, что и claimId s3381c694 в лиде — та же доказательная база и то же решение остаётся за редактором.",
+      "evidence": [],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "add-disclaimer",
+      "actionDetail": "См. r12 (лид) — решение по формулировке единое для обоих мест."
     }
   ],
+  "ledger": {
+    "cb1aead21": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c5fbe52d4": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "ca86df62b": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c7f53311d": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "c28cd68e7": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c037fe105": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "ceb77ede5": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c1f271a54": {
+      "outcome": "duplicateOf",
+      "of": "cff4cccf1"
+    },
+    "c5dbeb3d2": {
+      "outcome": "duplicateOf",
+      "of": "ce9a6db9d"
+    },
+    "ca7ad9fc9": {
+      "outcome": "duplicateOf",
+      "of": "c836dab61"
+    },
+    "c93b33aff": {
+      "outcome": "duplicateOf",
+      "of": "c5ca8e011"
+    },
+    "c386450c1": {
+      "outcome": "duplicateOf",
+      "of": "sc46a388a"
+    },
+    "c0a569226": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cea404879": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c6d2aad96": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cc801e195": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "cebda63ff": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c00c55bf3": {
+      "outcome": "skipped",
+      "reason": "внешняя ссылка на текст статьи КоАП — суммы и часть статьи уже проверены отдельными утверждениями отчёта"
+    },
+    "ca547eb33": {
+      "outcome": "skipped",
+      "reason": "значение «10 000 ₽» разбирается утверждением о том же факте выше"
+    },
+    "c96dc373a": {
+      "outcome": "skipped",
+      "reason": "значение «10 000 ₽» разбирается утверждением о том же факте выше"
+    },
+    "c9ef7ba0e": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c7c58beb0": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    }
+  },
+  "units": {
+    "uaf445f3f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2729d352": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0c6f3705": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uabf778fd": {
+      "class": "factual"
+    },
+    "u416b380f": {
+      "class": "factual"
+    },
+    "udadf1af3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u780ed5fd": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaa22ff81": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf3cdb8ec": {
+      "class": "factual"
+    },
+    "ua2e39cb1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u24b8ad3e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u44e11b30": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u801e59aa": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue47de293": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u43d1dfc4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u968bde45": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u7953ef1f": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u1724b6b2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub329cec6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u421f7bc0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u214f9238": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u2b99bdb2": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "ueaef8aa5": {
+      "class": "factual"
+    },
+    "u53c0c5b4": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u670247a7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u55961943": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6269f6b8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uba76da6d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5720d9e5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u18d75711": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7ac49707": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0bdf4ddc": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc69b3546": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u41a0217c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u753a9549": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf16cc6c6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaf080cb3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5b92c580": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf101907e": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ud3bb0574": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "udfd635a2": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0f9f8b51": {
+      "class": "factual"
+    },
+    "u1dfdd411": {
+      "class": "factual"
+    },
+    "u1f7f5570": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0f3d8bb5": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ub9b9e0d4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u57ad71d1": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u277c4820": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9c7eaab9": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u19bacd60": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2d5c5798": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub15b3dac": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u27eb831c": {
+      "class": "factual"
+    },
+    "u2df5e025": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufe2f09cc": {
+      "class": "factual"
+    },
+    "u41f58c0b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaeb99a37": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc9221136": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf3f9bf25": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uc6f62dc0": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u674bd9e9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufa240c4c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u20fba30f": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u2a3e59f4": {
+      "class": "factual"
+    },
+    "uc6dc83c7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua216fc69": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u19b9d4aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u19bef020": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u590696de": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uebc55c49": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u126ac776": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uae6272d2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufafd9054": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ufda4fd80": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ue3747e37": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua8aa5c8f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u3ca16445": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uffcf1d41": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uc7224775": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u82b80c53": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    }
+  },
   "summary": {
-    "overallStatus": "match",
+    "overallStatus": "needs-fixes",
     "criticalIssues": 0,
-    "checkedAt": "2026-08-12",
-    "verified": 18,
-    "unverified": 0,
-    "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
-  }
+    "moderateIssues": 2,
+    "openIssues": 2
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }

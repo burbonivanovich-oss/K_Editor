@@ -1,272 +1,973 @@
 {
+  "schemaVersion": 2,
+  "policyVersion": "2026-08-04",
+  "articleHash": "bac12e9f6b4b511ba15982033d9a021eb5a91963a44b3482739bad02814821fd",
+  "articleNormHash": "6f9693939021e601334b999ba864525e55f6a19bbe51836b5c01274e3497204e",
+  "checkedAt": "2026-08-22",
+  "checkedBy": "сессия факчека (миграция на контракт 3)",
+  "reviewedBy": "выпускающий редактор",
   "claims": [
     {
+      "id": "r1",
+      "claimId": "ca828e6ee",
+      "type": "NPA_FZ",
+      "raw": "54-ФЗ",
+      "statement": "Порядок применения и регистрации ККТ устанавливает Федеральный закон от 22.05.2003 № 54-ФЗ.",
+      "subject": "пользователь ККТ",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2003-05-22",
+      "span": "u25d2f8c7",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Реквизиты сверены с текстом закона в сохранённом снимке.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+          "locator": "реквизиты документа",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "34ea56c7c53a2c62641b6032c499fe96f1bb7c5834ed853fe5ac7eddc69e4e22",
+          "quote": "22.05.2003 N 54-ФЗ"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r2",
+      "claimId": "c365af9e2",
+      "type": "NPA_PUNKT",
+      "raw": "п. 6",
+      "statement": "По п. 6 ст. 4.1 закона 54-ФЗ при оказании услуг, на УСН, ЕСХН и патенте срок действия ключа фискального признака составляет не менее 36 месяцев; использовать накопитель на меньший срок можно только в перечисленных там случаях.",
+      "subject": "пользователь ККТ на спецрежиме или при оказании услуг",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "u4083c62b",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Пункт 6 статьи 4.1 сверен дословно, включая исключения из общего правила.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/12130951/522b960e8395b74e6ae48f8b946445ce/",
+          "locator": "пункт 6 статьи 4.1",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "1af31dc3e8492e7036132ead8406d81c5eed1d48ec272fff2489606e084f2f9e",
+          "quote": "составляет не менее 36 месяцев со дня регистрации в налоговых органах контрольно-кассовой техники"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://base.garant.ru/12130951/522b960e8395b74e6ae48f8b946445ce/",
+          "locator": "пункт 6 статьи 4.1, исключения",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "1af31dc3e8492e7036132ead8406d81c5eed1d48ec272fff2489606e084f2f9e",
+          "quote": "вправе использовать фискальный накопитель, срок действия ключа фискального признака которого составляет менее 36 месяцев и не менее 13 месяцев"
+        }
+      ],
+      "sources": [
+        "https://base.garant.ru/12130951/522b960e8395b74e6ae48f8b946445ce/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r3",
+      "claimId": "sbc7ef82f",
+      "type": "NPA_PUNKT",
+      "raw": "статья 4.2",
+      "statement": "Порядок регистрации ККТ устанавливает статья 4.2 закона 54-ФЗ: заявление подаёт организация или индивидуальный предприниматель — то есть пользователь кассы.",
+      "subject": "организация или индивидуальный предприниматель",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-09-01",
+      "span": "uc4af7437",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Пункт 1 статьи 4.2 называет заявителя прямо: это пользователь, а не тот, кто предоставил кассу.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/",
+          "locator": "пункт 1 статьи 4.2",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "a456c7c912d4c65011c4fb1463134e4e470d90e28cc3f004268a99954e0e4f5d",
+          "quote": "подается организацией или индивидуальным предпринимателем на бумажном носителе в любой территориальный налоговый орган"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r4",
+      "claimId": "caaf00f78",
       "type": "DATE_TEXT",
       "raw": "28 декабря 2025 года",
+      "statement": "Обязанность проверять код маркировки через ТС ПИоТ до пробития чека действует с 28 декабря 2025 года.",
+      "subject": "продавец маркированных товаров через онлайн-кассу",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-12-28",
+      "span": "uc8edcba0",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "та же дата словами",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
+      "confidence": 0.8,
+      "explanation": "Дата подтверждена разъяснением оператора ГИС МТ.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "разъяснение сообщества Честного знака от 02.12.2025",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
+          "quote": "С 28 декабря вступает в действие новое требование (согласно ППР № 515 и 303) для розничных продавцов"
+        }
+      ],
       "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
         "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "NPA_FZ_FULL",
-      "raw": "Федерального закона от 22.05.2003 № 54",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "54-ФЗ «О применении ККТ», действует",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "22.05.2003",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "дата принятия 54-ФЗ",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "краткое имя того же закона",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "50 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "PERCENT",
-      "raw": "100 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "30 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для юрлиц (75–100 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "28.12.2025",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ТС ПИоТ обязателен с 28.12.2025 для продавцов маркированного через кассу",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://xn--80ajghhoc2aj1c8b.xn--p1ai/info/news/reestr-tekhnicheskikh-sredstv-polucheniya-informatsii-o-tovare-ts-piot/",
-        "https://kontur.ru/market/spravka/85350-vsyo_o_ts_piot",
-        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r5",
+      "claimId": "cb543ef3c",
       "type": "DATE_TEXT",
       "raw": "1 января 2026 года",
+      "statement": "С 1 января 2026 года базовая ставка НДС — 22 %: пункт 3 статьи 164 НК РФ в редакции Федерального закона от 28.11.2025 № 425-ФЗ.",
+      "subject": "плательщик НДС по общей ставке",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2026-01-01",
+      "span": "u837c07da",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "дата перехода на ставку 22 %, переходного периода нет",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
+      "explanation": "Ставка и редакция сверены дословно с текстом статьи 164 НК РФ.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "пункт 3 статьи 164 НК РФ",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "Налогообложение производится по налоговой ставке 22 процента в случаях, не указанных в пунктах 1 , 2 и 4 настоящей статьи"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "примечание о применении новой ставки",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "отгруженных (выполненных, оказанных), переданных начиная с 01.01.2026"
+        },
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
+          "locator": "указание редакции пункта 3",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
+          "quote": "от 28.11.2025 N 425-ФЗ"
+        }
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/"
+      ],
+      "action": "keep"
     },
     {
-      "type": "PERCENT",
-      "raw": "22 %",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "ставка НДС 22 % действует с 01.01.2026 (ФЗ № 425-ФЗ, подписан 28.11.2025)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "DATE_DMY",
-      "raw": "28.11.2025",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "дата подписания ФЗ № 425-ФЗ президентом",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "425-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "ФЗ № 425-ФЗ — второй этап налоговой реформы, НДС 22 %",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.garant.ru/news/1915060/",
-        "https://www.consultant.ru/document/cons_doc_LAW_521742/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "expectedValue": "краткое имя того же закона",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r6",
+      "claimId": "cc1432157",
       "type": "PERCENT",
       "raw": "50 %",
+      "statement": "По части 2 статьи 14.5 КоАП РФ должностное лицо и предприниматель платят от 25 до 50 % суммы расчёта без применения ККТ, но не менее 10 000 ₽.",
+      "subject": "должностное лицо, индивидуальный предприниматель",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "uad6ec1d9",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: должностные лица и ИП — от 25 до 50 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "explanation": "Санкция сверена дословно: «от одной четвертой до одной второй» — это 25–50 %.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
       ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     },
     {
-      "type": "MONEY",
-      "raw": "10 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для ИП и должностных лиц (25–50 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
+      "id": "r7",
+      "claimId": "c5ca8e011",
       "type": "PERCENT",
       "raw": "100 %",
+      "statement": "По части 2 статьи 14.5 КоАП РФ организация платит от 75 до 100 % суммы расчёта без применения ККТ, но не менее 30 000 ₽.",
+      "subject": "юридическое лицо",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2020-01-01",
+      "span": "uad6ec1d9",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "expectedValue": "ч. 2 ст. 14.5 КоАП: организации — от 75 до 100 % суммы расчёта",
-      "explanation": "Сверено веб-поиском 12.08.2026, второй проход по первоисточникам ниже.",
+      "explanation": "Санкция сверена дословно: «от трех четвертых до одного размера» — это 75–100 %.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
+          "locator": "часть 2 статьи 14.5",
+          "retrievedAt": "2026-08-22",
+          "effectiveAsOf": "2026-08-22",
+          "effectiveTo": null,
+          "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
+          "quote": "от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей"
+        }
+      ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
       ],
-      "action": "keep",
-      "actionDetail": ""
-    },
-    {
-      "type": "MONEY",
-      "raw": "30 000 ₽",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "expectedValue": "минимум по ч. 2 ст. 14.5 КоАП для юрлиц (75–100 % расчёта)",
-      "explanation": "Сверено веб-поиском 12.08.2026 по первоисточникам ниже.",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
-      ],
-      "action": "keep",
-      "actionDetail": ""
+      "action": "keep"
     }
   ],
+  "ledger": {
+    "cb23fced3": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cb5fe4300": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cacc7d99d": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cd321c4a3": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "c43cfd31a": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "c3fd09792": {
+      "outcome": "duplicateOf",
+      "of": "c365af9e2"
+    },
+    "cb1aead21": {
+      "outcome": "duplicateOf",
+      "of": "caaf00f78"
+    },
+    "cf0fd4046": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "c5907b88a": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "cdf39edc6": {
+      "outcome": "duplicateOf",
+      "of": "cb543ef3c"
+    },
+    "ca547eb33": {
+      "outcome": "duplicateOf",
+      "of": "cc1432157"
+    },
+    "c666bc6a9": {
+      "outcome": "duplicateOf",
+      "of": "cc1432157"
+    },
+    "c96dc373a": {
+      "outcome": "duplicateOf",
+      "of": "cc1432157"
+    },
+    "c93b33aff": {
+      "outcome": "duplicateOf",
+      "of": "c5ca8e011"
+    },
+    "c00aeb375": {
+      "outcome": "duplicateOf",
+      "of": "c5ca8e011"
+    },
+    "cf00c3e33": {
+      "outcome": "duplicateOf",
+      "of": "c5ca8e011"
+    },
+    "cac1fecbf": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c0a569226": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    },
+    "c37fa120c": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "c00c55bf3": {
+      "outcome": "skipped",
+      "reason": "ссылка: адрес источника проверяется аудитом ссылок, а не факчеком"
+    },
+    "cea404879": {
+      "outcome": "skipped",
+      "reason": "год без месяца: не самостоятельное значение, разбирается вместе с полной датой рядом"
+    }
+  },
+  "units": {
+    "ua81c7888": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc102a676": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3f16912a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud98d9331": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubebb9658": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4d1a379b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u68f04ace": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u0c0d5943": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubcbb3bcd": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uded9f3f4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u75763ed6": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u539f7437": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u978e40ee": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u1f2c5d67": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u913c6852": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3468b68e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2e0702cf": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud9796f34": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub06c52f0": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9d1bc2dc": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u14fc0d2b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc7770685": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua754befa": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u12f3ac04": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u994923ca": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u2cf8664e": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u7ca8ea94": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "u1f38921f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u132dcb61": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u25d2f8c7": {
+      "class": "factual"
+    },
+    "u74c6eb88": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6abac680": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1a3f4461": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc72184e6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3b653336": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc8edcba0": {
+      "class": "factual"
+    },
+    "u643b3571": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc2c6c772": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3dc9ebaa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u7577a344": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4126e661": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc4af7437": {
+      "class": "factual"
+    },
+    "uefa6ecc4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5d0f6d26": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u27863ee7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uad6ec1d9": {
+      "class": "factual"
+    },
+    "ue5c985db": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub4d179e2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u07f334ce": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf6320bc5": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ua14f5fa7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4ab25063": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0a1aff55": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0f76a1c5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3f683743": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uacb142f2": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u38870059": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u97d5c909": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5b773de6": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub41d01a9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u07e6d238": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u628ee2c9": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1abb1f04": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5f30fd6d": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u6a9cbfdf": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf1bae38c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0c6053ca": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf02dbfc4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua8679017": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u1ec9ba9c": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u5a9cfd72": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u987546cc": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ub15e6067": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u9d00a0ef": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uadcbe920": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u2d68f3d4": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ue298fbb8": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua6027b19": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ucc9e4d9c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5653644e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud4fc5665": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc036dc0b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uc1ff0fbd": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u356d247e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u9a56131e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u33580487": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua6c6aa3f": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua8f7f385": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ube4ea789": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7fdbb95d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud4cd3048": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud5a6d438": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0523a5df": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u17a94519": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4cab8ca8": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ud204ee7e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua74e285c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u5eb56d90": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8a6a3aec": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u617d5730": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubaad956f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u206ed03c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua6fc349f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1f3a895f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ucfa0ee02": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7ab37202": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0d3e4600": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud6aa003f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue0571fc9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubae76f42": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u13cd1ba3": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u30ed5ea7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u61203a8e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uba89c3e5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub36a7de9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uee069d11": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u406b62f2": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u645ba450": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0cde7445": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u82911c1f": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u6efec4ff": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u046c5ffa": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u06e30c1b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u837c07da": {
+      "class": "factual"
+    },
+    "u00cd1cb5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u670aa651": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1e29b8c7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uaf345e62": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6f5ae155": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3cf84212": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u56080c71": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue4156a54": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u40a76f08": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u65417a48": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u0a8e0279": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ude67133c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u74e66820": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u8da867e3": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u51ca4956": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4083c62b": {
+      "class": "factual"
+    },
+    "ue27d6664": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6fd86782": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u125ca063": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua121ad2b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u7093cca1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u94da845a": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ubb726c6b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u554c9e63": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u78fd8015": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u0b53ec46": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    }
+  },
   "summary": {
-    "overallStatus": "match",
+    "overallStatus": "ok",
     "criticalIssues": 0,
-    "checkedAt": "2026-08-12",
-    "verified": 18,
-    "unverified": 0,
-    "note": "Прогон закрывает долг: маркеры стояли без отчёта. Критичные числа (сроки ТС ПИоТ, ставка НДС, штрафы по КоАП, реквизиты ПП и ФЗ) сверены по первоисточникам; остальные claims помечены uncertain честно, а не закрашены."
-  }
+    "moderateIssues": 0,
+    "openIssues": 0
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }
