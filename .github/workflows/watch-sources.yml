@@ -1,0 +1,62 @@
+# Наблюдение за первоисточниками.
+#
+# Отпечаток страницы фиксируется в момент факчека, но сам по себе ничего
+# не запускает: норму правят новой редакцией, а отчёт продолжает
+# ссылаться на прежний снимок. Этот прогон обходит все источники корпуса,
+# сверяет отпечатки и записывает найденное в очередь перепроверки.
+#
+# Очередь — файл, а не строка в логе: прогон заканчивается, лог никто не
+# читает, и находка теряется. Запись живёт, пока статью не перепроверят,
+# и снимается сама, когда маркер факчека станет новее даты обнаружения.
+#
+# Статьи прогон не правит и факчек не переделывает — только называет, что
+# перепроверить.
+name: Источники — обход и очередь перепроверки
+
+on:
+  schedule:
+    # Каждый вторник в 05:00 UTC (≈08:00 МСК), на сутки позже wordstat,
+    # чтобы два коммитящих прогона не спорили за одну ветку.
+    - cron: "0 5 * * 2"
+  workflow_dispatch:
+    inputs:
+      stale_days:
+        description: "Через сколько дней источник считается несвежим"
+        required: false
+        default: "180"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: "20"
+
+      # Ненулевой код здесь означает «очередь не пуста», а не «прогон
+      # сломался»: очередь ещё надо записать и закоммитить, поэтому
+      # шаг не должен ронять job.
+      - name: Обойти источники и обновить очередь
+        id: refresh
+        continue-on-error: true
+        run: node scripts/factcheck/watch-sources.mjs --refresh --stale "${{ inputs.stale_days || '180' }}"
+
+      - name: Зафиксировать очередь и новые снимки
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/data/factcheck/needs-review.json src/data/factcheck/snapshots/
+          if git diff --cached --quiet; then
+            echo "источники: изменений нет"
+            exit 0
+          fi
+          git commit -m "источники: обход $(date -u +%Y-%m-%d)"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Показать очередь
+        run: node scripts/factcheck/watch-sources.mjs --queue || true
