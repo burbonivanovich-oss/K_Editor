@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-14T05:42:54.994Z",
+  "updatedAt": "2026-08-22T18:49:00.072Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -95,10 +95,11 @@
       "rationale": "ПП № 161 (предв., уточнить в Стадии 1)",
       "row": 10,
       "owner": "bot",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
+      "status": "review",
+      "docId": "1MvpHL5VfNIV6IOBNpBGNWsUey52UUCUABzuA1KKshBM",
+      "docUrl": "https://docs.google.com/document/d/1MvpHL5VfNIV6IOBNpBGNWsUey52UUCUABzuA1KKshBM/edit",
+      "seenComments": [],
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-formiro",
@@ -109,11 +110,12 @@
       "rationale": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "row": 11,
       "owner": "bot",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
+      "status": "review",
+      "docId": "1WNHxoQvotEoye76ig44Y6Dwhpp4B_Tw2Sixpse08J1I",
+      "docUrl": "https://docs.google.com/document/d/1WNHxoQvotEoye76ig44Y6Dwhpp4B_Tw2Sixpse08J1I/edit",
       "seenComments": [],
-      "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета."
+      "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета.",
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "internet-ekvayring-dlya-onlayn-magazina-kak-vybrat-bank-i-ta",
@@ -224,10 +226,11 @@
       "rationale": "ФЗ № 108 (предв., уточнить в Стадии 1)",
       "row": 19,
       "owner": "bot",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
+      "status": "review",
+      "docId": "1W9VgQ_GUiaOzmv2JMlcaw39fHlJzLz-2ks0rRUesMtI",
+      "docUrl": "https://docs.google.com/document/d/1W9VgQ_GUiaOzmv2JMlcaw39fHlJzLz-2ks0rRUesMtI/edit",
+      "seenComments": [],
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "markirovka-chestnogo-znaka-v-2026-godu-kakie-tovary-dobavili",
@@ -322,10 +325,11 @@
       "rationale": "новая фраза в выдаче: 2649 показов в месяц, статьи по запросу нет, кластер egais",
       "row": 26,
       "owner": "bot",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
+      "status": "review",
+      "docId": "12RVBjW1Z12oEZCaiNjHIs8dGGpQAd3H2qcR3yTeM0_Y",
+      "docUrl": "https://docs.google.com/document/d/12RVBjW1Z12oEZCaiNjHIs8dGGpQAd3H2qcR3yTeM0_Y/edit",
+      "seenComments": [],
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "merkuriy-kak-oformit-veterinarnoe-svidetelstvo-na-partiyu",
@@ -392,10 +396,11 @@
       "rationale": "новая фраза в выдаче: 893 показов в месяц, статьи по запросу нет, кластер egais",
       "row": 31,
       "owner": "bot",
-      "status": "planned",
-      "docId": null,
-      "docUrl": null,
-      "seenComments": []
+      "status": "review",
+      "docId": "1U2UQ9ZZcgB1QH2ybNMRsEK3PeEDt9cqcNdULxpoTZeM",
+      "docUrl": "https://docs.google.com/document/d/1U2UQ9ZZcgB1QH2ybNMRsEK3PeEDt9cqcNdULxpoTZeM/edit",
+      "seenComments": [],
+      "reviewSince": "2026-08-17"
     },
     {
       "slug": "kategorii-vsd-v-merkurii-chem-otlichayutsya-i-kogda-kakaya-n",
@@ -631,188 +636,261 @@
       ],
       "startedAt": "2026-08-13T08:01:48.884Z",
       "state": "review"
+    },
+    {
+      "n": 3,
+      "slugs": [
+        "markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica",
+        "otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-formiro",
+        "prodazha-alkogolya-bez-akciznoy-marki-chem-grozit-i-kak-prov",
+        "ostatki-v-egais-kak-sverit-s-fakticheskimi-i-chto-delat-pri-",
+        "otmenyat-li-egais-chto-izvestno-o-planah-i-k-chemu-gotovitsy"
+      ],
+      "startedAt": "2026-08-17T07:13:44.814Z",
+      "state": "review"
     }
   ],
   "log": [
     {
-      "at": "2026-08-11T18:17:09.688Z",
-      "event": "init 2026-08: 18 тем"
-    },
-    {
-      "at": "2026-08-11T18:17:09.739Z",
-      "event": "state awaiting_review → running"
-    },
-    {
-      "at": "2026-08-11T18:23:28.120Z",
+      "at": "2026-08-18T07:15:34.413Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-11T18:30:19.479Z",
-      "event": "add-candidates: +13 из 13"
-    },
-    {
-      "at": "2026-08-11T19:20:22.732Z",
+      "at": "2026-08-18T07:46:56.587Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-12T05:16:02.551Z",
-      "event": "add-candidates: +6 из 6"
-    },
-    {
-      "at": "2026-08-12T05:41:21.448Z",
+      "at": "2026-08-18T08:48:18.714Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-12T05:43:24.750Z",
+      "at": "2026-08-18T09:42:06.783Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-12T06:17:38.713Z",
-      "event": "set-limits: потолок очереди 6 → 10"
-    },
-    {
-      "at": "2026-08-12T06:24:49.733Z",
-      "event": "set-limits: порция 3 → 5"
-    },
-    {
-      "at": "2026-08-12T06:41:20.198Z",
+      "at": "2026-08-18T10:38:25.784Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-12T06:50:29.158Z",
-      "event": "apply-decisions: 1 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-12T07:23:41.301Z",
+      "at": "2026-08-18T11:17:14.807Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-12T07:44:45.090Z",
+      "at": "2026-08-18T11:33:40.639Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-12T09:19:56.185Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 1 правок"
-    },
-    {
-      "at": "2026-08-12T11:06:43.466Z",
-      "event": "apply-decisions: 11 снято, 1 «пишем сами», 3 правок"
-    },
-    {
-      "at": "2026-08-12T11:27:08.361Z",
+      "at": "2026-08-18T13:01:35.457Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-12T11:55:52.014Z",
+      "at": "2026-08-18T13:21:34.642Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-12T13:35:34.267Z",
-      "event": "apply-decisions: 13 снято, 0 «пишем сами», 0 правок"
-    },
-    {
-      "at": "2026-08-12T19:21:02.376Z",
+      "at": "2026-08-18T13:50:02.957Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T03:10:31.137Z",
+      "at": "2026-08-18T18:57:00.989Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T05:45:46.544Z",
+      "at": "2026-08-19T03:08:43.748Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T07:05:12.258Z",
-      "event": "батч 1 начат: aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k, zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht"
-    },
-    {
-      "at": "2026-08-13T07:24:32.923Z",
+      "at": "2026-08-19T04:45:46.898Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T07:46:14.389Z",
+      "at": "2026-08-19T04:45:49.843Z",
+      "event": "nudge: напоминание о вычитке отправлено"
+    },
+    {
+      "at": "2026-08-19T05:38:17.003Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T07:58:04.042Z",
-      "event": "aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k → на вычитке"
-    },
-    {
-      "at": "2026-08-13T07:58:04.088Z",
-      "event": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht → на вычитке"
-    },
-    {
-      "at": "2026-08-13T08:01:48.884Z",
-      "event": "батч 2 начат: aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k, kassa-ot-banka-ili-otdelno-kak-banki-predlagayut-onlayn-kass, korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit"
-    },
-    {
-      "at": "2026-08-13T08:07:25.086Z",
-      "event": "kassa-ot-banka-ili-otdelno-kak-banki-predlagayut-onlayn-kass → на вычитке"
-    },
-    {
-      "at": "2026-08-13T08:13:36.481Z",
-      "event": "set-title zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht: «Заголовок: Ошибки при работе с ТС ПИоТ: » → «Ошибки ТС ПИоТ 2026: как исправить и что»"
-    },
-    {
-      "at": "2026-08-13T08:13:36.509Z",
-      "event": "set-title aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k: «Актуализировать статью https://kontur.ru» → «7 ошибок ЕГАИС: что делать, если касса н»"
-    },
-    {
-      "at": "2026-08-13T08:39:46.199Z",
-      "event": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k → на вычитке"
-    },
-    {
-      "at": "2026-08-13T08:39:46.251Z",
-      "event": "korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit → на вычитке"
-    },
-    {
-      "at": "2026-08-13T09:16:44.170Z",
+      "at": "2026-08-19T06:58:36.238Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T09:20:41.338Z",
+      "at": "2026-08-19T07:17:50.195Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T11:06:34.585Z",
+      "at": "2026-08-19T07:47:36.996Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T11:27:45.650Z",
+      "at": "2026-08-19T08:48:43.143Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T11:55:55.359Z",
+      "at": "2026-08-19T09:11:42.228Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T13:35:56.076Z",
+      "at": "2026-08-19T09:42:13.849Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T13:36:43.486Z",
+      "at": "2026-08-19T10:37:25.907Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-13T13:40:00.403Z",
-      "event": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht: отмечено 4 замечаний"
-    },
-    {
-      "at": "2026-08-13T19:20:00.317Z",
+      "at": "2026-08-19T11:33:45.017Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-14T03:20:04.381Z",
+      "at": "2026-08-19T13:02:36.267Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-14T03:37:00.469Z",
-      "event": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht: отмечено 2 замечаний"
+      "at": "2026-08-19T13:26:31.518Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
     {
-      "at": "2026-08-14T05:42:54.994Z",
+      "at": "2026-08-19T13:51:15.394Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-19T18:53:20.338Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T03:09:40.838Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T04:46:21.482Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T04:46:25.114Z",
+      "event": "nudge: напоминание о вычитке отправлено"
+    },
+    {
+      "at": "2026-08-20T05:38:24.517Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T06:59:19.913Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T07:18:06.532Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T07:50:08.856Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T08:50:22.138Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T09:10:54.115Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T09:43:28.937Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T10:39:22.947Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T11:20:07.999Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T11:35:16.546Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T13:04:40.895Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T13:54:29.606Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-20T18:59:17.427Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T04:49:03.363Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T04:49:06.572Z",
+      "event": "nudge: напоминание о вычитке отправлено"
+    },
+    {
+      "at": "2026-08-21T05:40:03.445Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T07:00:19.733Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T07:19:46.796Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T07:50:53.862Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T08:51:50.017Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T09:13:37.705Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T10:38:45.042Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T11:21:49.686Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T11:34:01.045Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T13:03:33.314Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T13:26:59.394Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T13:52:54.983Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-21T18:56:00.448Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-22T18:48:56.955Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-22T18:49:00.072Z",
+      "event": "nudge: напоминание о вычитке отправлено"
     }
-  ]
+  ],
+  "lastNudgeAt": "2026-08-22"
 }

@@ -1,0 +1,9 @@
+{
+  "seed": "штраф за отсутствие ОФД",
+  "slug": "штраф-за-отсутствие-офд",
+  "category": "intent",
+  "cluster": "ofd-fn",
+  "fetchedAt": "2026-08-17T04:35:59.434Z",
+  "count": 0,
+  "phrases": []
+}
