@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
   "policyVersion": "2026-08-04",
-  "articleHash": "bac12e9f6b4b511ba15982033d9a021eb5a91963a44b3482739bad02814821fd",
-  "articleNormHash": "6f9693939021e601334b999ba864525e55f6a19bbe51836b5c01274e3497204e",
-  "checkedAt": "2026-08-22",
+  "articleHash": "57ef52d56058ece07eb9c1f4180ed04d6f085b1241bc9ba082f072ed4bf3ef62",
+  "articleNormHash": "06cc82467470f084f4774881d2bee17391427d43904f27c9772603d90592c86a",
+  "checkedAt": "2026-08-23",
   "checkedBy": "сессия факчека (миграция на контракт 3)",
   "reviewedBy": "выпускающий редактор",
   "claims": [
@@ -28,8 +28,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
           "locator": "реквизиты документа",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "34ea56c7c53a2c62641b6032c499fe96f1bb7c5834ed853fe5ac7eddc69e4e22",
           "quote": "22.05.2003 N 54-ФЗ"
@@ -61,8 +61,8 @@
           "sourceRole": "norm",
           "url": "https://base.garant.ru/12130951/522b960e8395b74e6ae48f8b946445ce/",
           "locator": "пункт 6 статьи 4.1",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "1af31dc3e8492e7036132ead8406d81c5eed1d48ec272fff2489606e084f2f9e",
           "quote": "составляет не менее 36 месяцев со дня регистрации в налоговых органах контрольно-кассовой техники"
@@ -72,8 +72,8 @@
           "sourceRole": "norm",
           "url": "https://base.garant.ru/12130951/522b960e8395b74e6ae48f8b946445ce/",
           "locator": "пункт 6 статьи 4.1, исключения",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "1af31dc3e8492e7036132ead8406d81c5eed1d48ec272fff2489606e084f2f9e",
           "quote": "вправе использовать фискальный накопитель, срок действия ключа фискального признака которого составляет менее 36 месяцев и не менее 13 месяцев"
@@ -105,8 +105,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/",
           "locator": "пункт 1 статьи 4.2",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "a456c7c912d4c65011c4fb1463134e4e470d90e28cc3f004268a99954e0e4f5d",
           "quote": "подается организацией или индивидуальным предпринимателем на бумажном носителе в любой территориальный налоговый орган"
@@ -138,8 +138,8 @@
           "sourceRole": "vendorDoc",
           "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
           "locator": "разъяснение сообщества Честного знака от 02.12.2025",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
           "quote": "С 28 декабря вступает в действие новое требование (согласно ППР № 515 и 303) для розничных продавцов"
@@ -171,8 +171,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
           "locator": "пункт 3 статьи 164 НК РФ",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
           "quote": "Налогообложение производится по налоговой ставке 22 процента в случаях, не указанных в пунктах 1 , 2 и 4 настоящей статьи"
@@ -182,8 +182,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
           "locator": "примечание о применении новой ставки",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
           "quote": "отгруженных (выполненных, оказанных), переданных начиная с 01.01.2026"
@@ -193,8 +193,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/",
           "locator": "указание редакции пункта 3",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "10c7024d83bdbead345c20d1ee95fda2c01b7a4f882f34f5dc22222c37780d08",
           "quote": "от 28.11.2025 N 425-ФЗ"
@@ -226,8 +226,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
           "locator": "часть 2 статьи 14.5",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
           "quote": "от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей"
@@ -259,8 +259,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
           "locator": "часть 2 статьи 14.5",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
           "quote": "от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей"
@@ -268,6 +268,39 @@
       ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r8",
+      "claimId": "sfn2",
+      "type": "FACT",
+      "raw": "перед этим кассе всё равно нужно",
+      "statement": "При перерегистрации ККТ в связи с заменой фискального накопителя отчёт о закрытии накопителя формирует пользователь, независимо от того, кто выполняет саму замену.",
+      "subject": "пользователь ККТ",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2018-07-03",
+      "span": "u816878f0",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Утверждение добавила рутина перелинковки, факчеком оно не проходило. Проверено: пункт 8 статьи 4.2 закона 54-ФЗ возлагает формирование отчёта на пользователя, а не на поставщика услуги.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/",
+          "locator": "пункт 8 статьи 4.2",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "a456c7c912d4c65011c4fb1463134e4e470d90e28cc3f004268a99954e0e4f5d",
+          "quote": "В случае перерегистрации контрольно-кассовой техники в связи с заменой фискального накопителя или снятия контрольно-кассовой техники с регистрационного учета пользователь формирует отчет о закрытии фискального накопителя"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/"
       ],
       "action": "keep"
     }
@@ -399,9 +432,8 @@
       "class": "non_factual",
       "reason": "пункт списка: шаг процедуры без проверяемого значения"
     },
-    "u75763ed6": {
-      "class": "non_factual",
-      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    "u816878f0": {
+      "class": "factual"
     },
     "u539f7437": {
       "class": "non_factual",

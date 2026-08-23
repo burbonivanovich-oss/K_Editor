@@ -1,9 +1,9 @@
 {
   "schemaVersion": 2,
   "policyVersion": "2026-08-04",
-  "articleHash": "945caf4d820a5202a9b36e12c0b64e3057152757b88ced49345093e0f4e237ab",
-  "articleNormHash": "8c13453fff69e8bcc0f1199cdb3b95e7848abf75b9e468961ba2cd7c8c08b6c0",
-  "checkedAt": "2026-08-22",
+  "articleHash": "90fe5b6c6b93e50b15688b9e342d1c268956d16852a30dfafe6467920ef0f6f5",
+  "articleNormHash": "6228781ac38f9599cb4593358d3e1da9f6dcca01c6f86d5ff00aa2331278702f",
+  "checkedAt": "2026-08-23",
   "checkedBy": "сессия факчека (второй проход аудита)",
   "reviewedBy": "выпускающий редактор",
   "claims": [
@@ -27,8 +27,8 @@
           "sourceRole": "vendorDoc",
           "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
           "locator": "разъяснение сообщества Честного знака от 02.12.2025",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
           "quote": "С 28 декабря вступает в действие новое требование (согласно ППР № 515 и 303) для розничных продавцов"
@@ -59,8 +59,8 @@
           "sourceRole": "norm",
           "url": "https://base.garant.ru/73780927/",
           "locator": "реквизиты документа",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "d904fdaa7522156324bb4189ac0b75d7d47eac2437c86c3de992cb568aa48e36",
           "quote": "Постановление Правительства РФ от 19.03.2020 N 303 \"Об утверждении требований к техническим средствам"
@@ -91,8 +91,8 @@
           "sourceRole": "norm",
           "url": "https://base.garant.ru/73780927/",
           "locator": "примечание к пункту 18 требований",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "d904fdaa7522156324bb4189ac0b75d7d47eac2437c86c3de992cb568aa48e36",
           "quote": "Постановление Правительства России от 29 ноября 2024 г. N 1674"
@@ -123,8 +123,8 @@
           "sourceRole": "norm",
           "url": "http://publication.pravo.gov.ru/document/0001202506270011",
           "locator": "карточка официального опубликования",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "0c0b5f09e533cd8c7bba8f710fd0000813bca5f79896531bc07b592b674a9ba9",
           "quote": "Приказ Министерства промышленности и торговли Российской Федерации от 25.04.2025 № 2044"
@@ -156,8 +156,8 @@
           "sourceRole": "norm",
           "url": "http://publication.pravo.gov.ru/document/0001202311270058",
           "locator": "пункт 16 Правил",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "0856bb0b8a6953c40c3555c76fca40a3938f4b22ab762b4ac09c3d911bfa18b7",
           "quote": "Ожидание продавцом результатов проверки кода маркировки информационной системой мониторинга в режиме проверки онлайн осуществляется в течение полутора секунд с момента направления им запроса на онлайн-проверку."
@@ -167,8 +167,8 @@
           "sourceRole": "norm",
           "url": "http://publication.pravo.gov.ru/document/0001202311270058",
           "locator": "пункт 17 Правил",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "0856bb0b8a6953c40c3555c76fca40a3938f4b22ab762b4ac09c3d911bfa18b7",
           "quote": "Проверка кода идентификации в режиме проверки офлайн осуществляется продавцом в случае, если ответ на запрос на онлайн-проверку не получен им в течение периода, указанного в пункте 16 настоящих Правил"
@@ -178,8 +178,8 @@
           "sourceRole": "norm",
           "url": "http://publication.pravo.gov.ru/document/0001202311270058",
           "locator": "пункт 18 Правил",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "0856bb0b8a6953c40c3555c76fca40a3938f4b22ab762b4ac09c3d911bfa18b7",
           "quote": "обязан соблюдать требования настоящих Правил в отношении запрета розничной продажи товаров в режиме проверки офлайн"
@@ -210,8 +210,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
           "locator": "часть 2 статьи 14.5",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
           "quote": "от одной четвертой до одной второй размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее десяти тысяч рублей"
@@ -242,8 +242,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
           "locator": "часть 2 статьи 14.5",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
           "quote": "от трех четвертых до одного размера суммы расчета, осуществленного без применения контрольно-кассовой техники, но не менее тридцати тысяч рублей"
@@ -274,8 +274,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/3824bbacc6e85f19f12895b0ee20f3bbae92f439/",
           "locator": "примечание к статье 14.5",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "c80d10e2b8513808a68f44f09ab2824a1744bb4d201d5b7d522c32cdc7290d83",
           "quote": "добровольно заявившее в налоговый орган в письменной форме о неприменении им контрольно-кассовой техники"
@@ -306,8 +306,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
           "locator": "часть 2 статьи 15.12",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
           "quote": "от пяти тысяч до десяти тысяч рублей"
@@ -338,8 +338,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
           "locator": "часть 2 статьи 15.12",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
           "quote": "от пятидесяти тысяч до трехсот тысяч рублей"
@@ -369,8 +369,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/",
           "locator": "примечание 1 к статье 171.1",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "591579765bbc5e925aab2665c07214bbcf2fb2556d7760e8e7cd0a048b67a9e0",
           "quote": "Крупным размером в частях третьей и четвертой настоящей статьи признается стоимость немаркированных продовольственных товаров, превышающая четыреста тысяч рублей"
@@ -401,8 +401,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/",
           "locator": "примечание 2 к статье 171.1",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "591579765bbc5e925aab2665c07214bbcf2fb2556d7760e8e7cd0a048b67a9e0",
           "quote": "превышающая сто тысяч рублей"
@@ -433,8 +433,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/",
           "locator": "примечание к статье 170.2",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "671b3a03145c45d5d22e27bf3750f71abd92a21abe59d7a4fb11c807a7248518",
           "quote": "в сумме, превышающей три миллиона пятьсот тысяч рублей, а особо крупным - тринадцать миллионов пятьсот тысяч рублей"
@@ -466,8 +466,8 @@
           "sourceRole": "vendorDoc",
           "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
           "locator": "разъяснение оператора, абзац про 01.07.2026",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
           "quote": "С 1 июля кассовое программное обеспечение участника оборота сможет взаимодействовать с ГИС МТ и Локальным модулем по действующему токену разрешительного режима"
@@ -477,8 +477,8 @@
           "sourceRole": "vendorDoc",
           "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
           "locator": "тот же абзац, год перехода",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
           "quote": "X-API-KEY действителен до 1 октября 2026 года"
@@ -509,8 +509,8 @@
           "sourceRole": "vendorDoc",
           "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
           "locator": "разъяснение сообщества Честного знака, раздел про 1 июля",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "5e2ee814f2e3d270f5751a9609ea9804f56c36ac605c7c8def6e30d886463d6c",
           "quote": "X-API-KEY действителен до 1 октября 2026 года"
@@ -541,8 +541,8 @@
           "sourceRole": "norm",
           "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
           "locator": "реквизиты документа",
-          "retrievedAt": "2026-08-22",
-          "effectiveAsOf": "2026-08-22",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
           "effectiveTo": null,
           "snapshotHash": "34ea56c7c53a2c62641b6032c499fe96f1bb7c5834ed853fe5ac7eddc69e4e22",
           "quote": "54-ФЗ"
@@ -550,6 +550,39 @@
       ],
       "sources": [
         "https://www.consultant.ru/document/cons_doc_LAW_42359/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r17",
+      "claimId": "sshin",
+      "type": "FACT",
+      "raw": "игрушки, косметика и",
+      "statement": "Шины входят в перечень товаров, подлежащих обязательной маркировке средствами идентификации.",
+      "subject": "участник оборота шин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-10",
+      "span": "ueede150c",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "explanation": "Шины в перечень категорий добавила рутина перелинковки. Проверено: правила маркировки шин утверждены отдельным постановлением Правительства.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/",
+          "locator": "реквизиты постановления",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7df1f0f670da0aa8d30172f7a5ef03ebfd113120f7e1aaf0c7dd03be3aac4cd6",
+          "quote": "31 декабря 2019 г. N 1958 ОБ УТВЕРЖДЕНИИ ПРАВИЛ МАРКИРОВКИ ШИН СРЕДСТВАМИ ИДЕНТИФИКАЦИИ"
+        }
+      ],
+      "sources": [
+        "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/"
       ],
       "action": "keep"
     }
@@ -989,9 +1022,8 @@
       "class": "non_factual",
       "reason": "связующий текст без проверяемого значения"
     },
-    "ub3bc9a2b": {
-      "class": "non_factual",
-      "reason": "связующий текст без проверяемого значения"
+    "ueede150c": {
+      "class": "factual"
     },
     "u0d80df1e": {
       "class": "non_factual",

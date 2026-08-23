@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "policyVersion": "2026-08-04",
-  "articleHash": "528c8952008b64310df96224c3b7a7bf53e76e99cd87463e4ed212166939cd94",
-  "articleNormHash": "d1380b989b8d29558c136d8f36d91b750b4b489bb3f45f2993f33b4a958c3ce7",
+  "articleHash": "a9920dad63db9fe7dcb63cec9f0869f4a7376b9560475d36c7bb4f7e2278145d",
+  "articleNormHash": "b3b924557a00d99574f031af45cb004e0aa5fe5463fe57c0fe5e2b99aa82d978",
   "checkedAt": "2026-08-22",
   "checkedBy": "сессия факчека (миграция на контракт 3)",
   "reviewedBy": "выпускающий редактор",
@@ -733,7 +733,11 @@
       "class": "non_factual",
       "reason": "связующий текст без проверяемого значения"
     },
-    "uf941ea9d": {
+    "ud4ebb022": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uda21265b": {
       "class": "non_factual",
       "reason": "связующий текст без проверяемого значения"
     },
@@ -999,6 +1003,14 @@
       "class": "factual"
     },
     "ucfca5ac5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u05ef21be": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf23c4d66": {
       "class": "non_factual",
       "reason": "связующий текст без проверяемого значения"
     },

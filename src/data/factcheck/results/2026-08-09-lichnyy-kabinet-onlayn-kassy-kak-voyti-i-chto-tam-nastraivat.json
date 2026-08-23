@@ -1,8 +1,8 @@
 {
   "schemaVersion": 2,
   "policyVersion": "2026-08-04",
-  "articleHash": "19062132ca8a8724df7fbe85fa747373a6417d57b0f69a852a66c0e593d52c32",
-  "articleNormHash": "d8a27f17d3465595929ead658dd4782b1d93141d0a8d2d6b3a4da03a2e74ad70",
+  "articleHash": "338e890de91d6ffa3de8b4aeeb867680c08b6e96ffdcc916ec83265d5dc01ad6",
+  "articleNormHash": "3699b46f4bb01a405d5a780c8e065caaa8c5654de2167d20184dd0316e4b9434",
   "checkedAt": "2026-08-23",
   "checkedBy": "сессия факчека (миграция на контракт 3)",
   "reviewedBy": "выпускающий редактор",
@@ -402,6 +402,39 @@
         "https://www.consultant.ru/document/cons_doc_LAW_28165/35cc6698564adc4507baa31c9cfdbb4f2516d068/"
       ],
       "action": "keep"
+    },
+    {
+      "id": "r11",
+      "claimId": "sfn1",
+      "type": "FACT",
+      "raw": "Перед физической заменой накопителя касса должна сформировать отчёт о закрытии его архива",
+      "statement": "При перерегистрации ККТ в связи с заменой фискального накопителя пользователь формирует отчёт о закрытии фискального накопителя.",
+      "subject": "пользователь ККТ",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2018-07-03",
+      "span": "udd3034ac",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Утверждение добавила рутина перелинковки, факчеком оно не проходило. Проверено: обязанность прямо установлена пунктом 8 статьи 4.2 закона 54-ФЗ.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/",
+          "locator": "пункт 8 статьи 4.2",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "a456c7c912d4c65011c4fb1463134e4e470d90e28cc3f004268a99954e0e4f5d",
+          "quote": "В случае перерегистрации контрольно-кассовой техники в связи с заменой фискального накопителя или снятия контрольно-кассовой техники с регистрационного учета пользователь формирует отчет о закрытии фискального накопителя"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/7286ba3a2f39eba0ced5853cd23d6af88d657a9c/"
+      ],
+      "action": "keep"
     }
   ],
   "ledger": {
@@ -704,6 +737,9 @@
     "u43e0b9e8": {
       "class": "non_factual",
       "reason": "связующий текст без проверяемого значения"
+    },
+    "udd3034ac": {
+      "class": "factual"
     },
     "u256ea438": {
       "class": "non_factual",
