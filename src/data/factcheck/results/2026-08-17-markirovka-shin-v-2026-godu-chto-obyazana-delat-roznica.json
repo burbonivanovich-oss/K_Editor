@@ -1,307 +1,1174 @@
 {
+  "schemaVersion": 2,
+  "policyVersion": "2026-08-04",
+  "articleHash": "bab735ab5a48ac50f1cbae301f5b158137c77808efa9f7865f4194bb6c0be8ee",
+  "articleNormHash": "20fe7ae9f31e3b0c181fa52ad17776a829ecdb944277a5a15aada563df098c02",
+  "checkedAt": "2026-08-23",
+  "checkedBy": "factcheck-migration-batch3",
+  "reviewedBy": "editor",
   "claims": [
     {
-      "id": "c50",
+      "id": "r1",
+      "claimId": "cc0c51df4",
       "type": "NPA_PP_NUMBERED",
       "raw": "постановление Правительства РФ от 31.12.2019 № 1958",
-      "statement": "Правила маркировки шин средствами идентификации установлены постановлением Правительства РФ от 31.12.2019 № 1958.",
+      "statement": "Правила маркировки шин средствами идентификации утверждены постановлением Правительства РФ от 31.12.2019 № 1958.",
+      "subject": "участник оборота шин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-10",
+      "span": "u4c5f8233",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "quote": "Постановление Правительства Российской Федерации от 31.12.2019 № 1958 \"Об утверждении Правил маркировки шин средствами идентификации и особенностях внедрения государственной информационной системы мониторинга за оборотом товаров, подлежащих обязательной маркировке средствами идентификации, в отношении шин\"",
-      "sources": [
-        "http://publication.pravo.gov.ru/Document/View/0001202001100001",
-        "https://www.consultant.ru/document/cons_doc_LAW_342500/",
-        "https://www.garant.ru/products/ipo/prime/doc/73267445/"
+      "explanation": "Реквизиты постановления сверены с текстом Правил.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/",
+          "locator": "реквизиты постановления",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7df1f0f670da0aa8d30172f7a5ef03ebfd113120f7e1aaf0c7dd03be3aac4cd6",
+          "quote": "31 декабря 2019 г. N 1958 ОБ УТВЕРЖДЕНИИ ПРАВИЛ МАРКИРОВКИ ШИН СРЕДСТВАМИ ИДЕНТИФИКАЦИИ"
+        }
       ],
-      "action": "keep",
-      "actionDetail": "Номер и дата постановления подтверждены четырьмя независимыми источниками (pravo.gov.ru, consultant.ru, garant.ru, alta.ru); № 161, ошибочно фигурировавший в rationale контент-плана, в статью не включён — это отдельный акт о маркировке обуви (whitelist npaWhitelist.pp[\"161\"])."
-    },
-    {
-      "id": "c2",
-      "type": "DATE_DMY",
-      "raw": "01.11.2020",
-      "statement": "Обязательная маркировка шин для производителей и импортёров действует с 01.11.2020.",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "quote": "С 1 ноября 2020 года в Российской Федерации введена обязательная маркировка шин и покрышек. Все импортеры и производители должны производить и импортировать только маркированные шины.",
-      "sources": ["https://markirovka.ru/knowledge/tovarnye-gruppy/shini-pokrishki/sroki-i-etapy-markirovki-tovarov-shiny"],
+      "sources": [
+        "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/"
+      ],
       "action": "keep"
     },
     {
-      "id": "c3",
-      "type": "DATE_DMY",
-      "raw": "15.12.2020",
-      "statement": "Запрет ввоза и оборота немаркированных шин в РФ вступил в силу 15.12.2020.",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "quote": "15.12.2020 — \"запрещается ввоз в РФ немаркированных шин\" и начинается запрет оборота",
-      "sources": ["https://markirovka.ru/knowledge/tovarnye-gruppy/shini-pokrishki/sroki-i-etapy-markirovki-tovarov-shiny"],
-      "action": "keep",
-      "actionDetail": "Правка после первого черновика: изначально в тексте датой запрета оборота ошибочно стояло 01.03.2021 — это дата закрытия переходного периода по остаткам, а не старта запрета оборота новых шин. Исправлено на 15.12.2020, добавлена отдельная дата 01.03.2021 для остатков."
-    },
-    {
-      "id": "c4",
-      "type": "DATE_DMY",
-      "raw": "01.03.2021",
-      "statement": "Переходный период по маркировке товарных остатков шин, не проданных до 15.12.2020, закрылся 01.03.2021.",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "quote": "01.03.2021 — крайний срок для промаркировки товарных остатков, которые не были реализованы до 15 декабря 2020 года",
-      "sources": ["https://markirovka.ru/knowledge/tovarnye-gruppy/shini-pokrishki/sroki-i-etapy-markirovki-tovarov-shiny"],
-      "action": "keep"
-    },
-    {
-      "id": "c6",
-      "type": "DATE_DMY",
-      "raw": "01.11.2024",
-      "statement": "Разрешительный режим с онлайн-проверкой кодов на кассе для шин действует с 01.11.2024.",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "quote": "Разрешительный режим на кассах для автомобильных шин с 1 ноября 2024 года",
-      "sources": ["https://xn--80ajghhoc2aj1c8b.xn--p1ai/business/projects/tyres/checkout/"],
-      "action": "keep",
-      "actionDetail": "Дата — техническая, устанавливается оператором ГИС МТ (ЦРПТ), не отдельной нормой права; официальный первоисточник — страница ЦРПТ по товарной группе «шины», прямого аналога на pravo.gov.ru/consultant.ru для операционных дат ЦРПТ не существует (тот же паттерн уже применялся к датам 01.07.2026/01.10.2026 в статьях кластера ts-piot)."
-    },
-    {
-      "id": "c7",
-      "type": "DATE_DMY",
-      "raw": "01.03.2025",
-      "statement": "Офлайн-проверка кодов маркировки для шин обязательна с 01.03.2025.",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "quote": "Офлайн-проверка (с 1 марта 2025): С 1 марта 2025 года становится обязательной проверка в режиме офлайн для всех товарных групп, кроме безалкогольных напитков.",
-      "sources": ["https://markirovka.ru/knowledge/tovarnye-gruppy/shini-pokrishki/rezhim-proverok-na-kassakh-shiny"],
-      "action": "keep"
-    },
-    {
-      "id": "c51",
-      "type": "NPA_PP_NUMBERED",
-      "raw": "постановлению Правительства РФ от 21.11.2023 № 1944",
-      "statement": "Перечень случаев запрета продажи маркированных товаров (разрешительный режим) и график его внедрения по товарным группам установлены постановлением Правительства РФ от 21.11.2023 № 1944.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "quote": "Постановление Правительства Российской Федерации от 21.11.2023 № 1944 \"Об утверждении перечня случаев, при которых продажа товаров, подлежащих обязательной маркировке средствами идентификации, запрещена, и особенностей внедрения указанного запрета в отношении отдельных товаров\"",
-      "sources": ["http://publication.pravo.gov.ru/document/0001202311270058"],
-      "action": "keep",
-      "actionDetail": "Уже верифицирован в whitelist проекта npaWhitelist.pp[\"1944\"], verifiedAt 2026-08-04 — использован повторно без переоткрытия источника."
-    },
-    {
-      "id": "s57",
+      "id": "r2",
+      "claimId": "s57",
       "type": "DURATION",
       "raw": "7 календарных дней",
-      "statement": "На регистрацию нового участника оборота в системе Честный знак отводится 7 календарных дней с момента возникновения необходимости вести оборот маркированных товаров.",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.6,
-      "quote": "не позднее 7 календарных дней со дня возникновения необходимости осуществления участником оборота ... деятельности, связанной с вводом в оборот, и (или) оборотом, и (или) выводом из оборота",
-      "sources": ["https://markirovka.ru/knowledge/tovarnye-gruppy/shini-pokrishki/kak-opredelyaetsya-den-neobkhodimosti-registratsii-v-sisteme-markirovki-shiny"],
-      "action": "keep",
-      "actionDetail": "Правило о 7 днях подтверждено вторичным источником (официальное сообщество маркировки, по аналогии с другими товарными группами), но не первоисточником-НПА напрямую — статус понижен до uncertain, чтобы не заявлять точность выше уровня доказательства."
-    },
-    {
-      "id": "s58",
-      "type": "FACT",
-      "raw": "функция «Маркировка остатков» для шин отключена",
-      "statement": "С 01.11.2024 функция «Маркировка остатков» для товарной группы «шины» в системе Честный знак отключена — оборот немаркированного товара закрыт полностью.",
-      "status": "uncertain",
-      "severity": "minor",
-      "confidence": 0.5,
-      "quote": "",
-      "sources": ["https://xn--80ajghhoc2aj1c8b.xn--p1ai/business/projects/tyres/checkout/"],
-      "action": "keep",
-      "actionDetail": "Факт из research-брифа (со ссылкой на страницу ЦРПТ по шинам). Прямой WebFetch на страницу ЦРПТ вернул 403 — не смогли получить дословную цитату для независимого подтверждения. Утверждение непротиворечиво общей логике этапа (запрет оборота немаркированных шин действует с 15.12.2020, задолго до 01.11.2024), но статус — uncertain, не match, до отдельной проверки редактором или прямого доступа к странице ЦРПТ."
-    },
-    {
-      "id": "c49",
-      "type": "NPA_FZ",
-      "raw": "54-ФЗ",
-      "statement": "ТС ПИоТ передаёт данные чека в Честный знак и ОФД в рамках требований 54-ФЗ «О применении ККТ».",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.8,
-      "quote": "Федеральный закон от 22.05.2003 № 54-ФЗ \"О применении контрольно-кассовой техники при осуществлении расчетов в Российской Федерации\"",
-      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_42359/"],
-      "action": "keep",
-      "actionDetail": "Подтверждено whitelist проекта npaWhitelist.fz[\"54\"]."
-    },
-    {
-      "id": "c13",
-      "type": "DATE_DMY",
-      "raw": "01.10.2026",
-      "statement": "Временный токен X-API-KEY разрешительного режима закрывается 01.10.2026, после чего продажа маркированного товара без ТС ПИоТ станет технически невозможной.",
+      "statement": "Участник оборота шин регистрируется в системе мониторинга в течение 7 календарных дней со дня возникновения необходимости вести оборот шин.",
+      "subject": "участник оборота шин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-10",
+      "span": "ue43b227b",
       "status": "match",
       "severity": "moderate",
-      "confidence": 0.85,
-      "quote": "После этой даты канал закрывается, и проверка идёт только через модуль ТС ПИоТ",
-      "sources": ["/blog/2026-08-09-kto-obyazan-podklyuchit-ts-piot-do-01-10-2026/"],
-      "action": "keep",
-      "actionDetail": "Дата уже проверена и опубликована в двух статьях кластера (ts-piot, разрешительный режим); повторная проверка внутренней ссылкой, не отдельным внешним источником — это техническая дата ЦРПТ, а не норма права (см. npaWhitelist note)."
+      "confidence": 0.95,
+      "explanation": "Срок сверен с пунктом 2 постановления № 1958 в действующей редакции.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/",
+          "locator": "пункт 2 постановления",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7df1f0f670da0aa8d30172f7a5ef03ebfd113120f7e1aaf0c7dd03be3aac4cd6",
+          "quote": "в течение 7 календарных дней со дня возникновения необходимости осуществления участником оборота шин"
+        }
+      ],
+      "sources": [
+        "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/"
+      ],
+      "action": "keep"
     },
     {
-      "id": "c42",
+      "id": "r3",
+      "claimId": "c0ed9f95a",
+      "type": "DATE_DMY",
+      "raw": "01.11.2020",
+      "statement": "С 1 ноября 2020 года производители и импортёры обязаны наносить коды маркировки на шины.",
+      "subject": "производитель и импортёр шин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-11-01",
+      "span": "u37df016b",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Дата сверена с пунктом 2 постановления № 1958.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/",
+          "locator": "пункт 2 постановления",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7df1f0f670da0aa8d30172f7a5ef03ebfd113120f7e1aaf0c7dd03be3aac4cd6",
+          "quote": "с 1 ноября 2020 г. в соответствии с Правилами, утвержденными настоящим постановлением, производители и импортеры шин"
+        }
+      ],
+      "sources": [
+        "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r4",
+      "claimId": "ca07c0e2e",
+      "type": "DATE_DMY",
+      "raw": "15.12.2020",
+      "statement": "Шины, оставшиеся на складе на 15 декабря 2020 года и введённые в оборот до 1 ноября 2020 года, требовалось промаркировать до 1 марта 2021 года.",
+      "subject": "участник оборота шин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-12-15",
+      "span": "u30c7ea01",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Переходный период по остаткам сверен с пунктом 2 постановления № 1958. Продлений нормы не вносилось, поэтому после 01.03.2021 промаркировать остатки нельзя.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/",
+          "locator": "пункт 2 постановления",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7df1f0f670da0aa8d30172f7a5ef03ebfd113120f7e1aaf0c7dd03be3aac4cd6",
+          "quote": "при наличии по состоянию на 15 декабря 2020 г. нереализованных шин, введенных в оборот до 1 ноября 2020 г., до 1 марта 2021 г. осуществляют их маркиро"
+        }
+      ],
+      "sources": [
+        "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r5",
+      "claimId": "c718912c3",
+      "type": "NPA_PUNKT",
+      "raw": "пункт 73",
+      "statement": "Экспорт шин не освобождает от маркировки: при помещении маркированных шин под таможенную процедуру экспорта участник подаёт уведомление о выводе шин из оборота с ИНН экспортёра и кодом идентификации.",
+      "subject": "участник оборота шин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2020-01-10",
+      "span": "ubcbff8dd",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Найдено расхождение: статья утверждала, что вывезенные за пределы ЕАЭС шины выведены из-под требований постановления № 1958. Пункт 3 Правил по постановлению № 515 содержит исключения «а»–«л», и вывоза среди них нет; Правила по шинам описывают экспорт как вывод из оборота уже промаркированного товара. Статья исправлена, ответ в FAQ изменён с «нет» на «да».",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/",
+          "locator": "пункт 73 Правил маркировки шин",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7df1f0f670da0aa8d30172f7a5ef03ebfd113120f7e1aaf0c7dd03be3aac4cd6",
+          "quote": "помещения маркированных шин под таможенную процедуру экспорта участник оборота шин, осуществляющий вывод из оборота этих шин"
+        }
+      ],
+      "sources": [
+        "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r6",
+      "claimId": "c2a8d0264",
+      "type": "NPA_PP_NUMBERED",
+      "raw": "постановлению Правительства РФ от 21.11.2023 № 1944",
+      "statement": "Волны разрешительного режима на кассах вводит постановление Правительства РФ от 21.11.2023 № 1944.",
+      "subject": "розничный продавец маркированного товара",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2024-04-01",
+      "span": "ue4f06815",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.8,
+      "explanation": "Реквизиты постановления сверены с разъяснением оператора ГИС МТ.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/rezhim-proverok-na-kassakh",
+          "locator": "раздел о нормативной основе режима проверок",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7e4e9e7257952c66b2857017863dda2246394366d8f6235079a31d3102544d8f",
+          "quote": "Разрешительный режим использует другой механизм ( ППР 1944 от 21.11.23)"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/rezhim-proverok-na-kassakh"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r7",
+      "claimId": "cafd78e7f",
+      "type": "DATE_DMY",
+      "raw": "01.11.2024",
+      "statement": "Для шин онлайн-проверка кода маркировки на кассе обязательна с 1 ноября 2024 года.",
+      "subject": "розничный продавец шин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2024-11-01",
+      "span": "u295b6100",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.8,
+      "explanation": "Шины прямо названы в перечне товарных групп, для которых онлайн-проверка обязательна с 1 ноября 2024 года.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/rezhim-proverok-na-kassakh",
+          "locator": "перечень товарных групп и сроков режима проверок",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7e4e9e7257952c66b2857017863dda2246394366d8f6235079a31d3102544d8f",
+          "quote": "С 1 ноября 2024 года"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/rezhim-proverok-na-kassakh"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r8",
+      "claimId": "cb47a4ada",
+      "type": "DATE_DMY",
+      "raw": "01.03.2025",
+      "statement": "Офлайн-проверка кода обязательна для розничных продавцов всех товарных групп, кроме безалкогольных напитков, с 1 марта 2025 года; для крупных сетевых магазинов по шинам — с 1 мая 2025 года.",
+      "subject": "розничный продавец шин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2025-03-01",
+      "span": "ub4fc401b",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.8,
+      "explanation": "Найдено уточнение: у офлайн-режима две даты. Статья давала только 01.03.2025 без области применимости; добавлена оговорка про крупные сети с 01.05.2025.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/rezhim-proverok-na-kassakh",
+          "locator": "перечень товарных групп и сроков режима проверок",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7e4e9e7257952c66b2857017863dda2246394366d8f6235079a31d3102544d8f",
+          "quote": "С 1 марта 2025 года"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/rezhim-proverok-na-kassakh"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r9",
+      "claimId": "c077daadd",
+      "type": "MONEY",
+      "raw": "100 000 ₽",
+      "statement": "По части 1 ст. 15.12 КоАП РФ юридические лица за производство и ввод в оборот немаркированного товара наказываются штрафом от 50 000 до 100 000 ₽ с конфискацией.",
+      "subject": "юридическое лицо",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2002-12-30",
+      "span": "uad621d96",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Сумма сверена дословно с частью 1 статьи.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "часть 1 статьи 15.12",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "на юридических лиц - от пятидесяти тысяч до ста тысяч рублей с конфискацией предметов административного правонарушения"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r10",
+      "claimId": "ca547eb33",
+      "type": "MONEY",
+      "raw": "10 000 ₽",
+      "statement": "Должностные лица и ИП по ст. 15.12 КоАП РФ наказываются штрафом от 5 000 до 10 000 ₽ с конфискацией.",
+      "subject": "должностное лицо, индивидуальный предприниматель",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2002-12-30",
+      "span": "uad621d96",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Сумма сверена дословно с текстом статьи.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "части 1 и 2 статьи 15.12",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "на должностных лиц в размере от пяти тысяч до десяти тысяч рублей с конфискацией предметов административного правонарушения"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r11",
+      "claimId": "ced6ab0d1",
+      "type": "MONEY",
+      "raw": "4 000 ₽",
+      "statement": "Граждане по части 2 ст. 15.12 КоАП РФ наказываются штрафом от 2 000 до 4 000 ₽ с конфискацией.",
+      "subject": "гражданин",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2002-12-30",
+      "span": "u5e9098a7",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Сумма сверена дословно с частью 2 статьи.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "часть 2 статьи 15.12",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "на граждан в размере от двух тысяч до четырех тысяч рублей с конфискацией предметов административного правонарушения"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r12",
+      "claimId": "c6805a23e",
       "type": "NPA_KOAP",
       "raw": "ст. 15.12 КоАП",
-      "statement": "Ответственность за производство и оборот шин без маркировки наступает по ст. 15.12 КоАП РФ.",
+      "statement": "По части 2 ст. 15.12 КоАП РФ юридические лица наказываются штрафом от 50 000 до 300 000 ₽ с конфискацией предметов правонарушения; приостановления деятельности части 1 и 2 статьи не содержат.",
+      "subject": "продавец немаркированного товара",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2002-12-30",
+      "span": "uad621d96",
       "status": "match",
       "severity": "critical",
       "confidence": 0.95,
-      "quote": "Статья 15.12. Производство, ввод в оборот или продажа товаров и продукции, в отношении которых установлены требования по маркировке ... без соответствующей маркировки",
-      "sources": ["https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/", "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"],
-      "action": "keep"
-    },
-    {
-      "id": "c43",
-      "type": "MONEY",
-      "raw": "5 000–10 000 ₽ / 50 000–100 000 ₽ (ч. 1 ст. 15.12)",
-      "statement": "По ч. 1 ст. 15.12 КоАП РФ (производство, ввод в оборот шин без маркировки) штраф для ИП и должностных лиц — 5 000–10 000 ₽ с конфискацией, для юрлиц — 50 000–100 000 ₽ с конфискацией.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "quote": "Часть 1 ... Officials: 5,000-10,000 rubles + confiscation; Legal entities: 50,000-100,000 rubles + confiscation. Производство организацией-производителем или индивидуальным предпринимателем, ввод в оборот товаров и продукции без маркировки",
-      "sources": ["https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/", "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"],
-      "action": "keep"
-    },
-    {
-      "id": "c44",
-      "type": "NPA_KOAP",
-      "raw": "ч. 2 ст. 15.12 КоАП",
-      "statement": "Продажа, хранение и перевозка немаркированных шин розницей квалифицируется по ч. 2 ст. 15.12 КоАП РФ.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.95,
-      "quote": "Часть 2 статьи 15.12: Продажа товаров и продукции без маркировки...а также хранение, перевозка либо приобретение таких товаров",
-      "sources": ["https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/", "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"],
-      "action": "keep"
-    },
-    {
-      "id": "c34",
-      "type": "MONEY",
-      "raw": "2 000–4 000 ₽ / 5 000–10 000 ₽ / 50 000–300 000 ₽ (ч. 2 ст. 15.12)",
-      "statement": "По ч. 2 ст. 15.12 КоАП РФ штраф: граждане — 2 000–4 000 ₽, ИП и должностные лица — 5 000–10 000 ₽, юрлица — 50 000–300 000 ₽, во всех случаях с конфискацией.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "quote": "Citizens: 2,000-4,000 rubles + confiscation; Officials: 5,000-10,000 rubles + confiscation; Legal entities: 50,000-300,000 rubles + confiscation",
-      "sources": ["https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/", "https://www.audit-it.ru/koap/15_12.html", "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"],
-      "action": "keep"
-    },
-    {
-      "id": "s59",
-      "type": "FACT",
-      "raw": "Товар при этом изымают независимо от суммы штрафа",
-      "statement": "Конфискация товара по ст. 15.12 КоАП РФ — обязательная часть наказания по каждой части статьи, не зависит от суммы назначенного штрафа.",
-      "status": "match",
-      "severity": "moderate",
-      "confidence": 0.85,
-      "quote": "с конфискацией предметов административного правонарушения",
-      "sources": ["https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/", "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"],
-      "action": "keep",
-      "actionDetail": "Формулировка «с конфискацией» присутствует в каждой части статьи без оговорок и условий — конфискация не поставлена в зависимость от суммы."
-    },
-    {
-      "id": "s60",
-      "type": "FACT",
-      "raw": "саму точку продаж не закрывают",
-      "statement": "Ст. 15.12 КоАП РФ не предусматривает приостановление деятельности или иные меры блокировки точки продаж — только штраф и конфискацию.",
-      "status": "match",
-      "severity": "minor",
-      "confidence": 0.7,
-      "quote": "административный штраф ... с конфискацией предметов административного правонарушения",
-      "sources": ["https://rulaws.ru/koap/Razdel-II/Glava-15/Statya-15.12/", "https://base.garant.ru/12125267/7b8e1cd613832736ca0a22fade07f0e6/"],
-      "action": "keep",
-      "actionDetail": "В тексте статьи нет санкции «приостановление деятельности» (в отличие, например, от ч. 3 ст. 14.5 КоАП РФ) — только штраф и конфискация."
-    },
-    {
-      "id": "c48",
-      "type": "NPA_UK",
-      "raw": "ст. 171.1 УК РФ",
-      "statement": "При систематическом обороте немаркированных шин в крупном размере наступает уголовная ответственность по ст. 171.1 УК РФ.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "quote": "Статья 171.1. Производство, приобретение, хранение, перевозка или сбыт товаров и продукции без маркировки и (или) нанесения информации, предусмотренной законодательством Российской Федерации ... совершенные в крупном размере",
-      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"],
-      "action": "keep"
-    },
-    {
-      "id": "c39",
-      "type": "MONEY",
-      "raw": "3 500 000 ₽ / 2 250 000 ₽ (порог крупного размера, непродовольственные товары, ст. 171.1 УК РФ)",
-      "statement": "Порог крупного размера по ч. 1-2 ст. 171.1 УК РФ для непродовольственных товаров (включая шины) — свыше 3 500 000 ₽; до поправок 2024 года было 2 250 000 ₽.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.85,
-      "quote": "Крупным размером будет считаться сумма, превышающая 3 500 000 руб. (ранее - 2 250 000 руб.) ... Основная часть поправок вступит в силу 17 апреля",
-      "expectedValue": "свыше 3 500 000 ₽ (крупный), свыше 13 500 000 ₽ (особо крупный) — примечание к ст. 170.2 УК РФ в редакции Федерального закона от 06.04.2024 № 79-ФЗ, действует с 17.04.2024",
-      "sources": [
-        "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/",
-        "http://publication.pravo.gov.ru/Document/View/0001202404060014"
+      "explanation": "Найдено расхождение: статья утверждала отсутствие приостановки как сложившуюся практику без нормы. Переписано на норму — санкция читается прямо из текста частей 1 и 2.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/",
+          "locator": "части 1 и 2 статьи 15.12",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "1701a5a024b9241d5b94c5fd53343aa526d9e82af387ba3ffe2c7918c8f71b70",
+          "quote": "на юридических лиц - от пятидесяти тысяч до трехсот тысяч рублей с конфискацией предметов административного правонарушения"
+        }
       ],
-      "explanation": "Первый черновик статьи (и research-бриф) взял порог 2 250 000 ₽ из npaWhitelist.uk[\"171.1\"] проекта — эта запись в whitelist не имеет verifiedAt и не учитывает более позднюю поправку. ФЗ № 79-ФЗ от 06.04.2024 поднял общий порог крупного размера по гл. 22 УК РФ (примечание к ст. 170.2, которое применяется и к ч. 1-2 ст. 171.1 — искл. только для ч. 3-6, где свои пороги для продовольствия и алкоголя/табака) с 2 250 000 ₽ до 3 500 000 ₽. Действующая цифра для непродовольственных товаров, включая шины, — 3 500 000 ₽. Whitelist-запись npaWhitelist.uk[\"171.1\"] проекта устарела и требует обновления; статья исправлена по актуальной норме до публикации.",
-      "action": "rewrite-bullet",
-      "actionDetail": "Заменено в тексте статьи «от 2 250 000 ₽» на «свыше 3 500 000 ₽» со ссылкой на ФЗ № 79-ФЗ от 06.04.2024; старая сумма 2 250 000 ₽ оставлена в тексте только как историческая справка («сумму подняли с 2 250 000 ₽»)."
-    },
-    {
-      "id": "c40",
-      "type": "MONEY",
-      "raw": "300 000 ₽ (штраф по ст. 171.1 УК РФ)",
-      "statement": "Наказание по ст. 171.1 УК РФ включает штраф в размере до 300 000 ₽ или в размере дохода осуждённого за период до двух лет.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "quote": "штрафом в размере до трехсот тысяч рублей или в размере заработной платы или иного дохода осужденного за период до двух лет",
-      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_34661/c8a8c13d283fa3416f79b91b3f36da068225c15b/"
+      ],
       "action": "keep"
     },
     {
-      "id": "c41",
+      "id": "r13",
+      "claimId": "c386450c1",
       "type": "MONEY",
-      "raw": "80 000 ₽ (штраф при лишении свободы по ст. 171.1 УК РФ)",
-      "statement": "Альтернативное наказание по ст. 171.1 УК РФ — принудительные работы до трёх лет либо лишение свободы до трёх лет со штрафом до 80 000 ₽.",
+      "raw": "300 000 ₽",
+      "statement": "Часть 1 ст. 171.1 УК РФ наказывает штрафом до 300 000 ₽ или в размере дохода осуждённого за период до двух лет, либо принудительными работами до трёх лет, либо лишением свободы до трёх лет со штрафом до 80 000 ₽.",
+      "subject": "лицо, совершившее оборот немаркированного товара в крупном размере",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "1996-06-13",
+      "span": "u5e9098a7",
       "status": "match",
       "severity": "critical",
-      "confidence": 0.9,
-      "quote": "принудительными работами на срок до трех лет, либо лишением свободы на срок до трех лет со штрафом в размере до восьмидесяти тысяч рублей",
-      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"],
+      "confidence": 0.95,
+      "explanation": "Наказание сверено дословно с санкцией части 1.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/",
+          "locator": "санкция части 1 статьи 171.1",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "591579765bbc5e925aab2665c07214bbcf2fb2556d7760e8e7cd0a048b67a9e0",
+          "quote": "наказываются штрафом в размере до трехсот тысяч рублей или в размере заработной платы или иного дохода осужденного за период до двух лет, либо принудительными работами на срок до трех лет, либо лишением свободы на срок до трех лет со штрафом в размере до восьмидесяти тысяч рублей"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/0abcfeb2817c95237e7ab7ae330a7a2a79eefe54/"
+      ],
       "action": "keep"
     },
     {
-      "id": "c-fz79",
+      "id": "r14",
+      "claimId": "cffffd4ab",
+      "type": "MONEY",
+      "raw": "3 500 000 ₽",
+      "statement": "Крупный размер для непродовольственных товаров по ч. 1–2 ст. 171.1 УК РФ определяет примечание к ст. 170.2 УК РФ: свыше 3 500 000 ₽. Сумму подняли с 2 250 000 ₽ Федеральным законом от 06.04.2024 № 79-ФЗ.",
+      "subject": "лицо, совершившее оборот немаркированного товара",
+      "modality": "statement",
+      "negated": false,
+      "effectiveFrom": "2024-04-17",
+      "span": "uaafe81d2",
+      "status": "match",
+      "severity": "critical",
+      "confidence": 0.95,
+      "explanation": "Порог и поправка сверены с текстом примечания; та же норма проверялась в статье о ТС ПИоТ.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/",
+          "locator": "примечание к статье 170.2",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "671b3a03145c45d5d22e27bf3750f71abd92a21abe59d7a4fb11c807a7248518",
+          "quote": "в сумме, превышающей три миллиона пятьсот тысяч рублей, а особо крупным - тринадцать миллионов пятьсот тысяч рублей. (примечание в ред. Федерального закона от 06.04.2024 N 79-ФЗ)"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r15",
+      "claimId": "ca828e6ee",
       "type": "NPA_FZ",
-      "raw": "Федеральный закон от 06.04.2024 № 79-ФЗ",
-      "statement": "Федеральный закон от 06.04.2024 № 79-ФЗ поднял порог крупного размера по гл. 22 УК РФ (примечание к ст. 170.2) до 3 500 000 ₽.",
-      "status": "match",
-      "severity": "critical",
-      "confidence": 0.9,
-      "quote": "Федеральный закон от 06.04.2024 № 79-ФЗ \"О внесении изменений в Уголовный кодекс Российской Федерации и Уголовно-процессуальный кодекс Российской Федерации\"",
-      "sources": ["http://publication.pravo.gov.ru/Document/View/0001202404060014", "https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/"],
-      "action": "keep",
-      "actionDetail": "Уже в whitelist проекта npaWhitelist.fz[\"79\"], verifiedAt 2026-08-13 — использован повторно."
-    },
-    {
-      "id": "c-170.2",
-      "type": "NPA_UK",
-      "raw": "ст. 170.2 УК РФ",
-      "statement": "Порог крупного размера для ч. 1-2 ст. 171.1 УК РФ определяет примечание к ст. 170.2 УК РФ.",
+      "raw": "54-ФЗ",
+      "statement": "Передачу данных чека регулирует Федеральный закон от 22.05.2003 № 54-ФЗ о применении контрольно-кассовой техники.",
+      "subject": "пользователь ККТ",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2003-05-22",
+      "span": "u6595370e",
       "status": "match",
       "severity": "moderate",
+      "confidence": 0.95,
+      "explanation": "Реквизиты закона сверены с его текстом.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+          "locator": "реквизиты документа",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "34ea56c7c53a2c62641b6032c499fe96f1bb7c5834ed853fe5ac7eddc69e4e22",
+          "quote": "22.05.2003 N 54-ФЗ"
+        }
+      ],
+      "sources": [
+        "https://www.consultant.ru/document/cons_doc_LAW_42359/"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r16",
+      "claimId": "c037fe105",
+      "type": "DATE_DMY",
+      "raw": "01.10.2026",
+      "statement": "Временный доступ к разрешительному режиму по старой схеме закрывается 1 октября 2026 года: после этой даты проверка работает только через подключённый ТС ПИоТ.",
+      "subject": "розничный продавец маркированного товара",
+      "modality": "obligation",
+      "negated": false,
+      "effectiveFrom": "2026-10-01",
+      "span": "ufffa3b15",
+      "status": "match",
+      "severity": "critical",
       "confidence": 0.8,
-      "quote": "Примечание к статье 170.2. В статьях настоящей главы, за исключением статьи 169, частей третьей — шестой статьи 171.1 ... крупным размером ... признаются стоимость ... в сумме, превышающей три миллиона пятьсот тысяч рублей",
-      "sources": ["https://www.consultant.ru/document/cons_doc_LAW_10699/cd90f24eaa3d1201d7ffab21611960503f756123/"],
-      "action": "keep",
-      "actionDetail": "Примечание прямо исключает из своего действия только части 3-6 ст. 171.1 (продовольствие, алкоголь/табак) — части 1-2 (общий случай, включая шины) под действие примечания подпадают."
+      "explanation": "Дата взята из реестра фактов корпуса: то же доказательство закрывает её в статье о том, кто обязан подключить ТС ПИоТ до 01.10.2026.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "vendorDoc",
+          "url": "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot",
+          "locator": "официальное сообщество «Честного знака», раздел о переходе на ТС ПИоТ",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "2ba96a4e936b2ff7b88e99f2e6144f994cdc103a3581ea47c3219104e3fa00fb",
+          "quote": "X-API-KEY действителен до 1 октября 2026 года"
+        }
+      ],
+      "sources": [
+        "https://markirovka.ru/community/rezhim-proverok-na-kassakh/tekhnicheskie-sredstva-polucheniya-informatsii-o-tovare-ts-piot"
+      ],
+      "action": "keep"
+    },
+    {
+      "id": "r17",
+      "claimId": "s58",
+      "type": "FACT",
+      "raw": "функция «Маркировка остатков» для шин отключена",
+      "statement": "После 1 марта 2021 года промаркировать товарные остатки шин нельзя: переходный период закрыт и не продлевался.",
+      "subject": "розничный продавец шин",
+      "modality": "prohibition",
+      "negated": false,
+      "effectiveFrom": "2021-03-01",
+      "status": "match",
+      "severity": "moderate",
+      "confidence": 0.95,
+      "explanation": "Следует из пункта 2 постановления № 1958: срок маркировки остатков ограничен 1 марта 2021 года, продлений в норму не вносилось.",
+      "evidence": [
+        {
+          "kind": "primary",
+          "sourceRole": "norm",
+          "url": "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/",
+          "locator": "пункт 2 постановления",
+          "retrievedAt": "2026-08-23",
+          "effectiveAsOf": "2026-08-23",
+          "effectiveTo": null,
+          "snapshotHash": "7df1f0f670da0aa8d30172f7a5ef03ebfd113120f7e1aaf0c7dd03be3aac4cd6",
+          "quote": "до 1 марта 2021 г. осуществляют их маркиро"
+        }
+      ],
+      "sources": [
+        "https://rulaws.ru/goverment/Postanovlenie-Pravitelstva-RF-ot-31.12.2019-N-1958/"
+      ],
+      "action": "keep"
     }
   ],
+  "ledger": {
+    "cb5e3f0a7": {
+      "outcome": "duplicateOf",
+      "of": "cc0c51df4"
+    },
+    "cb665d6da": {
+      "outcome": "duplicateOf",
+      "of": "cc0c51df4"
+    },
+    "c0fdc9eec": {
+      "outcome": "duplicateOf",
+      "of": "ca07c0e2e"
+    },
+    "cfe1679b7": {
+      "outcome": "duplicateOf",
+      "of": "ca07c0e2e"
+    },
+    "c5c2bb902": {
+      "outcome": "duplicateOf",
+      "of": "c2a8d0264"
+    },
+    "cffe2b569": {
+      "outcome": "duplicateOf",
+      "of": "c2a8d0264"
+    },
+    "c5d91387e": {
+      "outcome": "duplicateOf",
+      "of": "c2a8d0264"
+    },
+    "c54feaec0": {
+      "outcome": "duplicateOf",
+      "of": "cafd78e7f"
+    },
+    "c0c6d9bb7": {
+      "outcome": "duplicateOf",
+      "of": "cafd78e7f"
+    },
+    "c8b55c47f": {
+      "outcome": "duplicateOf",
+      "of": "cb47a4ada"
+    },
+    "ce4f73262": {
+      "outcome": "duplicateOf",
+      "of": "cb47a4ada"
+    },
+    "c7377cf51": {
+      "outcome": "duplicateOf",
+      "of": "cb47a4ada"
+    },
+    "c96dc373a": {
+      "outcome": "duplicateOf",
+      "of": "ca547eb33"
+    },
+    "cf9ee00f0": {
+      "outcome": "duplicateOf",
+      "of": "ca547eb33"
+    },
+    "c5fe07bf9": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "c0faf73e6": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "c09a43a30": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "ce9ef64ba": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "s59": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "cb5923d9c": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "s60": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "c088e27e4": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "cf15743fa": {
+      "outcome": "duplicateOf",
+      "of": "c6805a23e"
+    },
+    "cc8578017": {
+      "outcome": "duplicateOf",
+      "of": "c386450c1"
+    },
+    "cf6c9a0dd": {
+      "outcome": "duplicateOf",
+      "of": "c386450c1"
+    },
+    "c51dfc17e": {
+      "outcome": "duplicateOf",
+      "of": "c386450c1"
+    },
+    "c32163dd2": {
+      "outcome": "duplicateOf",
+      "of": "c386450c1"
+    },
+    "c75b1d3f0": {
+      "outcome": "duplicateOf",
+      "of": "c386450c1"
+    },
+    "cd65bed18": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "cad7626ff": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "cf73a7128": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "cedd52101": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "c37a8a2f8": {
+      "outcome": "duplicateOf",
+      "of": "cffffd4ab"
+    },
+    "c3f351001": {
+      "outcome": "duplicateOf",
+      "of": "ca828e6ee"
+    },
+    "cff4cccf1": {
+      "outcome": "duplicateOf",
+      "of": "c037fe105"
+    },
+    "c28cd68e7": {
+      "outcome": "duplicateOf",
+      "of": "c037fe105"
+    },
+    "c86994e1a": {
+      "outcome": "skipped",
+      "reason": "значение «2026 год» разбирается утверждением о том же факте выше"
+    },
+    "cfbb5a6b3": {
+      "outcome": "skipped",
+      "reason": "значение «2020–2025» разбирается утверждением о том же факте выше"
+    },
+    "cc4d02283": {
+      "outcome": "skipped",
+      "reason": "значение «2025 годах» разбирается утверждением о том же факте выше"
+    },
+    "cea893b26": {
+      "outcome": "skipped",
+      "reason": "значение «2026 году» разбирается утверждением о том же факте выше"
+    },
+    "cea404879": {
+      "outcome": "skipped",
+      "reason": "значение «2026 года» разбирается утверждением о том же факте выше"
+    },
+    "cf767f301": {
+      "outcome": "skipped",
+      "reason": "значение «2026 год» разбирается утверждением о том же факте выше"
+    },
+    "c94626cfe": {
+      "outcome": "skipped",
+      "reason": "значение «2026 годах» разбирается утверждением о том же факте выше"
+    },
+    "c6d2aad96": {
+      "outcome": "skipped",
+      "reason": "значение «2026 года» разбирается утверждением о том же факте выше"
+    },
+    "c7c58beb0": {
+      "outcome": "skipped",
+      "reason": "значение «2026 года» разбирается утверждением о том же факте выше"
+    },
+    "cdb9432d9": {
+      "outcome": "skipped",
+      "reason": "значение «2026 году» разбирается утверждением о том же факте выше"
+    },
+    "cb47aba8b": {
+      "outcome": "skipped",
+      "reason": "значение «2026 год» разбирается утверждением о том же факте выше"
+    },
+    "c20806dcc": {
+      "outcome": "skipped",
+      "reason": "значение «2020–2025» разбирается утверждением о том же факте выше"
+    },
+    "cf51ad36d": {
+      "outcome": "skipped",
+      "reason": "значение «2025 годах» разбирается утверждением о том же факте выше"
+    },
+    "c199eff77": {
+      "outcome": "skipped",
+      "reason": "значение «2026 году» разбирается утверждением о том же факте выше"
+    },
+    "ce1fec0b8": {
+      "outcome": "skipped",
+      "reason": "значение «2026 года» разбирается утверждением о том же факте выше"
+    }
+  },
+  "units": {
+    "udaf1862d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u4c5f8233": {
+      "class": "factual"
+    },
+    "u69bcce59": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u576a4020": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7dfb2e0e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2acee0a2": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u28dc4202": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedcd0b20": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2166dbaa": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3756119b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u85b48029": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ud21692dd": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u93ca7b05": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ud32141bc": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u660d4eb1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u85178151": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uca60f5f8": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u9e090d33": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uae929267": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubcbff8dd": {
+      "class": "factual"
+    },
+    "ufdecc45b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud8fce7c4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u78a6af34": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uc604e9d1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3ade26a1": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u53a8d633": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u37df016b": {
+      "class": "factual"
+    },
+    "u30c7ea01": {
+      "class": "factual"
+    },
+    "ue6bfb591": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u295b6100": {
+      "class": "factual"
+    },
+    "ub4fc401b": {
+      "class": "factual"
+    },
+    "u2a811f19": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u83780e28": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u69f5566c": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue4f06815": {
+      "class": "factual"
+    },
+    "u4ee6d73b": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1f9ed291": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u84b7fb30": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue43b227b": {
+      "class": "factual"
+    },
+    "u95f2e04e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ub1093b51": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u17f5378b": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ubd15600e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf816ff8c": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u5cae5e9e": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u4fa0d891": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u98d963a9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u3937b44d": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ud172fba4": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubbc7ad06": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u53644341": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud86c3351": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u2fb9ee61": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6595370e": {
+      "class": "factual"
+    },
+    "ufffa3b15": {
+      "class": "factual"
+    },
+    "u119465c5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ub6d74357": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u078a3047": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ud28f3e10": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u0e1b322f": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u196a2020": {
+      "class": "non_factual",
+      "reason": "строка таблицы: значения из неё разобраны утверждениями отчёта"
+    },
+    "uad621d96": {
+      "class": "factual"
+    },
+    "u5e9098a7": {
+      "class": "factual"
+    },
+    "u3f8aa437": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u026bfe97": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u82450f5d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ucdbcea31": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u41155257": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ubebfb574": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u10dfc13d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uaafe81d2": {
+      "class": "factual"
+    },
+    "u3fe355f7": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u06c8f9ad": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ua1dfc159": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u66ae60aa": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "udb0389df": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u1bc138a9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u08db32f5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uf616245d": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u19bef020": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u6b2a9d12": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u1aa7e72a": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "ub5c6660d": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u68d14642": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u264b071b": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "u54ca3e9e": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u57ad7be9": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ued88350e": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uc03f98aa": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "ue8bc3ae5": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u7c8d1c7a": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u34c99052": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "uedc3e5a7": {
+      "class": "non_factual",
+      "reason": "заголовок раздела"
+    },
+    "uc055f554": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u078d2586": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    },
+    "u77018175": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf92552f1": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "u4ac8914d": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "uf9f9d929": {
+      "class": "non_factual",
+      "reason": "пункт списка: шаг процедуры без проверяемого значения"
+    },
+    "ua8102e49": {
+      "class": "non_factual",
+      "reason": "связующий текст без проверяемого значения"
+    }
+  },
   "summary": {
-    "overallStatus": "good-with-minor-addition",
+    "overallStatus": "ok",
     "criticalIssues": 0,
-    "note": "Один critical mismatch (c39, порог крупного размера по ст. 171.1 УК РФ для непродовольственных товаров) обнаружен и исправлен в тексте статьи до публикации маркера — статья процитирована с actionDetail, куда внесена правка. Один claim (s58, отключение функции «Маркировка остатков» для шин) помечен uncertain: прямой источник ЦРПТ вернул 403, независимая цитата не получена. Обнаруженная ошибка также присутствует в опубликованной статье src/content/blog/2026-08-06-chto-takoe-ts-piot.md и в черновике 2026-08-13-zagolovok-oshibki-pri-rabote-s-ts-piot — вынесено отдельным пунктом в отчёт для редактора, не исправлялось в рамках этой задачи."
-  }
+    "moderateIssues": 0,
+    "openIssues": 0
+  },
+  "policyHash": "98e909b22158a2543fa6617f648f0a84b8eaa14bb920bff3529fee626f5d823f",
+  "contractVersion": 3
 }

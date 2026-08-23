@@ -11,7 +11,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { checkCoverage, extractValues, significantKeys, normalizeDates, strip, mask } from './check-coverage.mjs';
+import { checkCoverage, extractValues, significantKeys, normalizeDates, normalizeForMatch, strip, mask } from './check-coverage.mjs';
 
 const article = (body) => `---\ntitle: "Т"\npubDate: "2026-08-13"\n---\n\n${body}`;
 const report = (...raws) => ({ claims: raws.map((raw, i) => ({ id: `c${i}`, raw })) });
@@ -238,4 +238,24 @@ test('утверждение с тем же числом, но про друго
   assert.equal(r.conflicting.length, 1, 'перевёрнутое утверждение засчиталось как разбор');
   assert.match(r.conflicting[0].reason, /под отрицанием/);
   assert.equal(r.missing.length, 0, 'это не «не разбирали» — утверждение есть, но про другое');
+});
+
+test('дословный срок из нормы подтверждает сам себя', () => {
+  /* «7 календарных дней» в статье давало ядро «7 дн», а норма
+   * утверждения оставалась строкой «7 календарных дней» — ядро в ней не
+   * находилось, и разбор объявлялся неполным. Наказание за цитату
+   * нормы вместо пересказа: тот же класс, что «полутора секунд». */
+  const article = '---\ntitle: x\n---\n\nНа регистрацию отводится 7 календарных дней с момента начала оборота.\n';
+  const report = { claims: [{
+    id: 'c1', raw: '7 календарных дней',
+    statement: 'Участник регистрируется в течение 7 календарных дней со дня возникновения необходимости.',
+  }] };
+  const r = checkCoverage(article, report);
+  assert.equal(r.partial.length, 0, `срок из нормы не подтверждён сам собой: ${JSON.stringify(r.partial)}`);
+  assert.equal(r.missing.length, 0);
+});
+
+test('единица длительности приводится к канону в обе стороны', () => {
+  assert.equal(normalizeForMatch('72 часа'), normalizeForMatch('72 часов'));
+  assert.equal(normalizeForMatch('5 рабочих дней'), normalizeForMatch('5 дней'));
 });
