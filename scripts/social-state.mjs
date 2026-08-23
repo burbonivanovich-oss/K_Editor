@@ -21,6 +21,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isMain } from './lib/is-main.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FILE = join(ROOT, "src", "data", "social-adaptations.json");
@@ -86,8 +87,7 @@ const arg = (name, fallback = null) => {
   return i === -1 || i === process.argv.length - 1 ? fallback : process.argv[i + 1];
 };
 
-const isMain = process.argv[1] && process.argv[1].endsWith("social-state.mjs");
-if (isMain) {
+if (isMain(import.meta.url)) {
   const cmd = process.argv[2];
   const slug = process.argv[3];
 

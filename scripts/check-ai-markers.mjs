@@ -12,6 +12,7 @@
 import fs   from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isMain } from './lib/is-main.mjs';
 
 // Меняется при смене формулы regex-скора, порогов structuralSuggestions
 // или схемы profile-файла — AI-01: профиль без версии анализатора
@@ -315,6 +316,12 @@ if (!args[0]) {
 }
 
 const target = path.resolve(args[0]);
+/* Отдельная проверка вместо голого statSync: этот скрипт — P0-гейт
+ * релиза, и «файла нет» он обязан сказать словами, а не стеком ENOENT. */
+if (!fs.existsSync(target)) {
+  console.error(`✖ Нет файла или папки ${args[0]}`);
+  process.exit(1);
+}
 const files  = fs.statSync(target).isDirectory()
   ? fs.readdirSync(target).filter(f => f.endsWith('.md')).map(f => path.join(target, f))
   : [target];
@@ -404,6 +411,6 @@ process.exit(anyAboveThreshold ? 1 : 0);
 
 export { analyzeRegex, sentenceRhythm, sectionSymmetry, ngramRepetition, scoreLabel, structuralSuggestions };
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   await main();
 }

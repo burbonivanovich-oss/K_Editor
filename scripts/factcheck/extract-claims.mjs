@@ -17,10 +17,12 @@ import {
   mkdirSync,
   existsSync,
 } from "node:fs";
+import { createHash } from "node:crypto";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
+const ROOT = process.env.FACTCHECK_ROOT
+  || join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const BLOG_DIR = join(ROOT, "src", "content", "blog");
 const OUT_DIR = join(ROOT, "src", "data", "factcheck");
 const CLAIMS_DIR = join(OUT_DIR, "claims");
@@ -111,10 +113,45 @@ function lineFor(body, idx) {
   return body.slice(0, idx).split("\n").length;
 }
 
+/**
+ * Устойчивый идентификатор утверждения.
+ *
+ * H-01. Раньше id раздавался счётчиком в порядке обхода шаблонов:
+ * `c1`, `c2`, … Такой id — не имя утверждения, а его место в очереди, и
+ * он менялся от любой правки статьи: дописали абзац сверху — вся
+ * нумерация уехала. Пока ссылок на реестр не было, это никого не
+ * трогало; со ссылками (`claimId`) это означает, что каждое повторное
+ * извлечение разом делает все ссылки корпуса неверными. Проверено:
+ * первый же прогон `--all` после перехода на ссылки дал 107 утверждений,
+ * указывающих на чужое место.
+ *
+ * Поэтому id считается из содержания: тип, нормализованный текст и номер
+ * повторения этого текста в статье. Правка соседнего абзаца id не
+ * трогает; исчезновение самого утверждения — трогает, и это правильно,
+ * потому что утверждения больше нет.
+ *
+ * @param {string} prefix — «c» для regex-прохода, «s» для смыслового.
+ */
+function stableId(prefix, type, raw, occurrence) {
+  const norm = String(raw ?? "").replace(/[\s\u00A0\u202F]+/g, " ").trim().toLowerCase();
+  const h = createHash("sha1").update(`${type}|${norm}|${occurrence}`).digest("hex");
+  return `${prefix}${h.slice(0, 8)}`;
+}
+
+/** Сколько раз такой же (тип, текст) уже встречался — номер повторения. */
+function occurrenceCounter() {
+  const seen = new Map();
+  return (type, raw) => {
+    const key = `${type}|${String(raw ?? "").replace(/[\s\u00A0\u202F]+/g, " ").trim().toLowerCase()}`;
+    const n = seen.get(key) ?? 0;
+    seen.set(key, n + 1);
+    return n;
+  };
+}
+
 function extractClaims(slug, md) {
   const { body } = parseFrontmatter(md);
   const claims = [];
-  let id = 0;
 
   for (const [type, re] of Object.entries(PATTERNS)) {
     re.lastIndex = 0;
@@ -131,7 +168,7 @@ function extractClaims(slug, md) {
         continue;
       }
       claims.push({
-        id: `c${++id}`,
+        id: null,               // проставляется ниже, после сортировки по позиции
         type,
         raw,
         groups: m.slice(1).filter((g) => g != null),
@@ -150,10 +187,72 @@ function extractClaims(slug, md) {
   }
 
   claims.sort((a, b) => a.offset - b.offset);
+  /* id раздаётся после сортировки: номер повторения считается в порядке
+   * появления в тексте, а не в порядке обхода шаблонов. Иначе он зависел
+   * бы от того, в каком порядке перечислены PATTERNS. */
+  const nth = occurrenceCounter();
+  for (const c of claims) c.id = stableId("c", c.type, c.raw, nth(c.type, c.raw));
   return { slug, claims };
 }
 
-function processOne(slug) {
+/**
+ * H-03. Утверждения смыслового прохода, уже лежащие в файле.
+ *
+ * Смысловой проход — единственный способ увидеть то, чего regex не
+ * видит: «единого справочника кодов нет», «продажа запрещена». Их
+ * добавляет `merge`, и до этой правки любой следующий прогон
+ * `extract-claims` их стирал: `processOne` перезаписывал файл целиком
+ * результатом regex-прохода, а `--all` звал `processOne` для каждой
+ * статьи. Сейчас в корпусе таких утверждений 21 в трёх файлах — один
+ * прогон `--all` уничтожал их все, молча и без следа.
+ */
+function keptSemantic(out) {
+  if (!existsSync(out)) return [];
+  try {
+    const prev = JSON.parse(readFileSync(out, "utf8"));
+    return (prev.claims || []).filter((c) => c.foundBy === "semantic");
+  } catch {
+    /* Файл нечитаем — сохранять нечего, но и падать не за что: regex-проход
+     * восстановит машинную часть, а про смысловую честно скажет «ноль». */
+    return [];
+  }
+}
+
+/**
+ * Перенести смысловые утверждения на новые позиции в тексте.
+ *
+ * Позиция считается заново по цитате, а не переносится как есть: между
+ * прогонами текст мог сдвинуться, и старый offset указывал бы в другое
+ * место. Цитата, которой в статье больше нет, не выбрасывается —
+ * помечается `stale`: исчезнувшее утверждение это событие, о котором
+ * нужно знать, а не отсутствие события.
+ */
+function rehomeSemantic(semantic, body, regexClaims) {
+  const carried = [];
+  const stale = [];
+  for (const c of semantic) {
+    const raw = String(c.raw || "").trim();
+    const offset = raw ? body.indexOf(raw) : -1;
+    if (offset === -1) {
+      stale.push({ ...c, stale: true, staleNote: "цитаты больше нет в тексте статьи" });
+      continue;
+    }
+    // Regex мог дорасти до этого места — тогда утверждение уже покрыто.
+    const dup = regexClaims.some(
+      (r) => r.raw === raw || (Math.abs(r.offset - offset) < 5 && String(r.raw).includes(raw)),
+    );
+    if (dup) continue;
+    carried.push({
+      ...c,
+      offset,
+      line: lineFor(body, offset),
+      context: ctx(body, offset, raw.length),
+    });
+  }
+  return { carried, stale };
+}
+
+function processOne(slug, { force = false } = {}) {
   let file = join(BLOG_DIR, `${slug}.md`);
   if (!existsSync(file)) {
     const mdx = join(BLOG_DIR, `${slug}.mdx`);
@@ -164,8 +263,14 @@ function processOne(slug) {
   const result = extractClaims(slug, md);
   if (!existsSync(CLAIMS_DIR)) mkdirSync(CLAIMS_DIR, { recursive: true });
   const out = join(CLAIMS_DIR, `${slug}.json`);
+
+  const { body } = parseFrontmatter(md);
+  const { carried, stale } = rehomeSemantic(keptSemantic(out), body, result.claims);
+  const keep = force ? carried : [...carried, ...stale];
+  result.claims = [...result.claims, ...keep].sort((a, b) => a.offset - b.offset);
+
   writeFileSync(out, JSON.stringify(result, null, 2) + "\n");
-  return { slug, count: result.claims.length, file: out };
+  return { slug, count: result.claims.length, file: out, carried: carried.length, stale };
 }
 
 /**
@@ -193,7 +298,12 @@ function mergeClaims(slug, semanticFile) {
   const incoming = JSON.parse(readFileSync(semanticFile, "utf8"));
   if (!Array.isArray(incoming)) throw new Error("ожидается массив утверждений");
 
-  let maxId = data.claims.reduce((m, c) => Math.max(m, parseInt(String(c.id).slice(1), 10) || 0), 0);
+  /* Номер повторения для смысловых утверждений считается по уже
+   * лежащим в файле — иначе два merge одной цитаты дали бы один id. */
+  const semanticNth = (type, raw) => data.claims.filter(
+    (c) => c.foundBy === "semantic" && c.type === type
+      && String(c.raw).trim().toLowerCase() === String(raw).trim().toLowerCase(),
+  ).length;
   const added = [];
   const notFound = [];
 
@@ -204,9 +314,10 @@ function mergeClaims(slug, semanticFile) {
     if (offset === -1) { notFound.push(raw); continue; }
     // Уже нашла регулярка — не задваиваем.
     if (data.claims.some((c) => c.raw === raw || (Math.abs(c.offset - offset) < 5 && c.raw.includes(raw)))) continue;
+    const type = item.type || "SEMANTIC";
     const claim = {
-      id: `s${++maxId}`,
-      type: item.type || "SEMANTIC",
+      id: stableId("s", type, raw, semanticNth(type, raw)),
+      type,
       raw,
       groups: [],
       offset,
@@ -224,14 +335,18 @@ function mergeClaims(slug, semanticFile) {
   return { added, notFound, total: data.claims.length, file: claimsPath };
 }
 
-function processAll() {
+function processAll({ force = false } = {}) {
   const files = readdirSync(BLOG_DIR).filter((f) => f.endsWith(".md"));
   const inventory = [];
   let totalClaims = 0;
+  let carried = 0;
+  const staleAll = [];
   const byType = {};
   for (const f of files) {
     const slug = f.replace(/\.md$/, "");
-    const r = processOne(slug);
+    const r = processOne(slug, { force });
+    carried += r.carried;
+    for (const c of r.stale) staleAll.push({ slug, raw: c.raw });
     inventory.push({ slug, claims: r.count });
     totalClaims += r.count;
     const data = JSON.parse(readFileSync(r.file, "utf8"));
@@ -260,6 +375,8 @@ function processAll() {
   Object.entries(byType)
     .sort((a, b) => b[1] - a[1])
     .forEach(([t, n]) => console.log(`  ${t.padEnd(12)} ${n}`));
+  if (carried) console.log(`смысловых утверждений перенесено: ${carried}`);
+  return { staleAll };
 }
 
 const arg = process.argv[2];
@@ -267,8 +384,30 @@ if (!arg) {
   console.error("usage: extract-claims.mjs <slug> | --all | merge <slug> --file <json>");
   process.exit(1);
 }
+const FORCE = process.argv.includes("--force");
+
+/* Исчезнувшая цитата — не мелочь и не повод молчать. Она означает одно
+ * из двух: статью правили после смыслового прохода (тогда утверждение
+ * нужно перепроверить) или в merge попал пересказ. Оба случая требуют
+ * человека, поэтому прогон завершается ненулевым кодом. */
+function reportStale(stale) {
+  if (!stale.length) return;
+  console.error(`\n✖ Смысловых утверждений без цитаты в тексте: ${stale.length}`);
+  for (const c of stale) {
+    console.error(`   • ${c.slug ? c.slug + ": " : ""}${String(c.raw).slice(0, 90)}`);
+  }
+  console.error(
+    FORCE
+      ? "  --force: помеченные stale утверждения удалены из файла."
+      : "  Оставлены в файле с пометкой stale. Проверить и либо поправить цитату,\n" +
+        "  либо удалить утверждение осознанно (--force удаляет их молча).",
+  );
+  process.exit(1);
+}
+
 if (arg === "--all") {
-  processAll();
+  const { staleAll } = processAll({ force: FORCE });
+  reportStale(staleAll);
 } else if (arg === "merge") {
   const slug = (process.argv[3] || "").replace(/\.md$/, "");
   const i = process.argv.indexOf("--file");
@@ -286,6 +425,11 @@ if (arg === "--all") {
     process.exit(1);
   }
 } else {
-  const r = processOne(arg.replace(/\.md$/, ""));
-  console.log(`extracted ${r.count} claims → ${r.file}`);
+  const slug = arg.replace(/\.md$/, "");
+  const r = processOne(slug, { force: FORCE });
+  console.log(
+    `extracted ${r.count} claims → ${r.file}` +
+    (r.carried ? ` (смысловых перенесено: ${r.carried})` : ""),
+  );
+  reportStale(r.stale.map((c) => ({ slug, raw: c.raw })));
 }

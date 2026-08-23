@@ -51,12 +51,17 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isMain } from '../lib/is-main.mjs';
+import { validateReportSchema, AUTHORITATIVE_ROLES } from './report-schema.mjs';
+import { riskOf } from './risk.mjs';
 
 const ROOT = process.env.FACTCHECK_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const DIR = join(ROOT, 'src/data/factcheck/results');
 
-/** Типы, где ошибка в значении — это последствие в реальном мире. */
-export const HIGH_RISK_TYPES = ['MONEY', 'NPA_UK', 'NPA_KOAP', 'DURATION', 'LEGAL_CLAIM'];
+/* Класс риска переехал в risk.mjs: прежний список из пяти типов
+ * (MONEY, NPA_UK, NPA_KOAP, DURATION, LEGAL_CLAIM) оставлял без строгих
+ * доказательств даты вступления требований, проценты, номера ФЗ/ПП и
+ * технические версии. */
 
 /**
  * Первоисточники. Публикатор НПА, справочные системы с текстами норм,
@@ -66,10 +71,30 @@ export const HIGH_RISK_TYPES = ['MONEY', 'NPA_UK', 'NPA_KOAP', 'DURATION', 'LEGA
  */
 export const PRIMARY_DOMAINS = [
   'publication.pravo.gov.ru', 'pravo.gov.ru',
-  'consultant.ru', 'garant.ru',
+  'consultant.ru', 'garant.ru', 'base.garant.ru', 'rulaws.ru',
   'nalog.gov.ru', 'minfin.gov.ru', 'minpromtorg.gov.ru',
+  'government.ru', 'mintrud.gov.ru', 'fsrar.gov.ru', 'vetrf.ru', 'fsvps.gov.ru',
   'sudact.ru', 'vsrf.ru',
+  /* Тематика banki (sources.json → byTopic.banki): решения Банка
+   * России и Росфинмониторинга — сами первоисточники по своим темам
+   * (лимиты эквайринга, антиотмывочные требования), не пересказ
+   * стороннего агрегатора. */
+  'cbr.ru', 'fedsfm.ru',
+  /* Оператор ГИС МТ. Часть фактов темы — не нормы права, а решения
+   * оператора: сроки действия токена, включение модели в реестр,
+   * порядок офлайн-проверки. Первоисточник для них — публикация самого
+   * оператора, и отправлять факчек за ними в обзор значит требовать
+   * пересказ там, где есть оригинал. Роль такого источника — vendorDoc,
+   * и она уже отличается от нормы в `sourceRole`. */
+  'markirovka.ru', 'xn--80ajghhoc2aj1c8b.xn--p1ai', 'честныйзнак.рф',
 ];
+
+/* Часть первоисточников отдаёт 403 на WebFetch (consultant.ru,
+ * pravo.gov.ru — см. `blocked.domains` в sources.json). Это не повод
+ * принимать сниппет за доказательство: у тех же норм есть доступные
+ * публикации — base.garant.ru, rulaws.ru, сайты ведомств,
+ * publication.pravo.gov.ru. Не удалось получить текст ни на одной —
+ * честный ответ «uncertain», а не «match» по выдаче поиска. */
 
 /** Минимальная уверенность, при которой статус «совпало» допустим. */
 export const MIN_CONFIDENCE = { critical: 0.8, moderate: 0.7, minor: 0 };
@@ -108,6 +133,38 @@ const WORD_SCALES = [
   [/^тысяч/, 1000], [/^миллион/, 1000000], [/^миллиард/, 1000000000],
 ];
 
+/**
+ * Косвенные падежи числительных.
+ *
+ * Нормы почти всегда пишут суммы в родительном: «не менее тридцати тысяч
+ * рублей», «от пятидесяти тысяч до трехсот тысяч». Таблица выше знает
+ * только именительный, и дословная цитата из закона по ней не
+ * разбиралась: «тридцати» не опознавалось, оставалось голое «тысяч» =
+ * 1000, и проверка объявляла, что цитата не подтверждает 30 000 ₽.
+ *
+ * Нашлось при попытке собрать доказательную базу по-настоящему: из 13
+ * замечаний по честно составленному отчёту 11 были этой ошибкой. То
+ * есть правило наказывало ровно за то поведение, которого добивается, —
+ * за дословную цитату вместо пересказа.
+ */
+const WORD_FORMS = {
+  одного: 1, одной: 1, двух: 2, трех: 3, трёх: 3, четырех: 4, четырёх: 4,
+  пяти: 5, шести: 6, семи: 7, восьми: 8, девяти: 9, десяти: 10,
+  одиннадцати: 11, двенадцати: 12, тринадцати: 13, четырнадцати: 14,
+  пятнадцати: 15, шестнадцати: 16, семнадцати: 17, восемнадцати: 18,
+  девятнадцати: 19, двадцати: 20, тридцати: 30, сорока: 40,
+  пятидесяти: 50, шестидесяти: 60, семидесяти: 70, восьмидесяти: 80,
+  девяноста: 90, ста: 100, двухсот: 200, трехсот: 300, трёхсот: 300,
+  четырехсот: 400, четырёхсот: 400, пятисот: 500, шестисот: 600,
+  семисот: 700, восьмисот: 800, девятисот: 900,
+  /* Дробные прописью. Нормы пишут «в течение полутора секунд», статья
+   * пишет «1,5 секунды», и это одно и то же значение. Без этой пары
+   * дословная цитата п. 16 ПП № 1944 объявлялась не подтверждающей
+   * число — четвёртый случай того же рода, что и родительный падеж
+   * сумм: правило наказывало за цитирование нормы вместо пересказа. */
+  полтора: 1.5, полторы: 1.5, полутора: 1.5,
+};
+
 /** Все суммы, записанные прописью, как числа: «четыреста тысяч» → 400000. */
 export function numeralWordsIn(text) {
   const words = String(text ?? '').toLowerCase().match(/[а-яё]+/g) || [];
@@ -119,6 +176,7 @@ export function numeralWordsIn(text) {
   };
   for (const w of words) {
     if (w in WORD_UNITS) { group += WORD_UNITS[w]; seen = true; continue; }
+    if (w in WORD_FORMS) { group += WORD_FORMS[w]; seen = true; continue; }
     const scale = WORD_SCALES.find(([re]) => re.test(w));
     if (scale) {
       total += (group || 1) * scale[1];
@@ -129,7 +187,46 @@ export function numeralWordsIn(text) {
     flush();
   }
   flush();
-  return out.filter((n) => n > 0).map(String);
+  /* Сравнение идёт со значениями из `numbersIn`, а она снимает
+   * разделители: «1,5» становится «15». Дробное прописью обязано
+   * приводиться к тому же виду, иначе «полутора» и «1,5 секунды» не
+   * сойдутся при том, что это одно значение. */
+  return out.filter((n) => n > 0).map((n) => String(n).replace('.', ''));
+}
+
+/* Проценты, записанные долями.
+ *
+ * Санкции за расчёты без ККТ норма выражает дробями: «от одной
+ * четвертой до одной второй размера суммы расчета», «от трех четвертых
+ * до одного размера». Статья пишет то же самое процентами — «от 25 до
+ * 50 %», «от 75 до 100 %», — и это не пересказ, а перевод в форму,
+ * понятную читателю.
+ *
+ * Без этой пары дословная цитата части 2 статьи 14.5 КоАП РФ
+ * объявлялась не подтверждающей проценты, и единственным способом
+ * пройти проверку было переписать статью дробями. Тот же род ошибки,
+ * что и родительный падеж сумм: правило требовало испортить текст ради
+ * галочки.
+ */
+const FRACTION_NUM = { одной: 1, одна: 1, двух: 2, две: 2, трех: 3, трёх: 3, четырех: 4, четырёх: 4 };
+const FRACTION_DEN = {
+  второй: 2, вторых: 2, половины: 2, третьей: 3, третьих: 3,
+  четвертой: 4, четвёртой: 4, четвертых: 4, четвёртых: 4,
+  пятой: 5, пятых: 5, десятой: 10, десятых: 10,
+};
+
+/** Доли прописью как проценты: «трех четвертых» → «75». */
+export function fractionPercentsIn(text) {
+  const words = String(text ?? '').toLowerCase().match(/[а-яё]+/g) || [];
+  const out = [];
+  for (let i = 0; i < words.length - 1; i += 1) {
+    const num = FRACTION_NUM[words[i]];
+    const den = FRACTION_DEN[words[i + 1]];
+    if (num && den) { out.push(String(Math.round((num / den) * 100))); continue; }
+    /* «в размере одного размера суммы расчета» — целое, то есть 100 %. */
+    if ((words[i] === 'одного' || words[i] === 'одну') && /^размер/.test(words[i + 1])) out.push('100');
+  }
+  return out;
 }
 
 /** Ссылки на нормы в сравнимом виде: «ст. 171.1 УК» → «171.1». */
@@ -137,27 +234,22 @@ export function normRefsIn(text) {
   return (String(text ?? '').match(/\d+(?:\.\d+)?/g) || []);
 }
 
-/* Технические идентификаторы: номер тега, реквизита, кода, версии ФФД.
- * Ошибка в такой цифре стоит столько же, сколько ошибка в пороге
- * ответственности, — касса просто не примет чек. */
-const TECH_ID = /(тег|реквизит|ффд|код\s+(ошибки|товара|маркировки)|версия\s+формата)\D{0,20}\d{3,}/iu;
-const LIABILITY = /(штраф|порог|крупн\p{L}*\s+размер|ответственност|конфискац|наказ)/iu;
+/* Класс риска считает risk.mjs: там же перечислено, почему даты,
+ * проценты, номера НПА и технические идентификаторы попадают в строгий
+ * режим автоматически. Раньше строгим было в основном денежное и
+ * уголовно-административное, и «требование действует с 1 марта 2026»
+ * проходило без цитаты вовсе. */
 
 /**
- * Опасное утверждение определяем по содержанию, а не по объявленной
- * важности.
- *
- * Severity в отчёте ставит тот же проверяющий, который проверяет, — и
- * ровно эта самооценка подвела: утверждение «ФФД 1.2 нужен для тега
- * 1162» стояло как `minor`, хотя номер тега неверен и касса по нему
- * работать не будет. Доверять полю, которое заполняет проверяемая
- * сторона, в гейте нельзя.
+ * Полная проверка отчёта: форма (report-schema.mjs) плюс доказательства.
+ * Именно её зовут CLI, write-marker и validate-bundle — по отдельности
+ * ни форма без доказательств, ни доказательства без формы гарантий не
+ * дают: отчёт без обязательных полей выглядел тем чище, чем хуже был
+ * заполнен.
  */
-const isHighRisk = (c) => {
-  if (HIGH_RISK_TYPES.includes(c.type) || c.severity === 'critical') return true;
-  const text = `${c.raw ?? ''} ${c.expectedValue ?? ''} ${c.statement ?? ''}`;
-  return TECH_ID.test(text) || LIABILITY.test(text);
-};
+export function checkReportFull(report, name = 'отчёт', opts = {}) {
+  return [...validateReportSchema(report, name, opts), ...checkReport(report, name)];
+}
 
 export function checkReport(report, name = 'отчёт') {
   const problems = [];
@@ -182,7 +274,8 @@ export function checkReport(report, name = 'отчёт') {
       }
     }
 
-    if (!isHighRisk(c) || c.status !== 'match') continue;
+    const risk = riskOf(c);
+    if (!risk.strict || c.status !== 'match') continue;
 
     /* Что именно утверждает статья. Токен «400 000 ₽» сам по себе
      * ничего не утверждает, и проверить его нельзя. */
@@ -193,50 +286,137 @@ export function checkReport(report, name = 'отчёт') {
       add(id, 'statement не длиннее токена — утверждение не сформулировано');
     }
 
-    /* Дословная цитата первоисточника со значением внутри. Главное
-     * правило: не можешь привести цитату с числом — не проверил число. */
-    const quote = String(c.quote || '').trim();
-    if (!quote) {
-      add(id, 'нет дословной цитаты первоисточника — «подтверждено поиском» доказательством не является');
-    } else {
-      const isAmount = c.type === 'MONEY' || c.type === 'DURATION';
-      const wanted = isAmount ? numbersIn(c.raw) : normRefsIn(c.raw);
-      // Суммы в цитате ищем и цифрами, и прописью: НПА пишет словами.
-      const inQuote = isAmount
-        ? [...numbersIn(quote), ...numeralWordsIn(quote)]
-        : [...normRefsIn(quote), ...numeralWordsIn(quote)];
-      if (wanted.length && !wanted.some((w) => inQuote.includes(w))) {
-        add(id, `в цитате нет значения «${String(c.raw).slice(0, 30)}» — цитата не подтверждает именно это число`);
+    /* K-03. Разбор утверждения для строгого класса.
+     *
+     * Формулировки мало: чтобы сверить утверждение с местом статьи,
+     * нужно знать субъект, модальность и знак отдельно. Пока их не было,
+     * покрытие угадывало это по тексту — и угадывало неплохо, но
+     * угадывание не должно быть единственным источником. Для утверждений
+     * с деньгами, сроками и ответственностью это обязательные поля. */
+    for (const [field, why] of [
+      ['subject', 'кого утверждение касается — ИП, юрлицо, должностное лицо'],
+      ['modality', 'обязывает, разрешает, запрещает или сообщает'],
+    ]) {
+      if (c[field] === undefined) {
+        add(id, `нет ${field}: ${why} (строгий режим: ${risk.reason})`);
       }
     }
 
-    const sources = Array.isArray(c.sources) ? c.sources : [];
-    if (!sources.some(isPrimary)) {
-      add(id, sources.length
-        ? 'нет ссылки на первоисточник — пересказ нормы не подтверждает порог'
-        : 'нет ни одного источника');
+    /* Доказательство происхождения цитаты.
+     *
+     * Раньше хватало URL на разрешённом домене и цитаты с похожим
+     * числом рядом — но что цитата взята именно с этой страницы, никто
+     * не проверял, а research-инструкция прямо допускала поисковый
+     * сниппет как подтверждение. Сниппет говорит, что строка где-то
+     * встречается; он не говорит, что она есть в этом документе и в
+     * этой редакции.
+     *
+     * Поэтому для строгого класса нужен объект доказательства: адрес,
+     * локатор внутри документа, дата обращения, дата, на которую норма
+     * действует, отпечаток полученного текста и сама цитата. */
+    const evidence = Array.isArray(c.evidence) ? c.evidence : [];
+    /* H-06. Первоисточником считается доказательство, которое и открыто
+     * целиком (`kind: primary`), и является источником по существу
+     * (`sourceRole` не `secondary`). Открытая обзорная статья — всё
+     * равно обзорная статья: так «отсрочка до следующего рабочего дня»
+     * получила подтверждение двумя разборами и попала не в тот пункт
+     * нормы. Роль не проставлена — считаем вторичным: умолчание должно
+     * быть строгим, а не удобным. */
+    const authoritative = (e) => AUTHORITATIVE_ROLES.includes(e?.sourceRole);
+    const primaries = evidence.filter((e) => e && e.kind === 'primary' && isPrimary(e.url) && authoritative(e));
+    const secondaries = evidence.filter((e) => e && e.kind === 'primary' && !authoritative(e));
+    const snippets = evidence.filter((e) => e && e.kind === 'snippet');
+
+    if (!evidence.length) {
+      add(id, `нет доказательств (evidence) — строгий режим: ${risk.reason}. `
+        + 'Нужен первоисточник с локатором, датой обращения и дословной цитатой');
+    } else if (!primaries.length) {
+      const why = secondaries.length
+        ? `подтверждено вторичным источником (sourceRole «${secondaries[0].sourceRole ?? 'не указана'}») — для «${risk.reason}» это «неясно», а не «совпало»`
+        : snippets.length
+          ? `подтверждено только поисковым сниппетом — для «${risk.reason}» это «неясно», а не «совпало»`
+          : 'нет доказательства с первоисточника — пересказ нормы не подтверждает значение';
+      add(id, why);
+    } else {
+      /* Полнота: без локатора и даты обращения доказательство
+       * невоспроизводимо, без даты действия — неизвестно, к какой
+       * редакции нормы оно относится. */
+      for (const [j, e] of primaries.entries()) {
+        for (const [field, why] of [
+          ['locator', 'где именно в документе — «пункт 4, абзац 2»'],
+          ['retrievedAt', 'когда страницу открывали'],
+          ['effectiveAsOf', 'на какую дату норма действует'],
+          ['snapshotHash', 'отпечаток полученного текста — иначе цитату не с чем сверить'],
+        ]) {
+          if (!e[field]) add(`${id}/evidence[${j}]`, `нет ${field}: ${why}`);
+        }
+      }
+
+      /* Область действия. Цитата с нужной страницы, но про другого
+       * субъекта или другую версию, утверждение не подтверждает: ИП и
+       * юрлицо в ч. 2 ст. 14.5 КоАП РФ отличаются втрое по сумме, а
+       * порядок исправления чека на ФФД 1.05 и на 1.2 — разный
+       * документ. Сверяем только то, что названо с обеих сторон:
+       * доказательство без scope не опровергает утверждение, оно просто
+       * не уточняет область. */
+      const said = `${c.statement ?? ''} ${c.raw ?? ''}`;
+      for (const [j, e] of primaries.entries()) {
+        const sc = e.scope;
+        if (!sc) continue;
+        for (const [field, label] of [['subject', 'субъект'], ['version', 'версия'], ['product', 'продукт']]) {
+          const v = String(sc[field] ?? '').trim();
+          if (!v) continue;
+          if (!said.toLowerCase().includes(v.toLowerCase())) {
+            add(`${id}/evidence[${j}]`,
+              `${label} доказательства «${v}» в утверждении не назван — доказательство про другой случай либо область утверждения не уточнена`);
+          }
+        }
+      }
+
+      /* Цитата обязана содержать проверяемое значение. Не можешь
+       * привести цитату с числом — не проверил число: именно так
+       * «400 000 ₽» и прошло с уверенностью 0.85. */
+      /* Что считается суммой.
+       *
+       * Список был короче словаря извлечения: `MONEY_RANGE` и
+       * `MONEY_WORDS` в него не попали, и для них значение искалось как
+       * ссылка на норму — то есть не находилось никогда, сколько бы
+       * точной ни была цитата. Диапазон «от 5 000 до 10 000 ₽» с
+       * дословной «от пяти тысяч до десяти тысяч рублей» объявлялся
+       * неподтверждённым. Словари обязаны совпадать: иначе часть
+       * утверждений непроверяема по построению. */
+      const AMOUNT_TYPES = ['MONEY', 'MONEY_WORDS', 'MONEY_RANGE', 'DURATION'];
+      const isAmount = AMOUNT_TYPES.includes(c.type);
+      const wanted = isAmount ? numbersIn(c.raw) : normRefsIn(c.raw);
+      const found = primaries.some((e) => {
+        const q = String(e.quote || '');
+        /* Номер нормы ищем и в локаторе.
+         *
+         * Цитата из части 2 статьи 14.5 КоАП РФ не содержит слов
+         * «статья 14.5» — она содержит санкцию. Место в документе
+         * называет локатор, для того он и заведён. Требовать номер
+         * внутри цитаты значит требовать цитировать оглавление вместо
+         * нормы. */
+        const where = isAmount ? q : `${q} ${e.locator ?? ''}`;
+        const inQuote = isAmount
+          ? [...numbersIn(q), ...numeralWordsIn(q), ...fractionPercentsIn(q)]
+          : [...normRefsIn(where), ...numeralWordsIn(q), ...fractionPercentsIn(q)];
+        return wanted.some((w) => inQuote.includes(w));
+      });
+      if (wanted.length && !found) {
+        add(id, `в цитате первоисточника нет значения «${String(c.raw).slice(0, 30)}» — цитата не подтверждает именно это число`);
+      }
     }
   }
 
-  /* Итог отчёта обязан следовать из утверждений, а не объявляться.
-   * write-marker копирует summary как есть, поэтому проверяем здесь. */
-  const blocking = claims.filter(
-    (c) => ['critical', 'moderate'].includes(c.severity) && c.status !== 'match',
-  );
-  const overall = report.summary?.overallStatus;
-  if (blocking.length && overall && overall !== 'needs-rewrite') {
-    add('summary', `${blocking.length} значимых утверждений не подтверждены, а overallStatus «${overall}»`);
-  }
-  const declared = Number(report.summary?.criticalIssues ?? 0);
-  const actual = claims.filter((c) => c.severity === 'critical' && c.status !== 'match').length;
-  if (declared !== actual) {
-    add('summary', `criticalIssues заявлено ${declared}, по утверждениям выходит ${actual}`);
-  }
-
+  /* Итог отчёта здесь больше не проверяется: он ушёл в
+   * report-schema.mjs, где считается из claims целиком
+   * (computeOutcome) и сверяется с объявленным. Держать два места, где
+   * «сходится ли summary», значит получить два разных ответа. */
   return problems;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
   let files;
   if (args.includes('--all')) {
@@ -256,7 +436,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     try { data = JSON.parse(readFileSync(f, 'utf8')); } catch (e) {
       console.log(`✖ ${basename(f)} — не разбирается: ${e.message}`); bad++; continue;
     }
-    const problems = checkReport(data, basename(f));
+    const problems = checkReportFull(data, basename(f));
     if (!problems.length) { console.log(`✓ ${basename(f)}`); continue; }
     bad++;
     console.log(`✖ ${basename(f)} — ${problems.length} замечаний:`);

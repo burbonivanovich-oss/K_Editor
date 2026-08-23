@@ -27,7 +27,7 @@
 //
 // Выход: 0 — выпущена (или уже была draft: false), 1 — заблокирована.
 
-import { readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, existsSync, rmSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
@@ -36,7 +36,10 @@ import { fileURLToPath } from 'node:url';
  * два места с одним порогом расходятся ровно тогда, когда порог меняют.
  * 70 не отсекал ничего при реальном разбросе 84–100 — шлюза не было
  * вовсе; подняли до 85 вместе с переделкой шкалы 13.08.2026. */
-import { PASS as PASS_SCORE, isLegacy } from './check-analysis.mjs';
+import { validateAnalysisBundle } from './check-analysis.mjs';
+import { validateFactcheckBundle } from './factcheck/validate-bundle.mjs';
+import { reviewDateFor } from './factcheck/review-date.mjs';
+import { GATE_CHECKS, FAIL as GATE_FAIL, DECIDE as GATE_DECIDE } from './gates.mjs';
 
 // Гейт-скрипты (audit-npa-references.mjs и т. п.) — реальные, всегда из
 // настоящего репозитория, не из тестовой фикстуры: у них своих оверрайдов
@@ -129,6 +132,45 @@ function setField(fm, key, value) {
   return `${fm.trimEnd()}\n${key}: ${literal}\n`;
 }
 
+/* Выпуск — четыре записи, и они не независимы.
+ *
+ * Снятый `draft` меняет хеш статьи, из-за чего маркер обязан быть
+ * переписан; контент-план обязан узнать, что тема закрыта. Записи шли
+ * подряд, и сбой на любой из них — нет места на диске, права, падение
+ * дочернего процесса — оставлял корпус в состоянии, которого не бывает
+ * при нормальной работе: статья выпущена, а маркер относится к прежнему
+ * тексту, и следующий же прогон объявляет её сломанной. Хуже того,
+ * править это приходится руками, зная, какие именно шаги успели пройти.
+ *
+ * Поэтому все записи выпуска идут через `tx`: он запоминает прежнее
+ * содержимое каждого файла (или его отсутствие) и при первой же ошибке
+ * возвращает всё как было. Частичного выпуска не остаётся — остаётся
+ * невыпущенная статья и понятная ошибка.
+ *
+ * Атомарности файловой системы это не даёт и не претендует: между
+ * записями возможен `kill -9`, и тогда откат не отработает. Защита от
+ * ошибки в шаге, а не от выдёргивания питания. */
+const tx = {
+  saved: new Map(),
+  write(path, content) {
+    if (!this.saved.has(path)) {
+      this.saved.set(path, existsSync(path) ? readFileSync(path, 'utf8') : null);
+    }
+    writeFileSync(path, content);
+  },
+  rollback() {
+    const failed = [];
+    for (const [path, before] of [...this.saved].reverse()) {
+      try {
+        if (before === null) rmSync(path, { force: true });
+        else writeFileSync(path, before);
+      } catch (e) { failed.push(`${path}: ${e.message}`); }
+    }
+    this.saved.clear();
+    return failed;
+  },
+};
+
 /**
  * F-02 (git-локальная синхронизация статуса). Если тема была в
  * контент-плане — переводит её строку в done. Не про Google Sheets:
@@ -148,7 +190,7 @@ function syncContentPlanStatus(dataRoot, articleSlug) {
   const text = readFileSync(planPath, 'utf8');
   const m = text.match(rowRe);
   if (!m || m[2] === 'done') return null;
-  writeFileSync(planPath, text.replace(rowRe, '$1done$3'));
+  tx.write(planPath, text.replace(rowRe, '$1done$3'));
 
   // editorial-plan.json — производный артефакт. Регенерируем только в
   // реальном репозитории: generate-editorial-plan.mjs не умеет
@@ -172,15 +214,25 @@ function syncContentPlanStatus(dataRoot, articleSlug) {
 // это делало их нетестируемыми — тесты этого файла молча гоняли их по
 // реальному репозиторию, а не по DATA_ROOT фикстуры). Абсолютный путь
 // к скрипту — иначе смена cwd на DATA_ROOT сломает поиск самого файла.
-function runGate(cmd, cmdArgs, cwd = REPO_ROOT) {
+function runGate(cmd, cmdArgs, cwd = REPO_ROOT, env = {}) {
   const absArgs = cmdArgs.map((a) => (a.startsWith('scripts/') ? join(REPO_ROOT, a) : a));
   try {
-    const out = execFileSync(cmd, absArgs, { encoding: 'utf8', cwd });
-    return { ok: true, output: out };
+    const out = execFileSync(cmd, absArgs, { encoding: 'utf8', cwd, env: { ...process.env, ...env } });
+    /* Пустой вывод при нулевом коде — отказ, а не успех. Гейт, который
+     * не запустился, обязан выглядеть как упавший: девять чекеров с
+     * битым main-guard именно так и проходили релиз — молча. */
+    if (!String(out).trim()) {
+      return { ok: false, silent: true, output: `✖ ${absArgs.join(' ')} завершился успехом, не напечатав ничего` };
+    }
+    return { ok: true, silent: false, output: out };
   } catch (e) {
-    return { ok: false, output: (e.stdout || '') + (e.stderr || '') };
+    return { ok: false, silent: false, output: (e.stdout || '') + (e.stderr || '') };
   }
 }
+
+/* Причина блокировки. Молчащий гейт нельзя объяснять содержанием
+ * статьи: причина не в тексте, а в том, что проверка не выполнялась. */
+const gateReason = (r, reason) => (r.silent ? 'проверка не состоялась: скрипт ничего не вывел' : reason);
 
 function lastGitModified(path) {
   try {
@@ -215,10 +267,24 @@ if (!fmMatch) {
 }
 const [, fmBlock, body] = fmMatch;
 
-if (getField(fmBlock, 'draft') === 'false') {
-  report({ status: 'ALREADY_RELEASED', reason: `${slug} уже не черновик` });
-  process.exit(0);
-}
+/* Уже опубликованная статья проходит те же гейты, а не возвращает
+ * успех по факту снятого draft.
+ *
+ * Раньше здесь был выход с кодом 0 до единой проверки, и это делало
+ * штатный выпуск через Google Docs дырой в гейте: инструкция рутины B
+ * сама просила поставить draft: false при переносе тела из дока, после
+ * чего release видел снятый флаг и отвечал ALREADY_RELEASED — не
+ * проверив ни приёмку, ни НПА, ни ссылки, ни SEO, ни AI, ни оценку, ни
+ * факчек. Порядок в инструкции исправлен (draft снимает только этот
+ * скрипт), но полагаться на порядок нельзя: команда обязана отвечать
+ * правду о статье, в каком бы состоянии её ни застали.
+ *
+ * Поэтому дальше идёт полный аудит. Разница только в конце: менять
+ * файл нечего, снимать нечего — ответ либо ALREADY_RELEASED (всё
+ * зелено), либо BLOCKED с перечнем того, что в опубликованной статье
+ * не соответствует контракту. */
+const ALREADY_PUBLISHED = getField(fmBlock, 'draft') === 'false';
+if (ALREADY_PUBLISHED) note('Статус', 'статья уже опубликована — идёт полная проверка, а не выпуск');
 
 // ── Шаг 2 — редактор принял статью ──────────────────────────────────────
 
@@ -241,8 +307,13 @@ if (existsSync(CYCLE_STATE_PATH)) {
 }
 
 if (cycleTopic) {
-  if (cycleTopic.status === 'accepted') {
-    pass('Приёмка редактором', 'accepted');
+  /* У выпущенной темы статус released — его ставит `cycle-state release`
+   * после успешного выпуска. Для проверки уже опубликованной статьи это
+   * такой же признак пройденной приёмки, как accepted для черновика. */
+  const accepted = cycleTopic.status === 'accepted'
+    || (ALREADY_PUBLISHED && cycleTopic.status === 'released');
+  if (accepted) {
+    pass('Приёмка редактором', cycleTopic.status);
   } else {
     block('Приёмка редактором', `тема в статусе ${cycleTopic.status}, ожидался accepted`);
   }
@@ -258,60 +329,81 @@ if (cycleTopic) {
 
 // ── Шаг 3 — гейты ────────────────────────────────────────────────────────
 
-const npa = runGate('node', ['scripts/factcheck/audit-npa-references.mjs', '--strict'], DATA_ROOT);
-if (npa.ok) pass('НПА-аудит (--strict)');
-else block('НПА-аудит (--strict)', 'незнакомые номера НПА — см. node scripts/factcheck/audit-npa-references.mjs');
+/* Гейты — тем же прогоном, что и везде, а не своим списком.
+ *
+ * Здесь стоял свой набор из четырёх проверок: НПА, ссылки, SEO,
+ * AI-маркеры. Набор отставал от гейта и отставал молча: пока в
+ * `gates.mjs` добавлялись согласованность корпуса, срок проверки,
+ * контракт материала и редакционная проверка, релиз про них не знал и
+ * выпускал статью, которую гейт краснил. Разъехаться двум спискам —
+ * вопрос времени, и это уже произошло дважды.
+ *
+ * Теперь один вызов. Красное — блокер, независимо от того, какая
+ * проверка покраснела: решать, какие из них «не считаются», значит
+ * заводить тот же расходящийся список заново. */
+/* Подпроцессом, а не вызовом в этом же процессе: `gates.mjs` берёт
+ * корень из `GATES_ROOT` при загрузке модуля, и в чужом корне (тесты,
+ * фикстуры, проверка другой копии) прямой вызов смотрел бы не туда.
+ * Заодно работает общее правило: молчащий гейт — отказ. */
+/* Корень передаём явно: `gates.mjs` читает `GATES_ROOT` при загрузке
+ * модуля, и без него подпроцесс смотрел бы в живой репозиторий, а не
+ * в тот, который проверяем. */
+const gateRaw = runGate('node', ['scripts/gates.mjs', slug, '--json'], DATA_ROOT, { GATES_ROOT: DATA_ROOT });
+let gateRun = null;
+try { gateRun = JSON.parse(gateRaw.output); } catch { gateRun = null; }
 
-const links = runGate('node', ['scripts/audit/check-blog-links.mjs'], DATA_ROOT);
-if (links.ok) pass('Внутренние ссылки');
-else block('Внутренние ссылки', 'битые /blog/ ссылки — см. node scripts/audit/check-blog-links.mjs');
-
-const seo = runGate('node', ['scripts/check-seo.mjs', articlePath]);
-if (seo.ok) pass('SEO (P0)');
-else block('SEO (P0)', 'P0-ошибки — см. node scripts/check-seo.mjs ' + articlePath);
-
-const ai = runGate('node', ['scripts/check-ai-markers.mjs', articlePath]);
-if (ai.ok) pass('AI-маркеры');
-else block('AI-маркеры', 'скор выше порога — см. node scripts/check-ai-markers.mjs ' + articlePath);
+if (!gateRun?.checks) {
+  block('Гейты', gateRaw.silent
+    ? 'проверка не состоялась: gates.mjs ничего не вывел'
+    : `gates.mjs не дал разбора по ${slug}: ${String(gateRaw.output).slice(0, 160)}`);
+} else {
+  for (const [key, res] of Object.entries(gateRun.checks)) {
+    const name = GATE_CHECKS[key] ?? key;
+    if (res.ok === false) block(name, res.note || 'красное');
+    else if (res.decide) note(name, res.note || 'требует решения редактора');
+    else if (res.applicable !== false) pass(name, res.note || '');
+  }
+}
 
 // ── Шаг 4 — оценка свежая и проходная ───────────────────────────────────
 
 const analyzePath = join(ANALYZE_DIR, `${slug}.json`);
-if (!existsSync(analyzePath)) {
-  block('Оценка /analyze-article', 'нет src/data/analyze/<slug>.json — запустить /analyze-article ' + slug);
+
+/* Раньше здесь читались четыре поля записи: возраст, старая шкала,
+ * blocker и балл. Саму запись release не проверял — `check-analysis.mjs`
+ * он не звал вообще, и оценка могла быть оформлена как угодно: замечание
+ * без снятого балла, нерешённый DECIDE в виде пройденной проверки,
+ * отсутствие привязки к версии текста. Теперь тот же валидатор, что и у
+ * гейта на оценщика, плюс привязка к тексту и к версии рубрики (E-01) и
+ * блокирующий нерешённый DECIDE (E-02). */
+const analysisCheck = validateAnalysisBundle({
+  root: DATA_ROOT, slug, articleRaw: rawBefore, staleDays: ANALYZE_STALE_DAYS,
+});
+const analysis = analysisCheck.analysis;
+
+if (analysisCheck.ok) {
+  pass('Оценка /analyze-article', `${analysis.score}/100 (проверена ${analysis.checkedAt})`);
 } else {
-  let analysis = null;
-  try {
-    analysis = JSON.parse(readFileSync(analyzePath, 'utf8'));
-  } catch {
-    block('Оценка /analyze-article', 'src/data/analyze/<slug>.json повреждён');
-  }
-  if (analysis) {
-    const age = ageDays(analysis.checkedAt);
-    if (age === null || age > ANALYZE_STALE_DAYS) {
-      block('Оценка /analyze-article', `устарела (${age ?? '?'} дн.) — перезапустить /analyze-article ${slug}`);
-    } else if (isLegacy(analysis)) {
-      /* Балл по старой шкале выглядит проходным (там 100 набиралось с
-       * бонусом и нормировкой), но означает не то же самое. Пропустить
-       * его — значит выпустить статью по той самой оценке, ради починки
-       * которой шкалу и переделывали. */
-      block('Оценка /analyze-article', `оценка по старой шкале (${analysis.score}) — переоценить: /analyze-article ${slug}`);
-    } else if (analysis.blocker || (analysis.score ?? 0) < PASS_SCORE) {
-      if (OVERRIDE_SCORE_REASON) {
-        note(
-          'Оценка /analyze-article',
-          `${analysis.score}/100, blocker: ${Boolean(analysis.blocker)} — переопределено редактором: ${OVERRIDE_SCORE_REASON}`,
-        );
-        scoreOverride = { reason: OVERRIDE_SCORE_REASON, score: analysis.score, blocker: Boolean(analysis.blocker), at: today() };
-      } else {
-        block(
-          'Оценка /analyze-article',
-          `${analysis.score}/100, blocker: ${Boolean(analysis.blocker)} — форсировать может только редактор: ` +
-            '--override-score "<причина>"',
-        );
-      }
+  /* Балл и блокер — то, что редактор вправе переопределить своим
+   * решением. Всё остальное — оформление оценки и её привязка к тексту
+   * — не переопределяется: там нечего решать, там надо переоценить. */
+  const overridable = new Set(['blocker', 'below-pass']);
+  const hard = analysisCheck.problems.filter((p) => !overridable.has(p.code));
+  const soft = analysisCheck.problems.filter((p) => overridable.has(p.code));
+
+  for (const { message } of hard) block('Оценка /analyze-article', message);
+
+  if (soft.length) {
+    if (OVERRIDE_SCORE_REASON) {
+      note('Оценка /analyze-article',
+        `${soft.map((p) => p.message).join('; ')} — переопределено редактором: ${OVERRIDE_SCORE_REASON}`);
+      scoreOverride = {
+        reason: OVERRIDE_SCORE_REASON, score: analysis?.score,
+        blocker: Boolean(analysis?.blocker), at: today(),
+      };
     } else {
-      pass('Оценка /analyze-article', `${analysis.score}/100 (проверена ${analysis.checkedAt})`);
+      block('Оценка /analyze-article',
+        `${soft.map((p) => p.message).join('; ')} — форсировать может только редактор: --override-score "<причина>"`);
     }
   }
 }
@@ -319,48 +411,47 @@ if (!existsSync(analyzePath)) {
 // ── Шаг 5 — фактчек не протух ────────────────────────────────────────────
 
 const markerPath = join(MARKERS_DIR, slug);
-let marker = null;
-if (!existsSync(markerPath)) {
-  block('Фактчек', `нет маркера .claude/factchecked/${slug} — нужен /factcheck ${slug}`);
+
+/* Раньше здесь читались только hash, date и result — то есть релиз
+ * верил утверждению маркера о проверке, а не самой проверке. Сильные
+ * checkReport()/checkCoverage() звались лишь при создании маркера, и
+ * все десять отчётов корпуса стояли passed, хотя текущий контракт
+ * отвергает каждый. Теперь тот же валидатор, что у гейта: маркер,
+ * отчёт, хеш, доказательства и покрытие — на месте, а не по памяти.
+ *
+ * Следствие, оно же цель (B-02 бэклога): маркер, сделанный по старому
+ * контракту, релиз больше не проходит. Пока отчёты не мигрированы
+ * (C-04), выпуск требует перепроверки — это осознанная временная
+ * жёсткость, а не побочный эффект. */
+const bundle = validateFactcheckBundle({
+  root: DATA_ROOT, slug, articleRaw: rawBefore, staleDays: FACTCHECK_STALE_DAYS,
+});
+const marker = bundle.marker;
+if (bundle.ok) {
+  pass('Фактчек', `маркер от ${marker.date}, отчёт проходит текущий контракт`);
 } else {
-  try {
-    marker = JSON.parse(readFileSync(markerPath, 'utf8'));
-  } catch {
-    block('Фактчек', 'маркер повреждён — нужен /factcheck ' + slug);
-  }
-  if (marker) {
-    const currentHash = createHash('sha256').update(rawBefore).digest('hex');
-    const age = ageDays(marker.date);
-    if (marker.hash !== currentHash) {
-      block('Фактчек', 'статья менялась после факчека — нужен /factcheck ' + slug);
-    } else if (age === null || age > FACTCHECK_STALE_DAYS) {
-      block('Фактчек', `маркер старше ${FACTCHECK_STALE_DAYS} дн. (${age ?? '?'}) — нужен /factcheck ${slug}`);
-    } else if (marker.result !== 'passed') {
-      /* Маркер без результата — не факчек, а его след. write-marker.mjs
-       * честно оставляет result: null, когда рядом нет отчёта
-       * results/<slug>.json, но гейт этого не смотрел: хватало хеша и
-       * даты. Из шести выпущенных статей пять оказались с result: null —
-       * процедура писала маркер, отчёт не писала, и все проверки видели
-       * «проверено» (найдено 12.08.2026). */
-      block(
-        'Фактчек',
-        marker.result === null || marker.result === undefined
-          ? `маркер без результата — отчёта src/data/factcheck/results/${slug}.json нет, факчек не доведён до конца`
-          : `факчек не пройден: result «${marker.result}», критичных расхождений ${marker.criticalMismatches ?? '?'}`,
-      );
-    } else if (marker.criticalMismatches > 0) {
-      block('Фактчек', `критичных расхождений: ${marker.criticalMismatches} — нужен разбор по docs/editorial-policy.md`);
-    } else {
-      pass('Фактчек', `маркер от ${marker.date} (${age} дн.), result: passed`);
-    }
+  for (const { code, message } of bundle.blocking) {
+    const fix = code === 'hash-mismatch' || code === 'stale' || code === 'no-marker'
+      ? ` — нужен /factcheck ${slug}`
+      : '';
+    block('Фактчек', `${message}${fix}`);
   }
 }
 
 // ── Шаг 6 — снятие черновика (только если ничего не заблокировано) ──────
 
 if (blockers.length) {
-  report({ status: 'BLOCKED' });
+  /* Уже опубликованная статья с блокерами — не «ничего не поделаешь», а
+   * находка: контракту не соответствует текст, который читатели уже
+   * видят. Отдельный флаг в отчёте, чтобы вызывающий отличал «выпуск не
+   * состоялся» от «выпущенное не проходит проверку». */
+  report({ status: 'BLOCKED', ...(ALREADY_PUBLISHED ? { alreadyReleased: true } : {}) });
   process.exit(1);
+}
+
+if (ALREADY_PUBLISHED) {
+  report({ status: 'ALREADY_RELEASED', reason: `${slug} уже не черновик — все гейты проходит` });
+  process.exit(0);
 }
 
 if (DRY_RUN) {
@@ -379,12 +470,27 @@ if (pubDate && lastModified && lastModified.slice(0, 10) > pubDate) {
 if (pubDate) {
   const existingReview = getField(fmBlock, 'reviewDate');
   const due = addMonths(pubDate, 6);
-  const reviewDate = !existingReview || existingReview < today() ? (due < today() ? addMonths(today(), 6) : due) : existingReview;
+  /* Дата проверки считается той же функцией, что и в гейте свежести.
+   *
+   * Здесь стоял свой расчёт — «сегодня плюс шесть месяцев», — и он
+   * расходился с гейтом: тот считает по ближайшему событию в тексте и
+   * от даты публикации. Релиз ставил дату, которую гейт тут же
+   * краснил. Два расчёта одного поля — это не дублирование, а
+   * гарантированное расхождение. */
+  const computed = reviewDateFor({
+    pubDate: pubDate || today(),
+    articleRaw: rawBefore,
+    report: bundle?.report ?? null,
+  });
+  const reviewDate = !existingReview || existingReview > computed.date ? computed.date : existingReview;
   fmAfter = setField(fmAfter, 'reviewDate', reviewDate);
 }
 
 const newContent = `---\n${fmAfter.trim()}\n---\n${body}`;
-writeFileSync(articlePath, newContent);
+
+let contentPlanSync = null;
+try {
+  tx.write(articlePath, newContent);
 
 // Снятие draft (и, возможно, updatedDate/reviewDate) само меняет хеш
 // статьи — тот самый хеш, который маркер только что подтвердил. Не
@@ -392,8 +498,8 @@ writeFileSync(articlePath, newContent);
 // же проверке (pre-commit guard, /analyze-article): факты не менялись,
 // маркер лишь не знает о собственном флаге draft. `date` не трогаем —
 // это дата, когда факты были реально проверены, не дата этого релиза.
-const newHash = createHash('sha256').update(newContent).digest('hex');
-writeFileSync(markerPath, JSON.stringify({ ...marker, hash: newHash }));
+  const newHash = createHash('sha256').update(newContent).digest('hex');
+  tx.write(markerPath, JSON.stringify({ ...marker, hash: newHash }));
 
 // Аудит-трейл переопределений — «кто, что и почему» из F-01/F-05. Живёт
 // в src/data/analyze/<slug>.json, а не в отдельном логе: это уже
@@ -401,12 +507,12 @@ writeFileSync(markerPath, JSON.stringify({ ...marker, hash: newHash }));
 // читает cycleReleaseOverride, чтобы отличить записанное исключение
 // (--confirm-no-cycle с причиной) от статьи, выпущенной в обход
 // скрипта вообще — прямой правкой draft:false мимо release-article.mjs.
-if ((scoreOverride || cycleOverride) && existsSync(analyzePath)) {
-  const analysis = JSON.parse(readFileSync(analyzePath, 'utf8'));
-  if (scoreOverride) analysis.releaseOverride = scoreOverride;
-  if (cycleOverride) analysis.cycleReleaseOverride = cycleOverride;
-  writeFileSync(analyzePath, JSON.stringify(analysis, null, 2) + '\n');
-}
+  if ((scoreOverride || cycleOverride) && existsSync(analyzePath)) {
+    const analysis = JSON.parse(readFileSync(analyzePath, 'utf8'));
+    if (scoreOverride) analysis.releaseOverride = scoreOverride;
+    if (cycleOverride) analysis.cycleReleaseOverride = cycleOverride;
+    tx.write(analyzePath, JSON.stringify(analysis, null, 2) + '\n');
+  }
 
 // F-02 (git-локальная часть — Google Sheets вне досягаемости этого
 // скрипта). Без этого шага health-check (F-05) находит расхождение
@@ -414,7 +520,19 @@ if ((scoreOverride || cycleOverride) && existsSync(analyzePath)) {
 // показывает planned/draft, статья уже вышла. Лучше не дать
 // расхождению случиться, чем полагаться только на то, что кто-то
 // прочитает предупреждение.
-const contentPlanSync = syncContentPlanStatus(DATA_ROOT, slug);
+  contentPlanSync = syncContentPlanStatus(DATA_ROOT, slug);
+} catch (e) {
+  const failed = tx.rollback();
+  console.error(`\n✖ Выпуск прерван: ${e.message}`);
+  if (failed.length) {
+    console.error('  ОТКАТ НЕ ПОЛНЫЙ — эти файлы вернуть не удалось, проверьте руками:');
+    for (const f of failed) console.error(`    ${f}`);
+  } else {
+    console.error('  Все записи выпуска откачены: статья осталась невыпущенной.');
+  }
+  report({ status: 'FAILED', error: e.message, rollbackFailed: failed });
+  process.exit(1);
+}
 if (contentPlanSync) note('Контент-план', contentPlanSync);
 
 report({ status: 'RELEASED' });
@@ -438,7 +556,11 @@ function report(extra) {
   if (status === 'RELEASED') console.log('draft: true → false');
   else if (status === 'WOULD_RELEASE') console.log('(--dry-run) прошла бы все гейты — draft не менялся');
   else if (status === 'ALREADY_RELEASED') console.log(extra.reason);
-  else if (status === 'BLOCKED') console.log('ЗАБЛОКИРОВАНА — draft не менялся');
+  else if (status === 'BLOCKED') {
+    console.log(extra.alreadyReleased
+      ? 'УЖЕ ОПУБЛИКОВАНА И НЕ ПРОХОДИТ ПРОВЕРКУ — чинить текст, снимать нечего'
+      : 'ЗАБЛОКИРОВАНА — draft не менялся');
+  }
   else if (status === 'ERROR') console.log(extra.reason);
   console.log('━'.repeat(40));
 }

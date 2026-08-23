@@ -11,7 +11,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { checkCoverage, extractValues, significantKeys, normalizeDates, strip } from './check-coverage.mjs';
+import { checkCoverage, extractValues, significantKeys, normalizeDates, strip, mask } from './check-coverage.mjs';
 
 const article = (body) => `---\ntitle: "Т"\npubDate: "2026-08-13"\n---\n\n${body}`;
 const report = (...raws) => ({ claims: raws.map((raw, i) => ({ id: `c${i}`, raw })) });
@@ -114,11 +114,128 @@ test('strip убирает frontmatter, ссылки и маркеры, но о�
   assert.ok(!/8526/.test(out));
 });
 
-test('одно значение не дублируется, даже если встречается дважды', () => {
+test('одно число в двух местах — два значения (H-04)', () => {
+  /* Прежде здесь стояло `assert.equal(vals.length, 1)`: одинаковые числа
+   * схлопывались в одну запись. Ожидание было неверным. Число — не факт;
+   * факт — число в конкретном месте с конкретным предикатом. Пока
+   * записи схлопывались, одно утверждение закрывало оба вхождения, и
+   * «обязана заплатить 10 000 ₽» с «не обязана платить 10 000 ₽»
+   * проходили одинаково. */
   const vals = extractValues('Штраф 10 000 ₽ и ещё раз 10 000 ₽.');
-  assert.equal(vals.length, 1);
+  assert.equal(vals.length, 2);
+  assert.notEqual(vals[0].spans[0].start, vals[1].spans[0].start);
 });
 
 test('пустой отчёт делает все значения непокрытыми, а не наоборот', () => {
   assert.deepEqual(missingTexts('Штраф 300 000 ₽.', { claims: [] }), ['300 000 ₽']);
+});
+
+/* ── D-01: значение → конкретное утверждение, а не «где-нибудь» ────── */
+
+import { checkCoverage as cov } from './check-coverage.mjs';
+
+const full = (body, rep) => cov(article(body), rep);
+
+/* Раньше все claims склеивались в одну строку, и значение считалось
+ * покрытым, если ядро совпало где угодно. Совпасть можно было с
+ * посторонней датой или с другой нормой — связи «это значение разбирал
+ * вот этот claim» не существовало вовсе. */
+test('покрытие называет утверждение, которое разбирало значение', () => {
+  const r = full('Штраф 10 000 ₽ по ст. 14.5 КоАП.', {
+    claims: [{ id: 'money-1', raw: '10 000 ₽' }, { id: 'npa-1', raw: 'ст. 14.5 КоАП' }],
+  });
+  assert.deepEqual(r.missing, []);
+  const byValue = Object.fromEntries(r.links.map((l) => [l.value, l.claimId]));
+  assert.equal(byValue['10 000 ₽'], 'money-1');
+  assert.equal(byValue['ст. 14.5'], 'npa-1');
+});
+
+test('у значения есть позиция в тексте, а не только сам факт', () => {
+  const body = 'Первая строка.\nШтраф 300 000 ₽ здесь.';
+  const [m] = full(body, { claims: [] }).missing;
+  assert.equal(m.text, '300 000 ₽');
+  assert.equal(m.spans[0].line, 7, 'строка считается по исходному файлу, а не по вычищенному тексту');
+  assert.ok(m.spans[0].end > m.spans[0].start);
+});
+
+/* Совпадение с посторонним числом больше не закрывает значение: ядра
+ * сверяются с текстом конкретного утверждения. */
+test('дата из другого утверждения не закрывает сумму', () => {
+  const r = full('Штраф 10 000 ₽.', { claims: [{ id: 'c1', raw: 'срок до 10.10.2026' }] });
+  assert.deepEqual(r.missing.map((m) => m.text), ['10 000 ₽']);
+});
+
+/* ── части нормы и границы диапазонов ──────────────────────────────── */
+
+test('часть статьи, не подтверждённая отчётом, — «разобрано частично»', () => {
+  const r = full('Штраф по ч. 2 ст. 14.5 КоАП РФ.', { claims: [{ id: 'c1', raw: 'ст. 14.5 КоАП' }] });
+  assert.deepEqual(r.missing, [], 'это не «не разбирали» — про статью утверждение есть');
+  assert.equal(r.partial.length, 1);
+  assert.deepEqual(r.partial[0].unconfirmed, ['ч.2']);
+  assert.match(r.partial[0].reason, /c1/);
+});
+
+test('часть статьи, названная в отчёте, закрывает значение целиком', () => {
+  const r = full('Штраф по ч. 2 ст. 14.5 КоАП РФ.', { claims: [{ id: 'c1', raw: 'части 2 статьи 14.5 КоАП' }] });
+  assert.deepEqual([r.missing.length, r.partial.length], [0, 0]);
+});
+
+test('нижняя граница денежного диапазона больше не теряется', () => {
+  const r = full('Штраф от 10 000 до 30 000 ₽.', { claims: [{ id: 'c1', raw: 'штраф 30 000 ₽' }] });
+  assert.equal(r.partial.length, 1, 'верхняя граница есть, нижняя — нет');
+  assert.deepEqual(r.partial[0].unconfirmed, ['10000']);
+});
+
+test('обе границы диапазона в отчёте — значение разобрано', () => {
+  const r = full('Штраф от 10 000 до 30 000 ₽.', { claims: [{ id: 'c1', raw: 'от 10 000 до 30 000 рублей' }] });
+  assert.deepEqual([r.missing.length, r.partial.length], [0, 0]);
+});
+
+test('дроби 1/4, 1/2, 3/4 извлекаются, а не теряются', () => {
+  for (const f of ['1/4', '1/2', '3/4']) {
+    const r = full(`Штраф ${f} суммы расчёта.`, { claims: [] });
+    assert.ok(r.missing.some((m) => m.text === f), `дробь ${f} не извлечена`);
+    const ok = full(`Штраф ${f} суммы расчёта.`, { claims: [{ id: 'c1', raw: `${f} суммы расчёта` }] });
+    assert.deepEqual(ok.missing, [], `дробь ${f} не сопоставилась с утверждением`);
+  }
+});
+
+test('пункт статьи проверяется так же, как часть', () => {
+  const r = full('По п. 4 ст. 4.7 закона.', { claims: [{ id: 'c1', raw: 'ст. 4.7' }] });
+  assert.deepEqual(r.partial[0].unconfirmed, ['п.4']);
+});
+
+/* ── H-04: значение — это место, а не число ─────────────────────────── */
+
+test('одно число в двух местах — два значения, а не одно', () => {
+  /* Прежде записи схлопывались по ключу «вид:ядра», и одно утверждение
+   * закрывало оба вхождения. На инъекции аудита это означало, что
+   * «обязана заплатить 10 000 ₽» и «не обязана платить 10 000 ₽»
+   * проходят одинаково. */
+  const values = extractValues(mask('Организация обязана заплатить 10 000 ₽.\n\nСоседний абзац про 10 000 ₽ в другом смысле.'));
+  const tens = values.filter((v) => v.cores.includes('10000'));
+  assert.equal(tens.length, 2, 'два вхождения схлопнулись в одно значение');
+  assert.notEqual(tens[0].spans[0].start, tens[1].spans[0].start);
+});
+
+test('длительность — такое же значение, как сумма', () => {
+  /* Класса не было вовсе, и «Накопитель на 36 месяцев блокируется
+   * досрочно… или услуги» не видел ни один шаблон: неверный
+   * операционный факт был невидим для всех автопроверок сразу. */
+  const values = extractValues(mask('Накопитель выпускается на 15 и 36 месяцев, срок регистрации — 5 рабочих дней.'));
+  const kinds = values.filter((v) => v.kind === 'duration').map((v) => v.text);
+  assert.ok(kinds.some((t) => /36\s*месяц/i.test(t)), `«36 месяцев» не извлечено: ${kinds.join(' | ')}`);
+  assert.ok(kinds.some((t) => /5\s*рабочих\s+дн/i.test(t)), `«5 рабочих дней» не извлечено: ${kinds.join(' | ')}`);
+});
+
+test('утверждение с тем же числом, но про другое, не закрывает значение', () => {
+  const article = '---\ntitle: x\n---\n\nОрганизация не обязана платить 10 000 ₽.\n';
+  const report = { claims: [{
+    id: 'c1', raw: '10 000 ₽',
+    statement: 'организация обязана заплатить 10 000 ₽ по ч. 2 ст. 14.5 КоАП РФ',
+  }] };
+  const r = checkCoverage(article, report);
+  assert.equal(r.conflicting.length, 1, 'перевёрнутое утверждение засчиталось как разбор');
+  assert.match(r.conflicting[0].reason, /под отрицанием/);
+  assert.equal(r.missing.length, 0, 'это не «не разбирали» — утверждение есть, но про другое');
 });

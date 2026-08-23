@@ -29,6 +29,7 @@ import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GATE_CHECKS } from './gates.mjs';
+import { writeBundle } from './factcheck/bundle-fixture.mjs';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'gates.mjs');
 const SLUG = '2026-08-13-liveness';
@@ -50,7 +51,7 @@ const fm = (over = {}) => {
 };
 
 /** Здоровая фикстура, из которой каждый случай ломает ровно одну вещь. */
-function build(dir, { head = fm(), body = text(), marker = true, catalog = [], pillar = null, extra = null } = {}) {
+function build(dir, { head = fm(), body = text(), marker = true, catalog = [], pillar = null, extra = null, facts = null } = {}) {
   for (const d of ['src/content/blog', 'src/content/pillars', '.claude/factchecked',
     'src/data/factcheck/results', 'src/data/audit', 'src/data/interlinking']) {
     mkdirSync(join(dir, d), { recursive: true });
@@ -61,22 +62,10 @@ function build(dir, { head = fm(), body = text(), marker = true, catalog = [], p
     JSON.stringify({ generatedFrom: 'test', articles: catalog }));
   if (pillar !== null) writeFileSync(join(dir, 'src/content/pillars/kkt.md'), pillar);
   if (extra) writeFileSync(join(dir, 'src/content/blog', extra.name), extra.content);
-  if (marker) {
-    writeFileSync(join(dir, 'src/data/factcheck/results', `${SLUG}.json`), JSON.stringify({
-      claims: [{
-        id: 'c1', type: 'MONEY', raw: '10 000 ₽',
-        statement: 'штраф по ч. 2 ст. 14.5 КоАП РФ для должностных лиц — не менее 10 000 ₽',
-        status: 'match', severity: 'critical', confidence: 0.95,
-        quote: 'влечёт наложение административного штрафа на должностных лиц в размере не менее 10 000 рублей',
-        sources: ['http://publication.pravo.gov.ru/document/0001202301010001'],
-      }],
-      summary: { overallStatus: 'ok', criticalIssues: 0 },
-    }));
-    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
-      date: '2026-08-13', hash: createHash('sha256').update(raw).digest('hex'),
-      result: 'passed', criticalMismatches: 0, report: `src/data/factcheck/results/${SLUG}.json`,
-    }));
+  if (facts) {
+    writeFileSync(join(dir, 'src/data/factcheck/facts.json'), JSON.stringify({ facts }));
   }
+  if (marker) writeBundle(dir, SLUG, { date: '2026-08-13' });
 }
 
 function statusOf(check, setup) {
@@ -130,6 +119,39 @@ const CASES = {
   // ответе «входящие ссылки есть», и то, что проверка мертва,
   // обнаружилось только при попытке ужесточить.
   graph: { expect: 'note', match: /никто не ссылается/, setup: {} },
+  /* J-02. Статья спорит с реестром повторяемых фактов. Блокер, а не
+   * «требует решения»: расхождение двух статей по одной норме — ошибка
+   * в одной из них, а не редакционный выбор. */
+  corpus: {
+    expect: 'fail',
+    setup: {
+      body: `Порог — от 2 250 000 ₽ для непродовольственных товаров.\n\n${text()}`,
+      facts: [{
+        id: 'porog', kind: 'value',
+        statement: 'Крупный размер по главе 22 УК РФ — свыше 3 500 000 ₽.',
+        scope: 'ч. 1–2 ст. 171.1 УК РФ', value: '3 500 000',
+        supersedes: [{ value: '2 250 000', until: '2024-04-06', by: 'ФЗ от 06.04.2024 № 79-ФЗ' }],
+        effectiveFrom: '2024-04-06', effectiveTo: null,
+        evidence: { url: 'https://www.consultant.ru/x/', quote: 'превышающая три миллиона пятьсот тысяч рублей' },
+      }],
+    },
+  },
+  /* J-03. Плановая проверка назначена позже, чем статья устареет: в
+   * тексте событие 01.10.2026, в frontmatter — февраль 2027-го. */
+  freshness: {
+    expect: 'fail',
+    setup: { body: `Временный токен закрывается 01.10.2026.\n\n${text()}` },
+  },
+  /* K-01. Контракта нет — проверять нечего, и это блокер: без него
+   * непонятно, что статья обязана закрыть. Фикстура контракт не
+   * пишет, поэтому случай живости — она сама. */
+  contract: { expect: 'fail', setup: {} },
+  /* L-03…L-05. Требует решения, а не блокирует: ответить «здесь
+   * категоричность уместна» может только редактор. */
+  editorial: {
+    expect: 'note', match: /категоричных утверждений без условий/,
+    setup: { body: `Продавец обязан пробить чек.\n\n${text()}` },
+  },
 };
 
 test('для каждой проверки гейта есть случай, который выводит её из зелёного', () => {

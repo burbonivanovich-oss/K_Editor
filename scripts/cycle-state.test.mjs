@@ -309,10 +309,27 @@ test('apply-decisions: известные значения "Решение" не
   });
 });
 
-// Строка одна на весь путь темы: «одобрено» переводит кандидата в работу,
-// ничего никуда не копируя. Раньше для этого тему переносили из таблицы
-// бэклога в таблицу плана вручную, и она существовала в двух местах.
-test('apply-decisions: «одобрено» переводит кандидата в план', () => {
+// Строка одна на весь путь темы: решение «пишем» переводит кандидата в
+// работу, ничего никуда не копируя. Раньше для этого тему переносили из
+// таблицы бэклога в таблицу плана вручную, и она существовала в двух местах.
+test('apply-decisions: «пишем» переводит кандидата в план', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Кандидат', status: 'candidate' }]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, title: 'Кандидат', decision: 'пишем', slug: 'kandidat' }],
+    }));
+    const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull]));
+    assert.deepEqual(out.approved_topics, ['Кандидат']);
+    assert.equal(getState(statePath).plan[0].status, 'planned');
+  });
+});
+
+/* Старые слова 23.08.2026 остались проставлены в десятках живых строк.
+ * Молчаливое «решение не распознано» означало бы, что работа редактора
+ * за месяц просто не доедет до цикла. */
+test('apply-decisions: «одобрено» из старых вкладок читается как «пишем»', () => {
   withTmp((statePath, dir) => {
     initCycle(statePath, dir, [{ title: 'Кандидат', status: 'candidate' }]);
     run(statePath, ['set-state', 'running']);
@@ -711,6 +728,10 @@ test('повторный разбор решений не затирает за�
   });
 });
 
+/* Правка ячейки перечитывается — но тип задачи и объект актуализации
+ * после intake неизменяемы (E-03 внешнего аудита). Пока их переписывала
+ * любая правка строки, задача «Актуализировать статью …» превращалась в
+ * тему kind: "new", и по ней писали новую статью вместо разбора правок. */
 test('редактор правда поменял ячейку — задача перечитывается', () => {
   withTmp((statePath, dir) => {
     initCycle(statePath, dir, [{ title: 'Актуализировать статью https://kontur.ru/market/spravka/38077-egais' }]);
@@ -725,8 +746,30 @@ test('редактор правда поменял ячейку — задача
     }));
     run(statePath, ['apply-decisions', '--file', pull]);
     const t = getState(statePath).plan[0];
-    assert.equal(t.sourceUrl, 'https://kontur.ru/market/spravka/82510-nds');
-    assert.match(t.brief, /Только про ставку/);
+    assert.match(t.brief, /Только про ставку/, 'просьба редактора должна перечитываться');
+    assert.equal(t.sourceUrl, 'https://kontur.ru/market/spravka/38077-egais',
+      'исходная ссылка после intake неизменяема — это другая задача, а не правка этой');
+    assert.equal(t.kindConflict.sourceUrl, 'https://kontur.ru/market/spravka/82510-nds',
+      'расхождение должно остаться видимым, а не пропасть');
+  });
+});
+
+test('смена типа задачи в ячейке не переписывает тип темы', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Актуализировать статью https://kontur.ru/market/spravka/38077-egais' }]);
+    const before = getState(statePath).plan[0];
+    assert.equal(before.kind, 'update');
+
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '',
+      topics: [{ row: before.row, slug: before.slug, decision: '', title: '7 ошибок ЕГАИС: что делать на кассе' }],
+    }));
+    run(statePath, ['apply-decisions', '--file', pull]);
+
+    const t = getState(statePath).plan[0];
+    assert.equal(t.kind, 'update', 'тип задачи после intake неизменяем');
+    assert.equal(t.kindConflict.declared, 'new');
   });
 });
 
@@ -909,7 +952,7 @@ test('обычная просьба редакции метки не получ�
   });
 });
 
-test('инструкция в колонке «Правка» попадает в отчёт отдельным списком', () => {
+test('инструкция в колонке «Комментарий» попадает в отчёт отдельным списком', () => {
   withTmp((statePath, dir) => {
     initCycle(statePath, dir, [{ title: 'Тема' }]);
     const before = getState(statePath).plan[0];
@@ -920,7 +963,7 @@ test('инструкция в колонке «Правка» попадает �
     }));
     const out = JSON.parse(run(statePath, ['apply-decisions', '--file', pull, '--json']));
     assert.equal(out.suspectedInstructions.length, 1);
-    assert.equal(out.suspectedInstructions[0].where, 'Правка');
+    assert.equal(out.suspectedInstructions[0].where, 'Комментарий');
   });
 });
 
@@ -986,5 +1029,50 @@ test('опорные ссылки на чужие домены помечают�
     const t = getState(statePath).plan[0];
     assert.equal(t.sourceNotFetchable, undefined, 'сам источник разрешён');
     assert.deepEqual(t.refUrlsNotFetchable, ['https://evil.example/x']);
+  });
+});
+
+/* --------------------------- формат статьи и тезисы (23.08.2026) */
+
+/* Колонки завели, чтобы заказ редактора на содержание доходил до автора.
+ * Пока значение остаётся только в таблице, автор его не видит: он
+ * работает с состоянием цикла, а не с Google Sheets. До 23.08.2026
+ * формат писали прозой в «Правку», и рутина разбирала его как обычное
+ * замечание, наравне с «добавь про штрафы». */
+test('apply-decisions: формат и тезисы доезжают из таблицы в состояние', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Кандидат', status: 'candidate' }]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    writeFileSync(pull, JSON.stringify({
+      approval: '',
+      topics: [{
+        row: 5, title: 'Кандидат', decision: 'пишем', slug: 'kandidat',
+        format: 'вопрос эксперту', theses: 'кого касается; с какой даты; штраф',
+      }],
+    }));
+    run(statePath, ['apply-decisions', '--file', pull]);
+    const t = getState(statePath).plan[0];
+    assert.equal(t.format, 'вопрос эксперту');
+    assert.equal(t.theses, 'кого касается; с какой даты; штраф');
+  });
+});
+
+/* Пустая ячейка — это «не заполнил», а не «отменяю прежний заказ».
+ * Иначе один проход по таблице, где редактор не тронул формат, стирал
+ * бы то, что он выбрал на прошлой неделе. */
+test('apply-decisions: пустая ячейка формата не стирает уже выбранный', () => {
+  withTmp((statePath, dir) => {
+    initCycle(statePath, dir, [{ title: 'Кандидат', status: 'candidate' }]);
+    run(statePath, ['set-state', 'running']);
+    const pull = join(dir, 'pull.json');
+    const write = (extra) => writeFileSync(pull, JSON.stringify({
+      approval: '', topics: [{ row: 5, title: 'Кандидат', slug: 'kandidat', ...extra }],
+    }));
+    write({ decision: 'пишем', format: 'чеклист' });
+    run(statePath, ['apply-decisions', '--file', pull]);
+    write({ decision: '', format: '   ' });
+    run(statePath, ['apply-decisions', '--file', pull]);
+    assert.equal(getState(statePath).plan[0].format, 'чеклист');
   });
 });

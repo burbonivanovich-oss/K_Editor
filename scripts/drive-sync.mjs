@@ -78,7 +78,8 @@ import { fileURLToPath } from 'node:url';
 import { slugify } from './lib/slugify.mjs';
 import { resolveInternalLink } from './lib/resolve-links.mjs';
 import {
-  WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, APPROVAL_CELL,
+  WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, WORK_FROZEN_COLS, APPROVAL_CELL,
+  planColumnSync, ARTICLE_FORMATS,
   colLetter, workIdx, COL as WORK_COL, RU_STATUS, ADAPTATION_VALUES,
 } from './lib/sheet-columns.mjs';
 
@@ -327,18 +328,23 @@ const WRITTEN_COLS = [
   { title: 'Файл', width: 300 },
 ];
 
-/* Полный список решений для колонки целиком. По строкам его сужает
- * cycle-state.mjs row-decisions: у кандидата свои варианты, у статьи на
- * вычитке — свои. Исполнителя («AI» / «пишем сами») здесь нет намеренно:
- * кто пишет — это колонка, а не решение, и держать одно и то же в двух
- * местах мы уже пробовали. */
+/* Список решений для колонки целиком — ровно два значения.
+ *
+ * Сужен до двух 23.08.2026 по просьбе редакции. Колонка отвечает на один
+ * вопрос отбора: берём тему или нет. Шесть пунктов заставляли выбирать
+ * между «одобрено» и «принято» там, где выбирать нечего: «принято»
+ * относится к написанному тексту, а не к теме, и у кандидата смысла не
+ * имеет. Остальные решения никуда не делись — их подставляет по строкам
+ * cycle-state row-decisions: у статьи на вычитке в списке «принято» и
+ * «переписать статью», у принятой — «нужно ТЗ дизайнеру». Список
+ * нестрогий, вписать своё значение по-прежнему можно.
+ *
+ * Исполнителя («AI» / «пишем сами») здесь нет намеренно: кто пишет —
+ * это колонка, а не решение, и держать одно и то же в двух местах мы
+ * уже пробовали. */
 const WORK_DECISIONS = [
-  'одобрено',            // кандидат → в план
-  'написать сейчас',     // не ждать батча: тема уходит в ближайший прогон
-  'принято',             // статья на вычитке устраивает
-  'переписать статью',   // текст не годится — писать заново, тема остаётся
-  'нужно ТЗ дизайнеру',  // заказ на обложку и иллюстрации
-  'убрать',              // снять тему на любом этапе
+  'пишем',         // тема берётся в работу (бывшее «одобрено»)
+  'не подходит',   // тема снимается, дальше нужна причина (бывшее «убрать»)
 ];
 const WORK_WHO = ['AI', 'пишем сами'];
 
@@ -356,10 +362,14 @@ const WORK_REASONS = [
  * «не распознано» означало бы потерянную работу редактора. В выпадающих
  * списках их больше нет — это совместимость, а не второй словарь. */
 const DECISION_SYNONYMS = new Map([
-  ['согласовано', 'одобрено'],
-  ['не согласовано', 'убрать'],
-  ['отклонено', 'убрать'],
-  ['снять', 'убрать'],
+  // 23.08.2026: «одобрено»/«убрать» переименованы в «пишем»/«не подходит».
+  // В живых вкладках старые слова проставлены в десятках строк.
+  ['одобрено', 'пишем'],
+  ['убрать', 'не подходит'],
+  ['согласовано', 'пишем'],
+  ['не согласовано', 'не подходит'],
+  ['отклонено', 'не подходит'],
+  ['снять', 'не подходит'],
   // Исполнитель переехал из решений в колонку «Кто пишет». Старые
   // значения не выбрасываем, а переносим туда, где им теперь место
   // (см. readWork) — иначе «пишем сами», проставленное редактором,
@@ -787,9 +797,10 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
       updateCells: {
         rows: [{ values: [{
           userEnteredValue: { stringValue:
-            'Одна строка — одна тема, от кандидата до выпуска. «одобрено» берёт тему в работу, '
-            + '«написать сейчас» не ждёт очереди, «принято» закрывает вычитку, «убрать» снимает тему '
-            + '(тогда нужна причина). Колонки «Статус», «Документ» и «ID» заполняет бот.' },
+            'Одна строка — одна тема, от кандидата до выпуска. «пишем» берёт тему в работу, '
+            + '«не подходит» снимает её (тогда нужна причина). У статьи, которая уже написана, '
+            + 'в списке появляются «принято» и «переписать статью». Колонки «Статус», '
+            + '«Ссылка на докс» и «ID» заполняет бот.' },
           userEnteredFormat: { textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } } },
         }] }],
         fields: 'userEnteredValue,userEnteredFormat',
@@ -808,8 +819,13 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
     },
     {
       updateSheetProperties: {
-        properties: { sheetId: gid, gridProperties: { frozenRowCount: WORK_HEADER_ROW } },
-        fields: 'gridProperties.frozenRowCount',
+        /* Закрепляем не только шапку, но и четыре первые колонки: тема,
+         * ссылка на док, формат и тезисы. Без этого редактор, уехав
+         * вправо к «Зачем сейчас», видел столбцы без темы — и не мог
+         * сказать, к какой строке они относятся. */
+        properties: { sheetId: gid, gridProperties: {
+          frozenRowCount: WORK_HEADER_ROW, frozenColumnCount: WORK_FROZEN_COLS } },
+        fields: 'gridProperties.frozenRowCount,gridProperties.frozenColumnCount',
       },
     },
   ];
@@ -855,6 +871,7 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
       },
     });
     requests.push(dropdown('decision', WORK_DECISIONS));
+    requests.push(dropdown('format', ARTICLE_FORMATS));
     requests.push(dropdown('who', WORK_WHO));
     requests.push(dropdown('reason', WORK_REASONS));
     // Адаптаций у статьи бывает несколько сразу, поэтому список
@@ -1152,15 +1169,29 @@ try {
     /* Привести колонки живой вкладки к WORK_COLS.
      *
      * Набор колонок меняется: 13.08.2026 из него убрали «Приоритет» и
-     * добавили «Адаптация». Код после такой правки читает таблицу по
-     * заголовкам и просто не находит новую колонку — заказы редактора
-     * молча не доходят, а лишняя колонка остаётся мозолить глаза.
-     * Переписать заголовки на месте нельзя: данные под ними не сдвинутся
-     * и разъедутся со своими названиями.
+     * добавили «Адаптация», 23.08.2026 пересобрали порядок целиком.
+     * Код после такой правки читает таблицу по заголовкам и просто не
+     * находит новую колонку — заказы редактора молча не доходят, а
+     * лишняя колонка остаётся мозолить глаза. Переписать заголовки на
+     * месте нельзя: данные под ними не сдвинутся и разъедутся со своими
+     * названиями.
      *
-     * Здесь колонки вставляются и удаляются целиком — Sheets двигает
-     * данные сам. По умолчанию показывает план и ничего не трогает;
-     * применяет только с --apply.
+     * Три вида правок, и все три обязательны:
+     *
+     *  — удалить лишнее и вставить недостающее. Sheets двигает данные сам;
+     *  — переименовать. «Документ» -> «Ссылка на докс» без карты
+     *    COLUMN_RENAMES выглядит как «одну удалить, другую вставить», то
+     *    есть как потеря всех ссылок на доки. Переименование трогает
+     *    только заголовок, данные под ним остаются;
+     *  — переставить. До 23.08.2026 этого не было вовсе: при любой
+     *    перестановке план не сходился и команда честно отказывалась
+     *    работать («разберись руками»). Приведение раскладки к новому
+     *    порядку означало бы удалить восемь колонок и вставить их
+     *    пустыми — то есть стереть решения, причины отказа и
+     *    комментарии редактора за месяц.
+     *
+     * По умолчанию показывает план и ничего не трогает; применяет только
+     * с --apply.
      */
     case 'sync-columns': {
       const sheetId = arg('sheet-id');
@@ -1174,42 +1205,46 @@ try {
       // Хвост пустых ячеек — не колонки.
       while (cur.length && !cur[cur.length - 1]) cur.pop();
 
-      const want = WORK_COLS.map((c) => c.title);
-      const plan = [];
-      const live = [...cur];
-
-      // Сначала лишние — удаление не сдвигает то, что левее.
-      for (let i = live.length - 1; i >= 0; i--) {
-        if (!want.includes(live[i])) {
-          plan.push({ kind: 'delete', at: i, title: live[i] });
-          live.splice(i, 1);
-        }
-      }
-      // Затем недостающие — слева направо, чтобы индексы совпадали с целевыми.
-      want.forEach((title, i) => {
-        if (live[i] !== title) { plan.push({ kind: 'insert', at: i, title }); live.splice(i, 0, title); }
-      });
+      const { plan, want, error } = planColumnSync(cur);
+      if (error) die(`${error} — разберись руками, ничего не трогаю`);
 
       if (!plan.length) { console.log(`✓ «${tab}»: колонки уже совпадают с WORK_COLS.`); break; }
 
       console.log(`Вкладка «${tab}» — ${plan.length} изменений:`);
+      const WORD = { delete: 'удалить', insert: 'вставить', rename: 'переименовать', move: 'переставить' };
       for (const p of plan) {
-        console.log(`  ${p.kind === 'delete' ? 'удалить' : 'вставить'} «${p.title}» (колонка ${colLetter(p.at)})`);
-      }
-      if (live.join('|') !== want.join('|')) {
-        die('после плана раскладка всё равно не сходится — разберись руками, ничего не трогаю');
+        if (p.kind === 'rename') console.log(`  переименовать «${p.title}» → «${p.to}» (данные остаются)`);
+        else if (p.kind === 'move') console.log(`  переставить «${p.title}»: ${colLetter(p.from)} → ${colLetter(p.at)}`);
+        else console.log(`  ${WORD[p.kind]} «${p.title}» (колонка ${colLetter(p.at)})`);
       }
       if (!process.argv.includes('--apply')) {
         console.log('\nЭто сухой прогон. Применить: добавь --apply');
         break;
       }
 
-      const requests = plan.map((p) => (p.kind === 'delete'
-        ? { deleteDimension: { range: { sheetId: gid, dimension: 'COLUMNS', startIndex: p.at, endIndex: p.at + 1 } } }
-        : { insertDimension: { range: { sheetId: gid, dimension: 'COLUMNS', startIndex: p.at, endIndex: p.at + 1 }, inheritFromBefore: false } }));
-      await sheets(`${sheetId}:batchUpdate`, { method: 'POST', body: JSON.stringify({ requests }) });
+      /* Порядок запросов = порядок в плане: индексы каждого шага
+       * посчитаны по раскладке после предыдущих. Переименования в
+       * batchUpdate не идут — заголовки всё равно переписываются целиком
+       * ниже, а колонка при этом остаётся на месте со своими данными. */
+      const requests = plan.flatMap((p) => {
+        if (p.kind === 'rename') return [];
+        if (p.kind === 'delete') {
+          return [{ deleteDimension: { range: { sheetId: gid, dimension: 'COLUMNS', startIndex: p.at, endIndex: p.at + 1 } } }];
+        }
+        if (p.kind === 'insert') {
+          return [{ insertDimension: { range: { sheetId: gid, dimension: 'COLUMNS', startIndex: p.at, endIndex: p.at + 1 }, inheritFromBefore: false } }];
+        }
+        return [{ moveDimension: {
+          source: { sheetId: gid, dimension: 'COLUMNS', startIndex: p.from, endIndex: p.from + 1 },
+          destinationIndex: p.at,
+        } }];
+      });
+      if (requests.length) {
+        await sheets(`${sheetId}:batchUpdate`, { method: 'POST', body: JSON.stringify({ requests }) });
+      }
 
-      // Заголовки переписываем целиком: вставленные колонки пришли пустыми.
+      // Заголовки переписываем целиком: вставленные колонки пришли
+      // пустыми, а переименованные до сих пор подписаны по-старому.
       await sheets(`${sheetId}/values/${encodeURIComponent(a1(tab, `A${WORK_HEADER_ROW}`))}?valueInputOption=USER_ENTERED`, {
         method: 'PUT', body: JSON.stringify({ values: [want] }),
       });

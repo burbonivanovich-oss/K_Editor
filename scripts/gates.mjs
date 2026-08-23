@@ -39,8 +39,12 @@ import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkReport } from './factcheck/check-report.mjs';
-import { checkCoverage } from './factcheck/check-coverage.mjs';
+import { validateFactcheckBundle, firstProblem } from './factcheck/validate-bundle.mjs';
+import { checkCorpus, loadRegistry } from './factcheck/fact-registry.mjs';
+import { reviewDateFor, reviewDateProblem } from './factcheck/review-date.mjs';
+import { loadContract, validateContract, checkContract, checkIndependentReview } from './factcheck/content-contract.mjs';
+import { editorialFindings } from './factcheck/editorial-gates.mjs';
+import { isMain } from './lib/is-main.mjs';
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), '..');
 const ROOT = process.env.GATES_ROOT || REPO;
@@ -65,6 +69,10 @@ export const GATE_CHECKS = {
   links: 'Ссылки',
   npa: 'Нормы',
   factcheck: 'Факчек',
+  corpus: 'Согласованность корпуса',
+  freshness: 'Срок проверки',
+  contract: 'Контракт материала',
+  editorial: 'Редакционная проверка',
   duplication: 'Дубли',
   market: 'Каталог Маркета',
   graph: 'Граф ссылок',
@@ -89,11 +97,27 @@ function run(script, args = []) {
     const out = execFileSync('node', [join(REPO, 'scripts', script), ...args], {
       encoding: 'utf8', cwd: ROOT, env, stdio: ['ignore', 'pipe', 'pipe'],
     });
-    return { code: 0, out };
+    /* Ноль без единого слова — не «нарушений нет», а «проверка не
+     * состоялась». Именно так выглядел сломанный main-guard: под-скрипт
+     * завершался успехом, ничего не сделав, и гейт зеленел. Ни один из
+     * под-чекеров молча не отрабатывает, поэтому пустой вывод здесь —
+     * всегда отказ. */
+    if (!out.trim()) {
+      return { code: 1, silent: true, out: `✖ ${script} завершился успехом, не напечатав ничего` };
+    }
+    return { code: 0, silent: false, out };
   } catch (e) {
-    return { code: e.status ?? 1, out: (e.stdout || '') + (e.stderr || '') };
+    return { code: e.status ?? 1, silent: false, out: (e.stdout || '') + (e.stderr || '') };
   }
 }
+
+/* Ответ под-скрипта в терминах гейта. Молчание — третий исход, и его
+ * нельзя выдать ни за «чисто», ни за обычное «упало»: в первом случае
+ * гейт зеленеет на несостоявшейся проверке, во втором причину ищут в
+ * статье, а она в скрипте. */
+const fromSub = (r, okNote, failNote) => r.silent
+  ? { status: FAIL, note: 'проверка не состоялась: скрипт ничего не вывел' }
+  : r.code === 0 ? { status: OK, note: okNote } : { status: FAIL, note: failNote };
 
 const CATEGORY_RE = /categories:\s*\n\s*-\s*([a-z-]+)/;
 
@@ -146,39 +170,131 @@ function checkInternalLinks(body) {
 
 /** Факчек: маркер есть, отчёт на месте, хеш совпадает с текущим текстом. */
 function checkFactcheck(slug, raw) {
-  const p = join(ROOT, '.claude/factchecked', slug);
-  if (!existsSync(p)) return { status: FAIL, note: 'маркера нет — факчек не проводился' };
-  let m;
-  try { m = JSON.parse(readFileSync(p, 'utf8')); } catch { return { status: FAIL, note: 'маркер повреждён' }; }
-  if (!m.report) return { status: FAIL, note: 'маркер без отчёта — проверка не доведена' };
-  if (!existsSync(join(ROOT, m.report))) return { status: FAIL, note: `отчёта ${m.report} нет на диске` };
-  if (m.result !== 'passed') return { status: FAIL, note: `результат факчека «${m.result}»` };
-  if (Number(m.criticalMismatches) > 0) return { status: FAIL, note: `критических расхождений ${m.criticalMismatches}` };
-  const hash = createHash('sha256').update(raw).digest('hex');
-  if (m.hash && m.hash !== hash) {
-    return { status: FAIL, note: 'статью правили после факчека — маркер недействителен' };
+  /* Вся логика — в validate-bundle.mjs: она же зовётся из
+   * release-article.mjs. Пока правила жили в двух местах, релиз
+   * пропускал то, что гейт краснил: он читал из маркера только hash,
+   * date и result. Возраст маркера здесь не проверяем (staleDays: null)
+   * — это правило релиза, гейт работает и над старым текстом. */
+  const r = validateFactcheckBundle({ root: ROOT, slug, articleRaw: raw, staleDays: null });
+  if (!r.ok) return { status: FAIL, note: firstProblem(r) };
+  return { status: OK, note: `проверено ${r.marker.date}` };
+}
+
+
+/**
+ * L-03…L-05. Исполнимость финала, новизна FAQ, категоричность.
+ *
+ * Требует решения, а не блокирует. Автоматика умеет показать место и
+ * сформулировать вопрос; ответить «здесь категоричность уместна» может
+ * только редактор. Гейт, который решает это за него, обходят.
+ *
+ * Замеры по корпусу на 21.08.2026: 41 финальный пункт из 41 не является
+ * задачей (нет ответственного, срока или проверяемого результата), 41
+ * ответ FAQ из 50 пересказывает тело статьи, 88 категоричных
+ * утверждений стоят без условий рядом.
+ */
+function checkEditorial(raw) {
+  const r = editorialFindings(raw);
+  const parts = [];
+  if (r.actionability.length) {
+    const a = r.actionability[0];
+    parts.push(`финальных пунктов без ${a.missing.join('/')}: ${r.actionability.length}`);
   }
-  /* Маркер и отчёт на месте — но доказывает ли отчёт проверку. До
-   * 13.08.2026 гейт останавливался здесь, и статья с шестью
-   * фактическими ошибками проходила: отчёт был, вердикт в нём стоял
-   * «passed», а сверить его было не с чем. */
-  try {
-    const report = JSON.parse(readFileSync(join(ROOT, m.report), 'utf8'));
-    const problems = checkReport(report);
-    if (problems.length) {
-      return { status: FAIL, note: `отчёт не доказывает проверку: ${problems.length} замечаний (check-report.mjs)` };
-    }
-    /* Доказанность разобранного — половина дела. Вторая: не осталось ли
-     * в статье значений, которых в отчёте нет вовсе. Отсутствующее не
-     * оставляет следа: 38 утверждений, все подтверждены, а норма, о
-     * которой не вспомнили, нигде не видна. */
-    const cov = checkCoverage(raw, report);
-    if (cov.missing.length) {
-      const list = cov.missing.slice(0, 3).map((x) => x.text).join(', ');
-      return { status: FAIL, note: `факчеком не разбирались: ${list}${cov.missing.length > 3 ? ` и ещё ${cov.missing.length - 3}` : ''}` };
-    }
-  } catch { return { status: FAIL, note: 'отчёт факчека нечитаем' }; }
-  return { status: OK, note: `проверено ${m.date}` };
+  if (r.faq.length) parts.push(`ответов FAQ пересказывают статью: ${r.faq.length}`);
+  if (r.categorical.length) {
+    parts.push(`категоричных утверждений без условий: ${r.categorical.length}`
+      + ` (строка ${r.categorical[0].line}: «${r.categorical[0].word}»)`);
+  }
+  if (!parts.length) return { status: OK, note: '' };
+  return { status: DECIDE, note: parts.join('; ') };
+}
+
+/**
+ * K-01. Выполняет ли статья то, что обещала.
+ *
+ * Все прочие проверки отвечают «нет ли здесь ошибки». Эта — «сделано ли
+ * то, ради чего материал писался». Разница видна на живом примере:
+ * таблица кодов ошибок ТС ПИоТ фактически верна (каждый код у кого-то
+ * из поставщиков действительно такой) и при этом не выполняет обещание
+ * разбора — не называет поставщика и версию, и читатель действует по
+ * чужой таблице.
+ *
+ * Контракта нет — блокер, а не «неприменимо»: без него непонятно, что
+ * статья обязана закрыть, и проверять нечего.
+ */
+function checkContractGate(slug, raw) {
+  const contract = loadContract(slug, ROOT);
+  if (!contract) {
+    return { status: FAIL, note: `нет контракта src/data/contracts/${slug}.json — непонятно, что статья обязана закрыть` };
+  }
+  const form = validateContract(contract);
+  if (form.length) return { status: FAIL, note: `контракт не проходит форму: ${form[0].problem}` };
+
+  const reportPath = join(ROOT, 'src/data/factcheck/results', `${slug}.json`);
+  let report = null;
+  if (existsSync(reportPath)) {
+    try { report = JSON.parse(readFileSync(reportPath, 'utf8')); } catch { report = null; }
+  }
+  const problems = [...checkContract(contract, raw, report), ...checkIndependentReview(contract, report)];
+  if (!problems.length) return { status: OK, note: `${contract.contentType}, riskTier ${contract.riskTier}` };
+  return {
+    status: FAIL,
+    note: `${problems.length}: ${problems.slice(0, 2).map((p) => p.problem).join('; ')}`,
+  };
+}
+
+/**
+ * J-03. Не назначена ли плановая проверка позже, чем статья устареет.
+ *
+ * Все десять статей корпуса имели `reviewDate = pubDate + 6 месяцев`,
+ * ровно. Для материала «кто обязан подключить модуль до 1 октября
+ * 2026 года» это проверка 9 февраля 2027-го — через четыре месяца после
+ * того, как срок из заголовка пройдёт.
+ *
+ * Дата раньше посчитанной проблемой не считается: проверять чаще, чем
+ * обязывает правило, никто не запрещает.
+ */
+function checkFreshness(slug, raw, fm) {
+  const pubDate = (String(fm).match(/pubDate:\s*"?([\d-]{10})"?/) || [])[1];
+  const current = (String(fm).match(/reviewDate:\s*"?([\d-]{10})"?/) || [])[1];
+  if (!pubDate || !current) return { status: NA, note: 'нет pubDate или reviewDate — это ловит проверка frontmatter' };
+
+  const reportPath = join(ROOT, 'src/data/factcheck/results', `${slug}.json`);
+  let report = null;
+  if (existsSync(reportPath)) {
+    try { report = JSON.parse(readFileSync(reportPath, 'utf8')); } catch { report = null; }
+  }
+  const { facts } = loadRegistry(ROOT);
+  const { usage } = checkCorpus({ root: ROOT });
+  const mine = facts.filter((f) => (usage.get(f.id) ?? []).includes(slug));
+
+  const computed = reviewDateFor({ pubDate, articleRaw: raw, report, facts: mine });
+  const problem = reviewDateProblem(current, computed);
+  return problem ? { status: FAIL, note: problem } : { status: OK, note: computed.reason };
+}
+
+/**
+ * J-02. Не спорит ли статья с остальным корпусом.
+ *
+ * Все прочие проверки смотрят на статью в одиночку, и по отдельности
+ * каждая была непротиворечива — при том что порог крупного размера жил
+ * в корпусе в двух значениях сразу, а на вопрос «ГИС МТ не отвечает»
+ * три статьи давали три разных ответа. Одна норма — одно значение;
+ * сверяет это реестр повторяемых фактов.
+ *
+ * Блокер, а не «требует решения»: расхождение двух статей по одной
+ * норме — это ошибка в одной из них, а не редакционный выбор.
+ */
+function checkCorpusFacts(slug) {
+  const { conflicts } = checkCorpus({ root: ROOT });
+  const mine = conflicts.filter((c) => c.slug === slug);
+  if (!mine.length) return { status: OK, note: '' };
+  const first = mine[0];
+  return {
+    status: FAIL,
+    note: `строка ${first.line}: ${first.problem}`
+      + (mine.length > 1 ? ` (и ещё ${mine.length - 1})` : ''),
+  };
 }
 
 /**
@@ -284,13 +400,19 @@ export function runGates(slug) {
       frontmatter: checkFrontmatter(fm),
       words: checkWords(body),
       internalLinks: checkInternalLinks(body),
-      seo: seo.code === 0 ? { status: OK, note: 'без P0-ошибок' } : { status: FAIL, note: 'P0-ошибки SEO' },
+      seo: fromSub(seo, 'без P0-ошибок', 'P0-ошибки SEO'),
+      /* Оценку берём из вывода, а не из кода возврата: молчащий скрипт
+       * раньше давал «маркеров не найдено» — зелёное на пустоте. */
       ai: Number.isFinite(aiScore)
         ? (aiScore < 6 ? { status: OK, note: `${aiScore}/10`, value: aiScore } : { status: FAIL, note: `${aiScore}/10, порог 6`, value: aiScore })
-        : (ai.code === 0 ? { status: OK, note: 'маркеров не найдено' } : { status: FAIL, note: 'проверка упала' }),
-      links: links.code === 0 ? { status: OK, note: 'ссылки рабочие' } : { status: FAIL, note: 'битые внутренние ссылки' },
-      npa: npa.code === 0 ? { status: OK, note: 'нормы действующие' } : { status: FAIL, note: 'ссылка на недействующую норму' },
+        : fromSub(ai, 'маркеров не найдено', 'проверка упала'),
+      links: fromSub(links, 'ссылки рабочие', 'битые внутренние ссылки'),
+      npa: fromSub(npa, 'нормы действующие', 'ссылка на недействующую норму'),
       factcheck: checkFactcheck(slug, art.raw),
+      corpus: checkCorpusFacts(slug),
+      freshness: checkFreshness(slug, art.raw, art.raw),
+      contract: checkContractGate(slug, art.raw),
+      editorial: checkEditorial(art.raw),
       duplication: checkDuplication(slug, title),
       market: checkMarket(title, body),
       graph: checkInbound(slug, join(ROOT, 'src/content/blog')),
@@ -300,12 +422,29 @@ export function runGates(slug) {
 }
 
 /** Блок `checks` в том виде, в каком его ждёт /analyze-article. */
+/**
+ * Вывод гейта в том виде, в каком его записывает оценка.
+ *
+ * Раньше всё, кроме FAIL, превращалось в `ok: true`, и «требует
+ * решения» попадало в оценку как пройденная проверка. `DECIDE` вроде
+ * «сузить угол и добавить источник» выглядел в записи ровно так же, как
+ * зелёное: решения не было, а проверка числилась взятой.
+ *
+ * Теперь у решения свой вид: `decide: true` и место под `resolution`.
+ * Пока решения нет, проверка не зелёная — check-analysis требует
+ * блокер, а release не выпускает. Заполнить `resolution` может человек
+ * (это и есть решение), но не молча: нужны сам вывод, чей он,
+ * основание и дата.
+ */
 export function toAnalyzeChecks(result) {
   const out = {};
   for (const [k, v] of Object.entries(result.checks)) {
-    out[k] = v.status === NA
-      ? { applicable: false, note: v.note }
-      : { ok: v.status !== FAIL, ...(v.value !== undefined ? { value: v.value } : {}), note: v.note };
+    if (v.status === NA) { out[k] = { applicable: false, note: v.note }; continue; }
+    if (v.status === DECIDE) {
+      out[k] = { decide: true, resolution: null, ...(v.value !== undefined ? { value: v.value } : {}), note: v.note };
+      continue;
+    }
+    out[k] = { ok: v.status !== FAIL, ...(v.value !== undefined ? { value: v.value } : {}), note: v.note };
   }
   return out;
 }
@@ -362,33 +501,68 @@ export function auditChecks(slugs) {
  * с гейтом после работы только в одном — здесь дубль **блокирует**,
  * потому что работа ещё не сделана и её не жалко.
  */
-export function runTopicGate(topic) {
-  const dup = run('audit/check-draft-duplication.mjs', [topic, '--json']);
-  let hits = [];
-  try { hits = JSON.parse(dup.out).hits || []; } catch { /* пусто — значит чисто */ }
+/**
+ * @param {string} topic
+ * @param {{run?: typeof run}} [io] — шов для теста: подменяет запуск
+ *   под-скриптов, чтобы проверить поведение при молчащей или испорченной
+ *   дочерней проверке. Без него — обычный запуск.
+ */
+export function runTopicGate(topic, { run: exec = run } = {}) {
+  /* Молчащая дочерняя проверка — не чистая.
+   *
+   * Разбор JSON стоял под пустым `catch`, и любой сбой под-скрипта —
+   * упавший процесс, испорченный вывод, отсутствующий индекс — читался
+   * как «дублей нет». Гейт перед работой тем зеленее, чем сильнее
+   * сломан. То же и у каталога Маркета: пустой вывод давал ноль
+   * совпадений вместо «не проверяли». Оба случая теперь называются
+   * своим именем и требуют решения человека, а не проходят молча. */
+  /* Код возврата у обоих под-скриптов несёт смысл («нашлось» / «не
+   * нашлось»), а не «сломался»: `check-draft-duplication` выходит с 1
+   * при дубле и с 2 при близкой теме. Поэтому сломанность здесь читаем
+   * не по коду, а по выводу — разобрался ли он вообще. */
+  const broken = [];
+  const dup = exec('audit/check-draft-duplication.mjs', [topic, '--json']);
+  let hits = null;
+  try { hits = JSON.parse(dup.out).hits || []; } catch { hits = null; }
+  if (hits === null) {
+    broken.push(`своих статей: ${dup.silent ? 'проверка ничего не напечатала' : 'вывод не разбирается'}`);
+    hits = [];
+  }
   const top = hits[0];
 
-  const mkt = run('audit/check-market-duplication.mjs', [topic]);
+  const mkt = exec('audit/check-market-duplication.mjs', [topic]);
   const scores = [...mkt.out.matchAll(/\[(\d+(?:\.\d+)?)\]/g)].map((m) => Number(m[1]));
+  const mktSilent = !mkt.out.trim();
+  if (mktSilent) broken.push('каталог Маркета: проверка ничего не напечатала');
   const mScore = scores.length ? Math.max(...scores) : 0;
   const mUrl = mkt.out.match(/(https?:\/\/\S+)/)?.[1] ?? null;
 
   return {
     topic,
     checks: {
-      duplication: !top
-        ? { status: OK, note: 'своих статей по теме нет' }
-        : top.score >= 0.4
-          ? { status: FAIL, note: `дубль ${top.score}: «${top.title}»${top.draft ? ' (черновик — довести его)' : ' (выпущена — тему снять)'}` }
-          : { status: DECIDE, note: `${top.score} — «${top.title}»: сузить угол и сослаться` },
-      market: mScore < 0.3
-        ? { status: OK, note: mScore ? `максимум ${mScore}` : 'совпадений с каталогом нет' }
-        : { status: DECIDE, note: `${mScore} — ${mUrl || 'материал Маркета'}: ${mScore >= 0.6 ? 'сузить угол или дополнить тем, чего у Маркета нет' : 'поставить ссылку в тексте'}` },
+      /* Не состоявшаяся проверка — не «чисто» и не «нельзя». Тема может
+       * быть свободна, сломан инструмент: решает человек, а гейт
+       * говорит вслух, чего именно он не знает. */
+      ...(broken.length
+        ? { tooling: { status: DECIDE, note: `проверки не отработали — ${broken.join('; ')}` } }
+        : {}),
+      duplication: broken.some((b) => b.startsWith('своих статей'))
+        ? { status: DECIDE, note: 'дубли по своим статьям не проверены' }
+        : !top
+          ? { status: OK, note: 'своих статей по теме нет' }
+          : top.score >= 0.4
+            ? { status: FAIL, note: `дубль ${top.score}: «${top.title}»${top.draft ? ' (черновик — довести его)' : ' (выпущена — тему снять)'}` }
+            : { status: DECIDE, note: `${top.score} — «${top.title}»: сузить угол и сослаться` },
+      market: mktSilent
+        ? { status: DECIDE, note: 'каталог Маркета не проверен' }
+        : mScore < 0.3
+          ? { status: OK, note: mScore ? `максимум ${mScore}` : 'совпадений с каталогом нет' }
+          : { status: DECIDE, note: `${mScore} — ${mUrl || 'материал Маркета'}: ${mScore >= 0.6 ? 'сузить угол или дополнить тем, чего у Маркета нет' : 'поставить ссылку в тексте'}` },
     },
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   const topicIdx = process.argv.indexOf('--topic');
   if (topicIdx !== -1) {
     const topic = process.argv[topicIdx + 1];
@@ -409,7 +583,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     process.exit(code);
   }
 
-  if (process.argv.includes('--audit')) {
+  /* `--all` — синоним `--audit`: соседние чекеры (check-report,
+   * check-analysis, check-coverage, check-update-doc) разбирают весь
+   * корпус именно по `--all`, и набрать его здесь — обычная ошибка.
+   * Пока main-guard не работал, она была неотличима от успеха: скрипт
+   * молча завершался нулём. */
+  if (process.argv.includes('--audit') || process.argv.includes('--all')) {
     const dir = join(ROOT, 'src/content/blog');
     const slugs = existsSync(dir)
       ? readdirSync(dir).filter((f) => /\.mdx?$/.test(f)).map((f) => f.replace(/\.mdx?$/, ''))
@@ -428,12 +607,16 @@ if (import.meta.url === `file://${process.argv[1]}`) {
       ? `\n✖ Красное есть у: ${red.map((r) => GATE_CHECKS[r.key]).join(', ')}`
       : '\n✓ Красного в корпусе нет.');
     console.log('Что каждая проверка умеет говорить «нет» — доказывает gates-liveness.test.mjs.');
-    process.exit(0);
+    /* Сводка по корпусу возвращала ноль всегда — и печатала при этом
+     * «красное есть у: Факчек, Контракт материала». Отчёт, который
+     * видит красное и сообщает «всё в порядке» кодом возврата, хуже
+     * отсутствующего: в CI и в скриптах читают именно код. */
+    process.exit(red.length ? 1 : 0);
   }
 
   const slug = process.argv.slice(2).find((a) => !a.startsWith('--'));
   if (!slug) {
-    console.error('Использование: node scripts/gates.mjs <slug> [--json] | --audit');
+    console.error('Использование: node scripts/gates.mjs <slug> [--json] | --topic "<тема>" | --audit');
     process.exit(1);
   }
   const result = runGates(slug);

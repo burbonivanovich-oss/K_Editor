@@ -24,6 +24,15 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
+import { auditBundles } from './factcheck/audit-bundles.mjs';
+import { closureMetrics, metricRows } from './factcheck/metrics.mjs';
+import { checkCorpus, loadRegistry, validateRegistry } from './factcheck/fact-registry.mjs';
+import { editorialFindings } from './factcheck/editorial-gates.mjs';
+import { openQueue } from './factcheck/watch-sources.mjs';
+import { loadContract, validateContract, checkContract } from './factcheck/content-contract.mjs';
+import { checkTaskInvariants, knownDebt } from './check-task-invariants.mjs';
+import { checkCorpusRepetition } from './audit/check-corpus-repetition.mjs';
+import { editorialMetrics } from './editorial-metrics.mjs';
 
 const ROOT = process.env.HEALTH_CHECK_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..');
 const args = new Set(process.argv.slice(2));
@@ -44,13 +53,15 @@ const blogFiles = existsSync(blogDir)
 	: [];
 const today = new Date();
 
-let drafts = 0, future = 0, noFactcheck = 0, markerNoResult = 0;
+let drafts = 0, future = 0, noFactcheck = 0, markerNoResult = 0, markerFailed = 0;
 const slugs = new Set();
 const released = []; // draft:false статьи — вход для секции 5 (бизнес-инварианты)
+const allArticles = []; // все статьи корпуса — вход для редакционных проверок (K-01, L-03…L-05)
 for (const f of blogFiles) {
 	const content = readFileSync(join(blogDir, f), 'utf8');
 	const slug = f.replace(/\.(md|mdx)$/, '');
 	slugs.add(slug);
+	allArticles.push({ slug, content });
 	const isDraft = /^draft:\s*true/m.test(content);
 	if (isDraft) drafts++;
 	else released.push({ slug, content });
@@ -64,7 +75,12 @@ for (const f of blogFiles) {
 	if (!existsSync(mp)) noFactcheck++;
 	else {
 		try {
-			if (JSON.parse(readFileSync(mp, 'utf8')).result !== 'passed') markerNoResult++;
+			const r = JSON.parse(readFileSync(mp, 'utf8')).result;
+			/* Разные вещи, и их стоит различать: отчёта нет вовсе
+			 * (result: null — процедура не доведена) и факчек проведён, но
+			 * не пройден (result: failed — есть что чинить в статье). */
+			if (r === null || r === undefined) markerNoResult++;
+			else if (r !== 'passed') markerFailed++;
 		} catch { markerNoResult++; }
 	}
 }
@@ -83,9 +99,199 @@ if (blogFiles.length === 0) {
 	if (noFactcheck > 0) warn('Блог: без маркера factchecked', `${noFactcheck}/${blogFiles.length}`);
 	if (markerNoResult > 0)
 		warn('Блог: маркер факчека без результата', `${markerNoResult}/${blogFiles.length} — отчёта results/<slug>.json нет, факчек не доведён`);
-	if (noFactcheck === 0 && markerNoResult === 0) ok('Блог: все статьи фактчекнуты', `${blogFiles.length}`);
+	if (markerFailed > 0)
+		warn('Блог: факчек не пройден', `${markerFailed}/${blogFiles.length} — в отчёте есть неподтверждённые значимые утверждения`);
+	if (noFactcheck === 0 && markerNoResult === 0 && markerFailed === 0) ok('Блог: маркеры факчека на месте', `${blogFiles.length}`);
+
+	/* «Маркер на месте» — не «статья проверена». До C-01 health на этом
+	 * и останавливался и писал «все статьи фактчекнуты»: он смотрел
+	 * наличие маркера и его хеш, а доказательства в отчёте — нет.
+	 * Поэтому все десять отчётов числились зелёными, хотя текущий
+	 * контракт отвергает каждый. Теперь тем же валидатором, что у гейта
+	 * и релиза. */
+	const bundles = auditBundles({ root: ROOT });
+	const badBundles = bundles.filter((b) => !b.ok);
+	const debt = badBundles.filter((b) => b.legacy);
+	const regressions = badBundles.filter((b) => !b.legacy);
+	if (bundles.length) {
+		if (regressions.length) {
+			fail('Блог: доказательства факчека',
+				`${regressions.length} статей не проходят контракт: ${regressions.slice(0, 3).map((r) => r.slug).join(', ')}${regressions.length > 3 ? ', …' : ''}`);
+		}
+		if (debt.length) {
+			warn('Блог: ждут перепроверки по новому контракту',
+				`${debt.length}/${bundles.length} — src/data/factcheck/legacy-allowlist.json (задача C-04), выпуск им закрыт`);
+		}
+		if (!badBundles.length) ok('Блог: доказательства факчека перепроверены', `${bundles.length}`);
+	}
+
+	/* I-02. Замкнутость цепочки — отдельной строкой.
+	 *
+	 * Гейт отвечает «эту статью выпускать можно или нет». Этот показатель
+	 * отвечает на другой вопрос: движется ли корпус в правильную сторону.
+	 * Без него health молчал, пока всё зелёное, и не показывал, что
+	 * зелёное держится на списке исключений из десяти статей.
+	 *
+	 * Целевое значение у каждой строки — ноль. Ноль по всем — значит,
+	 * каждое извлечённое утверждение имеет исход, каждая ссылка ведёт
+	 * туда, куда заявлено, и ни одно значение статьи не осталось вне
+	 * разбора. */
+	const m = closureMetrics(ROOT);
+	const rows = metricRows(m).filter(([, v]) => Number(v) > 0);
+	if (m.allowlistGrown > 0) {
+		fail('Блог: список исключений вырос',
+			`${m.allowlistGrown} — он может только сокращаться, новая статья обязана проходить контракт сразу`);
+	}
+	if (!rows.length) {
+		ok('Блог: цепочка утверждений замкнута', 'все показатели нулевые');
+	} else {
+		const worst = rows.slice(0, 3).map(([name, v]) => `${name} — ${v}`).join('; ');
+		warn('Блог: цепочка утверждений не замкнута',
+			`${worst}${rows.length > 3 ? `; и ещё ${rows.length - 3} показателя` : ''}`);
+	}
+	/* J-02. Согласованность корпуса — то, чего не видно по одной статье.
+	 *
+	 * Порог крупного размера жил в двух значениях сразу, и обе статьи
+	 * проходили факчек: каждая по отдельности была непротиворечива. */
+	const registry = loadRegistry(ROOT);
+	if (!registry.exists) {
+		warn('Блог: реестра повторяемых фактов нет', 'src/data/factcheck/facts.json — сверять статьи между собой не с чем');
+	} else if (registry.broken) {
+		fail('Блог: реестр фактов не разбирается', registry.broken);
+	} else {
+		const form = validateRegistry(registry.facts);
+		if (form.length) {
+			fail('Блог: реестр фактов не проходит форму', `${form.length} замечаний: ${form[0].id} — ${form[0].problem}`);
+		} else {
+			const { conflicts, usage } = checkCorpus({ root: ROOT });
+			if (conflicts.length) {
+				fail('Блог: статьи спорят между собой',
+					`${conflicts.length}: ${conflicts.slice(0, 2).map((c) => `${c.slug} (строка ${c.line})`).join(', ')}`);
+			} else {
+				ok('Блог: статьи согласованы между собой', `${registry.facts.length} записей реестра`);
+			}
+			const unused = registry.facts.filter((f) => !(usage.get(f.id) ?? []).length);
+			if (unused.length) {
+				warn('Блог: записи реестра ничего не покрывают',
+					`${unused.map((f) => f.id).join(', ')} — проверьте detect либо удалите запись`);
+			}
+		}
+	}
+
+	/* K-01 и L-03…L-05. Редакционная сторона: выполняет ли материал своё
+	 * обещание и можно ли выполнить то, что он советует. Не блокеры —
+	 * замечания: решение здесь редакционное. */
+	let noContract = 0; let contractGaps = 0;
+	let cta = 0; let faq = 0; let categorical = 0;
+	for (const { slug, content } of allArticles) {
+		const contract = loadContract(slug, ROOT);
+		if (!contract || validateContract(contract).length) { noContract++; continue; }
+		contractGaps += checkContract(contract, content).length;
+		const e = editorialFindings(content);
+		cta += e.actionability.length;
+		faq += e.faq.length;
+		categorical += e.categorical.length;
+	}
+	if (noContract) {
+		warn('Блог: статьи без контракта материала',
+			`${noContract} — непонятно, что статья обязана закрыть (src/data/contracts/<slug>.json)`);
+	}
+	if (contractGaps) warn('Блог: обещания контрактов не закрыты', `${contractGaps} пунктов`);
+	else if (!noContract) ok('Блог: контракты материалов выполнены', `${allArticles.length} статей`);
+
+	const editorial = [
+		cta && `финальных пунктов, которые нельзя выполнить: ${cta}`,
+		faq && `ответов FAQ пересказывают статью: ${faq}`,
+		categorical && `категоричных утверждений без условий: ${categorical}`,
+	].filter(Boolean);
+	if (editorial.length) warn('Блог: редакционные замечания', editorial.join('; '));
+	else ok('Блог: редакционных замечаний нет', '');
+
+	if (m.allowlistBaseline !== null) {
+		const closed = m.allowlistBaseline - m.allowlistDebt;
+		const line = `${m.allowlistDebt} из ${m.allowlistBaseline} (закрыто ${closed})`;
+		if (m.allowlistDebt === 0) ok('Блог: долг по списку исключений закрыт', line);
+		else warn('Блог: долг по списку исключений', line);
+	}
+
+	/* Очередь перепроверки источников.
+	 *
+	 * Обход источников (`watch-sources.mjs --refresh`) идёт по
+	 * расписанию и пишет очередь в файл. Файл сам себя не показывает:
+	 * без строки здесь очередь пополнялась бы, а замечал бы её только
+	 * тот, кто открыл JSON. Возраст самой старой записи важнее их
+	 * числа — он показывает, сколько долг лежит.
+	 */
+	const queued = openQueue(ROOT);
+	if (!queued.length) ok('Блог: очередь перепроверки источников пуста', '');
+	else {
+		const oldest = queued[0];
+		warn('Блог: источники ждут перепроверки',
+			`${queued.length}, самая старая запись от ${oldest.detectedAt} — ${oldest.slug}`);
+	}
 }
 
+
+/* Инварианты задачи (E-03). Тип задачи и объект актуализации — решение
+ * intake, а не свойство текста ячейки. Пока это не проверялось, задача
+ * «Актуализировать статью …» превращалась в новую статью в блоге, а
+ * src/content/updates/ оставался пустым. */
+{
+	const statePath = join(ROOT, 'src', 'data', 'editorial-cycle.json');
+	if (existsSync(statePath)) {
+		try {
+			const state = JSON.parse(readFileSync(statePath, 'utf8'));
+			const problems = checkTaskInvariants(state, { root: ROOT, runDocCheck: false });
+			const debt = knownDebt(ROOT);
+			const fresh = problems.filter((p) => !debt.has(`${p.slug}::${p.code}`));
+			const known = problems.length - fresh.length;
+			if (fresh.length) {
+				const shown = fresh.slice(0, 3).map((p) => `${p.slug} (${p.code})`).join(', ');
+				fail('Задачи цикла: тип задачи не сходится с работой',
+					`${fresh.length}: ${shown}${fresh.length > 3 ? ', …' : ''} — node scripts/check-task-invariants.mjs`);
+			}
+			if (known) {
+				warn('Задачи цикла: ждут решения редакции',
+					`${known} — src/data/task-invariants-debt.json (актуализации, превратившиеся в статьи)`);
+			}
+			if (!problems.length) ok('Задачи цикла: тип и объект работы сходятся');
+		} catch {
+			warn('Задачи цикла: состояние не разбирается', 'src/data/editorial-cycle.json');
+		}
+	}
+}
+
+/* Метрики редакционного процесса (F-04). Не гейт: цифры без порогов —
+ * приборная панель. Смысл в том, что это внешние сигналы, которых
+ * контур о себе не выставляет: переделки редакции, отказы, выкинутые
+ * промоблоки. */
+{
+	const m = editorialMetrics(ROOT);
+	const bits = [
+		m.rework.note ? 'правок редакции ещё не записано' : `правок редакции: ${m.rework.entries} в ${m.rework.articles} ст.`,
+		`снято тем ${m.drops.dropped}/${m.drops.total}`,
+		`промо убрано ${m.promo.removed}/${m.promo.planned}`,
+	];
+	ok('Редакция: срез процесса', `${bits.join(' · ')} — node scripts/editorial-metrics.mjs`);
+}
+
+/* Повторяемость корпуса (F-02). Одинаковость между статьями — то, чего
+ * не видит ни одна проверка отдельной статьи: AI-checker на всех
+ * десяти показывал 0–2 из 10, а корпус выглядел собранным по шаблону. */
+{
+	const rep = checkCorpusRepetition({ root: ROOT });
+	if (rep.formal.total) {
+		const promo3 = rep.formal.promoCounts?.[3] ?? 0;
+		const shape = `FAQ ${rep.formal.withFaq}/${rep.formal.total}, ровно три промо у ${promo3}`;
+		const findings = rep.outline.length + rep.ending.length + rep.faq.length + rep.phrases.length;
+		if (findings) {
+			warn('Корпус: повторяемость',
+				`каркасы ${rep.outline.length}, финалы ${rep.ending.length}, вопросы ${rep.faq.length}, дословные повторы ${rep.phrases.length} · ${shape} — node scripts/audit/check-corpus-repetition.mjs`);
+		} else {
+			ok('Корпус: повторяемость', shape);
+		}
+	}
+}
 
 // ─── 2. Workflows ────────────────────────────────────────────────────────────
 const wfDir = join(ROOT, '.github', 'workflows');

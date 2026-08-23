@@ -25,6 +25,7 @@ import { execFileSync } from 'node:child_process';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { WORK_COLS, RU_STATUS, isPriority } from './lib/sheet-columns.mjs';
+import { isMain } from './lib/is-main.mjs';
 
 const __dir = dirname(fileURLToPath(import.meta.url));
 const STATE_PATH = process.env.CYCLE_STATE_PATH || join(__dir, '..', 'src/data/editorial-cycle.json');
@@ -73,7 +74,7 @@ export function compare(state, pull) {
       add('статус разошёлся', `«${t.title}»: в состоянии «${wantStatus}», в таблице «${gotStatus || 'пусто'}»`);
     }
     if (t.docUrl && !String(row.doc || '').includes(t.docId || t.docUrl)) {
-      add('нет ссылки на док', `«${t.title}»: док есть в состоянии, в таблице колонка «Документ» пуста или другая`);
+      add('нет ссылки на док', `«${t.title}»: док есть в состоянии, в таблице колонка «Ссылка на докс» пуста или другая`);
     }
     if (row.priority && !isPriority(row.priority)) {
       add('приоритет не из набора', `«${t.title}»: в таблице «${row.priority}», допустимо P0/P1/P2`);
@@ -98,7 +99,7 @@ export function compare(state, pull) {
 }
 
 /* ------------------------------------------------------------------ CLI */
-if (process.argv[1] && import.meta.url.endsWith(process.argv[1].split('/').pop())) {
+if (isMain(import.meta.url)) {
   const state = existsSync(STATE_PATH) ? JSON.parse(readFileSync(STATE_PATH, 'utf8')) : { plan: [] };
 
   let pull;

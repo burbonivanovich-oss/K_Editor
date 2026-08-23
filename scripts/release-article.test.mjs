@@ -12,11 +12,13 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync, cpSync, realpathSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { PASS } from './check-analysis.mjs';
+import { writeBundle } from './factcheck/bundle-fixture.mjs';
+import { writeAnalysis as writeAnalysisFixture, allChecksOk } from './analysis-fixture.mjs';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'release-article.mjs');
 
@@ -27,12 +29,33 @@ const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'release-article.mj
 // check-blog-links всегда гонялись по настоящему репозиторию, не по
 // фикстуре, поэтому битая ссылка внутри временной директории теста не
 // попадала в поле зрения гейта вообще.
-const GOOD_BODY = `Текст статьи со ссылкой [сюда](/category/kkt) на другую тему.
-
-## Вопрос-ответ
-
-Что-то конкретное.
-`;
+/* Тело фикстуры должно проходить гейты, а не только парситься.
+ *
+ * Раньше здесь было тринадцать слов и одна ссылка: этого хватало, пока
+ * релиз гонял четыре проверки своим списком. Теперь он зовёт тот же
+ * `gates.mjs`, что и все остальные, и объём, внутренние ссылки и
+ * frontmatter стали его условиями. Это не издержка теста, а ровно то,
+ * ради чего список убрали: релиз больше не знает набора проверок «для
+ * себя». */
+const GOOD_BODY = [
+  'Текст статьи со ссылками [сюда](/category/kkt), [туда](/category/ts-piot) и [ещё](/category/markirovka).',
+  '',
+  '## Что проверяет касса',
+  '',
+  /* Ни чисел, ни дат: любое значение здесь потребует утверждения в
+   * отчёте, а отчёт фикстуры разбирает ровно один факт. */
+  Array.from({ length: 900 }, (_, i) => `слово${i % 40}`).join(' ') + '.',
+  '',
+  '## Что делать дальше',
+  '',
+  '- Администратор перед первой сменой проверяет модуль; убедитесь, что он активен.',
+  '- Кассир заранее разбирает сценарий отказа; результат — порядок действий без подсказки.',
+  '',
+  '## Вопрос-ответ',
+  '',
+  'Что-то конкретное про кассу и маркировку, чего выше не было.',
+  '',
+].join('\n');
 
 const GOOD_FM = {
   title: 'Тестовая статья про ТС ПИоТ и штрафы',
@@ -40,6 +63,7 @@ const GOOD_FM = {
     'Описание статьи достаточной длины для прохождения проверки SEO, не короче ста символов и не длиннее ста шестидесяти пяти символов ровно.',
   draft: 'true',
   pubDate: '2026-01-01',
+  reviewDate: '2026-07-01',
 };
 
 function withFixture(fn) {
@@ -79,25 +103,36 @@ function writeArticle(dir, slug, { fm = GOOD_FM, body = GOOD_BODY, extra = '' } 
   return p;
 }
 
-// По умолчанию 95, а не 85: 85 — это ровно порог, и тест на «нормальную
-// статью» не должен стоять на границе. Границу проверяют отдельные тесты.
-function writeAnalysis(dir, slug, { score = 95, blocker = false, checkedAt = today() } = {}) {
-  writeFileSync(join(dir, 'src/data/analyze', `${slug}.json`), JSON.stringify({ score, blocker, checkedAt }));
+/* Запись оценки — общая сборка из scripts/analysis-fixture.mjs: она
+ * привязывает балл к версии текста, как того требует контракт. 95 по
+ * умолчанию, а не 85: 85 — ровно порог, и тест «нормальной статьи» не
+ * должен стоять на границе. */
+function writeAnalysis(dir, slug, opts = {}) {
+  return writeAnalysisFixture(dir, slug, opts);
 }
 
-function writeMarker(dir, slug, { date = today(), hashOf = null, result = 'passed', criticalMismatches = 0 } = {}) {
-  const content = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
-  const hash = createHash('sha256').update(hashOf ?? content).digest('hex');
-  writeFileSync(
-    join(dir, '.claude/factchecked', slug),
-    JSON.stringify({ date, hash, result, criticalMismatches }),
-  );
+/* Утверждение неопасного типа: у GOOD_BODY нет ни сумм, ни норм, а
+ * пустой список claims считается «проверять было нечего». Так фикстура
+ * остаётся про релиз, а не про факчек. */
+const PLAIN_CLAIM = {
+  id: 'c1', type: 'FACT', raw: 'ТС ПИоТ',
+  statement: 'ТС ПИоТ — технические средства проверки и обработки данных, применяемые при продаже',
+  status: 'match', severity: 'minor', confidence: 0.9,
+  quote: 'технические средства проверки и обработки данных',
+  sources: ['http://publication.pravo.gov.ru/document/0001202301010001'],
+  action: 'keep',
+};
+
+/* `report: null` даёт ровно тот старый вид маркера (без отчёта), который
+ * раньше проходил релиз. */
+function writeMarker(dir, slug, opts = {}) {
+  return writeBundle(dir, slug, { claims: [PLAIN_CLAIM], ...opts });
 }
 
-function writeAccepted(dir, slug) {
+function writeAccepted(dir, slug, status = 'accepted') {
   writeFileSync(
     join(dir, 'src/data/editorial-cycle.json'),
-    JSON.stringify({ cycleId: 't', state: 'running', plan: [{ slug, status: 'accepted' }], batches: [], log: [] }),
+    JSON.stringify({ cycleId: 't', state: 'running', plan: [{ slug, status }], batches: [], log: [] }),
   );
 }
 
@@ -135,11 +170,64 @@ test('нет статьи — ошибка', () => {
   });
 });
 
-test('уже draft: false — ALREADY_RELEASED, ничего не трогает', () => {
+/* Уже опубликованная статья, у которой всё в порядке: та же
+ * фикстура, что и у готовой к выпуску, только draft уже снят, а тема в
+ * цикле — в статусе released. */
+function alreadyPublished(dir, slug = 'a') {
+  writeArticle(dir, slug, { fm: { ...GOOD_FM, draft: 'false' } });
+  writeAccepted(dir, slug, 'released');
+  writeAnalysis(dir, slug);
+  writeMarker(dir, slug);
+  return slug;
+}
+
+test('уже draft: false и все гейты зелёные — ALREADY_RELEASED, файл не трогает', () => {
+  withFixture((dir) => {
+    const slug = alreadyPublished(dir);
+    const before = readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8');
+    const out = run(dir, [slug]);
+    assert.equal(out.status, 'ALREADY_RELEASED');
+    assert.equal(readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8'), before);
+  });
+});
+
+/* B-01. Ровно та дыра, которую нашёл внешний аудит: инструкция рутины B
+ * просила снять draft при переносе тела из дока, и после этого release
+ * возвращал ALREADY_RELEASED кодом 0, не проверив ни одного гейта. Так
+ * штатный выпуск через Google Docs шёл мимо приёмки, НПА, ссылок, SEO,
+ * AI, оценки и факчека. */
+test('B-01: уже опубликованная статья без факчека — BLOCKED, а не безусловный успех', () => {
   withFixture((dir) => {
     writeArticle(dir, 'a', { fm: { ...GOOD_FM, draft: 'false' } });
-    const out = run(dir, ['a']);
-    assert.equal(out.status, 'ALREADY_RELEASED');
+    const out = run(dir, ['a'], { expectFail: true });
+    assert.equal(out.status, 'BLOCKED');
+    assert.equal(out.alreadyReleased, true);
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек')),
+      `опубликованная статья без факчека прошла проверку: ${JSON.stringify(out.blockers)}`);
+  });
+});
+
+test('B-01: провальный факчек блокирует независимо от значения draft', () => {
+  for (const draft of ['true', 'false']) {
+    withFixture((dir) => {
+      const slug = 'a';
+      writeArticle(dir, slug, { fm: { ...GOOD_FM, draft } });
+      writeAccepted(dir, slug, draft === 'false' ? 'released' : 'accepted');
+      writeAnalysis(dir, slug);
+      writeMarker(dir, slug, { result: 'needs-rewrite', criticalMismatches: 3 });
+      const out = run(dir, [slug], { expectFail: true });
+      assert.equal(out.status, 'BLOCKED', `draft: ${draft}`);
+      assert.ok(out.blockers.some((b) => b.startsWith('Фактчек')), `draft: ${draft}`);
+    });
+  }
+});
+
+test('B-01: у опубликованной статьи приёмка засчитывается по статусу released', () => {
+  withFixture((dir) => {
+    const slug = alreadyPublished(dir);
+    const out = run(dir, [slug]);
+    assert.ok(out.findings.some((f) => f.name === 'Приёмка редактором' && f.status === 'ok' && f.detail === 'released'),
+      `приёмка не засчитана: ${JSON.stringify(out.findings)}`);
   });
 });
 
@@ -282,7 +370,9 @@ test('незнакомый номер ПП в тексте статьи — бл
     });
     const out = run(dir, [slug], { expectFail: true });
     assert.equal(out.status, 'BLOCKED');
-    assert.ok(out.blockers.some((b) => b.startsWith('НПА-аудит')));
+    /* В гейте проверка называется «Нормы»: релиз зовёт общий прогон,
+     * а не свой npa-audit. Блокировать обязана по-прежнему. */
+    assert.ok(out.blockers.some((b) => b.startsWith('Нормы')), JSON.stringify(out.blockers));
   });
 });
 
@@ -302,7 +392,7 @@ test('статья менялась после факчека (хеш не со�
     const slug = fullyReady(dir);
     writeMarker(dir, slug, { hashOf: 'совсем другое содержимое' });
     const out = run(dir, [slug], { expectFail: true });
-    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('менялась после факчека')));
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('правили после факчека')));
   });
 });
 
@@ -323,7 +413,7 @@ test('маркер факчека с критичными расхождения
     const slug = fullyReady(dir);
     writeMarker(dir, slug, { result: 'passed', criticalMismatches: 2 });
     const out = run(dir, [slug], { expectFail: true });
-    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('критичных расхождений')));
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('критических расхождений')));
   });
 });
 
@@ -364,7 +454,8 @@ test('AI-маркеры выше порога — блокер', () => {
     writeAnalysis(dir, slug);
     writeMarker(dir, slug, { hashOf: readFileSync(join(dir, 'src/content/blog', `${slug}.md`), 'utf8') });
     const out = run(dir, [slug], { expectFail: true });
-    assert.ok(out.blockers.some((b) => b.startsWith('AI-маркеры')));
+    /* Имя проверки в общем гейте — «Машинный текст». */
+    assert.ok(out.blockers.some((b) => b.startsWith('Машинный текст')), JSON.stringify(out.blockers));
   });
 });
 
@@ -485,5 +576,151 @@ test('оценка по старой шкале не пускает статью
     }));
     const out = run(dir, [slug], { expectFail: true });
     assert.ok(out.blockers.some((b) => b.includes('старой шкале')), `ожидался блокер про старую шкалу:\n${JSON.stringify(out.blockers)}`);
+  });
+});
+
+/* ── Гейт, который не запустился, — блокер, а не «пройдено» ───────── */
+
+/* Копия scripts/ с одним под-чекером, подменённым на «код 0, ни слова».
+ * Это ровно поведение сломанного main-guard: девять чекеров годами
+ * завершались успехом, ничего не проверив, и релиз считал их зелёными.
+ * Копия обязательно лежит в каталоге с пробелом — на нём и ломался
+ * старый guard. */
+function withStubbedGate(script, fn) {
+  const base = realpathSync(mkdtempSync(join(tmpdir(), 'release-stub-')));
+  const root = join(base, 'Claude Local · Контур', 'repo');
+  mkdirSync(root, { recursive: true });
+  cpSync(dirname(SCRIPT), join(root, 'scripts'), {
+    recursive: true,
+    filter: (src) => !/\.test\.mjs$/.test(src) && !/node_modules|\.git$/.test(src),
+  });
+  writeFileSync(join(root, 'scripts', script), 'process.exit(0);\n');
+  try { return fn(join(root, 'scripts', 'release-article.mjs')); } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
+}
+
+test('молчащий AI-гейт блокирует релиз, а не проходит его', () => {
+  withStubbedGate('check-ai-markers.mjs', (script) => {
+    withFixture((dir) => {
+      const slug = fullyReady(dir);
+      const env = { ...process.env, RELEASE_DATA_ROOT: dir };
+      let out;
+      try {
+        execFileSync('node', [script, slug, '--json'], { encoding: 'utf8', env });
+        assert.fail('релиз прошёл на гейте, который не выполнялся');
+      } catch (e) { out = JSON.parse(e.stdout || '{}'); }
+      /* Проверка называется «Машинный текст»: релиз больше не держит
+       * своего списка и зовёт `gates.mjs`. Правило прежнее и оно
+       * важнее имени — молчащий чекер обязан блокировать выпуск и
+       * называть причиной молчание, а не содержание статьи. */
+      const ai = (out.blockers || []).find((b) => b.startsWith('Машинный текст'));
+      assert.ok(ai, `AI-гейт не заблокировал релиз: ${JSON.stringify(out.blockers)}`);
+      assert.match(ai, /не состоялась/, 'причина обязана называть молчание гейта, а не содержание статьи');
+    });
+  });
+});
+
+test('обычный прогон той же копии релиз пропускает — стенд не ломает всё подряд', () => {
+  withStubbedGate('нет-такого-файла.mjs', (script) => {
+    withFixture((dir) => {
+      const slug = fullyReady(dir);
+      const env = { ...process.env, RELEASE_DATA_ROOT: dir };
+      const out = JSON.parse(execFileSync('node', [script, slug, '--dry-run', '--json'], { encoding: 'utf8', env }));
+      assert.equal(out.status, 'WOULD_RELEASE');
+    });
+  });
+});
+
+/* ── B-02: маркер — утверждение о проверке, а не сама проверка ────── */
+
+/* Раньше релиз читал из маркера hash, date и result — и всё. Отчёт мог
+ * отсутствовать, а доказательства в нём — не выдерживать текущего
+ * контракта: все десять отчётов корпуса стояли passed, хотя
+ * checkReport() отвергает каждый. Теперь релиз перепроверяет связку на
+ * месте, тем же валидатором, что и гейт. */
+
+test('B-02: маркер старого образца (без отчёта) релиз не проходит', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    writeMarker(dir, slug, { report: null, reportLink: false });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('без отчёта')),
+      `старый маркер прошёл релиз: ${JSON.stringify(out.blockers)}`);
+  });
+});
+
+test('B-02: отчёт есть, но доказательств не предъявляет — блокер', () => {
+  withFixture((dir) => {
+    const body = `${GOOD_BODY}\nЗа это статья 14.5 КоАП РФ грозит штрафом 10 000 ₽ для должностных лиц.\n`;
+    const slug = 'a';
+    writeArticle(dir, slug, { body });
+    writeAccepted(dir, slug);
+    writeAnalysis(dir, slug);
+    writeMarker(dir, slug, {
+      report: {
+        claims: [{
+          // Критичное утверждение про деньги — и ни цитаты, ни источника.
+          id: 'c1', type: 'MONEY', raw: '10 000 ₽',
+          statement: 'штраф по ст. 14.5 КоАП РФ для должностных лиц — 10 000 ₽',
+          status: 'match', severity: 'critical', confidence: 0.95,
+        }],
+        summary: { overallStatus: 'ok', criticalIssues: 0 },
+      },
+    });
+    const out = run(dir, [slug], { expectFail: true });
+    assert.ok(out.blockers.some((b) => b.startsWith('Фактчек') && b.includes('не доказывает проверку')),
+      `отчёт без доказательств прошёл релиз: ${JSON.stringify(out.blockers)}`);
+  });
+});
+
+test('B-02: значение из статьи, которого нет в отчёте, — блокер', () => {
+  withFixture((dir) => {
+    const body = `${GOOD_BODY}\nШтраф составит 10 000 ₽.\n`;
+    const slug = 'a';
+    writeArticle(dir, slug, { body });
+    writeAccepted(dir, slug);
+    writeAnalysis(dir, slug);
+    writeMarker(dir, slug); // отчёт валидный, но про другое
+    const out = run(dir, [slug], { expectFail: true });
+    /* Причина может быть двух видов, и обе верные: значения нет в
+     * отчёте вовсе («не разбирались») либо утверждение про него есть,
+     * но говорит про другое («расходится со статьёй»). Требовать
+     * конкретную формулировку значит проверять текст сообщения, а не
+     * то, что выпуск остановлен. */
+    assert.ok(
+      out.blockers.some((b) => /^Факчек/.test(b) && /не разбирались|расходится со статьёй/.test(b)),
+      `непокрытое значение прошло релиз: ${JSON.stringify(out.blockers)}`,
+    );
+  });
+});
+
+/* ── выпуск откатывается целиком ─────────────────────────────────────── */
+
+/* Выпуск пишет статью, маркер, файл оценки и контент-план. Записи шли
+ * подряд: сбой на любой оставлял статью выпущенной, а маркер — про
+ * прежний текст. Такого состояния не бывает при нормальной работе, и
+ * чинить его приходилось руками, зная, какие шаги успели пройти. */
+test('сбой посреди выпуска не оставляет полувыпущенной статьи', () => {
+  withFixture((dir) => {
+    const slug = fullyReady(dir);
+    const articlePath = join(dir, 'src/content/blog', `${slug}.md`);
+    const before = readFileSync(articlePath, 'utf8');
+
+    const markerPath = join(dir, '.claude/factchecked', slug);
+    const markerBefore = readFileSync(markerPath, 'utf8');
+
+    /* Ломаем последний шаг, а не первый: гейты к этому моменту уже
+     * пройдены, статья и маркер переписаны. Контент-план делаем
+     * каталогом — чтение его как файла неизбежно падает. */
+    mkdirSync(join(dir, 'src/content/wiki/content-plan-2026.md'), { recursive: true });
+
+    const r = run(dir, [slug], { expectFail: true });
+    assert.equal(r.status, 'FAILED', 'сбой обязан быть назван сбоем, а не выпуском');
+    assert.equal(readFileSync(articlePath, 'utf8'), before,
+      'статья обязана остаться невыпущенной — иначе маркер относится к другому тексту');
+    assert.equal(readFileSync(markerPath, 'utf8'), markerBefore,
+      'маркер обязан вернуться к прежнему хешу');
+    assert.deepEqual(r.rollbackFailed, [], 'откат обязан пройти целиком');
   });
 });

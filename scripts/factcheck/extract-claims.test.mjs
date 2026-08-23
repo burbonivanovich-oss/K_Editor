@@ -17,10 +17,15 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'extract-claims.mjs');
-const REPO = join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const SLUG = '2026-01-01-probe-claims';
-const ARTICLE = join(REPO, 'src/content/blog', `${SLUG}.md`);
-const CLAIMS = join(REPO, 'src/data/factcheck/claims', `${SLUG}.json`);
+
+/* Корень — временный, а не живой репозиторий.
+ *
+ * Раньше тест писал пробную статью прямо в src/content/blog и удалял её
+ * в finally. Пока прогон шёл, `git status` показывал изменения в
+ * корпусе — 21.08.2026 их приняли за чужую незакоммиченную работу и
+ * откатили каталог целиком. Тест не должен появляться в диффе вообще. */
+let REPO, ARTICLE, CLAIMS;
 
 const BODY = `---
 title: "Проба"
@@ -33,15 +38,20 @@ draft: true
 `;
 
 function withArticle(fn) {
+  REPO = mkdtempSync(join(tmpdir(), 'claims-'));
+  ARTICLE = join(REPO, 'src/content/blog', `${SLUG}.md`);
+  CLAIMS = join(REPO, 'src/data/factcheck/claims', `${SLUG}.json`);
+  mkdirSync(dirname(ARTICLE), { recursive: true });
+  mkdirSync(dirname(CLAIMS), { recursive: true });
   writeFileSync(ARTICLE, BODY);
-  try { return fn(); } finally {
-    rmSync(ARTICLE, { force: true });
-    rmSync(CLAIMS, { force: true });
-  }
+  try { return fn(); } finally { rmSync(REPO, { recursive: true, force: true }); }
 }
 
 function run(args) {
-  return execFileSync('node', [SCRIPT, ...args], { encoding: 'utf8' });
+  return execFileSync('node', [SCRIPT, ...args], {
+    encoding: 'utf8',
+    env: { ...process.env, FACTCHECK_ROOT: REPO },
+  });
 }
 
 test('regex находит номер постановления, но не длительность и не срок', () => {

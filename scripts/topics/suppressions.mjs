@@ -26,6 +26,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isMain } from '../lib/is-main.mjs';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 // Путь переопределяется в тестах: проверять поведение на живом файле
@@ -198,8 +199,7 @@ function argOf(name, fallback = null) {
   return i === -1 || i === process.argv.length - 1 ? fallback : process.argv[i + 1];
 }
 
-const isMain = process.argv[1] && process.argv[1].endsWith("suppressions.mjs");
-if (isMain) {
+if (isMain(import.meta.url)) {
   const cmd = process.argv[2];
   const positional = process.argv[3];
 

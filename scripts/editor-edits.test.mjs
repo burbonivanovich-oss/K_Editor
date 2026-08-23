@@ -8,7 +8,7 @@
 
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { diffParagraphs } from './editor-edits.mjs';
+import { diffParagraphs, classifyEdit } from './editor-edits.mjs';
 
 const P1 = 'Разрешительный режим работает так: касса отправляет код маркировки в систему и ждёт ответа, продавать товар или нет.';
 const P2 = 'Норматив ответа — полторы секунды. Кассир видит результат до того, как пробьёт чек, и это принципиально для очереди.';
@@ -71,4 +71,39 @@ test('разница только в пробелах и переносах — 
   const before = `${P1}\n\n${P2}`;
   const after = `${P1.replace(/ /g, '  ')}\n\n${P2}\n`;
   assert.deepEqual(diffParagraphs(before, after), []);
+});
+
+/* ── H-05: короткие блоки, строки таблиц и класс правки ──────────────── */
+
+test('правка числа в коротком блоке видна', () => {
+  /* Порог `p.length > 40` отбрасывал ровно те блоки, где живут цифры:
+   * врезки со штрафом, подписи, короткие пункты. Замена
+   * «10 000 → 100 000» внутри такого блока в журнал не попадала. */
+  const edits = diffParagraphs('Врезка: штраф 10 000 ₽.', 'Врезка: штраф 100 000 ₽.');
+  assert.equal(edits.length, 1);
+  assert.equal(edits[0].class, 'fact');
+  assert.match(edits[0].reasons[0], /10000.*100000/);
+});
+
+test('правка одной ячейки видна как правка строки, а не «таблица изменилась»', () => {
+  const table = (jur) => `| Кто | Штраф |\n| --- | --- |\n| ИП | 10 000 ₽ |\n| Юрлицо | ${jur} |`;
+  const edits = diffParagraphs(table('30 000 ₽'), table('300 000 ₽'));
+  const row = edits.find((e) => e.kind === 'строка таблицы');
+  assert.ok(row, 'правка строки таблицы не найдена');
+  assert.match(row.before, /Юрлицо/);
+  assert.equal(row.class, 'fact');
+  assert.ok(!edits.some((e) => /ИП \| 10 000/.test(e.before ?? '')), 'нетронутая строка попала в журнал');
+});
+
+test('класс правки: стиль, факт, область применимости', () => {
+  assert.equal(classifyEdit('Продавец обязан проверить код.', 'Продавец вправе проверить код.').kind, 'scope');
+  assert.equal(classifyEdit('Штраф 10 000 ₽.', 'Штраф 30 000 ₽.').kind, 'fact');
+  assert.equal(classifyEdit('Продавец обязан проверить код.', 'Продавец не обязан проверить код.').kind, 'scope');
+  assert.equal(classifyEdit('Для ИП штраф 10 000 ₽.', 'Для юридического лица штраф 10 000 ₽.').kind, 'scope');
+  assert.equal(classifyEdit('Проверьте код до пробития чека.', 'До пробития чека проверьте код.').kind, 'style');
+});
+
+test('добавленный или удалённый абзац — класс неясен, а не «стиль»', () => {
+  assert.equal(classifyEdit('Был текст.', '').kind, 'unknown');
+  assert.equal(classifyEdit(null, 'Новый текст.').kind, 'unknown');
 });

@@ -12,11 +12,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, rmSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { writeBundle } from './factcheck/bundle-fixture.mjs';
+import { runTopicGate, verdict } from './gates.mjs';
 
 const SCRIPT = join(dirname(fileURLToPath(import.meta.url)), 'gates.mjs');
 const SLUG = '2026-08-13-test-article';
@@ -50,23 +52,9 @@ function withRepo(fn, { fm = frontmatter(), text = body(), marker = true } = {})
   writeFileSync(join(dir, 'src/content/blog', `${SLUG}.md`), raw);
   writeFileSync(join(dir, 'src/data/interlinking/market-articles.json'),
     JSON.stringify({ generatedFrom: 'test', articles: [] }));
-  if (marker) {
-    writeFileSync(join(dir, 'src/data/factcheck/results', `${SLUG}.json`), JSON.stringify({
-      claims: [{
-        id: 'c1', type: 'MONEY', raw: '10 000 ₽',
-        statement: 'штраф по ч. 2 ст. 14.5 КоАП РФ для должностных лиц — не менее 10 000 ₽',
-        status: 'match', severity: 'critical', confidence: 0.95,
-        quote: 'влечёт наложение административного штрафа на должностных лиц в размере не менее 10 000 рублей',
-        sources: ['http://publication.pravo.gov.ru/document/0001202301010001'],
-      }],
-      summary: { overallStatus: 'ok', criticalIssues: 0 },
-    }));
-    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
-      date: '2026-08-13', hash: createHash('sha256').update(raw).digest('hex'),
-      result: 'passed', criticalMismatches: 0,
-      report: `src/data/factcheck/results/${SLUG}.json`,
-    }));
-  }
+  // Связка по текущему контракту — общая сборка, не копия здесь:
+  // scripts/factcheck/bundle-fixture.mjs.
+  if (marker) writeBundle(dir, SLUG, { date: '2026-08-13' });
   try { return fn(dir); } finally { rmSync(dir, { recursive: true, force: true }); }
 }
 
@@ -126,7 +114,7 @@ test('объём ниже 800 слов — блокер', () => {
 test('объём между 800 и 1500 — требует решения, а не блокер', () => {
   withRepo((dir) => {
     const r = run(dir);
-    assert.equal(r.checks.words.ok, true, 'сателлит не блокируется');
+    assert.notEqual(r.checks.words.ok, false, 'сателлит не блокируется');
     assert.match(r.checks.words.note, /сателлит/);
   }, { text: body(1000) });
 });
@@ -158,7 +146,7 @@ test('статью правили после факчека — маркер н�
 
 test('маркер без отчёта не считается проверкой', () => {
   withRepo((dir) => {
-    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({ date: '2026-08-13', result: 'passed' }));
+    writeBundle(dir, SLUG, { date: '2026-08-13', report: null, reportLink: false, result: 'passed', criticalMismatches: 0 });
     assert.match(run(dir).checks.factcheck.note, /без отчёта/);
   });
 });
@@ -185,7 +173,10 @@ test('pillar есть, но не ссылается — решение, не б�
   withRepo((dir) => {
     writeFileSync(join(dir, 'src/content/pillars/kkt.md'), 'Ничего про эту статью.');
     const r = run(dir);
-    assert.equal(r.checks.pillar.ok, true, 'не блокер');
+    // Решение — третье состояние: не зелёное, но и не блокер (E-02).
+    assert.equal(r.checks.pillar.decide, true);
+    assert.equal(r.checks.pillar.ok, undefined, 'у решения не должно быть ok');
+    assert.notEqual(r.checks.pillar.ok, false, 'решение — не провал');
     assert.match(r.checks.pillar.note, /не ссылается/);
   });
 });
@@ -198,7 +189,9 @@ test('дубль на этой стадии не блокирует, а треб
     writeFileSync(join(dir, 'src/content/blog', '2026-08-01-pohozhaya.md'),
       `${frontmatter({ title: 'Тестовая статья про кассы и ккт' })}\n\n${body()}`);
     const r = run(dir);
-    assert.equal(r.checks.duplication.ok, true, 'не блокер');
+    assert.equal(r.checks.duplication.decide, true);
+    assert.equal(r.checks.duplication.ok, undefined, 'у решения не должно быть ok');
+    assert.notEqual(r.checks.duplication.ok, false, 'решение — не провал');
     assert.match(r.checks.duplication.note, /объединить|сузить/);
   });
 });
@@ -242,7 +235,9 @@ test('сильное совпадение с Маркетом без ссылк�
       articles: [{ url: 'https://kontur.ru/market/spravka/1-x', title: 'Тестовая статья про кассы', viewsTotal: 100 }],
     }));
     const r = run(dir);
-    assert.equal(r.checks.market.ok, true, 'не блокер');
+    assert.equal(r.checks.market.decide, true);
+    assert.equal(r.checks.market.ok, undefined, 'у решения не должно быть ok');
+    assert.notEqual(r.checks.market.ok, false, 'решение — не провал');
     assert.match(r.checks.market.note, /без ссылки на Маркет/);
   });
 });
@@ -263,10 +258,7 @@ test('то же совпадение со ссылкой на Маркет в т
 // есть. Разница только в поле result — и её легко не заметить глазами.
 test('маркер с непройденным факчеком — блокер', () => {
   withRepo((dir) => {
-    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
-      date: '2026-08-13', result: 'failed', criticalMismatches: 0,
-      report: `src/data/factcheck/results/${SLUG}.json`,
-    }));
+    writeBundle(dir, SLUG, { date: '2026-08-13', result: 'failed', criticalMismatches: 0 });
     const r = run(dir);
     assert.equal(r.checks.factcheck.ok, false);
     assert.match(r.checks.factcheck.note, /«failed»/);
@@ -275,20 +267,17 @@ test('маркер с непройденным факчеком — блокер
 
 test('критические расхождения в факчеке — блокер', () => {
   withRepo((dir) => {
-    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
-      date: '2026-08-13', result: 'passed', criticalMismatches: 2,
-      report: `src/data/factcheck/results/${SLUG}.json`,
-    }));
+    writeBundle(dir, SLUG, { date: '2026-08-13', result: 'passed', criticalMismatches: 2 });
     assert.match(run(dir).checks.factcheck.note, /критических расхождений 2/);
   });
 });
 
 test('отчёт факчека прописан, но его нет на диске — блокер', () => {
   withRepo((dir) => {
-    writeFileSync(join(dir, '.claude/factchecked', SLUG), JSON.stringify({
-      date: '2026-08-13', result: 'passed', criticalMismatches: 0,
-      report: 'src/data/factcheck/results/нет-такого.json',
-    }));
+    // Маркер по контракту, но ссылка ведёт в никуда.
+    const mp = join(dir, '.claude/factchecked', SLUG);
+    const m = JSON.parse(readFileSync(mp, 'utf8'));
+    writeFileSync(mp, JSON.stringify({ ...m, report: 'src/data/factcheck/results/нет-такого.json' }));
     assert.match(run(dir).checks.factcheck.note, /нет на диске/);
   });
 });
@@ -346,7 +335,9 @@ function topic(query, dir) {
   }
 }
 
-const st = (c) => (c?.applicable === false ? 'na' : c?.ok === false ? 'fail' : 'ok');
+const st = (c) => (c?.applicable === false ? 'na'
+  : c?.decide === true ? 'decide'
+    : c?.ok === false ? 'fail' : 'ok');
 
 test('свободная тема — зелёное по обеим проверкам', () => {
   withRepo((dir) => {
@@ -369,7 +360,7 @@ test('до ресёрча дубль блокирует, после написа
     assert.equal(st(before.checks.duplication), 'fail', 'до работы — блокер');
 
     const after = run(dir);
-    assert.equal(after.checks.duplication.ok, true, 'после работы — только решение');
+    assert.equal(st(after.checks.duplication), 'decide', 'после работы — только решение');
   });
 });
 
@@ -386,7 +377,7 @@ test('пограничное совпадение — решение, а не з
     writeFileSync(join(dir, 'src/content/blog', '2026-08-01-pohozhaya.md'),
       `${frontmatter({ title: 'Онлайн-касса для общепита: выбор и подключение' })}\n\n${body()}`);
     const r = topic('Онлайн-касса для розницы', dir);
-    assert.equal(st(r.checks.duplication), 'ok', 'пограничное не блокирует');
+    assert.notEqual(st(r.checks.duplication), 'fail', 'пограничное не блокирует');
   });
 });
 
@@ -413,4 +404,38 @@ test('слабое совпадение с Маркетом просит тол�
     const note = topic('Тестовая статья про кассы', dir).checks.market.note;
     if (!/совпадений с каталогом нет/.test(note)) assert.match(note, /поставить ссылку в тексте|сузить угол/);
   });
+});
+
+/* ── молчащая дочерняя проверка ──────────────────────────────────────── */
+
+/* Гейт перед работой звал два под-скрипта и оба читал оптимистично:
+ * разбор JSON стоял под пустым `catch`, а отсутствие чисел в выводе
+ * каталога давало ноль совпадений. Чем сильнее сломан под-скрипт, тем
+ * чище выглядела тема. Ошибка того же рода, что молчащий main-guard, —
+ * и лечится тем же правилом: не отработала не значит прошла. */
+test('тема не считается чистой, если проверка дублей не отработала', () => {
+  const silent = () => ({ code: 0, out: '', silent: true });
+  const r = runTopicGate('любая тема', { run: silent });
+  assert.equal(r.checks.duplication.status, 'decide', 'молчание не «дублей нет»');
+  assert.equal(r.checks.market.status, 'decide', 'молчание не «совпадений нет»');
+  assert.match(r.checks.tooling.note, /не отработали/);
+  assert.equal(verdict(r), 2, 'вердикт обязан требовать решения человека');
+});
+
+test('испорченный JSON дочерней проверки не читается как «дублей нет»', () => {
+  const garbled = (script) => (script.includes('draft-duplication')
+    ? { code: 0, out: '{ это не json' }
+    : { code: 0, out: 'совпадений нет' });
+  const r = runTopicGate('любая тема', { run: garbled });
+  assert.equal(r.checks.duplication.status, 'decide');
+  assert.match(r.checks.tooling.note, /не разбирается/);
+});
+
+test('обычный прогон с находками остаётся прежним', () => {
+  const found = (script) => (script.includes('draft-duplication')
+    ? { code: 1, out: JSON.stringify({ hits: [{ score: 0.7, title: 'Старая статья', draft: false }] }) }
+    : { code: 0, out: 'совпадений нет' });
+  const r = runTopicGate('любая тема', { run: found });
+  assert.equal(r.checks.duplication.status, 'fail', 'дубль по-прежнему блокирует');
+  assert.equal(r.checks.tooling, undefined, 'исправная работа лишних строк не добавляет');
 });

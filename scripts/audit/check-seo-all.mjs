@@ -34,6 +34,10 @@ if (!existsSync(blogDir)) {
 
 const files = readdirSync(blogDir).filter((f) => /\.mdx?$/.test(f)).sort();
 const dirty = [];
+/* Не состоявшаяся проверка — не замечание, а неизвестность, и `--strict`
+ * тут ни при чём: строгий режим решает, блокируют ли P1-замечания, а
+ * молчащий checker не даёт ни P0, ни P1 — он не даёт ничего. */
+const broken = [];
 
 for (const f of files) {
   let out;
@@ -42,6 +46,19 @@ for (const f of files) {
   } catch (e) {
     // Ненулевой код — это P0; текст отчёта скрипт всё равно печатает.
     out = (e.stdout || '') + (e.stderr || '');
+  }
+  /* Молчание дочерней проверки — не чистота.
+   *
+   * `check-seo.mjs` всегда что-то печатает: «SEO OK» либо список
+   * замечаний. Пустой вывод значит, что он не отработал — упал до
+   * первой строки, не нашёл файл, споткнулся о синтаксис. Раньше такая
+   * статья молча попадала в «без замечаний»: чем сильнее сломан
+   * checker, тем зеленее выглядел агрегатор. Ровно то же правило уже
+   * стоит в `gates.mjs` для его под-скриптов. */
+  if (!out.trim()) {
+    dirty.push([f, ['  ✗ check-seo.mjs ничего не напечатал — проверка не состоялась, а не прошла']]);
+    broken.push(f);
+    continue;
   }
   const lines = out.split('\n').filter((l) => /^\s+[⚠✗]/.test(l));
   if (lines.length) dirty.push([f, lines]);
@@ -60,4 +77,8 @@ for (const [f, lines] of dirty) {
   console.log('');
 }
 console.log('Разбор одной статьи: node scripts/check-seo.mjs <файл> --p1');
+if (broken.length) {
+  console.log(`\n✖ Проверка не состоялась на ${broken.length} статьях — это не замечание, а неизвестность.`);
+  process.exit(1);
+}
 process.exit(STRICT ? 1 : 0);

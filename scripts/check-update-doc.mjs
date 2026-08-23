@@ -32,6 +32,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isMain } from './lib/is-main.mjs';
 
 const ROOT = process.env.UPDATE_DOC_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..');
 const UPDATES_DIR = join(ROOT, 'src/content/updates');
@@ -135,7 +136,7 @@ export function checkUpdateDoc(text, name = 'документ') {
   return problems;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   const args = process.argv.slice(2);
   let files;
   if (args.includes('--all')) {

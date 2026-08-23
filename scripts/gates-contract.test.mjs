@@ -15,7 +15,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { GATE_CHECKS, toAnalyzeChecks, verdict, OK, FAIL, DECIDE, NA } from './gates.mjs';
-import { checkAnalysis, REQUIRED_CHECKS, SOFT_CATEGORIES, PASS } from './check-analysis.mjs';
+import { checkAnalysis, REQUIRED_CHECKS, SOFT_CATEGORIES, PASS, ANALYSIS_SCHEMA_VERSION, INTENT_MATRICES } from './check-analysis.mjs';
+
+const intentOk = (intent = 'instruction') =>
+  Object.fromEntries(Object.keys(INTENT_MATRICES[intent].checks).map((k) => [k, { ok: true }]));
 
 test('гейт отдаёт ровно те проверки, которых требует оценщик', () => {
   assert.deepEqual([...Object.keys(GATE_CHECKS)].sort(), [...REQUIRED_CHECKS].sort());
@@ -43,11 +46,16 @@ const result = (statuses) => ({
   ])),
 });
 
-test('красное становится ok: false, зелёное и решение — ok: true', () => {
+test('красное — ok: false, зелёное — ok: true, решение — отдельное состояние', () => {
   const c = toAnalyzeChecks(result({ seo: FAIL, npa: OK, market: DECIDE }));
   assert.equal(c.seo.ok, false);
   assert.equal(c.npa.ok, true);
-  assert.equal(c.market.ok, true, '«требует решения» — не блокер');
+  /* Раньше здесь стояло ok: true — и «сузить угол и добавить источник»
+   * попадало в оценку как пройденная проверка. Решение не бывает
+   * «пройдено само»: пока его не записали, проверка не зелёная. */
+  assert.equal(c.market.ok, undefined, 'у решения не должно быть ok');
+  assert.equal(c.market.decide, true);
+  assert.equal(c.market.resolution, null, 'место под решение обязано быть пустым, а не отсутствовать');
 });
 
 // Неприменимое не должно превращаться ни в провал, ни в достижение:
@@ -96,16 +104,29 @@ test('вывод гейта плюс баллы складываются в че
   const record = {
     slug: 'x',
     checkedAt: '2026-08-13',
+    analysisSchemaVersion: ANALYSIS_SCHEMA_VERSION,
+    articleHash: 'a'.repeat(64),
+    articleNormHash: 'b'.repeat(64),
+    rubricVersion: '2026-08-13',
+    intent: 'instruction',
+    intentChecks: intentOk(),
     checks: toAnalyzeChecks(result(statuses)),
     categories: {
-      lead: { score: 23, issues: ['лид без факта', 'нет даты'] },
+      lead: { score: 23, issues: [{ text: 'лид без факта', severity: 'minor' }, { text: 'нет даты', severity: 'minor' }] },
       structure: { score: 25, issues: [] },
-      language: { score: 24, issues: ['повтор формы абзацев'] },
+      language: { score: 24, issues: [{ text: 'повтор формы абзацев', severity: 'minor' }] },
       usefulness: { score: 25, issues: [] },
     },
     score: 97,
     maxScore: 100,
     blocker: false,
+  };
+  /* market пришёл как DECIDE — значит в записи обязано быть решение. */
+  record.checks.market.resolution = {
+    text: 'угол сужен до розницы, ссылка на материал Маркета добавлена в лид',
+    owner: 'редактор Ирина',
+    evidence: 'https://kontur.ru/market/spravka/1-x',
+    resolvedAt: '2026-08-13',
   };
   assert.deepEqual(checkAnalysis(record), []);
 });
@@ -116,6 +137,9 @@ test('упавшая проверка гейта заставляет оценк
 
   const record = {
     slug: 'x', checkedAt: '2026-08-13',
+    analysisSchemaVersion: ANALYSIS_SCHEMA_VERSION,
+    articleHash: 'a'.repeat(64), articleNormHash: 'b'.repeat(64), rubricVersion: '2026-08-13',
+    intent: 'instruction', intentChecks: intentOk(),
     checks: toAnalyzeChecks(result(statuses)),
     categories: {
       lead: { score: 25, issues: [] }, structure: { score: 25, issues: [] },

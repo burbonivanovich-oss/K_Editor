@@ -35,7 +35,9 @@
  */
 import { readFileSync, writeFileSync, existsSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { fileURLToPath } from 'node:url';
+import { isMain } from './lib/is-main.mjs';
+import { isNegative, modalityOf, subjectsOf } from './factcheck/semantics.mjs';
 
 const ROOT = process.env.EDITS_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..');
 const BLOG = join(ROOT, 'src', 'content', 'blog');
@@ -48,7 +50,7 @@ const arg = (name, fallback) => {
 const die = (m) => { console.error(`✖ ${m}`); process.exit(1); };
 
 /** Тело без frontmatter: сравниваем текст, а не служебные поля. */
-function body(src) {
+export function body(src) {
   const m = src.match(/^---\n[\s\S]*?\n---\n?/);
   return m ? src.slice(m[0].length) : src;
 }
@@ -70,8 +72,101 @@ function paragraphs(text) {
   return text
     .split(/\n{2,}/)
     .filter((p) => !/^#{1,6} /.test(p.trim()))
+    .filter((p) => !isTable(p))              // таблицы разбираются построчно
     .map((p) => p.replace(/\s+/g, ' ').trim())
-    .filter((p) => p.length > 40);           // подписи и однострочники не сравниваем
+    .filter(Boolean);
+}
+
+/* H-05. Порога длины больше нет.
+ *
+ * Раньше здесь стояло `.filter((p) => p.length > 40)` с пометкой
+ * «подписи и однострочники не сравниваем». Отбрасывались как раз те
+ * блоки, где живут цифры: врезки со штрафом, подписи под таблицами,
+ * короткие пункты порядка действий. Замена «10 000 → 100 000» внутри
+ * такого блока в журнал не попадала вовсе — правка была, следа не
+ * оставалось. Короткий блок сравнить не дороже длинного, а пропустить
+ * его дороже на порядок. */
+
+const isTable = (block) => /^\s*\|/.test(block) && /\|\s*$/m.test(block);
+
+/**
+ * Строки таблиц — отдельными единицами сравнения.
+ *
+ * Таблица без пустых строк внутри — один «абзац», и правка одной ячейки
+ * выглядела как «абзац изменён» без указания места. Между тем строка
+ * таблицы — это обычно целый факт: норма, сумма для ИП, сумма для
+ * юрлица. Ключ строки — первая ячейка: по ней строка узнаётся после
+ * правки любой из остальных.
+ */
+function tableRows(text) {
+  const rows = [];
+  for (const block of text.split(/\n{2,}/)) {
+    if (!isTable(block)) continue;
+    for (const line of block.split('\n')) {
+      const t = line.trim();
+      if (!t.startsWith('|')) continue;
+      if (/^\|[\s|:-]+\|$/.test(t)) continue;          // разделитель шапки
+      const cells = t.replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
+      if (!cells.length) continue;
+      rows.push({ key: cells[0].toLowerCase(), text: t.replace(/\s+/g, ' ') });
+    }
+  }
+  return rows;
+}
+
+/* ── Класс правки ───────────────────────────────────────────────────── */
+
+/* Цифры из адресов ссылок — не факты статьи.
+ *
+ * `cons_doc_LAW_10699`, `cd90f24ea…3f756123` и прочие хвосты URL дают
+ * десятки «чисел», которых читатель не видит. Без вычистки замена одной
+ * ссылки на другую выглядела бы как правка сумм, а список причин
+ * становился нечитаемым. Текст ссылки остаётся: он-то как раз часть
+ * статьи. */
+const withoutUrls = (t) => String(t ?? '')
+  .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+  .replace(/https?:\/\/\S+/g, ' ')
+  .replace(/`[^`]*`/g, ' ');
+
+const NUMBERS = (t) => (withoutUrls(t).match(/\d[\d\s .,]*\d|\d/g) ?? [])
+  .map((x) => x.replace(/[\s ]/g, '').replace(/[.,]$/, ''))
+  .filter(Boolean);
+
+/**
+ * Что это была за правка: стиль, факт, область применимости или неясно.
+ *
+ * H-07 использует класс, чтобы решить судьбу доказательств: форматную
+ * правку можно пережить, смысловую — нет. Классификация намеренно
+ * пессимистична: всё, что не удалось уверенно назвать стилем, называется
+ * `unknown` и требует перепроверки. Ошибиться в сторону «перепроверить
+ * лишний раз» дёшево; в сторону «сойдёт» — это и есть тот случай, когда
+ * маркер переживает смену смысла.
+ */
+export function classifyEdit(before, after) {
+  const a = String(before ?? '');
+  const b = String(after ?? '');
+  if (!a || !b) return { kind: 'unknown', reasons: ['абзац добавлен или удалён целиком'] };
+
+  const reasons = [];
+  const na = NUMBERS(a).join(',');
+  const nb = NUMBERS(b).join(',');
+  if (na !== nb) reasons.push(`числа: «${na || '—'}» → «${nb || '—'}»`);
+
+  const scope = [];
+  if (isNegative(a) !== isNegative(b)) scope.push('отрицание');
+  if (modalityOf(a) !== modalityOf(b)) scope.push(`модальность ${modalityOf(a)} → ${modalityOf(b)}`);
+  const sa = subjectsOf(a).join('/');
+  const sb = subjectsOf(b).join('/');
+  if (sa !== sb) scope.push(`субъект «${sa || '—'}» → «${sb || '—'}»`);
+
+  if (scope.length) return { kind: 'scope', reasons: [...scope, ...reasons] };
+  if (reasons.length) return { kind: 'fact', reasons };
+
+  /* Ни числа, ни знак, ни модальность, ни субъект не изменились. Это
+   * ещё не доказательство, что правка косметическая: сравниваются
+   * признаки, а не смысл. Но для журнала правок этого достаточно, а
+   * решение о доказательствах принимает не журнал, а safe-diff. */
+  return { kind: 'style', reasons: [] };
 }
 
 /** Похожесть двух абзацев по словам: ищем, откуда правка, а не что новое. */
@@ -106,6 +201,19 @@ export function diffParagraphs(before, after) {
     else edits.push({ kind: 'заголовок убран', before: b, after: null });
   }
 
+  /* Строки таблиц — свой проход, по ключу первой ячейки. Правка суммы
+   * в строке «Юрлицо» и правка в строке «ИП» — разные факты, и
+   * показывать их как «таблица изменилась» бесполезно. */
+  const rSrc = new Map(tableRows(before).map((r) => [r.key, r.text]));
+  const rDst = new Map(tableRows(after).map((r) => [r.key, r.text]));
+  for (const [key, text] of rDst) {
+    const was = rSrc.get(key);
+    if (was === undefined) { edits.push({ kind: 'строка таблицы добавлена', before: null, after: text }); continue; }
+    rSrc.delete(key);
+    if (was !== text) edits.push({ kind: 'строка таблицы', before: was, after: text });
+  }
+  for (const [, text] of rSrc) edits.push({ kind: 'строка таблицы убрана', before: text, after: null });
+
   const src = paragraphs(before);
   const dst = paragraphs(after);
   const untouched = new Set(src);
@@ -128,14 +236,26 @@ export function diffParagraphs(before, after) {
     }
   }
   for (const s of untouched) edits.push({ kind: 'удалён', before: s, after: null });
+
+  /* Класс правки — тем, у кого есть обе половины. Он и есть вход для
+   * решения «пережили ли доказательства эту правку». */
+  for (const e of edits) {
+    if (!e.before || !e.after) continue;
+    const { kind, reasons } = classifyEdit(e.before, e.after);
+    /* Именно `class`, а не `kind`: `kind` говорит, что случилось с
+     * текстом (абзац переписан, строка таблицы поправлена), `class` —
+     * что это меняет по существу. Смешать их значит потерять одно из
+     * двух. */
+    e.class = kind;
+    e.reasons = reasons;
+  }
   return edits;
 }
 
 /* CLI выполняется только при прямом запуске. Без этой проверки импорт
  * diffParagraphs из тестов запускал разбор аргументов и завершал процесс
  * на первой же строке. */
-const isMain = process.argv[1] && fileURLToPath(import.meta.url) === pathToFileURL(process.argv[1]).href;
-if (isMain) {
+if (isMain(import.meta.url)) {
   const cmd = process.argv[2];
 
   /* Записи, к которым сессия ещё не приписала вывод.
@@ -185,6 +305,11 @@ if (isMain) {
     process.exit(0);
   }
 
+  /* Пометка класса рядом с правкой: журнал читает человек, и «правка
+   * фактическая» отличает «поправили цифру» от «переставили слова». */
+  const MARK = { fact: ' _(факт)_', scope: ' _(область применимости)_', unknown: ' _(класс неясен)_' };
+  const mark = (e) => MARK[e.class] ?? '';
+
   const date = new Date().toISOString().slice(0, 10);
   const lines = [`\n## ${date} · ${slug}\n`];
   for (const e of edits) {
@@ -195,7 +320,13 @@ if (isMain) {
     } else if (e.kind === 'заголовок убран') {
       lines.push(`**Убрали раздел** «${e.before}».\n`);
     } else if (e.kind === 'изменён') {
-      lines.push(`**Переписали абзац.**\n\n- Было: ${e.before}\n- Стало: ${e.after}\n`);
+      lines.push(`**Переписали абзац.**${mark(e)}\n\n- Было: ${e.before}\n- Стало: ${e.after}\n`);
+    } else if (e.kind === 'строка таблицы') {
+      lines.push(`**Поправили строку таблицы.**${mark(e)}\n\n- Было: ${e.before}\n- Стало: ${e.after}\n`);
+    } else if (e.kind === 'строка таблицы добавлена') {
+      lines.push(`**Дописали строку таблицы.** ${e.after}\n`);
+    } else if (e.kind === 'строка таблицы убрана') {
+      lines.push(`**Убрали строку таблицы.** ${e.before}\n`);
     } else if (e.kind === 'добавлен') {
       lines.push(`**Дописали абзац.** ${e.after}\n`);
     } else {

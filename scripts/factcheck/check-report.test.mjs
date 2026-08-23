@@ -14,17 +14,31 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { checkReport, MIN_CONFIDENCE, numbersIn, numeralWordsIn } from './check-report.mjs';
 
-/** Утверждение, собранное как надо: сформулировано, с цитатой и нормой. */
+/** Доказательство с первоисточника: страницу открывали, место указано. */
+const goodEvidence = (over = {}) => ({
+  kind: 'primary',
+  sourceRole: 'norm',
+  url: 'http://publication.pravo.gov.ru/document/0001202301010001',
+  locator: 'примечание к статье 170.2',
+  retrievedAt: '2026-08-20',
+  effectiveAsOf: '2026-08-20',
+  snapshotHash: 'a'.repeat(64),
+  quote: 'крупным размером признаётся стоимость, превышающая три миллиона пятьсот тысяч рублей',
+  ...over,
+});
+
+/** Утверждение, собранное как надо: сформулировано, с доказательством. */
 const goodClaim = (over = {}) => ({
   id: 'c1',
   type: 'MONEY',
-  raw: '2 250 000 ₽',
-  statement: 'крупный размер по ст. 171.1 УК РФ для непродовольственных товаров — свыше 2 250 000 ₽',
+  raw: '3 500 000 ₽',
+  statement: 'крупный размер по ч. 1–2 ст. 171.1 УК РФ — свыше 3 500 000 ₽ (примечание к ст. 170.2 УК РФ)',
+  subject: 'нарушитель по ст. 171.1 УК РФ',
+  modality: 'statement',
   status: 'match',
   severity: 'critical',
   confidence: 0.95,
-  quote: 'Деяния, предусмотренные настоящей статьёй, признаются совершёнными в крупном размере, '
-    + 'если стоимость немаркированных товаров превышает 2 250 000 рублей',
+  evidence: [goodEvidence()],
   sources: ['http://publication.pravo.gov.ru/document/0001202301010001'],
   ...over,
 });
@@ -57,21 +71,49 @@ test('утверждение не длиннее токена — это тот 
 
 // Главное правило: не можешь привести цитату с числом — не проверил
 // число. Именно так «400 000 ₽» и прошло с уверенностью 0.85.
-test('«подтверждено поиском» без цитаты доказательством не является', () => {
-  const c = goodClaim(); delete c.quote;
-  assert.match(problems(report([c])), /нет дословной цитаты/);
+test('«подтверждено поиском» без доказательств не является доказательством', () => {
+  const c = goodClaim(); delete c.evidence;
+  assert.match(problems(report([c])), /нет доказательств \(evidence\)/);
 });
 
 test('цитата без нужного числа не подтверждает это число', () => {
   const c = goodClaim({
-    quote: 'Деяния признаются совершёнными в крупном размере, если стоимость превышает 400 000 рублей',
+    evidence: [goodEvidence({ quote: 'Деяния признаются совершёнными в крупном размере, если стоимость превышает 400 000 рублей' })],
   });
-  assert.match(problems(report([c])), /в цитате нет значения/);
+  assert.match(problems(report([c])), /нет значения/);
 });
 
 test('цитата с тем же числом в другом написании засчитывается', () => {
-  const c = goodClaim({ quote: 'если стоимость превышает 2250000 рублей' });
+  const c = goodClaim({ evidence: [goodEvidence({ quote: 'если стоимость превышает 3500000 рублей' })] });
   assert.deepEqual(checkReport(report([c])), []);
+});
+
+/* ------------------------------- происхождение цитаты (D-02) */
+
+/* Сниппет говорит, что строка где-то встречается. Он не говорит, что она
+ * есть в этом документе и в этой редакции — а research-инструкция
+ * допускала его как подтверждение. */
+test('поисковый сниппет для значимого утверждения даёт только «неясно»', () => {
+  const c = goodClaim({
+    evidence: [{
+      kind: 'snippet',
+      url: 'http://publication.pravo.gov.ru/document/0001202301010001',
+      quote: 'стоимость немаркированных товаров превышает 2 250 000 рублей',
+    }],
+  });
+  assert.match(problems(report([c])), /только поисковым сниппетом/);
+});
+
+for (const field of ['locator', 'retrievedAt', 'effectiveAsOf', 'snapshotHash']) {
+  test(`доказательство без ${field} невоспроизводимо`, () => {
+    const e = goodEvidence(); delete e[field];
+    assert.match(problems(report([goodClaim({ evidence: [e] })])), new RegExp(`нет ${field}`));
+  });
+}
+
+test('первоисточником считается домен нормы, а не любая страница с цитатой', () => {
+  const c = goodClaim({ evidence: [goodEvidence({ url: 'https://blog-pro-kassy.example/razbor-normy' })] });
+  assert.match(problems(report([c])), /нет доказательства с первоисточника/);
 });
 
 test('числа сравниваются без пробелов и разделителей', () => {
@@ -84,17 +126,18 @@ test('числа сравниваются без пробелов и разде�
 // Отраслевой портал пересказывает норму. Порог уголовной
 // ответственности берётся из текста нормы, а не из пересказа.
 test('пересказ нормы не подтверждает порог', () => {
-  const c = goodClaim({ sources: ['https://markirovka.ru/community/12345'] });
-  assert.match(problems(report([c])), /нет ссылки на первоисточник/);
+  const c = goodClaim({ evidence: [goodEvidence({ url: 'https://blog-pro-kassy.example/razbor-normy' })] });
+  assert.match(problems(report([c])), /нет доказательства с первоисточника/);
 });
 
 test('инструкция поддержки первоисточником не является', () => {
-  const c = goodClaim({ sources: ['https://support.kontur.ru/market/84217-x'] });
-  assert.match(problems(report([c])), /нет ссылки на первоисточник/);
+  const c = goodClaim({ evidence: [goodEvidence({ url: 'https://support.kontur.ru/market/84217-x' })] });
+  assert.match(problems(report([c])), /нет доказательства с первоисточника/);
 });
 
-test('источников нет вовсе — говорим прямо', () => {
-  assert.match(problems(report([goodClaim({ sources: [] })])), /нет ни одного источника/);
+test('доказательств нет вовсе — говорим прямо и называем класс риска', () => {
+  const c = goodClaim(); delete c.evidence;
+  assert.match(problems(report([c])), /строгий режим: тип MONEY/);
 });
 
 /* ------------------------------------------------ уверенность */
@@ -129,7 +172,7 @@ test('номер тега опасен независимо от объявле�
     sources: ['https://www.consultant.ru/document/cons_doc_LAW_42359/'],
   };
   const found = problems(report([c]));
-  assert.match(found, /нет поля statement|нет дословной цитаты/);
+  assert.match(found, /нет поля statement|нет доказательств/);
 });
 
 test('упоминание штрафа делает утверждение опасным', () => {
@@ -137,7 +180,7 @@ test('упоминание штрафа делает утверждение оп
     id: 'c30', type: 'CLAIM', raw: 'штраф до 300 000', status: 'match', severity: 'minor', confidence: 0.9,
     expectedValue: 'штраф по ч. 2 ст. 15.12 КоАП', sources: [],
   };
-  assert.match(problems(report([c])), /нет ни одного источника|нет дословной цитаты/);
+  assert.match(problems(report([c])), /нет доказательств/);
 });
 
 test('обычное утверждение без чисел и норм строгих требований не получает', () => {
@@ -145,22 +188,9 @@ test('обычное утверждение без чисел и норм стр
   assert.deepEqual(checkReport(report([c])), []);
 });
 
-/* ----------------------------------------------------- итог отчёта */
-
-// write-marker копирует summary как есть — значит вердикт обязан
-// следовать из утверждений, а не объявляться.
-test('непроверенные значимые утверждения не дают «ok» в итоге', () => {
-  const bad = goodClaim({ id: 'c2', status: 'uncertain' });
-  assert.match(problems(report([goodClaim(), bad], { overallStatus: 'ok' })), /не подтверждены, а overallStatus/);
-});
-
-test('счётчик критических обязан сходиться с утверждениями', () => {
-  const bad = goodClaim({ id: 'c2', status: 'mismatch' });
-  assert.match(
-    problems(report([goodClaim(), bad], { overallStatus: 'needs-rewrite', criticalIssues: 0 })),
-    /criticalIssues заявлено 0, по утверждениям выходит 1/,
-  );
-});
+/* Итог отчёта (summary против claims) проверяет report-schema.mjs —
+ * там он считается из утверждений целиком, а не сверяется на глаз.
+ * Тесты на это: scripts/factcheck/report-schema.test.mjs. */
 
 test('пустой список утверждений — не «нечего проверять», а вопрос', () => {
   assert.match(problems(report([])), /список утверждений пуст/);
@@ -195,7 +225,7 @@ test('цитата с суммой прописью подтверждает ч�
   const c = goodClaim({
     raw: '400 000 ₽',
     statement: 'крупный размер по ч. 3–4 ст. 171.1 УК РФ для продовольственных товаров — свыше 400 000 ₽',
-    quote: 'стоимость немаркированных продовольственных товаров, превышающая четыреста тысяч рублей',
+    evidence: [goodEvidence({ quote: 'стоимость немаркированных продовольственных товаров, превышающая четыреста тысяч рублей' })],
   });
   assert.deepEqual(checkReport(report([c])), []);
 });
@@ -204,12 +234,62 @@ test('цитата прописью с ДРУГОЙ суммой по-прежн
   const c = goodClaim({
     raw: '400 000 ₽',
     statement: 'крупный размер для продовольственных товаров — свыше 400 000 ₽',
-    quote: 'превышающая три миллиона пятьсот тысяч рублей',
+    evidence: [goodEvidence({ quote: 'превышающая три миллиона пятьсот тысяч рублей' })],
   });
-  assert.match(problems(report([c])), /в цитате нет значения/);
+  assert.match(problems(report([c])), /нет значения/);
 });
 
 test('текст без числительных не выдумывает чисел', () => {
   assert.deepEqual(numeralWordsIn('порядок применения контрольно-кассовой техники'), []);
   assert.deepEqual(numeralWordsIn(''), []);
+});
+
+/* ── H-06: доказательство обязано подтверждать этот сценарий ─────────── */
+
+test('вторичный источник строгий класс не закрывает, даже если открыт целиком', () => {
+  /* Ровно случай статьи про эквайринг: отсрочку «до следующего рабочего
+   * дня» подтвердили двумя разборами (klerk.ru, forus.ru). Обе страницы
+   * открывали, обе цитаты настоящие — и обе про другой пункт нормы. */
+  const r = report([goodClaim({ evidence: [goodEvidence({ sourceRole: 'secondary' })] })]);
+  assert.match(problems(r), /вторичным источником/);
+});
+
+test('роль не проставлена — считается вторичным, а не первоисточником', () => {
+  /* Умолчание должно быть строгим: незаполненное поле не может быть
+   * выгоднее заполненного честно. */
+  const ev = goodEvidence();
+  delete ev.sourceRole;
+  assert.match(problems(report([goodClaim({ evidence: [ev] })])), /вторичным источником/);
+});
+
+test('официальное разъяснение закрывает строгий класс наравне с нормой', () => {
+  const r = report([goodClaim({ evidence: [goodEvidence({ sourceRole: 'officialGuidance' })] })]);
+  assert.deepEqual(checkReport(r), []);
+});
+
+test('субъект доказательства, не названный в утверждении, — замечание', () => {
+  /* Цитата про юрлицо не доказывает норму про ИП: суммы отличаются втрое. */
+  const r = report([goodClaim({ evidence: [goodEvidence({ scope: { subject: 'юридическое лицо' } })] })]);
+  assert.match(problems(r), /субъект доказательства/);
+});
+
+test('версия доказательства сверяется с утверждением', () => {
+  const bad = report([goodClaim({ evidence: [goodEvidence({ scope: { version: 'ФФД 1.2' } })] })]);
+  assert.match(problems(bad), /версия доказательства/);
+
+  /* Версия, названная в утверждении, замечания не даёт. */
+  const ok = report([goodClaim({
+    statement: 'порядок для ФФД 1.05: обратный чек, затем верный',
+    evidence: [goodEvidence({ scope: { version: 'ФФД 1.05' } })],
+  })]);
+  assert.ok(!/версия доказательства/.test(problems(ok)), problems(ok));
+});
+
+test('доказательство без scope область утверждения не опровергает', () => {
+  assert.deepEqual(checkReport(report([goodClaim()])), []);
+});
+
+test('effectiveTo: null — норма действует бессрочно, это не ошибка формата', () => {
+  const r = report([goodClaim({ evidence: [goodEvidence({ effectiveTo: null })] })]);
+  assert.deepEqual(checkReport(r), []);
 });

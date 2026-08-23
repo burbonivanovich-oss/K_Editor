@@ -19,19 +19,35 @@
 // минимум), но result/criticalMismatches остаются null: нечестно
 // подставлять "passed" без реального отчёта.
 //
-// rulesVersion — дата последнего изменения docs/editorial-policy.md по
+// policyVersion — дата последнего изменения docs/editorial-policy.md по
 // git-истории: прокси для «по какой версии редполитики сверяли», без
-// ручной дисциплины проставлять номер версии в самом файле.
+// ручной дисциплины проставлять номер версии в самом файле. (Раньше поле
+// называлось rulesVersion; переименовано в C-01 вместе с остальным
+// контрактом артефактов.)
+//
+// C-01/C-02. Маркер и отчёт — версионированная связка. Отчёт получает
+// schemaVersion, articleHash (точная версия текста), articleNormHash
+// (смысловой отпечаток) и policyVersion; маркер — свою schemaVersion,
+// reportHash и claimsHash. Это закрывает перепривязку маркера к
+// изменённой статье: раньше write-marker считал хеш текущего текста, а
+// отчёт своего хеша не хранил, и смысловая правка «не обязан» →
+// «обязан» получала свежий маркер со старыми доказательствами, если
+// набор чисел не менялся.
+//
+// Косметическая правка (снятый draft, экспорт из Google Docs) маркер
+// перевыписать позволяет: сходится смысловой отпечаток. Смысловая — нет,
+// нужен полный /factcheck.
 //
 // Использование: node scripts/factcheck/write-marker.mjs <slug>
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, statSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { join, dirname, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkReport } from './check-report.mjs';
-import { checkCoverage } from './check-coverage.mjs';
+import { checkEvidenceChain } from './validate-bundle.mjs';
+import { SCHEMA_VERSION, CONTRACT_VERSION, computeOutcome, outcomeToResult } from './report-schema.mjs';
+import { articleHash, articleNormHash, reportHash, claimsHash, policyHash } from './hashes.mjs';
 
 const ROOT = process.env.FACTCHECK_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const slug = process.argv[2];
@@ -51,7 +67,7 @@ if (!articlePath) {
 }
 
 const content = readFileSync(articlePath, 'utf8');
-const hash = createHash('sha256').update(content).digest('hex');
+const hash = articleHash(content);
 const date = new Date().toISOString().slice(0, 10);
 
 const reportPath = join(ROOT, 'src/data/factcheck/results', `${slug}.json`);
@@ -66,8 +82,6 @@ const reportPath = join(ROOT, 'src/data/factcheck/results', `${slug}.json`);
  *
  * Поэтому теперь — отказ. Пропущенный шаг должен ломать процедуру
  * сразу, а не оставлять след, похожий на результат. */
-let result = null;
-let criticalMismatches = null;
 if (!existsSync(reportPath)) {
   console.error(
     `✖ Нет отчёта факчека: ${reportPath.replace(ROOT + '/', '')}\n` +
@@ -76,65 +90,184 @@ if (!existsSync(reportPath)) {
   );
   process.exit(1);
 }
+let report;
 try {
-  const report = JSON.parse(readFileSync(reportPath, 'utf8'));
-  if (!report.summary) throw new Error('в отчёте нет summary');
-
-  /* Вердикт брался из summary самого отчёта — то есть проверяющий сам
-   * себе ставил «passed», а маркер это переписывал. 13.08.2026 редактор
-   * прислала разбор статьи, где так прошли шесть фактических ошибок,
-   * включая занижённые почти в полтора раза пороги ст. 171.1 УК РФ.
-   *
-   * Теперь между отчётом и маркером стоит проверка доказательств:
-   * сформулировано ли утверждение, есть ли дословная цитата
-   * первоисточника с этим значением, согласована ли уверенность со
-   * статусом. Не сходится — маркера не будет. */
-  const problems = checkReport(report, basename(reportPath));
-  if (problems.length) {
-    console.error(`✖ Отчёт не доказывает проверку — ${problems.length} замечаний:`);
-    for (const pr of problems.slice(0, 10)) console.error(`    [${pr.id ?? '—'}] ${pr.problem}`);
-    if (problems.length > 10) console.error(`    … и ещё ${problems.length - 10}`);
-    console.error('\n  Маркер не выписан. Разбор правил — scripts/factcheck/check-report.mjs.');
-    process.exit(1);
-  }
-
-  /* Второй вопрос к отчёту: всё ли из статьи в него попало. Ст. 15.12.1
-   * КоАП РФ 13.08.2026 не разбиралась вовсе — и это не было видно ни по
-   * одному признаку, потому что отсутствующее следа не оставляет. */
-  const cov = checkCoverage(content, report);
-  if (cov.missing.length) {
-    console.error(`✖ В статье ${cov.missing.length} значений, которых нет в отчёте:`);
-    for (const m of cov.missing.slice(0, 10)) console.error(`    [${m.kind}] ${m.text}`);
-    console.error('\n  Маркер не выписан: разобрать эти значения и дописать в отчёт.');
-    process.exit(1);
-  }
-
-  criticalMismatches = report.summary.criticalIssues ?? 0;
-  result = report.summary.overallStatus === 'needs-rewrite' ? 'failed' : 'passed';
+  report = JSON.parse(readFileSync(reportPath, 'utf8'));
 } catch (e) {
-  console.error(`✖ Отчёт ${reportPath.replace(ROOT + '/', '')} нечитаем или без summary: ${e.message}`);
+  console.error(`✖ Отчёт ${reportPath.replace(ROOT + '/', '')} не разбирается: ${e.message}`);
   process.exit(1);
 }
 
-let rulesVersion = null;
+/* Версия редполитики, по которой сверяли: дата последнего изменения
+ * docs/editorial-policy.md по git-истории. Прокси вместо ручной
+ * дисциплины проставлять номер версии в самом файле. */
+const policyPath = join(ROOT, 'docs/editorial-policy.md');
+let policyVersion = null;
 try {
-  rulesVersion = execFileSync(
+  policyVersion = execFileSync(
     'git', ['log', '-1', '--format=%as', '--', 'docs/editorial-policy.md'],
     { encoding: 'utf8', cwd: ROOT },
   ).trim() || null;
 } catch {
-  /* не git-репозиторий или файла нет — не блокирующая деталь маркера */
+  /* не git-репозиторий — ниже запасной вариант по файлу */
 }
+/* Git может молчать (нет истории, свежий файл, чужая рабочая копия), но
+ * пока сам файл политики на месте, версия у неё есть — дата файла. Без
+ * файла версии нет вообще, и маркер выписывать не по чему: это ловит
+ * проверка схемы ниже. */
+if (!policyVersion && existsSync(policyPath)) {
+  policyVersion = statSync(policyPath).mtime.toISOString().slice(0, 10);
+}
+if (!policyVersion) {
+  console.error(
+    '✖ Нет docs/editorial-policy.md — версию редполитики, по которой сверяли, взять неоткуда.\n' +
+    '  Маркер не выписан: без policyVersion отчёт не привязан ни к каким правилам.',
+  );
+  process.exit(1);
+}
+
+/* C-02. Смысловая привязка отчёта к тексту.
+ *
+ * Отчёт, у которого отпечаток уже стоит, относится к конкретной версии
+ * статьи. Совпал — можно перевыписывать маркер (правка косметическая:
+ * снятый draft, чищенный экспорт из Docs). Не совпал — текст изменился
+ * по существу, и прежние доказательства к нему не относятся: маркер не
+ * выписываем, нужен полный факчек. */
+const currentNorm = articleNormHash(content);
+if (report.articleNormHash && report.articleNormHash !== currentNorm) {
+  console.error(
+    '✖ Статья изменилась по существу после факчека.\n' +
+    '  Отпечаток текста в отчёте не совпадает с текущим — значит правка не сводится\n' +
+    '  к пробелам, экранированию из Docs или полям draft/updatedDate/reviewDate.\n' +
+    '  Маркер не выписан: доказательства из отчёта относятся к другой версии текста.\n' +
+    `  Нужен полный факчек: /factcheck ${slug}`,
+  );
+  process.exit(1);
+}
+
+/* Печати контракта. articleHash ставится один раз — это версия, на
+ * которой факчек реально делали; при косметической правке он остаётся
+ * историческим, а сходимость держит articleNormHash. */
+const before = JSON.stringify(report);
+report.schemaVersion = SCHEMA_VERSION;
+if (!report.articleHash) report.articleHash = articleHash(content);
+if (!report.articleNormHash) report.articleNormHash = currentNorm;
+if (policyVersion) report.policyVersion = policyVersion;
+
+/* Происхождение разбора: печать ставится один раз, при самом факчеке.
+ *
+ * Раньше обе печати переписывались текущими значениями безусловно —
+ * и `policy-changed` c `weaker-contract` в валидаторе не срабатывали
+ * никогда: к моменту проверки поля уже совпадали с текущими. Отчёт,
+ * разобранный по прежней редполитике, формально «повышался» до новой
+ * без единого нового прочтения. Печать, которую ставит тот же прогон,
+ * что её и проверяет, не свидетельствует ни о чём.
+ *
+ * Теперь: нет печати — ставим (это и есть момент разбора). Есть и
+ * совпадает — оставляем. Есть и расходится — отказываем: правила
+ * изменились после разбора, и подтвердить его может только новое
+ * прочтение.
+ *
+ * Оговорка на правку, не меняющую смысла правил (опечатка в
+ * редполитике, переверстка), — `--accept-policy "<причина>"`. Она не
+ * прячет расхождение, а записывает его в отчёт полем `policyReview`:
+ * дата, прежний и новый отпечаток, причина. В диффе это видно, и
+ * ревью видит ровно то, что произошло. Без такой оговорки любая
+ * запятая в редполитике стоила бы десяти полных факчеков — а гейт,
+ * который нельзя пройти честно, проходят нечестно. */
+const nowPolicy = policyHash(ROOT);
+const accept = (() => {
+  const i = process.argv.indexOf('--accept-policy');
+  return i === -1 ? null : process.argv[i + 1];
+})();
+
+if (!report.policyHash) {
+  report.policyHash = nowPolicy;
+} else if (nowPolicy && report.policyHash !== nowPolicy) {
+  if (!accept || accept.startsWith('--')) {
+    console.error('✖ Редполитика изменилась после факчека.');
+    console.error(`  В отчёте ${String(report.policyHash).slice(0, 12)}…, сейчас ${String(nowPolicy).slice(0, 12)}…`);
+    console.error('  Прежний разбор относится к другим правилам, и переставить печать');
+    console.error('  этим же прогоном значит подтвердить разбор самим фактом печати.\n');
+    console.error(`  Разобрать заново:   /factcheck ${slug}`);
+    console.error('  Либо, если правка редполитики смысла правил не меняет:');
+    console.error(`    node scripts/factcheck/write-marker.mjs ${slug} --accept-policy "что изменилось и почему это не влияет на разбор"`);
+    process.exit(1);
+  }
+  report.policyReview = [...(report.policyReview ?? []), {
+    at: date, from: report.policyHash, to: nowPolicy, reason: accept,
+  }];
+  report.policyHash = nowPolicy;
+  console.error(`⚠ Расхождение редполитики принято под запись: ${accept}`);
+}
+
+/* Версия контракта проверок — то же правило. Поднять её задним числом
+ * значит объявить, что старый отчёт прошёл проверки, которых на момент
+ * разбора не существовало. */
+if (!report.contractVersion) {
+  report.contractVersion = CONTRACT_VERSION;
+} else if (Number(report.contractVersion) < CONTRACT_VERSION) {
+  console.error(`✖ Отчёт разобран по контракту проверок ${report.contractVersion} при текущем ${CONTRACT_VERSION}.`);
+  console.error('  Поднять версию здесь нельзя: это объявило бы пройденными проверки,');
+  console.error(`  которых на момент разбора не было. Нужен полный факчек: /factcheck ${slug}`);
+  process.exit(1);
+}
+if (!report.checkedAt) report.checkedAt = date;
+
+/* Итог считается из утверждений, а не берётся из summary: его писал тот
+ * же проверяющий, что и сами утверждения. Раньше маркер копировал
+ * summary как есть и считал успехом всё, кроме точного «needs-rewrite». */
+const outcome = computeOutcome(report.claims);
+report.summary = outcome;
+
+/* Между отчётом и маркером — та же проверка, что у всех остальных.
+ *
+ * Раньше здесь стоял свой набор: форма отчёта плюс покрытие. Набор был
+ * уже, чем у валидатора, и разница была не теоретической — маркер
+ * выписывался для связки, которую `validateFactcheckBundle` затем
+ * отвергал: реестр не замкнут, текст не классифицирован. Печать,
+ * которую сразу же не принимает проверяющий, это не печать, а ещё один
+ * способ решить, что всё в порядке.
+ *
+ * Теперь общая функция: всё, что можно проверить, не зная про маркер,
+ * проверяется до его появления. Свойства самой печати — хеши, возраст,
+ * вердикт — проверит валидатор после. */
+const problems = checkEvidenceChain({ root: ROOT, slug, articleRaw: content, report });
+if (problems.length) {
+  console.error(`✖ Связка не проходит контракт — ${problems.length} замечаний:`);
+  for (const pr of problems.slice(0, 10)) console.error(`    [${pr.code}] ${pr.message.slice(0, 200)}`);
+  if (problems.length > 10) console.error(`    … и ещё ${problems.length - 10}`);
+  console.error('\n  Маркер не выписан. Тот же валидатор зовут гейт, релиз, CI и health —');
+  console.error('  выписать печать в обход него значит соврать всем четверым сразу.');
+  process.exit(1);
+}
+
+/* Отчёт мог получить печати или пересчитанный итог — тогда его надо
+ * сохранить до того, как считать его хеш для маркера. */
+const reportText = JSON.stringify(report, null, 2) + '\n';
+if (JSON.stringify(report) !== before) writeFileSync(reportPath, reportText);
+else writeFileSync(reportPath, reportText);
+
+const result = outcomeToResult(outcome);
+const criticalMismatches = outcome.criticalIssues;
 
 const markerDir = join(ROOT, '.claude', 'factchecked');
 mkdirSync(markerDir, { recursive: true });
 const marker = {
-  date, hash, result, criticalMismatches, rulesVersion,
+  schemaVersion: SCHEMA_VERSION,
+  date,
+  hash,
+  result,
+  criticalMismatches,
+  policyVersion,
+  reportHash: reportHash(reportText),
+  claimsHash: claimsHash(report.claims),
   report: `src/data/factcheck/results/${slug}.json`,
 };
 writeFileSync(join(markerDir, slug), JSON.stringify(marker) + '\n');
 
+const safeDiff = report.articleHash !== hash;
 console.log(
-  `✓ .claude/factchecked/${slug} — hash ${hash.slice(0, 12)}…, ${date}` +
-    (result ? `, ${result}` : ''),
+  `✓ .claude/factchecked/${slug} — hash ${hash.slice(0, 12)}…, ${date}, ${result}` +
+    (safeDiff ? ' (косметическая правка после факчека: смысловой отпечаток сошёлся)' : ''),
 );

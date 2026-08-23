@@ -24,6 +24,7 @@
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isMain } from './lib/is-main.mjs';
 
 // Переопределяется в тестах — не трогает реальный репозиторий.
 const ROOT = process.env.MAINTAIN_ROOT || join(dirname(fileURLToPath(import.meta.url)), '..');
@@ -173,7 +174,7 @@ export function buildQueue({ blogDir, markersDir, keys, queueEntries, now = new 
 }
 
 // CLI — не выполняется при импорте (тесты импортируют функции напрямую).
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (isMain(import.meta.url)) {
   const AS_JSON = process.argv.includes('--json');
   const onlySlug = process.argv.slice(2).find((a) => !a.startsWith('--')) || null;
 
