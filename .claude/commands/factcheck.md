@@ -81,39 +81,88 @@ node scripts/factcheck/extract-claims.mjs merge <slug> --file /tmp/<slug>-semant
 
 ### Шаг 4 — Сравнить и записать результат
 
-Для каждого проверенного claim — записать в массив с полями:
-- `status` — `match` / `mismatch` / `uncertain` / `missing`
-- `severity` — `critical` / `moderate` / `minor`
-- `confidence` — 0.0–1.0
-- `expectedValue` — что говорит первоисточник
-- `explanation` — суть расхождения
-- `sources` — массив URL-ов, на которых нашли подтверждение
-- `action` — `rewrite-lede` / `rewrite-bullet` / `expand-bullet` / `add-references` / `keep`
-- `actionDetail` — конкретный текст / правка
+Отчёт больше не список утверждений: это связка, которую целиком
+проверяет один валидатор (`scripts/factcheck/validate-bundle.mjs`), и его
+же зовут маркер, гейт, релиз и CI. Пропустить часть нельзя — маркер не
+выпишется.
 
-Плюс `summary` — агрегат по всем claims, его читают
-`/maintain-content` и `write-marker.mjs`:
-- `overallStatus` — `needs-rewrite`, если есть хоть один `mismatch` с
-  `severity: critical`; `good-with-minor-addition`, если есть
-  `mismatch`/`uncertain` только `moderate`/`minor`; иначе `match`.
-- `criticalIssues` — число claims с `severity: critical` и
-  `status: mismatch`.
+**4.1. Снять снимок каждого первоисточника.** Цитата, выписанная по
+памяти или из пересказа, не проходит: 21.08.2026 так в три статьи попал
+несуществующий текст «пункта 16» ПП № 1944.
 
-Записать в `src/data/factcheck/results/<slug>.json`:
+```bash
+node scripts/factcheck/snapshot.mjs "<url>" --save --quote "дословная цитата"
+```
+
+Скрипт скажет, есть ли цитата на странице, и положит снимок в
+`src/data/factcheck/snapshots/<sha256>.txt`. Хеш из вывода — в поле
+`snapshotHash`. Без сохранённого снимка утверждение строгого класса не
+принимается: валидатор пересчитывает хеш файла и ищет в нём цитату.
+
+**4.2. Записать утверждения.** Поля каждого:
+
+| Поле | Что это |
+|---|---|
+| `id` | адрес внутри отчёта (`r1`, `r2`, …) |
+| `claimId` | **ссылка** в `claims/<slug>.json` — разные пространства имён |
+| `raw` | цитата из статьи, ровно как в реестре извлечения |
+| `statement` | что именно утверждается — предложением, не токеном |
+| `subject`, `modality` | кого касается; обязывает/разрешает/запрещает/сообщает |
+| `negated`, `conditions`, `effectiveFrom` | знак, условия, с какой даты |
+| `span` | id единицы текста из `units` |
+| `status`, `severity`, `confidence` | исход, вес, уверенность |
+| `evidence[]` | `kind`, `sourceRole`, `url`, `locator`, `retrievedAt`, `effectiveAsOf`, `snapshotHash`, `quote`, `scope` |
+| `sources[]` | адреса, на которых искали |
+| `action`, `actionDetail` | что делать с текстом |
+
+`status: match` совместим только с `action: keep`, и наоборот: нужна
+правка — значит, значение не подтверждено. `skip` требует
+`explanation`. `sourceRole: secondary` для строгого класса даёт максимум
+`uncertain`, даже если страницу открывали целиком.
+
+**4.3. Замкнуть реестр.** У каждого утверждения из
+`claims/<slug>.json` должен быть ровно один исход: разбор в отчёте
+(`claimId` ссылается на него) либо запись в `report.ledger`:
 
 ```json
-{
-  "claims": [ /* массив из шага выше */ ],
-  "summary": { "overallStatus": "match", "criticalIssues": 0 }
+"ledger": {
+  "cf82cbe1d": { "outcome": "skipped", "reason": "адрес источника — работа аудита ссылок" },
+  "c0a569226": { "outcome": "duplicateOf", "of": "caaf00f78" }
 }
 ```
 
+Утверждения, которого regex не увидел, в реестре нет — сначала влить:
+`node scripts/factcheck/extract-claims.mjs merge <slug> --file <json>`.
+
+**4.4. Классифицировать текст.** Каждое предложение, строка таблицы,
+пункт списка и заголовок получают класс в `report.units`:
+
+```json
+"units": {
+  "u7a1c3e90": { "class": "factual" },
+  "u1b4d2f88": { "class": "non_factual", "reason": "связка между разделами" }
+}
+```
+
+`factual` и `actionable` обязаны быть чьим-то `span`. `non_factual`
+требует причины: «почему это не факт» — решение, а не умолчание.
+Список единиц и их id: `node -e` через `scripts/factcheck/classify.mjs`.
+
+**4.5. Печати.** `summary` не пишут руками — его считает
+`computeOutcome`. `policyHash` и `contractVersion` проставляет
+`write-marker`. `checkedBy` и `reviewedBy` для материалов
+`riskTier: high` обязаны различаться: автор не подтверждает собственные
+критические утверждения.
+
+Записать в `src/data/factcheck/results/<slug>.json`.
+
 ### Шаг 5 — Создать маркер фактчека
 
-`node scripts/factcheck/write-marker.mjs <slug>` — пишет
-`.claude/factchecked/<slug>` с датой, хешем текущего содержимого статьи
-и (если `results/<slug>.json` уже записан на шаге 4) `result` и
-`criticalMismatches` из его `summary`. Используется `/maintain-content` как признак, что статья
+`node scripts/factcheck/write-marker.mjs <slug>` — прогоняет связку
+через тот же валидатор, что гейт, релиз и CI, и только потом пишет
+`.claude/factchecked/<slug>`. Отказ означает, что чего-то из шага 4 не
+хватает; сообщение называет, чего именно. Маркер — производная печать:
+его можно удалить и пересоздать, вручную править нельзя. Используется `/maintain-content` как признак, что статья
 прошла проверку; хеш привязывает маркер к конкретной версии текста —
 правка после факчека делает маркер недействительным (pre-commit guard
 это проверяет).
@@ -187,8 +236,14 @@ node scripts/factcheck/extract-claims.mjs merge <slug> --file /tmp/<slug>-semant
 
 ## Ограничения
 
-- WebFetch блокируется на consultant.ru, pravo.gov.ru, yandex.* — используем
-  WebSearch. Ответ берётся из сниппетов и заголовков выдачи.
+- WebFetch блокируется на consultant.ru, pravo.gov.ru, yandex.* — берём тот же
+  документ там, где он доступен: base.garant.ru, rulaws.ru,
+  publication.pravo.gov.ru, сайт профильного ведомства. **Сниппет выдачи
+  доказательством значения не является**: для строгого класса (суммы, сроки и
+  даты вступления, проценты, ответственность, указания к действию, номера НПА,
+  теги и версии форматов) он даёт только `uncertain`. Гейт `check-report.mjs`
+  такое утверждение как `match` не примет — и это не обходится, а решается
+  дословной цитатой с полученной страницы.
 - Скрипт извлечения работает по regex — может пропустить нестандартные
   упоминания (например, «по статье пятнадцать двенадцать»). Это нормально:
   фактчек — не замена редактору, а первый фильтр.
