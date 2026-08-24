@@ -1,0 +1,14 @@
+{
+  "seed": "что меняется для ИП",
+  "slug": "что-меняется-для-ип",
+  "category": "intent",
+  "cluster": "zakonodatelstvo",
+  "fetchedAt": "2026-08-24T04:38:45.615Z",
+  "count": 1,
+  "phrases": [
+    {
+      "phrase": "что меняется для ип",
+      "count": 81
+    }
+  ]
+}
