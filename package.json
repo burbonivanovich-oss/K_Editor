@@ -3,6 +3,9 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "console": "node scripts/console.mjs",
     "status": "node scripts/console.mjs status",
