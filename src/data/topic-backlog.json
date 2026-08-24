@@ -1,65 +1,47 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-17",
+  "generatedAt": "2026-08-24",
   "sources": [
-    "root/2026-08-17.json",
-    "kontur/2026-08-17.json"
+    "root/2026-08-24.json",
+    "kontur/2026-08-24.json"
   ],
   "limit": 40,
   "minCount": 50,
   "stats": {
-    "всего": 5179,
-    "дубли": 1054,
-    "покрыто": 7,
+    "всего": 5567,
+    "дубли": 822,
+    "покрыто": 9,
     "заглушено": 0,
     "инфоповодов": 0,
-    "ждут места в полосе": 42,
-    "сверх квоты кластера": 1505,
-    "связок склеено": 37,
-    "непрофильные сверх четверти": 2517
+    "ждут места в полосе": 65,
+    "сверх квоты кластера": 1698,
+    "связок склеено": 44,
+    "непрофильные сверх четверти": 2934,
+    "пограничных с отказами": 1
   },
-  "needsJudgement": [],
+  "needsJudgement": [
+    {
+      "topic": "точка тарифы эквайринга для ип",
+      "suppressed": "Интернет-эквайринг для онлайн-магазина: как выбрать банк и тариф",
+      "score": 0.25,
+      "note": "категорически не наше ядро — выбор банка и тарифов это не наша тема"
+    }
+  ],
   "candidates": [
     {
-      "topic": "знаки маркировки",
-      "targetKeyword": "знаки маркировки",
-      "cluster": "markirovka",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 132654 показов в месяц, статьи по запросу нет, кластер markirovka",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 132654,
-        "ratio": null
-      },
-      "wordstat": 132654,
-      "product": "markirovka",
-      "productLabel": "Контур.Маркировка",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "dedup": "проверить пересечение (0.33)",
-      "konturLink": "https://support.kontur.ru/markirovka-1s/85185-sostoyanie_markirovki",
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "самозанятый какие",
-      "targetKeyword": "самозанятый какие",
+      "topic": "самозанятые какие",
+      "targetKeyword": "самозанятые какие",
       "cluster": "uslugi",
       "priorityCluster": false,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 94769 показов в месяц, статьи по запросу нет, кластер uslugi",
+      "why": "новая фраза в выдаче: 95701 показов в месяц, статьи по запросу нет, кластер uslugi",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 94769,
+        "now": 95701,
         "ratio": null
       },
-      "wordstat": 94769,
+      "wordstat": 95701,
       "product": "elba",
       "productLabel": "Контур.Эльба",
       "segment": "uslugi",
@@ -73,45 +55,19 @@
       "declineReason": ""
     },
     {
-      "topic": "маркировка 1",
-      "targetKeyword": "маркировка 1",
-      "cluster": "markirovka",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 37671 показов в месяц, статьи по запросу нет, кластер markirovka",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 37671,
-        "ratio": null
-      },
-      "wordstat": 37671,
-      "product": "markirovka",
-      "productLabel": "Контур.Маркировка",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "открывать ли ип",
-      "targetKeyword": "открывать ли ип",
+      "topic": "открыли ли ип",
+      "targetKeyword": "открыли ли ип",
       "cluster": "start",
       "priorityCluster": false,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 37184 показов в месяц, статьи по запросу нет, кластер start",
+      "why": "новая фраза в выдаче: 38678 показов в месяц, статьи по запросу нет, кластер start",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 37184,
+        "now": 38678,
         "ratio": null
       },
-      "wordstat": 37184,
+      "wordstat": 38678,
       "product": "market",
       "productLabel": "Контур.Маркет",
       "segment": null,
@@ -125,71 +81,19 @@
       "declineReason": ""
     },
     {
-      "topic": "ооо открытая",
-      "targetKeyword": "ооо открытая",
-      "cluster": "start",
-      "priorityCluster": false,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 36835 показов в месяц, статьи по запросу нет, кластер start",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 36835,
-        "ratio": null
-      },
-      "wordstat": 36835,
-      "product": "market",
-      "productLabel": "Контур.Маркет",
-      "segment": null,
-      "segmentLabel": null,
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "эвотор чек",
-      "targetKeyword": "эвотор чек",
-      "cluster": "kkt",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 16371 показов в месяц, статьи по запросу нет, кластер kkt",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 16371,
-        "ratio": null
-      },
-      "wordstat": 16371,
-      "product": "market",
-      "productLabel": "Контур.Маркет",
-      "segment": "kassy",
-      "segmentLabel": "Кассы и ОФД",
-      "type": "evergreen",
-      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "какую маркировку должен",
-      "targetKeyword": "какую маркировку должен",
+      "topic": "коды маркировки честный",
+      "targetKeyword": "коды маркировки честный",
       "cluster": "markirovka",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 13314 показов в месяц, статьи по запросу нет, кластер markirovka; со связанными запросами 14694 показов по 2 формулировкам",
+      "why": "новая фраза в выдаче: 24165 показов в месяц, статьи по запросу нет, кластер markirovka; со связанными запросами 42101 показов по 5 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 13314,
+        "now": 24165,
         "ratio": null
       },
-      "wordstat": 13314,
+      "wordstat": 24165,
       "product": "markirovka",
       "productLabel": "Контур.Маркировка",
       "segment": "roznica",
@@ -203,103 +107,44 @@
       "declineReason": "",
       "relatedQueries": [
         {
-          "query": "что должно быть на маркировке",
-          "wordstat": 1380
+          "query": "коды маркировки в 1с",
+          "wordstat": 7783
+        },
+        {
+          "query": "честный знак как маркировать",
+          "wordstat": 4948
+        },
+        {
+          "query": "коды подлежащие маркировке",
+          "wordstat": 3099
+        },
+        {
+          "query": "коды обязательной маркировки",
+          "wordstat": 2106
         }
       ],
-      "wordstatTotal": 14694
+      "wordstatTotal": 42101
     },
     {
-      "topic": "подписать в эдо",
-      "targetKeyword": "подписать в эдо",
-      "cluster": "otchetnost-edo",
-      "priorityCluster": false,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 19458 показов в месяц, статьи по запросу нет, кластер otchetnost-edo",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 19458,
-        "ratio": null
-      },
-      "wordstat": 19458,
-      "product": "diadoc",
-      "productLabel": "Контур.Диадок",
-      "segment": null,
-      "segmentLabel": null,
-      "type": "evergreen",
-      "normHint": "ФЗ № 63 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "код маркировки товара",
-      "targetKeyword": "код маркировки товара",
+      "topic": "маркировка год",
+      "targetKeyword": "маркировка год",
       "cluster": "markirovka",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 12747 показов в месяц, статьи по запросу нет, кластер markirovka; со связанными запросами 25326 показов по 5 формулировкам",
+      "why": "новая фраза в выдаче: 22859 показов в месяц, статьи по запросу нет, кластер markirovka",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 12747,
+        "now": 22859,
         "ratio": null
       },
-      "wordstat": 12747,
+      "wordstat": 22859,
       "product": "markirovka",
       "productLabel": "Контур.Маркировка",
       "segment": "roznica",
       "segmentLabel": "Розница",
       "type": "evergreen",
       "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "dedup": "проверить пересечение (0.33)",
-      "konturLink": "https://kontur.ru/market/spravka/52740-kod_markirovki_ne_proshel_proverku",
-      "decision": "",
-      "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "код маркировки в обороте",
-          "wordstat": 5239
-        },
-        {
-          "query": "средства маркировки товара",
-          "wordstat": 2745
-        },
-        {
-          "query": "перечень товаров маркировки",
-          "wordstat": 2447
-        },
-        {
-          "query": "упаковка маркировка товаров",
-          "wordstat": 2148
-        }
-      ],
-      "wordstatTotal": 25326
-    },
-    {
-      "topic": "суть эдо",
-      "targetKeyword": "суть эдо",
-      "cluster": "otchetnost-edo",
-      "priorityCluster": false,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 18756 показов в месяц, статьи по запросу нет, кластер otchetnost-edo",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 18756,
-        "ratio": null
-      },
-      "wordstat": 18756,
-      "product": "diadoc",
-      "productLabel": "Контур.Диадок",
-      "segment": null,
-      "segmentLabel": null,
-      "type": "evergreen",
-      "normHint": "ФЗ № 63 (предв., уточнить в Стадии 1)",
       "dedup": "новая",
       "konturLink": null,
       "decision": "",
@@ -307,82 +152,19 @@
       "declineReason": ""
     },
     {
-      "topic": "срок усн за 2026",
-      "targetKeyword": "срок усн за 2026",
+      "topic": "ип на аусн",
+      "targetKeyword": "ип на аусн",
       "cluster": "nalogi",
       "priorityCluster": false,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 15259 показов в месяц, статьи по запросу нет, кластер nalogi; со связанными запросами 27155 показов по 3 формулировкам",
+      "why": "новая фраза в выдаче: 28570 показов в месяц, статьи по запросу нет, кластер nalogi",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 15259,
+        "now": 28570,
         "ratio": null
       },
-      "wordstat": 15259,
-      "product": "elba",
-      "productLabel": "Контур.Эльба",
-      "segment": null,
-      "segmentLabel": null,
-      "type": "evergreen",
-      "normHint": "ПП № 734 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "ставки усн в 2026",
-          "wordstat": 11386
-        },
-        {
-          "query": "сроки маркировки 2026",
-          "wordstat": 510
-        }
-      ],
-      "wordstatTotal": 27155
-    },
-    {
-      "topic": "где в сбис эдо",
-      "targetKeyword": "где в сбис эдо",
-      "cluster": "otchetnost-edo",
-      "priorityCluster": false,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 8811 показов в месяц, статьи по запросу нет, кластер otchetnost-edo",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 8811,
-        "ratio": null
-      },
-      "wordstat": 8811,
-      "product": "diadoc",
-      "productLabel": "Контур.Диадок",
-      "segment": null,
-      "segmentLabel": null,
-      "type": "evergreen",
-      "normHint": "ФЗ № 63 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "аусн налогоплательщика",
-      "targetKeyword": "аусн налогоплательщика",
-      "cluster": "nalogi",
-      "priorityCluster": false,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 8782 показов в месяц, статьи по запросу нет, кластер nalogi",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 8782,
-        "ratio": null
-      },
-      "wordstat": 8782,
+      "wordstat": 28570,
       "product": "elba",
       "productLabel": "Контур.Эльба",
       "segment": null,
@@ -396,213 +178,401 @@
       "declineReason": ""
     },
     {
-      "topic": "ип на патенте какие",
-      "targetKeyword": "ип на патенте какие",
-      "cluster": "nalogi",
-      "priorityCluster": false,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 8663 показов в месяц, статьи по запросу нет, кластер nalogi",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 8663,
-        "ratio": null
-      },
-      "wordstat": 8663,
-      "product": "elba",
-      "productLabel": "Контур.Эльба",
-      "segment": null,
-      "segmentLabel": null,
-      "type": "evergreen",
-      "normHint": "ПП № 734 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "ндс на усн лимиты",
-      "targetKeyword": "ндс на усн лимиты",
-      "cluster": "nalogi",
-      "priorityCluster": false,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 8617 показов в месяц, статьи по запросу нет, кластер nalogi",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 8617,
-        "ratio": null
-      },
-      "wordstat": 8617,
-      "product": "elba",
-      "productLabel": "Контур.Эльба",
-      "segment": null,
-      "segmentLabel": null,
-      "type": "evergreen",
-      "normHint": "ПП № 734 (предв., уточнить в Стадии 1)",
-      "dedup": "проверить пересечение (0.40)",
-      "konturLink": "https://kontur.ru/elba/spravka/82826-vybrat_stavku_nds_na_usn",
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "фискальный атол",
-      "targetKeyword": "фискальный атол",
+      "topic": "эвотор чеки",
+      "targetKeyword": "эвотор чеки",
       "cluster": "kkt",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 4615 показов в месяц, статьи по запросу нет, кластер kkt",
+      "why": "новая фраза в выдаче: 15961 показов в месяц, статьи по запросу нет, кластер kkt",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 4615,
+        "now": 15961,
         "ratio": null
       },
-      "wordstat": 4615,
+      "wordstat": 15961,
       "product": "market",
       "productLabel": "Контур.Маркет",
       "segment": "kassy",
       "segmentLabel": "Кассы и ОФД",
-      "type": "evergreen",
-      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "меркурий сроки",
-      "targetKeyword": "меркурий сроки",
-      "cluster": "merkuriy",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 3950 показов в месяц, статьи по запросу нет, кластер merkuriy",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 3950,
-        "ratio": null
-      },
-      "wordstat": 3950,
-      "product": "merkuriy",
-      "productLabel": "Контур.Меркурий",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": "Приказ № 648 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "ошибки кассы меркурий",
-      "targetKeyword": "ошибки кассы меркурий",
-      "cluster": "merkuriy",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 3756 показов в месяц, статьи по запросу нет, кластер merkuriy; со связанными запросами 8203 показов по 5 формулировкам",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 3756,
-        "ratio": null
-      },
-      "wordstat": 3756,
-      "product": "merkuriy",
-      "productLabel": "Контур.Меркурий",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": "Приказ № 648 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "ошибка кассы эвотор",
-          "wordstat": 2207
-        },
-        {
-          "query": "ошибки касс атол",
-          "wordstat": 1339
-        },
-        {
-          "query": "касса меркурий работа",
-          "wordstat": 460
-        },
-        {
-          "query": "ошибки онлайн касс",
-          "wordstat": 441
-        }
-      ],
-      "wordstatTotal": 8203
-    },
-    {
-      "topic": "1с розница чеки",
-      "targetKeyword": "1с розница чеки",
-      "cluster": "roznica",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 2935 показов в месяц, статьи по запросу нет, кластер roznica; со связанными запросами 5194 показов по 5 формулировкам",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 2935,
-        "ratio": null
-      },
-      "wordstat": 2935,
-      "product": "market",
-      "productLabel": "Контур.Маркет",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
       "type": "evergreen",
       "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
       "dedup": "проверить пересечение (0.33)",
       "konturLink": "https://support.kontur.ru/market/39797-otlozhennye_cheki",
       "decision": "",
       "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "1с розница кассы",
-          "wordstat": 1653
-        },
-        {
-          "query": "1с розница алкоголь",
-          "wordstat": 428
-        },
-        {
-          "query": "эпд в 1с розница",
-          "wordstat": 147
-        },
-        {
-          "query": "этрн в 1с розница",
-          "wordstat": 31
-        }
-      ],
-      "wordstatTotal": 5194
+      "declineReason": ""
     },
     {
-      "topic": "всд атака",
-      "targetKeyword": "всд атака",
-      "cluster": "merkuriy",
+      "topic": "маркировка 3",
+      "targetKeyword": "маркировка 3",
+      "cluster": "markirovka",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 2172 показов в месяц, статьи по запросу нет, кластер merkuriy",
+      "why": "новая фраза в выдаче: 15639 показов в месяц, статьи по запросу нет, кластер markirovka",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 2172,
+        "now": 15639,
         "ratio": null
       },
-      "wordstat": 2172,
+      "wordstat": 15639,
+      "product": "markirovka",
+      "productLabel": "Контур.Маркировка",
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "какая маркировка должна",
+      "targetKeyword": "какая маркировка должна",
+      "cluster": "markirovka",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 13732 показов в месяц, статьи по запросу нет, кластер markirovka; со связанными запросами 21724 показов по 5 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 13732,
+        "ratio": null
+      },
+      "wordstat": 13732,
+      "product": "markirovka",
+      "productLabel": "Контур.Маркировка",
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "какая обязательная маркировка",
+          "wordstat": 4852
+        },
+        {
+          "query": "какая маркировка шин",
+          "wordstat": 1620
+        },
+        {
+          "query": "какая маркировка лампочек",
+          "wordstat": 766
+        },
+        {
+          "query": "маркировка одежды какая",
+          "wordstat": 754
+        }
+      ],
+      "wordstatTotal": 21724
+    },
+    {
+      "topic": "расходы усн 2026",
+      "targetKeyword": "расходы усн 2026",
+      "cluster": "nalogi",
+      "priorityCluster": false,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 17113 показов в месяц, статьи по запросу нет, кластер nalogi; со связанными запросами 48109 показов по 3 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 17113,
+        "ratio": null
+      },
+      "wordstat": 17113,
+      "product": "elba",
+      "productLabel": "Контур.Эльба",
+      "segment": null,
+      "segmentLabel": null,
+      "type": "evergreen",
+      "normHint": "ПП № 734 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://kontur.ru/elba/spravka/20568-kak_uchityvat_rasxody",
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "уведомление усн 2026",
+          "wordstat": 16728
+        },
+        {
+          "query": "ставки усн 2026",
+          "wordstat": 14268
+        }
+      ],
+      "wordstatTotal": 48109
+    },
+    {
+      "topic": "декларация прибыль 2026",
+      "targetKeyword": "декларация прибыль 2026",
+      "cluster": "otchetnost-edo",
+      "priorityCluster": false,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 15793 показов в месяц, статьи по запросу нет, кластер otchetnost-edo; со связанными запросами 15861 показов по 2 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 15793,
+        "ratio": null
+      },
+      "wordstat": 15793,
+      "product": "diadoc",
+      "productLabel": "Контур.Диадок",
+      "segment": null,
+      "segmentLabel": null,
+      "type": "evergreen",
+      "normHint": "ФЗ № 63 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "декларации по алкоголю 2026",
+          "wordstat": 68
+        }
+      ],
+      "wordstatTotal": 15861
+    },
+    {
+      "topic": "ошибки в декларациях",
+      "targetKeyword": "ошибки в декларациях",
+      "cluster": "otchetnost-edo",
+      "priorityCluster": false,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 14157 показов в месяц, статьи по запросу нет, кластер otchetnost-edo",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 14157,
+        "ratio": null
+      },
+      "wordstat": 14157,
+      "product": "diadoc",
+      "productLabel": "Контур.Диадок",
+      "segment": null,
+      "segmentLabel": null,
+      "type": "evergreen",
+      "normHint": "ФЗ № 63 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "банк расчетный счет ип",
+      "targetKeyword": "банк расчетный счет ип",
+      "cluster": "banki",
+      "priorityCluster": false,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 12269 показов в месяц, статьи по запросу нет, кластер banki",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 12269,
+        "ratio": null
+      },
+      "wordstat": 12269,
+      "product": "focus",
+      "productLabel": "Контур.Фокус",
+      "segment": null,
+      "segmentLabel": null,
+      "type": "evergreen",
+      "normHint": null,
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "мрот для пособий в 2026",
+      "targetKeyword": "мрот для пособий в 2026",
+      "cluster": "kadry",
+      "priorityCluster": false,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 11293 показов в месяц, статьи по запросу нет, кластер kadry",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 11293,
+        "ratio": null
+      },
+      "wordstat": 11293,
+      "product": "diadoc",
+      "productLabel": "Диадок: КЭДО",
+      "segment": null,
+      "segmentLabel": null,
+      "type": "evergreen",
+      "normHint": "ФЗ № 362 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "упд сбис",
+      "targetKeyword": "упд сбис",
+      "cluster": "otchetnost-edo",
+      "priorityCluster": false,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 11154 показов в месяц, статьи по запросу нет, кластер otchetnost-edo",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 11154,
+        "ratio": null
+      },
+      "wordstat": 11154,
+      "product": "diadoc",
+      "productLabel": "Контур.Диадок",
+      "segment": null,
+      "segmentLabel": null,
+      "type": "evergreen",
+      "normHint": "ФЗ № 63 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://support.kontur.ru/markirovka/40855-priemka_upd",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "1с енс",
+      "targetKeyword": "1с енс",
+      "cluster": "zakonodatelstvo",
+      "priorityCluster": false,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 10854 показов в месяц, статьи по запросу нет, кластер zakonodatelstvo",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 10854,
+        "ratio": null
+      },
+      "wordstat": 10854,
+      "product": "elba",
+      "productLabel": "Контур.Эльба",
+      "segment": null,
+      "segmentLabel": null,
+      "type": "evergreen",
+      "normHint": null,
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "эвотор кассовая",
+      "targetKeyword": "эвотор кассовая",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 4703 показов в месяц, статьи по запросу нет, кластер kkt",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 4703,
+        "ratio": null
+      },
+      "wordstat": 4703,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "segment": "kassy",
+      "segmentLabel": "Кассы и ОФД",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "касса снята с учета",
+      "targetKeyword": "касса снята с учета",
+      "cluster": "kkt",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче: 4641 показов в месяц, статьи по запросу нет, кластер kkt; со связанными запросами 4855 показов по 2 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 4641,
+        "ratio": null
+      },
+      "wordstat": 4641,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "segment": "kassy",
+      "segmentLabel": "Кассы и ОФД",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "как снять с учета эвотор",
+          "wordstat": 214
+        }
+      ],
+      "wordstatTotal": 4855
+    },
+    {
+      "topic": "срок меркурий",
+      "targetKeyword": "срок меркурий",
+      "cluster": "merkuriy",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 3994 показов в месяц, статьи по запросу нет, кластер merkuriy",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 3994,
+        "ratio": null
+      },
+      "wordstat": 3994,
+      "product": "merkuriy",
+      "productLabel": "Контур.Меркурий",
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": "Приказ № 648 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://kontur.ru/mercury/spravka/546-srok_godnosti_v_merkurii",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "касса меркурий ошибки",
+      "targetKeyword": "касса меркурий ошибки",
+      "cluster": "merkuriy",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 3760 показов в месяц, статьи по запросу нет, кластер merkuriy; со связанными запросами 5455 показов по 5 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 3760,
+        "ratio": null
+      },
+      "wordstat": 3760,
       "product": "merkuriy",
       "productLabel": "Контур.Меркурий",
       "segment": "roznica",
@@ -613,22 +583,220 @@
       "konturLink": null,
       "decision": "",
       "author": "",
-      "declineReason": ""
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "автономные кассы меркурий",
+          "wordstat": 442
+        },
+        {
+          "query": "как пробивать на кассе меркурий",
+          "wordstat": 433
+        },
+        {
+          "query": "касса онлайн ошибка",
+          "wordstat": 412
+        },
+        {
+          "query": "онлайн касса меркурий",
+          "wordstat": 408
+        }
+      ],
+      "wordstatTotal": 5455
     },
     {
-      "topic": "офд официальный",
-      "targetKeyword": "офд официальный",
-      "cluster": "ofd-fn",
+      "topic": "всд какой",
+      "targetKeyword": "всд какой",
+      "cluster": "merkuriy",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 2069 показов в месяц, статьи по запросу нет, кластер ofd-fn",
+      "why": "новая фраза в выдаче: 3386 показов в месяц, статьи по запросу нет, кластер merkuriy",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 2069,
+        "now": 3386,
         "ratio": null
       },
-      "wordstat": 2069,
+      "wordstat": 3386,
+      "product": "merkuriy",
+      "productLabel": "Контур.Меркурий",
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": "Приказ № 648 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://support.kontur.ru/market/85865-avtomaticheskoe_gashenie_vsd",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "чек 1с розница",
+      "targetKeyword": "чек 1с розница",
+      "cluster": "roznica",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче: 2925 показов в месяц, статьи по запросу нет, кластер roznica; со связанными запросами 4653 показов по 3 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 2925,
+        "ratio": null
+      },
+      "wordstat": 2925,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "1с розница касса",
+          "wordstat": 1668
+        },
+        {
+          "query": "этрн в 1с розница",
+          "wordstat": 60
+        }
+      ],
+      "wordstatTotal": 4653
+    },
+    {
+      "topic": "пришел чек офд",
+      "targetKeyword": "пришел чек офд",
+      "cluster": "ofd-fn",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 2922 показов в месяц, статьи по запросу нет, кластер ofd-fn; со связанными запросами 4311 показов по 5 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 2922,
+        "ratio": null
+      },
+      "wordstat": 2922,
+      "product": "ofd",
+      "productLabel": "Контур.ОФД",
+      "segment": "kassy",
+      "segmentLabel": "Кассы и ОФД",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "сайт чек офд",
+          "wordstat": 584
+        },
+        {
+          "query": "офд распечатать чек",
+          "wordstat": 333
+        },
+        {
+          "query": "чек яндекс офд",
+          "wordstat": 296
+        },
+        {
+          "query": "чек не передался в офд",
+          "wordstat": 176
+        }
+      ],
+      "wordstatTotal": 4311
+    },
+    {
+      "topic": "егаис в 1с",
+      "targetKeyword": "егаис в 1с",
+      "cluster": "egais",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 2895 показов в месяц, статьи по запросу нет, кластер egais",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 2895,
+        "ratio": null
+      },
+      "wordstat": 2895,
+      "product": "market",
+      "productLabel": "Контур.Маркет",
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": "ПП № 2348 (предв., уточнить в Стадии 1)",
+      "dedup": "сузить угол (1.00)",
+      "konturLink": "https://support.kontur.ru/market/39621-egais",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "настройка сканера для маркировки",
+      "targetKeyword": "настройка сканера для маркировки",
+      "cluster": "oborudovanie",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче: 2432 показов в месяц, статьи по запросу нет, кластер oborudovanie; со связанными запросами 5051 показов по 5 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 2432,
+        "ratio": null
+      },
+      "wordstat": 2432,
+      "product": null,
+      "productLabel": null,
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": null,
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "1с маркировка сканер",
+          "wordstat": 899
+        },
+        {
+          "query": "mindeo настройка для маркировки",
+          "wordstat": 772
+        },
+        {
+          "query": "сканер маркировки атол",
+          "wordstat": 633
+        },
+        {
+          "query": "2д сканеры для маркировки",
+          "wordstat": 315
+        }
+      ],
+      "wordstatTotal": 5051
+    },
+    {
+      "topic": "ошибки офд",
+      "targetKeyword": "ошибки офд",
+      "cluster": "ofd-fn",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 2392 показов в месяц, статьи по запросу нет, кластер ofd-fn",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 2392,
+        "ratio": null
+      },
+      "wordstat": 2392,
       "product": "ofd",
       "productLabel": "Контур.ОФД",
       "segment": "kassy",
@@ -642,12 +810,12 @@
       "declineReason": ""
     },
     {
-      "topic": "марки егаис",
-      "targetKeyword": "марки егаис",
-      "cluster": "egais",
+      "topic": "передача данных офд",
+      "targetKeyword": "передача данных офд",
+      "cluster": "ofd-fn",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 2035 показов в месяц, статьи по запросу нет, кластер egais",
+      "why": "новая фраза в выдаче: 2035 показов в месяц, статьи по запросу нет, кластер ofd-fn; со связанными запросами 4175 показов по 5 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
@@ -655,12 +823,57 @@
         "ratio": null
       },
       "wordstat": 2035,
+      "product": "ofd",
+      "productLabel": "Контур.ОФД",
+      "segment": "kassy",
+      "segmentLabel": "Кассы и ОФД",
+      "type": "evergreen",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.50)",
+      "konturLink": "https://support.kontur.ru/market/39770-peredacha_dannyh_na_kassu",
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "офд фискальные данные",
+          "wordstat": 1170
+        },
+        {
+          "query": "данные операторов офд",
+          "wordstat": 659
+        },
+        {
+          "query": "загрузка данных офд",
+          "wordstat": 167
+        },
+        {
+          "query": "данные контур офд",
+          "wordstat": 144
+        }
+      ],
+      "wordstatTotal": 4175
+    },
+    {
+      "topic": "егаис учета",
+      "targetKeyword": "егаис учета",
+      "cluster": "egais",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 1186 показов в месяц, статьи по запросу нет, кластер egais",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 1186,
+        "ratio": null
+      },
+      "wordstat": 1186,
       "product": "market",
       "productLabel": "Контур.Маркет",
       "segment": "roznica",
       "segmentLabel": "Розница",
       "type": "evergreen",
-      "normHint": "ПП № 2466 (предв., уточнить в Стадии 1)",
+      "normHint": "ПП № 2348 (предв., уточнить в Стадии 1)",
       "dedup": "проверить пересечение (0.50)",
       "konturLink": "https://support.kontur.ru/market/39621-egais",
       "decision": "",
@@ -668,90 +881,134 @@
       "declineReason": ""
     },
     {
-      "topic": "передачей данных офд",
-      "targetKeyword": "передачей данных офд",
-      "cluster": "ofd-fn",
+      "topic": "1с возврат по эквайрингу",
+      "targetKeyword": "1с возврат по эквайрингу",
+      "cluster": "ekvairing",
       "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 2014 показов в месяц, статьи по запросу нет, кластер ofd-fn; со связанными запросами 4156 показов по 5 формулировкам",
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче: 989 показов в месяц, статьи по запросу нет, кластер ekvairing; со связанными запросами 1224 показов по 2 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 2014,
+        "now": 989,
         "ratio": null
       },
-      "wordstat": 2014,
-      "product": "ofd",
-      "productLabel": "Контур.ОФД",
-      "segment": "kassy",
-      "segmentLabel": "Кассы и ОФД",
+      "wordstat": 989,
+      "product": null,
+      "productLabel": null,
+      "segment": "roznica",
+      "segmentLabel": "Розница",
       "type": "evergreen",
-      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "dedup": "проверить пересечение (0.40)",
-      "konturLink": "https://support.kontur.ru/ofd/40293-rasxozhdenie_dannyx_v_ofd_i_fns",
+      "normHint": null,
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://support.kontur.ru/extern/48470-vozvrat_tovara",
       "decision": "",
       "author": "",
       "declineReason": "",
       "relatedQueries": [
         {
-          "query": "офд фискальных данных",
-          "wordstat": 1157
-        },
-        {
-          "query": "оператор офд данные",
-          "wordstat": 650
-        },
-        {
-          "query": "не передается чек в офд",
-          "wordstat": 195
-        },
-        {
-          "query": "контур офд данных",
-          "wordstat": 140
+          "query": "как сделать возврат по эквайрингу",
+          "wordstat": 235
         }
       ],
-      "wordstatTotal": 4156
+      "wordstatTotal": 1224
     },
     {
-      "topic": "всд работы",
-      "targetKeyword": "всд работы",
-      "cluster": "merkuriy",
+      "topic": "суть одежды маркировка",
+      "targetKeyword": "суть одежды маркировка",
+      "cluster": "markirovka-2026",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 1954 показов в месяц, статьи по запросу нет, кластер merkuriy",
+      "why": "новая фраза в выдаче: 199 показов в месяц, статьи по запросу нет, кластер markirovka-2026; со связанными запросами 589 показов по 5 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 1954,
+        "now": 199,
         "ratio": null
       },
-      "wordstat": 1954,
-      "product": "merkuriy",
-      "productLabel": "Контур.Меркурий",
+      "wordstat": 199,
+      "product": "markirovka",
+      "productLabel": "Контур.Маркировка",
       "segment": "roznica",
       "segmentLabel": "Розница",
       "type": "evergreen",
-      "normHint": "Приказ № 648 (предв., уточнить в Стадии 1)",
+      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
       "dedup": "новая",
       "konturLink": null,
       "decision": "",
       "author": "",
-      "declineReason": ""
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "обязательная маркировка одежда",
+          "wordstat": 185
+        },
+        {
+          "query": "маркировка комплектов одежды",
+          "wordstat": 70
+        },
+        {
+          "query": "маркировки ухода за одеждой",
+          "wordstat": 69
+        },
+        {
+          "query": "верхняя одежда маркировка",
+          "wordstat": 66
+        }
+      ],
+      "wordstatTotal": 589
     },
     {
-      "topic": "настройки сканера для маркировки",
-      "targetKeyword": "настройки сканера для маркировки",
+      "topic": "точка тарифы эквайринга для ип",
+      "targetKeyword": "точка тарифы эквайринга для ип",
+      "cluster": "ekvairing",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче: 194 показов в месяц, статьи по запросу нет, кластер ekvairing; со связанными запросами 833 показов по 3 формулировкам",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 194,
+        "ratio": null
+      },
+      "wordstat": 194,
+      "product": null,
+      "productLabel": null,
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": null,
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "сбер эквайринг тарифы для ип",
+          "wordstat": 156
+        },
+        {
+          "query": "эквайринг сбербанка тарифы для ип",
+          "wordstat": 483
+        }
+      ],
+      "wordstatTotal": 833
+    },
+    {
+      "topic": "принтер этикеток для маркетплейсов",
+      "targetKeyword": "принтер этикеток для маркетплейсов",
       "cluster": "oborudovanie",
       "priorityCluster": true,
       "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 1860 показов в месяц, статьи по запросу нет, кластер oborudovanie; со связанными запросами 5218 показов по 5 формулировкам",
+      "why": "новая фраза в выдаче: 192 показов в месяц, статьи по запросу нет, кластер oborudovanie; со связанными запросами 245 показов по 2 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 1860,
+        "now": 192,
         "ratio": null
       },
-      "wordstat": 1860,
+      "wordstat": 192,
       "product": null,
       "productLabel": null,
       "segment": "roznica",
@@ -765,357 +1022,148 @@
       "declineReason": "",
       "relatedQueries": [
         {
-          "query": "сканер для маркировки честный",
-          "wordstat": 1660
-        },
-        {
-          "query": "атол маркировка настройка",
-          "wordstat": 779
-        },
-        {
-          "query": "сканер атол маркировка",
-          "wordstat": 609
-        },
-        {
-          "query": "2д сканер для маркировки",
-          "wordstat": 310
+          "query": "принтер этикеток спб",
+          "wordstat": 53
         }
       ],
-      "wordstatTotal": 5218
+      "wordstatTotal": 245
     },
     {
-      "topic": "активация офд",
-      "targetKeyword": "активация офд",
-      "cluster": "ofd-fn",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 1847 показов в месяц, статьи по запросу нет, кластер ofd-fn",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 1847,
-        "ratio": null
-      },
-      "wordstat": 1847,
-      "product": "ofd",
-      "productLabel": "Контур.ОФД",
-      "segment": "kassy",
-      "segmentLabel": "Кассы и ОФД",
-      "type": "evergreen",
-      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "егаис продажа",
-      "targetKeyword": "егаис продажа",
-      "cluster": "egais",
+      "topic": "рабочее место кассира 1с розница",
+      "targetKeyword": "рабочее место кассира 1с розница",
+      "cluster": "roznica",
       "priorityCluster": true,
       "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 1642 показов в месяц, статьи по запросу нет, кластер egais",
+      "why": "новая фраза в выдаче: 184 показов в месяц, статьи по запросу нет, кластер roznica",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 1642,
+        "now": 184,
         "ratio": null
       },
-      "wordstat": 1642,
+      "wordstat": 184,
       "product": "market",
       "productLabel": "Контур.Маркет",
       "segment": "roznica",
       "segmentLabel": "Розница",
       "type": "evergreen",
-      "normHint": "ПП № 2466 (предв., уточнить в Стадии 1)",
-      "dedup": "проверить пересечение (0.50)",
-      "konturLink": "https://support.kontur.ru/market/39621-egais",
+      "normHint": "ФЗ № 54 (предв., уточнить в Стадии 1)",
+      "dedup": "проверить пересечение (0.38)",
+      "konturLink": "https://kontur.ru/market/spravka/54162-organizovat_rabochee_mesto_kassira",
       "decision": "",
       "author": "",
       "declineReason": ""
     },
     {
-      "topic": "эквайринг условия для ип",
-      "targetKeyword": "эквайринг условия для ип",
-      "cluster": "ekvairing",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 766 показов в месяц, статьи по запросу нет, кластер ekvairing; со связанными запросами 1243 показов по 5 формулировкам",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 766,
-        "ratio": null
-      },
-      "wordstat": 766,
-      "product": null,
-      "productLabel": null,
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "эквайринг стоимость для ип",
-          "wordstat": 191
-        },
-        {
-          "query": "условия интернет эквайринга",
-          "wordstat": 115
-        },
-        {
-          "query": "эквайринг для ип какой процент",
-          "wordstat": 93
-        },
-        {
-          "query": "эквайринг дешево для ип",
-          "wordstat": 78
-        }
-      ],
-      "wordstatTotal": 1243
-    },
-    {
-      "topic": "маркировка одежды какой",
-      "targetKeyword": "маркировка одежды какой",
-      "cluster": "markirovka-2026",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 706 показов в месяц, статьи по запросу нет, кластер markirovka-2026",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 706,
-        "ratio": null
-      },
-      "wordstat": 706,
-      "product": "markirovka",
-      "productLabel": "Контур.Маркировка",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "как провести в 1с возврат по эквайрингу",
-      "targetKeyword": "как провести в 1с возврат по эквайрингу",
-      "cluster": "ekvairing",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 198 показов в месяц, статьи по запросу нет, кластер ekvairing",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 198,
-        "ratio": null
-      },
-      "wordstat": 198,
-      "product": null,
-      "productLabel": null,
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "зачисление средств по операциям эквайринга возврат покупки",
-      "targetKeyword": "зачисление средств по операциям эквайринга возврат покупки",
-      "cluster": "ekvairing",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 189 показов в месяц, статьи по запросу нет, кластер ekvairing",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 189,
-        "ratio": null
-      },
-      "wordstat": 189,
-      "product": null,
-      "productLabel": null,
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "обязательная маркировка бад",
-      "targetKeyword": "обязательная маркировка бад",
-      "cluster": "markirovka-2026",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 178 показов в месяц, статьи по запросу нет, кластер markirovka-2026; со связанными запросами 433 показов по 3 формулировкам",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 178,
-        "ratio": null
-      },
-      "wordstat": 178,
-      "product": "markirovka",
-      "productLabel": "Контур.Маркировка",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "обязательная маркировка обуви",
-          "wordstat": 140
-        },
-        {
-          "query": "обязательна маркировка шин",
-          "wordstat": 115
-        }
-      ],
-      "wordstatTotal": 433
-    },
-    {
-      "topic": "маркировка кормов для животных честный",
-      "targetKeyword": "маркировка кормов для животных честный",
-      "cluster": "markirovka-2026",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 157 показов в месяц, статьи по запросу нет, кластер markirovka-2026; со связанными запросами 219 показов по 2 формулировкам",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 157,
-        "ratio": null
-      },
-      "wordstat": 157,
-      "product": "markirovka",
-      "productLabel": "Контур.Маркировка",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "корм для непродуктивных животных маркировка",
-          "wordstat": 62
-        }
-      ],
-      "wordstatTotal": 219
-    },
-    {
-      "topic": "бытовая химия маркировка сроки",
-      "targetKeyword": "бытовая химия маркировка сроки",
-      "cluster": "markirovka-2026",
-      "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 576 показов в месяц, статьи по запросу нет, кластер markirovka-2026; со связанными запросами 688 показов по 2 формулировкам",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 576,
-        "ratio": null
-      },
-      "wordstat": 576,
-      "product": "markirovka",
-      "productLabel": "Контур.Маркировка",
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "бытовая химия этапы маркировки",
-          "wordstat": 112
-        }
-      ],
-      "wordstatTotal": 688
-    },
-    {
-      "topic": "локальный модуль честный знак ошибка",
-      "targetKeyword": "локальный модуль честный знак ошибка",
+      "topic": "1с локальный модуль честный знак",
+      "targetKeyword": "1с локальный модуль честный знак",
       "cluster": "ts-piot",
       "priorityCluster": true,
       "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 399 показов в месяц, статьи по запросу нет, кластер ts-piot; со связанными запросами 956 показов по 4 формулировкам",
+      "why": "новая фраза в выдаче: 609 показов в месяц, статьи по запросу нет, кластер ts-piot; со связанными запросами 969 показов по 2 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 399,
+        "now": 609,
         "ratio": null
       },
-      "wordstat": 399,
+      "wordstat": 609,
       "product": "market",
       "productLabel": "Контур.Маркет",
       "segment": "roznica",
       "segmentLabel": "Розница",
       "type": "evergreen",
       "normHint": "ПП № 303 (предв., уточнить в Стадии 1)",
-      "dedup": "проверить пересечение (0.33)",
+      "dedup": "проверить пересечение (0.40)",
       "konturLink": "https://support.kontur.ru/market/55543-kak_obnovit_lokalnyj_modul",
       "decision": "",
       "author": "",
       "declineReason": "",
       "relatedQueries": [
         {
-          "query": "локальный модуль честный знак служба",
-          "wordstat": 218
-        },
-        {
-          "query": "локальный модуль честный знак версии",
-          "wordstat": 205
-        },
-        {
-          "query": "подключение локального модуля честный знак",
-          "wordstat": 134
+          "query": "локальный модуль честный знак ошибки",
+          "wordstat": 360
         }
       ],
-      "wordstatTotal": 956
+      "wordstatTotal": 969
     },
     {
-      "topic": "сканеры для егаис",
-      "targetKeyword": "сканеры для егаис",
-      "cluster": "oborudovanie",
+      "topic": "бытовая химия сроки маркировки",
+      "targetKeyword": "бытовая химия сроки маркировки",
+      "cluster": "markirovka-2026",
       "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 289 показов в месяц, статьи по запросу нет, кластер oborudovanie",
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 556 показов в месяц, статьи по запросу нет, кластер markirovka-2026; со связанными запросами 734 показов по 3 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 289,
+        "now": 556,
         "ratio": null
       },
-      "wordstat": 289,
+      "wordstat": 556,
+      "product": "markirovka",
+      "productLabel": "Контур.Маркировка",
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
+      "dedup": "новая",
+      "konturLink": null,
+      "decision": "",
+      "author": "",
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "этапы маркировки бытовой химии",
+          "wordstat": 104
+        },
+        {
+          "query": "бытовая химия маркировка с какого числа",
+          "wordstat": 74
+        }
+      ],
+      "wordstatTotal": 734
+    },
+    {
+      "topic": "сканер 2d для маркировки честный знак",
+      "targetKeyword": "сканер 2d для маркировки честный знак",
+      "cluster": "oborudovanie",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче: 479 показов в месяц, статьи по запросу нет, кластер oborudovanie",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 479,
+        "ratio": null
+      },
+      "wordstat": 479,
+      "product": null,
+      "productLabel": null,
+      "segment": "roznica",
+      "segmentLabel": "Розница",
+      "type": "evergreen",
+      "normHint": null,
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://support.kontur.ru/diadoc-1s8x/41651-statusy_v_gis_mt_chestnyj_znak",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "сканер для егаис",
+      "targetKeyword": "сканер для егаис",
+      "cluster": "oborudovanie",
+      "priorityCluster": true,
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче: 327 показов в месяц, статьи по запросу нет, кластер oborudovanie",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 327,
+        "ratio": null
+      },
+      "wordstat": 327,
       "product": null,
       "productLabel": null,
       "segment": "roznica",
@@ -1129,45 +1177,19 @@
       "declineReason": ""
     },
     {
-      "topic": "сканер штрих кода 2d для маркировки",
-      "targetKeyword": "сканер штрих кода 2d для маркировки",
-      "cluster": "oborudovanie",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 225 показов в месяц, статьи по запросу нет, кластер oborudovanie",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 225,
-        "ratio": null
-      },
-      "wordstat": 225,
-      "product": null,
-      "productLabel": null,
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "налоги для общепита",
-      "targetKeyword": "налоги для общепита",
+      "topic": "учет в 1с общепит",
+      "targetKeyword": "учет в 1с общепит",
       "cluster": "horeca",
       "priorityCluster": true,
-      "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 215 показов в месяц, статьи по запросу нет, кластер horeca",
+      "source": "wordstat:kontur",
+      "why": "новая фраза в выдаче: 226 показов в месяц, статьи по запросу нет, кластер horeca; со связанными запросами 343 показов по 2 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 215,
+        "now": 226,
         "ratio": null
       },
-      "wordstat": 215,
+      "wordstat": 226,
       "product": "market",
       "productLabel": "Контур.Маркет: Общепит",
       "segment": "obshchepit",
@@ -1178,55 +1200,55 @@
       "konturLink": null,
       "decision": "",
       "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "принтер для этикеток маркетплейс",
-      "targetKeyword": "принтер для этикеток маркетплейс",
-      "cluster": "oborudovanie",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 203 показов в месяц, статьи по запросу нет, кластер oborudovanie; со связанными запросами 291 показов по 2 формулировкам",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 203,
-        "ratio": null
-      },
-      "wordstat": 203,
-      "product": null,
-      "productLabel": null,
-      "segment": "roznica",
-      "segmentLabel": "Розница",
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "новая",
-      "konturLink": null,
-      "decision": "",
-      "author": "",
       "declineReason": "",
       "relatedQueries": [
         {
-          "query": "принтер этикеток bsmart",
-          "wordstat": 88
+          "query": "журналы учета в общепите",
+          "wordstat": 117
         }
       ],
-      "wordstatTotal": 291
+      "wordstatTotal": 343
     },
     {
-      "topic": "разрешительный режим на кассе честный знак",
-      "targetKeyword": "разрешительный режим на кассе честный знак",
-      "cluster": "ts-piot",
+      "topic": "маркировка продуктов в общепите",
+      "targetKeyword": "маркировка продуктов в общепите",
+      "cluster": "horeca",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 109 показов в месяц, статьи по запросу нет, кластер ts-piot; со связанными запросами 224 показов по 3 формулировкам",
+      "why": "новая фраза в выдаче: 114 показов в месяц, статьи по запросу нет, кластер horeca",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 109,
+        "now": 114,
         "ratio": null
       },
-      "wordstat": 109,
+      "wordstat": 114,
+      "product": "market",
+      "productLabel": "Контур.Маркет: Общепит",
+      "segment": "obshchepit",
+      "segmentLabel": "Общепит",
+      "type": "evergreen",
+      "normHint": null,
+      "dedup": "проверить пересечение (0.33)",
+      "konturLink": "https://kontur.ru/market/spravka/53230-markirovka_bezalkogolnyh_napitkov",
+      "decision": "",
+      "author": "",
+      "declineReason": ""
+    },
+    {
+      "topic": "честный знак разрешительный режим на кассах",
+      "targetKeyword": "честный знак разрешительный режим на кассах",
+      "cluster": "ts-piot",
+      "priorityCluster": true,
+      "source": "wordstat:root",
+      "why": "новая фраза в выдаче: 110 показов в месяц, статьи по запросу нет, кластер ts-piot",
+      "metrics": {
+        "kind": "new",
+        "prev": null,
+        "now": 110,
+        "ratio": null
+      },
+      "wordstat": 110,
       "product": "market",
       "productLabel": "Контур.Маркет",
       "segment": "roznica",
@@ -1237,70 +1259,44 @@
       "konturLink": null,
       "decision": "",
       "author": "",
-      "declineReason": "",
-      "relatedQueries": [
-        {
-          "query": "включить разрешительный режим на кассе",
-          "wordstat": 58
-        },
-        {
-          "query": "токен честного знака для кассы",
-          "wordstat": 57
-        }
-      ],
-      "wordstatTotal": 224
+      "declineReason": ""
     },
     {
-      "topic": "общепит маркировка продукции",
-      "targetKeyword": "общепит маркировка продукции",
-      "cluster": "horeca",
+      "topic": "гост маркировка кормов",
+      "targetKeyword": "гост маркировка кормов",
+      "cluster": "markirovka-2026",
       "priorityCluster": true,
       "source": "wordstat:root",
-      "why": "новая фраза в выдаче: 68 показов в месяц, статьи по запросу нет, кластер horeca",
+      "why": "новая фраза в выдаче: 77 показов в месяц, статьи по запросу нет, кластер markirovka-2026; со связанными запросами 211 показов по 3 формулировкам",
       "metrics": {
         "kind": "new",
         "prev": null,
-        "now": 68,
+        "now": 77,
         "ratio": null
       },
-      "wordstat": 68,
-      "product": "market",
-      "productLabel": "Контур.Маркет: Общепит",
-      "segment": "obshchepit",
-      "segmentLabel": "Общепит",
+      "wordstat": 77,
+      "product": "markirovka",
+      "productLabel": "Контур.Маркировка",
+      "segment": "roznica",
+      "segmentLabel": "Розница",
       "type": "evergreen",
-      "normHint": null,
+      "normHint": "ПП № 161 (предв., уточнить в Стадии 1)",
       "dedup": "новая",
       "konturLink": null,
       "decision": "",
       "author": "",
-      "declineReason": ""
-    },
-    {
-      "topic": "кассы для бара",
-      "targetKeyword": "кассы для бара",
-      "cluster": "horeca",
-      "priorityCluster": true,
-      "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 60 показов в месяц, статьи по запросу нет, кластер horeca",
-      "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 60,
-        "ratio": null
-      },
-      "wordstat": 60,
-      "product": "market",
-      "productLabel": "Контур.Маркет: Общепит",
-      "segment": "obshchepit",
-      "segmentLabel": "Общепит",
-      "type": "evergreen",
-      "normHint": null,
-      "dedup": "проверить пересечение (0.33)",
-      "konturLink": "https://support.kontur.ru/ofd/40291-fiskalizaciya_kassy",
-      "decision": "",
-      "author": "",
-      "declineReason": ""
+      "declineReason": "",
+      "relatedQueries": [
+        {
+          "query": "маркировка влажных кормов",
+          "wordstat": 74
+        },
+        {
+          "query": "маркировка кормов для кошек",
+          "wordstat": 60
+        }
+      ],
+      "wordstatTotal": 211
     },
     {
       "topic": "1с эпд розница 2.3",
@@ -1308,14 +1304,14 @@
       "cluster": "roznica",
       "priorityCluster": true,
       "source": "wordstat:kontur",
-      "why": "новая фраза в выдаче: 57 показов в месяц, статьи по запросу нет, кластер roznica",
+      "why": "рост частотности: 57 → 116 показов в месяц (×2.0)",
       "metrics": {
-        "kind": "new",
-        "prev": null,
-        "now": 57,
-        "ratio": null
+        "kind": "rising",
+        "prev": 57,
+        "now": 116,
+        "ratio": 2.0350877192982457
       },
-      "wordstat": 57,
+      "wordstat": 116,
       "product": "market",
       "productLabel": "Контур.Маркет",
       "segment": "roznica",
