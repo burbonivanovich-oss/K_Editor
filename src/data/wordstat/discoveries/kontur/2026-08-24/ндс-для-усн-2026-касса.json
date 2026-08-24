@@ -1,0 +1,9 @@
+{
+  "seed": "НДС для УСН 2026 касса",
+  "slug": "ндс-для-усн-2026-касса",
+  "category": "intent",
+  "cluster": "nalogi-kassa",
+  "fetchedAt": "2026-08-24T05:45:47.854Z",
+  "count": 0,
+  "phrases": []
+}
