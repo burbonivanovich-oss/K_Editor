@@ -18,8 +18,10 @@ import { readFileSync, readdirSync, existsSync, statSync } from "node:fs";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
 import { dirname, join, resolve } from "node:path";
+import { auditBundles } from "./factcheck/audit-bundles.mjs";
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const ROOT =
+  process.env.CONSOLE_ROOT || resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const isTTY = process.stdin.isTTY && process.stdout.isTTY;
 
 // ─── оформление ────────────────────────────────────────────────────────
@@ -92,17 +94,47 @@ function collectStatus() {
 
   // контент
   const blogDir = join(ROOT, "src/content/blog");
-  let total = 0, drafts = 0;
+  let total = 0, drafts = 0, unreadable = 0;
   if (existsSync(blogDir)) {
     for (const f of readdirSync(blogDir)) {
       if (!/\.mdx?$/.test(f)) continue;
       total++;
-      if (/^draft:\s*true\s*$/m.test(frontmatter(readFileSync(join(blogDir, f), "utf8")))) drafts++;
+      /* Один нечитаемый файл не должен ронять всю панель: до 24.08.2026
+       * каталог с именем `*.md` (или файл без прав) заканчивался
+       * стектрейсом EISDIR вместо состояния модуля. Считаем его
+       * отдельно и показываем — «не прочитано» это не «черновиков нет». */
+      try {
+        if (/^draft:\s*true\s*$/m.test(frontmatter(readFileSync(join(blogDir, f), "utf8")))) drafts++;
+      } catch {
+        unreadable++;
+      }
     }
   }
+  /* Факчек считается по вердикту связки, а не по числу файлов-маркеров.
+   *
+   * До 24.08.2026 здесь стоял readdirSync(".claude/factchecked").length,
+   * и панель печатала зелёное «факт-чек: 15/15» ровно в тот момент,
+   * когда audit-bundles отвечал «4 связки не проходят контракт», а
+   * gates --audit — «Факчек: зелёное 11, красное 4». Маркер на диске —
+   * след проверки, а не её результат: он не знает ни про хеш текста, ни
+   * про доказательства, ни про то, следует ли его вердикт из отчёта.
+   * Считать файлы вместо вердиктов — та самая «мёртвая проверка»,
+   * которую в остальных местах ловит gates-liveness.test.mjs; консоль
+   * была последним местом, где она оставалась.
+   *
+   * Валидатор может упасть на повреждённых данных. Это не «всё хорошо»:
+   * несостоявшаяся проверка показывается отдельным состоянием, а не
+   * молчанием — то же правило, что в check-seo-all.mjs. */
   const fcDir = join(ROOT, ".claude/factchecked");
   const markers = existsSync(fcDir) ? readdirSync(fcDir).filter((f) => !f.startsWith(".")).length : 0;
-  s.content = { total, drafts, markers };
+  let factcheck;
+  try {
+    const bundles = auditBundles({ root: ROOT });
+    factcheck = { checked: bundles.length, passing: bundles.filter((b) => b.ok).length, broken: false };
+  } catch (e) {
+    factcheck = { checked: 0, passing: 0, broken: true, error: e.message };
+  }
+  s.content = { total, drafts, markers, unreadable, factcheck };
 
   // план
   const plan = readJSON("src/data/editorial-plan.json");
@@ -179,13 +211,22 @@ function renderStatus(s) {
   // контент
   const cBits = [`${s.content.total} статей`];
   if (s.content.drafts) cBits.push(`${s.content.drafts} черновиков`);
+  const fc = s.content.factcheck;
+  if (s.content.unreadable) cBits.push(bad(`не прочитано: ${s.content.unreadable}`));
   cBits.push(
     s.content.total === 0
       ? dim("блог пуст — проверки контента проходят вхолостую")
-      : s.content.markers < s.content.total
-        ? bad(`факт-чек: ${s.content.markers}/${s.content.total}`)
-        : ok(`факт-чек: ${s.content.markers}/${s.content.total}`),
+      : fc.broken
+        ? bad("факчек: проверка не состоялась — audit-bundles.mjs упал")
+        : fc.passing < fc.checked
+          ? bad(`факчек по контракту: ${fc.passing}/${fc.checked}`)
+          : ok(`факчек по контракту: ${fc.passing}/${fc.checked}`),
   );
+  /* Число маркеров печатается рядом и намеренно приглушённым: оно
+   * отвечает на другой вопрос — «доходила ли процедура до конца», — и
+   * расхождение с вердиктом выше само по себе полезный сигнал. */
+  if (s.content.total && !fc.broken && s.content.markers !== fc.passing)
+    cBits.push(dim(`маркеров ${s.content.markers}`));
   row("Контент", cBits.join(dim(" · ")));
 
   // план
