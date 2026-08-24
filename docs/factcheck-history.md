@@ -151,7 +151,7 @@ LLM-пайплайн без обязательного `research-specialist` с�
 
 * [`docs/factcheck.md`](./factcheck.md) — описание пайплайна
 * [`docs/editorial-policy.md`](./editorial-policy.md) — классы решений A/B/C
-* [`docs/session-2026-05-19-postmortem.md`](./session-2026-05-19-postmortem.md) —
+* [`docs/archive/sessions/session-2026-05-19-postmortem.md`](./archive/sessions/session-2026-05-19-postmortem.md) —
   разбор LLM-галлюцинаций НПА и общие выводы сессии
 * `src/data/factcheck/sources.json` — whitelist НПА
 * `scripts/factcheck/extract-claims.mjs` — экстракция claims

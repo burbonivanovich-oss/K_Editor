@@ -24,8 +24,9 @@ Agent, обычно параллельно и в фоне, с асинхронн
 
 Пайплайны и рутины цикла (`/create-article`, `/factcheck`,
 `/analyze-article`, `/cycle-plan` и др.) — каждый файл одновременно и
-slash-команда, и Skill (описание в frontmatter). Список команд и что
-каждая делает — `docs/tools.md`.
+slash-команда, и Skill (описание в frontmatter). Полный список команд и
+что каждая делает — `docs/operations.md`, раздел «Карта команд»;
+устройство QA-инструментов — `docs/tools.md`.
 
 ## MCP и автоматизация
 

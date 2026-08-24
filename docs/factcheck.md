@@ -5,7 +5,7 @@
 
 > **Покрытие на 2026-05-19: 83/83 (100%).** История backfill'а и
 > найденные системные паттерны — в [`docs/factcheck-history.md`](./factcheck-history.md).
-> Разбор LLM-галлюцинаций НПА — в [`docs/session-2026-05-19-postmortem.md`](./session-2026-05-19-postmortem.md).
+> Разбор LLM-галлюцинаций НПА — в [`docs/archive/sessions/session-2026-05-19-postmortem.md`](./archive/sessions/session-2026-05-19-postmortem.md).
 
 ## Зачем
 
