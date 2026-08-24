@@ -38,10 +38,36 @@ import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from 
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { isInformational, dedupeKey } from "./relevance.mjs";
+import { isMain } from "../lib/is-main.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const DISC_DIR = join(ROOT, "src", "data", "wordstat", "discoveries");
 const OUT = join(ROOT, "src", "data", "wordstat", "candidate-dynamics.json");
+
+/**
+ * Кеш динамики — по одной фразе на строку.
+ *
+ * Файл писался с отступом в два пробела и весил 6,3 МБ при 2128 фразах;
+ * коммитится он еженедельно, и к 24.08.2026 занял 16 МБ git-истории —
+ * больше, чем весь остальной репозиторий вместе взятый. Это не текст,
+ * который читают глазами: 2128 записей с недельными рядами.
+ *
+ * Компромисс вместо голого `JSON.stringify`: шапка (`generatedAt`,
+ * `period`, `coverage`) остаётся читаемой, а `items` идут по строке на
+ * фразу. Размер падает на 46 %, и заодно чинится дифф — изменившаяся
+ * фраза становится одной изменённой строкой вместо десятка, а git лучше
+ * жмёт такие дельты.
+ *
+ * Удалять файл из git нельзя: `REMEASURE_DAYS` и `cacheVersion` делают
+ * его кешем платной квоты Wordstat. Без него каждый прогон перемерял бы
+ * всё заново.
+ */
+export function serializeDynamics({ items = [], ...meta }) {
+  const head = JSON.stringify(meta, null, 2).replace(/\n\}$/, "");
+  if (!items.length) return `${head},\n  "items": []\n}\n`;
+  const lines = items.map((it) => `    ${JSON.stringify(it)}`).join(",\n");
+  return `${head},\n  "items": [\n${lines}\n  ]\n}\n`;
+}
 
 const API_BASE = "https://searchapi.api.cloud.yandex.net/v2/wordstat";
 const API_KEY = process.env.YC_API_KEY || "";
@@ -333,16 +359,12 @@ async function main() {
   mkdirSync(dirname(OUT), { recursive: true });
   writeFileSync(
     OUT,
-    JSON.stringify(
-      {
-        generatedAt: new Date().toISOString(),
-        period: { from: rfc3339(periodFrom), to: rfc3339(periodTo) },
-        coverage: { measured: merged.size, pool: all.length },
-        items: [...merged.values()],
-      },
-      null,
-      2,
-    ) + "\n",
+    serializeDynamics({
+      generatedAt: new Date().toISOString(),
+      period: { from: rfc3339(periodFrom), to: rfc3339(periodTo) },
+      coverage: { measured: merged.size, pool: all.length },
+      items: [...merged.values()],
+    }),
   );
   console.log(
     `\n✓ измерено за прогон: ${out.length}; всего в базе ${merged.size} из ${all.length} ` +
@@ -355,7 +377,12 @@ async function main() {
   }
 }
 
-main().catch((e) => {
-  console.error(e.message);
-  process.exit(1);
-});
+/* Запуск только как команда: без guard любой импорт (тест, соседний
+ * скрипт) немедленно требовал YC_API_KEY и падал. Правило проекта —
+ * docs/tools.md, «lib/is-main.mjs». */
+if (isMain(import.meta.url)) {
+  main().catch((e) => {
+    console.error(e.message);
+    process.exit(1);
+  });
+}
