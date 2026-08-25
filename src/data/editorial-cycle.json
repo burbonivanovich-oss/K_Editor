@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-25T13:29:48.922Z",
+  "updatedAt": "2026-08-25T13:58:14.400Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -652,10 +652,6 @@
   ],
   "log": [
     {
-      "at": "2026-08-20T06:59:19.913Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
-    {
       "at": "2026-08-20T07:18:06.532Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     },
@@ -889,6 +885,10 @@
     },
     {
       "at": "2026-08-25T13:29:48.922Z",
+      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
+    },
+    {
+      "at": "2026-08-25T13:58:14.400Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
     }
   ],
