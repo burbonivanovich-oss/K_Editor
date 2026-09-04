@@ -2,7 +2,7 @@
   "cycleId": "2026-08",
   "state": "running",
   "createdAt": "2026-08-11T18:17:09.687Z",
-  "updatedAt": "2026-08-27T12:06:13.046Z",
+  "updatedAt": "2026-09-04T13:22:26.537Z",
   "drive": {
     "folderId": "1g6AwanrWVQydmiBHSe7iv_kU_rU72zIf",
     "sheetId": "1SUvNUGoW39v5tkstpMUr50J8d4eYh4JLp8RNHZMvXSc",
@@ -25,7 +25,8 @@
       "status": "released",
       "docId": "1h2tlcu5DQan5Ponz9SDLt20BlxEV0Z8yV_m5w7SbZs0",
       "docUrl": "https://docs.google.com/document/d/1h2tlcu5DQan5Ponz9SDLt20BlxEV0Z8yV_m5w7SbZs0/edit",
-      "seenComments": []
+      "seenComments": [],
+      "format": "выпущено"
     },
     {
       "slug": "lichnyy-kabinet-onlayn-kassy-kak-voyti-i-chto-tam-nastraivat",
@@ -39,7 +40,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "kassa-ot-banka-ili-otdelno-kak-banki-predlagayut-onlayn-kass",
@@ -54,7 +56,8 @@
       "docId": "1ub24ouRT3iINsduyoLsMlavgitYuqvisKfTMGp1ikHo",
       "docUrl": "https://docs.google.com/document/d/1ub24ouRT3iINsduyoLsMlavgitYuqvisKfTMGp1ikHo/edit",
       "seenComments": [],
-      "reviewSince": "2026-08-13"
+      "reviewSince": "2026-08-13",
+      "format": "на вычитке · 22 дн."
     },
     {
       "slug": "chto-novogo-v-markirovke-chestnogo-znaka-v-2026-godu",
@@ -68,7 +71,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "korrekciya-cheka-vozvrata-na-kasse-kak-pravilno-oformit",
@@ -84,7 +88,8 @@
       "docUrl": "https://docs.google.com/document/d/1bZ1kZo3ZViBOVYz9nc8dLnB-fVEfEvdfx-Nw5073U88/edit",
       "seenComments": [],
       "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета.",
-      "reviewSince": "2026-08-13"
+      "reviewSince": "2026-08-13",
+      "format": "на вычитке · 22 дн."
     },
     {
       "slug": "markirovka-shin-v-2026-godu-chto-obyazana-delat-roznica",
@@ -99,7 +104,8 @@
       "docId": "1MvpHL5VfNIV6IOBNpBGNWsUey52UUCUABzuA1KKshBM",
       "docUrl": "https://docs.google.com/document/d/1MvpHL5VfNIV6IOBNpBGNWsUey52UUCUABzuA1KKshBM/edit",
       "seenComments": [],
-      "reviewSince": "2026-08-17"
+      "reviewSince": "2026-08-17",
+      "format": "на вычитке · 18 дн."
     },
     {
       "slug": "otchet-o-zakrytii-fiskalnogo-nakopitelya-kogda-i-kak-formiro",
@@ -115,7 +121,8 @@
       "docUrl": "https://docs.google.com/document/d/1WNHxoQvotEoye76ig44Y6Dwhpp4B_Tw2Sixpse08J1I/edit",
       "seenComments": [],
       "lastNote": "Статью написать в формате \"Вопрос эксперту\", в заголовке вопрос, а затем идет ответ от эксперта Маркета.",
-      "reviewSince": "2026-08-17"
+      "reviewSince": "2026-08-17",
+      "format": "на вычитке · 18 дн."
     },
     {
       "slug": "internet-ekvayring-dlya-onlayn-magazina-kak-vybrat-bank-i-ta",
@@ -130,7 +137,8 @@
       "docId": null,
       "docUrl": null,
       "seenComments": [],
-      "lastNote": "Нужно актуализировать статью https://kontur.ru/market/spravka/25147-kak_rabotaet_oplata_cherez_ekvajring Не делаем акцент на онлайн-магазине, но включаем его в статью в том числе"
+      "lastNote": "Нужно актуализировать статью https://kontur.ru/market/spravka/25147-kak_rabotaet_oplata_cherez_ekvajring Не делаем акцент на онлайн-магазине, но включаем его в статью в том числе",
+      "format": "снято"
     },
     {
       "slug": "kak-proverit-akciznuyu-marku-onlayn-cherez-prilozhenie-chest",
@@ -144,7 +152,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "akciznaya-marka-i-egais-kak-sverit-partiyu-alkogolya-pered-p",
@@ -158,7 +167,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "kak-zavesti-tovar-v-egais-poshagovaya-instrukciya-dlya-rozni",
@@ -172,7 +182,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "oblachnaya-kassa-bez-fizicheskogo-apparata-komu-podhodit-i-k",
@@ -186,7 +197,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "nastroyka-skanera-shtrihkodov-dlya-markirovki-kak-schityvat-",
@@ -200,7 +212,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "prodazha-alkogolya-cherez-egais-kak-provesti-chek-bez-oshibo",
@@ -215,7 +228,8 @@
       "docId": null,
       "docUrl": null,
       "seenComments": [],
-      "urgent": true
+      "urgent": true,
+      "format": "снято"
     },
     {
       "slug": "prodazha-alkogolya-bez-akciznoy-marki-chem-grozit-i-kak-prov",
@@ -230,7 +244,8 @@
       "docId": "1W9VgQ_GUiaOzmv2JMlcaw39fHlJzLz-2ks0rRUesMtI",
       "docUrl": "https://docs.google.com/document/d/1W9VgQ_GUiaOzmv2JMlcaw39fHlJzLz-2ks0rRUesMtI/edit",
       "seenComments": [],
-      "reviewSince": "2026-08-17"
+      "reviewSince": "2026-08-17",
+      "format": "на вычитке · 18 дн."
     },
     {
       "slug": "markirovka-chestnogo-znaka-v-2026-godu-kakie-tovary-dobavili",
@@ -244,7 +259,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "chek-na-kasse-evotor-kak-nastroit-rekvizity-i-chto-delat-pri",
@@ -258,7 +274,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "markirovka-v-1s-kak-nastroit-obmen-s-chestnym-znakom-i-ne-lo",
@@ -272,7 +289,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "dokumenty-v-chestnom-znake-kakie-prihodyat-roznice-i-chto-s-",
@@ -286,7 +304,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "sroki-markirovki-v-2026-godu-kakie-daty-uzhe-proshli-i-chto-",
@@ -300,7 +319,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "veterinarnye-soprovoditelnye-dokumenty-kakie-byvayut-i-kogda",
@@ -314,7 +334,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "ostatki-v-egais-kak-sverit-s-fakticheskimi-i-chto-delat-pri-",
@@ -329,7 +350,8 @@
       "docId": "12RVBjW1Z12oEZCaiNjHIs8dGGpQAd3H2qcR3yTeM0_Y",
       "docUrl": "https://docs.google.com/document/d/12RVBjW1Z12oEZCaiNjHIs8dGGpQAd3H2qcR3yTeM0_Y/edit",
       "seenComments": [],
-      "reviewSince": "2026-08-17"
+      "reviewSince": "2026-08-17",
+      "format": "на вычитке · 18 дн."
     },
     {
       "slug": "merkuriy-kak-oformit-veterinarnoe-svidetelstvo-na-partiyu",
@@ -343,7 +365,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "ts-piot-na-kasse-kak-podklyuchit-modul-i-proverit-chto-on-ra",
@@ -357,7 +380,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "oshibki-kassy-evotor-chto-oznachayut-kody-i-kak-ih-ispravit",
@@ -371,7 +395,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "platforma-ofd-kak-razobratsya-s-uvedomleniyami-ot-operatora",
@@ -385,7 +410,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "otmenyat-li-egais-chto-izvestno-o-planah-i-k-chemu-gotovitsy",
@@ -400,7 +426,8 @@
       "docId": "1U2UQ9ZZcgB1QH2ybNMRsEK3PeEDt9cqcNdULxpoTZeM",
       "docUrl": "https://docs.google.com/document/d/1U2UQ9ZZcgB1QH2ybNMRsEK3PeEDt9cqcNdULxpoTZeM/edit",
       "seenComments": [],
-      "reviewSince": "2026-08-17"
+      "reviewSince": "2026-08-17",
+      "format": "на вычитке · 18 дн."
     },
     {
       "slug": "kategorii-vsd-v-merkurii-chem-otlichayutsya-i-kogda-kakaya-n",
@@ -414,7 +441,8 @@
       "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "tegi-fiskalnyh-dokumentov-chto-oznachayut-i-gde-iskat-oshibk",
@@ -428,7 +456,8 @@
       "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "kak-smenit-ofd-poryadok-deystviy-i-chto-vazhno-ne-poteryat",
@@ -442,7 +471,8 @@
       "status": "planned",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "nastroyka-kassy-atol-pod-chestnyy-znak-chto-vklyuchit-i-kak-",
@@ -456,7 +486,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "chek-korrekcii-v-kakih-sluchayah-probivat-i-kak-oformit-bez-",
@@ -470,7 +501,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "kod-markirovki-data-matrix-iz-chego-sostoit-i-kak-proverit-e",
@@ -484,7 +516,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "zamena-fiskalnogo-nakopitelya-kogda-nuzhna-kak-provesti-i-ch",
@@ -498,7 +531,8 @@
       "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "снято"
     },
     {
       "slug": "oshibki-kassy-merkuriy-chto-oznachayut-kody-i-kak-ih-ustrani",
@@ -513,7 +547,8 @@
       "docId": null,
       "docUrl": null,
       "seenComments": [],
-      "urgent": true
+      "urgent": true,
+      "format": "снято"
     },
     {
       "slug": "oshibki-egais-pri-prodazhe-alkogolya-chto-oznachayut-i-kak-i",
@@ -527,7 +562,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "кандидат"
     },
     {
       "slug": "oshibki-ts-piot-chto-oznachayut-kody-otkaza-i-kak-ih-ustrani",
@@ -543,7 +579,8 @@
       "docUrl": null,
       "seenComments": [],
       "urgent": true,
-      "lastNote": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows"
+      "lastNote": "Заголовок: Ошибки при работе с ТС ПИоТ: как их исправить и что означают коды. Использовать не только общую информацию по ошибкам, но и конкретно как это работает в Маркете, по инструкции https://support.kontur.ru/market/84217-oshibki_pri_rabote_s_ts_piot_na_kassax_windows",
+      "format": "снято"
     },
     {
       "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-38077-k",
@@ -567,7 +604,8 @@
       "sourceUrl": null,
       "sourceTitle": null,
       "refUrls": [],
-      "rawTopic": "7 ошибок ЕГАИС: что делать, если касса не пропускает продажу"
+      "rawTopic": "7 ошибок ЕГАИС: что делать, если касса не пропускает продажу",
+      "format": "на вычитке · 22 дн."
     },
     {
       "slug": "zagolovok-oshibki-pri-rabote-s-ts-piot-kak-ih-ispravit-i-cht",
@@ -598,7 +636,8 @@
       "sourceUrl": null,
       "sourceTitle": null,
       "refUrls": [],
-      "rawTopic": "Ошибки ТС ПИоТ 2026: как исправить и что означают коды"
+      "rawTopic": "Ошибки ТС ПИоТ 2026: как исправить и что означают коды",
+      "format": "на вычитке · 22 дн."
     },
     {
       "slug": "aktualizirovat-statyu-https-kontur-ru-market-spravka-25147-k",
@@ -614,7 +653,8 @@
       "docUrl": "https://docs.google.com/document/d/1y1GFfiaR9-6Jz_LFCuyWvkLqwaw8C5wlkbVsKq72ZWQ/edit",
       "seenComments": [],
       "urgent": true,
-      "reviewSince": "2026-08-13"
+      "reviewSince": "2026-08-13",
+      "format": "на вычитке · 22 дн."
     },
     {
       "slug": "otchety-po-prodazham-kak-chitat",
@@ -631,10 +671,12 @@
       "rationale": "крупнейший объём в теме: Wordstat «отчёты по продажам» 18 183; точка входа в кластер ИИ (Маркет + Марк)",
       "row": 45,
       "owner": "bot",
-      "status": "candidate",
+      "status": "dropped",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане",
+      "theses": "убрать"
     },
     {
       "slug": "vyruchka-rastet-pribyl-padaet",
@@ -654,7 +696,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "ii-kontrol-fudkosta",
@@ -674,7 +717,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "kalkulyator-sebestoimosti-blyuda",
@@ -694,7 +738,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "pochemu-rastet-sebestoimost-blyuda",
@@ -714,7 +759,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "ii-nahodit-padenie-pribyli",
@@ -734,7 +780,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "kakie-tovary-prinosyat-pribyl",
@@ -754,7 +801,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "mozhno-li-doveryat-ii-resheniya",
@@ -774,7 +822,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "ii-analitika-bezopasnost-dannyh",
@@ -794,7 +843,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "avtomatizaciya-magazina",
@@ -814,7 +864,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "ii-pomoshchnik-dlya-biznesa",
@@ -834,7 +885,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "ii-assistent-dlya-biznesa",
@@ -854,7 +906,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "prognoz-sprosa-zakupki-ii",
@@ -874,7 +927,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "kuda-uhodyat-dengi-biznes",
@@ -894,7 +948,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "neyroset-dlya-magazina",
@@ -914,7 +969,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "ii-analitik-dlya-biznesa",
@@ -934,7 +990,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "upravlencheskiy-uchet-dlya-vladelca",
@@ -954,7 +1011,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     },
     {
       "slug": "spisaniya-v-obshchepite-normy",
@@ -974,7 +1032,8 @@
       "status": "candidate",
       "docId": null,
       "docUrl": null,
-      "seenComments": []
+      "seenComments": [],
+      "format": "в плане"
     }
   ],
   "batches": [
@@ -1011,10 +1070,6 @@
     }
   ],
   "log": [
-    {
-      "at": "2026-08-18T07:46:56.587Z",
-      "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
-    },
     {
       "at": "2026-08-18T08:48:18.714Z",
       "event": "apply-decisions: 0 снято, 0 «пишем сами», 0 правок"
@@ -1250,6 +1305,10 @@
     {
       "at": "2026-08-27T12:06:13.046Z",
       "event": "add-candidates: +18 из 18"
+    },
+    {
+      "at": "2026-09-04T13:22:26.537Z",
+      "event": "apply-decisions: 1 снято, 0 «пишем сами», 0 правок"
     }
   ],
   "lastNudgeAt": "2026-08-28"
