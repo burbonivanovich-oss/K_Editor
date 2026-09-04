@@ -1,0 +1,18 @@
+{
+  "seed": "новый закон ООО",
+  "slug": "новый-закон-ооо",
+  "category": "intent",
+  "cluster": "zakonodatelstvo",
+  "fetchedAt": "2026-08-31T10:18:12.045Z",
+  "count": 2,
+  "phrases": [
+    {
+      "phrase": "новые законы ооо",
+      "count": 350
+    },
+    {
+      "phrase": "новая редакция закона ооо",
+      "count": 53
+    }
+  ]
+}
