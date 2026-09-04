@@ -1,6 +1,6 @@
 ---
 description: Поиск потенциальных тем для статей — анализ пробелов в контент-плане и поиск новых запросов.
-argument-hint: "[кластер: ts-piot|markirovka|zakonodatelstvo|ofd-fn|merkuriy|kkt|markirovka-2026|egais|buhgalteriya|otchetnost-edo|uslugi|horeca|start|marketplace|kadry|banki|nichi|nalogi|все]"
+argument-hint: "[кластер: ts-piot|markirovka|zakonodatelstvo|ofd-fn|merkuriy|kkt|markirovka-2026|egais|buhgalteriya|otchetnost-edo|uslugi|horeca|start|marketplace|kadry|banki|nichi|nalogi|ii|все]"
 ---
 
 # /find-topics — найти темы для статей

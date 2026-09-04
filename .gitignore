@@ -198,3 +198,6 @@ config.local.json
 settings.local.json
 # Original AI-generated heroes before sharpening
 public/images/hero/_orig/
+
+# разовая разведка (правило Kontur/CLAUDE.md)
+scripts/scratch/

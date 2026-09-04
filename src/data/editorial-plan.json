@@ -1,16 +1,16 @@
 {
-  "_generated": "2026-08-09",
+  "_generated": "2026-08-27",
   "_source": "src/content/wiki/content-plan-2026.md",
   "stats": {
-    "total": 250,
+    "total": 285,
     "byStatus": {
-      "planned": 248,
+      "planned": 283,
       "done": 2
     },
     "byPriority": {
-      "P0": 81,
-      "P1": 130,
-      "P2": 39
+      "P0": 82,
+      "P1": 146,
+      "P2": 57
     }
   },
   "items": [
@@ -2263,6 +2263,321 @@
       "status": "planned",
       "blocker": null,
       "cluster": "Налоговая оптимизация"
+    },
+    {
+      "slug": "vyruchka-rastet-pribyl-padaet",
+      "title": "Выручка растёт, а прибыль падает: почему так и что проверить",
+      "priority": "P0",
+      "targetKeyword": "выручка растёт а прибыль падает",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-kontrol-fudkosta",
+      "title": "Фудкост под контролем: как считать вручную и что делает ИИ",
+      "priority": "P1",
+      "targetKeyword": "как снизить фудкост",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "kalkulyator-sebestoimosti-blyuda",
+      "title": "Калькулятор себестоимости блюда и как держать её под контролем",
+      "priority": "P1",
+      "targetKeyword": "калькуляция блюд",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "pochemu-rastet-sebestoimost-blyuda",
+      "title": "Почему растёт себестоимость блюда и как заметить вовремя",
+      "priority": "P1",
+      "targetKeyword": "почему растёт себестоимость блюда",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-nahodit-padenie-pribyli",
+      "title": "Куда уходит прибыль магазина — и что здесь делает ИИ",
+      "priority": "P1",
+      "targetKeyword": "почему падает прибыль магазина",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "kakie-tovary-prinosyat-pribyl",
+      "title": "Какие товары зарабатывают, а какие тянут прибыль вниз",
+      "priority": "P1",
+      "targetKeyword": "какие товары приносят прибыль",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "mozhno-li-doveryat-ii-resheniya",
+      "title": "Можно ли доверять ИИ управленческие решения в бизнесе",
+      "priority": "P1",
+      "targetKeyword": "доверие ИИ бизнес решения",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-analitika-bezopasnost-dannyh",
+      "title": "ИИ и данные бизнеса: где хранятся и обучают ли на них модели",
+      "priority": "P1",
+      "targetKeyword": "безопасность данных ИИ",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "avtomatizaciya-magazina",
+      "title": "Автоматизация магазина: что автоматизировать и с чего начать",
+      "priority": "P1",
+      "targetKeyword": "автоматизация магазина",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-pomoshchnik-dlya-biznesa",
+      "title": "ИИ-помощник для владельца бизнеса: что берёт на себя",
+      "priority": "P1",
+      "targetKeyword": "ии помощник для бизнеса",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-assistent-dlya-biznesa",
+      "title": "ИИ-ассистент для владельца бизнеса: что делает и чего не делает",
+      "priority": "P1",
+      "targetKeyword": "ии ассистент для бизнеса",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "prognoz-sprosa-zakupki-ii",
+      "title": "Прогноз спроса и закупок с ИИ: как не замораживать деньги в остатках",
+      "priority": "P1",
+      "targetKeyword": "прогнозирование спроса ИИ",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "kuda-uhodyat-dengi-biznes",
+      "title": "Прибыль есть, а денег на счету нет: куда утекают деньги бизнеса",
+      "priority": "P1",
+      "targetKeyword": "куда уходят деньги в бизнесе",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "neyroset-dlya-magazina",
+      "title": "Нейросеть для магазина: какие задачи закрывает в рознице",
+      "priority": "P1",
+      "targetKeyword": "нейросеть для магазина",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-analitik-dlya-biznesa",
+      "title": "ИИ-аналитик для бизнеса: что это и чем отличается от отчётов",
+      "priority": "P1",
+      "targetKeyword": "ии аналитик для бизнеса",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-dlya-kafe-restorana",
+      "title": "ИИ для кафе и ресторана: контроль себестоимости и списаний",
+      "priority": "P1",
+      "targetKeyword": "ии для кафе",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "umnaya-analitika-roznica",
+      "title": "Умная аналитика для розницы и общепита: как работает",
+      "priority": "P2",
+      "targetKeyword": "умная аналитика",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-dlya-biznesa-obzor",
+      "title": "ИИ для бизнеса: какие задачи реально решает малый бизнес",
+      "priority": "P2",
+      "targetKeyword": "ии для бизнеса",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-vs-otchet-1s",
+      "title": "ИИ-аналитика или отчёты в 1С: в чём разница на практике",
+      "priority": "P2",
+      "targetKeyword": "чем ИИ отличается от отчётов",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-poverh-uchetnoy-sistemy",
+      "title": "Аналитика поверх вашей учётной системы без смены системы",
+      "priority": "P2",
+      "targetKeyword": "аналитика без миграции",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-finansovyy-analiz-biznesa",
+      "title": "ИИ и финансы бизнеса: что считает автоматически",
+      "priority": "P2",
+      "targetKeyword": "ии финансовый аналитик",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-dlya-biznes-processov",
+      "title": "ИИ в бизнес-процессах розницы и общепита: где реально помогает",
+      "priority": "P2",
+      "targetKeyword": "ии для бизнес процессов",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "avtomatizaciya-kafe-obshchepita",
+      "title": "Автоматизация кафе и общепита: касса, учёт и контроль себестоимости",
+      "priority": "P2",
+      "targetKeyword": "автоматизация кафе",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "avtomatizaciya-iiko-analitika",
+      "title": "Аналитика поверх iiko: что видно в данных вашей системы",
+      "priority": "P2",
+      "targetKeyword": "автоматизация iiko",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "rentabelnost-magazina",
+      "title": "Рентабельность магазина: как посчитать и что подсказывает ИИ",
+      "priority": "P2",
+      "targetKeyword": "рентабельность магазина",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "abc-analiz-assortimenta",
+      "title": "ABC-анализ ассортимента: какие товары кормят, а какие съедают прибыль",
+      "priority": "P2",
+      "targetKeyword": "abc анализ товаров",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "neyroseti-v-obshchepite",
+      "title": "Нейросети в ресторане: какие задачи AI реально закрывает в общепите",
+      "priority": "P2",
+      "targetKeyword": "нейросеть для кафе ресторана",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "skolko-stoit-ii-analitika",
+      "title": "Сколько стоит ИИ-аналитика и окупается ли для малого бизнеса",
+      "priority": "P2",
+      "targetKeyword": "стоимость ИИ аналитики",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "tochka-zakaza-tovara",
+      "title": "Точка заказа: когда пополнять товар, чтобы не было дефицита и неликвида",
+      "priority": "P2",
+      "targetKeyword": "точка заказа товара",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "prediktivnaya-analitika-roznica",
+      "title": "Предсказательная аналитика в рознице: что ИИ видит в ваших продажах",
+      "priority": "P2",
+      "targetKeyword": "предсказательная аналитика розница",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "ii-ostatki-nelikvid",
+      "title": "Неликвид и оборачиваемость: как ИИ замечает залежавшийся товар",
+      "priority": "P2",
+      "targetKeyword": "оборачиваемость товара",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "skidki-syedayut-pribyl",
+      "title": "Скидки и акции съедают прибыль: как считать, что промо в плюс",
+      "priority": "P2",
+      "targetKeyword": "скидки съедают прибыль",
+      "status": "planned",
+      "blocker": "марк-опердир",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "otchety-po-prodazham-kak-chitat",
+      "title": "Отчёты по продажам: как читать и на что смотреть владельцу",
+      "priority": "P1",
+      "targetKeyword": "отчёты по продажам",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "upravlencheskiy-uchet-dlya-vladelca",
+      "title": "Управленческий учёт для владельца простыми словами",
+      "priority": "P2",
+      "targetKeyword": "управленческий учёт расходов",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
+    },
+    {
+      "slug": "spisaniya-v-obshchepite-normy",
+      "title": "Списания в общепите: нормы и как снизить потери",
+      "priority": "P2",
+      "targetKeyword": "списание в ресторане",
+      "status": "planned",
+      "blocker": "wordstat-2026-08",
+      "cluster": "ИИ и аналитика для бизнеса (Маркет + Марк)"
     }
   ]
 }
