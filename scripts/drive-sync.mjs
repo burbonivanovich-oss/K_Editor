@@ -76,6 +76,7 @@ import { createSign } from 'node:crypto';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { slugify } from './lib/slugify.mjs';
+import { findLegacyJunk, titleOf } from './lib/sheet-junk.mjs';
 import { resolveInternalLink } from './lib/resolve-links.mjs';
 import {
   WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, WORK_FROZEN_COLS, APPROVAL_CELL,
@@ -1296,6 +1297,62 @@ try {
 
       console.log(`✅ «${tab}»: колонки приведены к WORK_COLS, списки и ширины обновлены.`);
       console.log('   Дальше: cycle-state row-decisions → drive-sync set-row-dropdowns, затем sheet-sync.');
+      break;
+    }
+
+    /* Убрать из ячеек след старого кода: записи, уехавшие не в свою
+       колонку, пока рутины писали по буквам прежней раскладки. Что
+       считается следом и почему список узкий — lib/sheet-junk.mjs.
+       По умолчанию сухой прогон. */
+    case 'clean-legacy': {
+      const sheetId = arg('sheet-id');
+      if (!sheetId) die('нужен --sheet-id');
+      const pull = await readWork(sheetId, arg('tab'));
+      if (pull.unparsable) {
+        die(`шапка вкладки «${pull.tab}» не разобрана (нет колонок: ${pull.unparsable.missing.join(', ')}) — сначала sync-columns`);
+      }
+      const { junk, suspicious } = findLegacyJunk(pull.items);
+
+      if (!junk.length && !suspicious.length) { console.log(`✓ «${pull.tab}»: чужих записей в колонках нет.`); break; }
+
+      if (junk.length) {
+        const byCol = new Map();
+        for (const j of junk) byCol.set(j.key, (byCol.get(j.key) || 0) + 1);
+        console.log(`Вкладка «${pull.tab}» — очистить ${junk.length} ячеек:`);
+        for (const [key, n] of byCol) {
+          const why = junk.find((j) => j.key === key).why;
+          console.log(`  «${titleOf(key)}» — ${n}: ${why}`);
+        }
+        const rows = junk.slice(0, 5).map((j) => `${colLetter(workIdx(j.key))}${j.row} «${j.value.slice(0, 40)}»`);
+        console.log(`  например: ${rows.join(', ')}${junk.length > 5 ? ' …' : ''}`);
+      }
+
+      /* Показываем и не трогаем: перепутанная человеком колонка — это
+         его решение, а не машинный след. */
+      if (suspicious.length) {
+        console.log(`\nПроверьте руками (${suspicious.length}):`);
+        for (const s of suspicious) {
+          console.log(`  ${colLetter(workIdx(s.key))}${s.row} «${s.value}» — ${s.why}`);
+        }
+      }
+
+      if (!junk.length) break;
+      if (!process.argv.includes('--apply')) {
+        console.log('\nЭто сухой прогон. Очистить: добавь --apply');
+        break;
+      }
+
+      await sheets(`${sheetId}/values:batchUpdate`, {
+        method: 'POST',
+        body: JSON.stringify({
+          valueInputOption: 'RAW',
+          data: junk.map((j) => ({
+            range: a1(pull.tab, `${colLetter(workIdx(j.key))}${j.row}`),
+            values: [['']],
+          })),
+        }),
+      });
+      console.log(`\n✅ Очищено ячеек: ${junk.length}`);
       break;
     }
 
