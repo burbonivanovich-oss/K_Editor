@@ -79,7 +79,7 @@ import { slugify } from './lib/slugify.mjs';
 import { resolveInternalLink } from './lib/resolve-links.mjs';
 import {
   WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, WORK_FROZEN_COLS, APPROVAL_CELL,
-  planColumnSync, ARTICLE_FORMATS, resolveHeader,
+  planColumnSync, ARTICLE_FORMATS, resolveHeader, COLUMN_GROUPS, columnGroup,
   colLetter, workIdx, COL as WORK_COL, RU_STATUS, ADAPTATION_VALUES,
 } from './lib/sheet-columns.mjs';
 
@@ -799,8 +799,9 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
           userEnteredValue: { stringValue:
             'Одна строка — одна тема, от кандидата до выпуска. «пишем» берёт тему в работу, '
             + '«не подходит» снимает её (тогда нужна причина). У статьи, которая уже написана, '
-            + 'в списке появляются «принято» и «переписать статью». Колонки «Статус», '
-            + '«Ссылка на докс» и «ID» заполняет бот.' },
+            + 'в списке появляются «принято» и «переписать статью».   ▨ Цвет шапки: '
+            + 'зелёная — заполняете вы · серая — заполняет бот, правка потеряется при следующем '
+            + 'проходе · бежевая — справка для решения, менять не нужно.' },
           userEnteredFormat: { textFormat: { italic: true, foregroundColor: { red: 0.45, green: 0.42, blue: 0.4 } } },
         }] }],
         fields: 'userEnteredValue,userEnteredFormat',
@@ -809,9 +810,17 @@ async function formatWorkSheet(sheetId, gid, monthId, rowCount) {
     },
     {
       updateCells: {
+        /* Цвет заголовка = кто эту колонку заполняет (COLUMN_GROUPS).
+         * Зелёная — ваша, серая — бот, бежевая — справка. До 04.09.2026
+         * шапка была одного цвета, и правило «сюда не пишем» жило только
+         * в защите диапазона: предупреждение всплывало уже после того,
+         * как редактор начал печатать. */
         rows: [{ values: WORK_COLS.map((c) => ({
           userEnteredValue: { stringValue: c.title },
-          userEnteredFormat: { textFormat: { bold: true }, backgroundColor: { red: 0.93, green: 0.91, blue: 0.87 } },
+          userEnteredFormat: {
+            textFormat: { bold: true },
+            backgroundColor: COLUMN_GROUPS[columnGroup(c)].color,
+          },
         })) }],
         fields: 'userEnteredValue,userEnteredFormat',
         start: { sheetId: gid, rowIndex: WORK_HEADER_ROW - 1, columnIndex: 0 },
@@ -1223,7 +1232,22 @@ try {
       const { plan, want, error } = planColumnSync(cur);
       if (error) die(`${error} — разберись руками, ничего не трогаю`);
 
-      if (!plan.length) { console.log(`✓ «${tab}»: колонки уже совпадают с WORK_COLS.`); break; }
+      /* Совпадающая структура — не повод уходить, ничего не сделав.
+       * Оформление (цвета шапки по владельцу колонки, списки решений,
+       * защиты, ширины) живёт отдельно от порядка колонок и на живой
+       * вкладке отстаёт: раскраску 04.09.2026 иначе было бы нечем
+       * применить, кроме пересоздания листа. Перерисовка идемпотентна. */
+      if (!plan.length) {
+        console.log(`✓ «${tab}»: колонки уже совпадают с WORK_COLS.`);
+        if (process.argv.includes('--apply')) {
+          const rows = ((await sheets(`${sheetId}/values/${encodeURIComponent(a1(tab, `A${WORK_FIRST_DATA_ROW}:A1000`))}`)).values || []).length;
+          await formatWorkSheet(sheetId, gid, tab.replace(WORK_TAB_PREFIX, ''), rows);
+          console.log('  оформление обновлено: цвета шапки, списки решений, защиты, ширины.');
+        } else {
+          console.log('  Обновить оформление (цвета шапки по владельцу колонки): добавь --apply');
+        }
+        break;
+      }
 
       console.log(`Вкладка «${tab}» — ${plan.length} изменений:`);
       const WORD = { delete: 'удалить', insert: 'вставить', rename: 'переименовать', move: 'переставить' };

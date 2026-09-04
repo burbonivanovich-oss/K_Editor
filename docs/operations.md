@@ -208,6 +208,7 @@ git commit --no-verify ...
 | Wordstat не обновился | logs `wordstat-weekly.yml` / `wordstat-kontur.yml` | Токен `YC_API_KEY` жив? `docs/SECRETS.md` |
 | Рутина цикла молчит | `node scripts/cycle-state.mjs get` | Состояние `awaiting_review`/потолок очереди? `docs/editorial-cycle.md` |
 | «таблица не разобрана» в панели | `npm run status`, строка «Цикл» | Раскладка колонок разъехалась: `node scripts/drive-sync.mjs sync-columns --sheet-id <id>` (сухой прогон), потом `--apply`. Решения редактора при этом **не применялись** — рутина остановилась намеренно |
+| Шапка таблицы без цветов, редактор путается, где чья колонка | — | `sync-columns --apply`: он же перерисовывает оформление, даже когда структура колонок уже совпадает |
 | `drive-sync.mjs` падает | `node scripts/drive-sync.mjs check` | Скоупы, включён ли Sheets API — `docs/google-api-setup.md` |
 | Cron перестал срабатывать | Actions → конкретный workflow → история | GitHub отключает cron при отсутствии активности 60 дней. Любой push в main возобновляет |
 
