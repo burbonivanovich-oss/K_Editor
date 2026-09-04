@@ -79,7 +79,7 @@ import { slugify } from './lib/slugify.mjs';
 import { resolveInternalLink } from './lib/resolve-links.mjs';
 import {
   WORK_COLS, WORK_HEADER_ROW, WORK_FIRST_DATA_ROW, WORK_FROZEN_COLS, APPROVAL_CELL,
-  planColumnSync, ARTICLE_FORMATS,
+  planColumnSync, ARTICLE_FORMATS, resolveHeader,
   colLetter, workIdx, COL as WORK_COL, RU_STATUS, ADAPTATION_VALUES,
 } from './lib/sheet-columns.mjs';
 
@@ -995,14 +995,29 @@ async function readWork(sheetId, tab) {
    * молча: 11.08.2026 в набор добавили «Сегмент» и «Связки», и вкладки,
    * написанные раньше, начали читаться со сдвигом — решение редактора
    * уезжало в соседнее поле, а рутина разбирала причину отказа как решение. */
-  const header = (rows[WORK_HEADER_ROW - 1] || []).map((h) => (h || '').trim().toLowerCase());
-  const titles = new Set(WORK_COLS.map((c) => c.title.toLowerCase()));
-  const byTitle = header.some((h) => titles.has(h))
-    ? new Map(header.map((h, idx) => [h, idx]))
-    : new Map(WORK_COLS.map((c, idx) => [c.title.toLowerCase(), idx]));
+  const header = (rows[WORK_HEADER_ROW - 1] || []).map((h) => (h || '').trim());
+  const { byKey, missing, unknown, ok } = resolveHeader(header);
+
+  /* Неполная шапка — отказ, а не чтение по номерам колонок.
+   *
+   * Раньше здесь стоял запасной вариант: не узнал заголовки — читай по
+   * порядку WORK_COLS. Он и сделал поломку 23.08–01.09.2026 невидимой,
+   * см. REQUIRED_KEYS в lib/sheet-columns.mjs. Отдаём не исключение, а
+   * объект с `unparsable`: вызывающему нужно знать, какие колонки не
+   * нашлись, и записать это событием — «таблица не разобрана» и «в
+   * таблице нет решений» должны выглядеть по-разному в любом логе. */
+  if (!ok) {
+    return {
+      sheetId, tab: target,
+      approval: '',
+      columns: header,
+      items: [], topics: [],
+      unparsable: { missing, unknown, header },
+    };
+  }
 
   const items = [];
-  const topicIdx = byTitle.get('тема') ?? workIdx('topic');
+  const topicIdx = byKey.get('topic');
   for (let i = WORK_FIRST_DATA_ROW - 1; i < rows.length; i++) {
     const row = rows[i] || [];
     const topic = (row[topicIdx] || '').trim();
@@ -1010,7 +1025,7 @@ async function readWork(sheetId, tab) {
     const item = { row: i + 1 };
     WORK_COLS.forEach((c) => {
       if (c.key === 'n') return;
-      const idx = byTitle.has(c.title.toLowerCase()) ? byTitle.get(c.title.toLowerCase()) : null;
+      const idx = byKey.has(c.key) ? byKey.get(c.key) : null;
       item[c.key] = idx === null ? '' : (row[idx] || '').trim();
     });
     const movedWho = DECISION_TO_WHO.get((item.decision || '').toLowerCase());
@@ -1263,7 +1278,21 @@ try {
     case 'pull': {
       const sheetId = arg('sheet-id');
       if (!sheetId) die('нужен --sheet-id');
-      console.log(JSON.stringify(await readWork(sheetId, arg('tab')), null, 2));
+      const pull = await readWork(sheetId, arg('tab'));
+      console.log(JSON.stringify(pull, null, 2));
+      /* JSON печатаем в любом случае — вызывающий сохраняет его в файл и
+       * должен увидеть, что именно не разобралось. Но код возврата
+       * ненулевой: рутина, которая просто перекладывает pull в
+       * apply-decisions, обязана остановиться здесь, а не отчитаться
+       * «решений нет» по пустому списку тем. */
+      if (pull.unparsable) {
+        const { missing, unknown } = pull.unparsable;
+        console.error(`\n✖ Шапка вкладки «${pull.tab}» не разобрана — ничего не читаю.`);
+        console.error(`  не нашлось обязательных колонок: ${missing.join(', ')}`);
+        if (unknown.length) console.error(`  незнакомые заголовки: ${unknown.join(' · ')}`);
+        console.error('  Привести раскладку: node scripts/drive-sync.mjs sync-columns --sheet-id <id> --apply');
+        process.exitCode = 1;
+      }
       break;
     }
 

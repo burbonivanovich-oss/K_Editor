@@ -421,6 +421,37 @@ switch (cmd) {
     const file = arg('file');
     if (!file || !existsSync(file)) die('нужен --file <вывод drive-sync pull>');
     const pull = JSON.parse(readFileSync(file, 'utf8'));
+
+    /* Нечитаемая шапка — отдельное событие, а не «решений нет».
+     *
+     * Оба случая раньше давали в логе одну строку «0 снято, 0 „пишем
+     * сами“, 0 правок», и различить их было нечем: с 18.08 по 01.09.2026
+     * шестьдесят прогонов подряд отчитались именно так, а таблица всё это
+     * время читалась чужой раскладкой колонок. Событие пишем в состояние
+     * (его видно в `console status` и в истории цикла) и выходим
+     * ненулевым кодом — рутина не должна идти дальше по пустому списку. */
+    if (pull.unparsable) {
+      const missing = (pull.unparsable.missing || []).join(', ');
+      /* `since` ставится один раз, при первом появлении ошибки, и не
+       * обновляется, пока ошибка та же. Если писать сюда время каждого
+       * прогона, поле окажется содержательной дельтой для
+       * cycle-churn.mjs — и рутина вернётся к одиннадцати коммитам в
+       * день, ради ухода от которых churn и заводился. Смысл поля от
+       * этого только точнее: «шапка сломана с такого-то момента». */
+      const prev = s.lastSheetError;
+      const same = prev && prev.tab === (pull.tab || null)
+        && JSON.stringify(prev.missing) === JSON.stringify(pull.unparsable.missing || []);
+      s.lastSheetError = {
+        since: same ? prev.since : new Date().toISOString(),
+        tab: pull.tab || null,
+        missing: pull.unparsable.missing || [],
+      };
+      save(s, `sheet-unparsable: шапка вкладки не разобрана, нет колонок: ${missing}`);
+      console.error(`✖ Шапка вкладки «${pull.tab || '?'}» не разобрана: нет колонок ${missing}.`);
+      console.error('  Решения редактора не применялись. Привести раскладку:');
+      console.error('    node scripts/drive-sync.mjs sync-columns --sheet-id <id> --apply');
+      process.exit(1);
+    }
     const changes = {
       approved: false, dropped: [], toEditor: [], toBot: [], accepted: [],
       approved_topics: [], urgent: [],
@@ -641,6 +672,11 @@ switch (cmd) {
 
     const live = s.plan.filter((t) => !['released', 'dropped'].includes(t.status));
     if (s.state === 'running' && live.length === 0) s.state = 'done';
+
+    // Шапка разобралась — прежняя поломка закрыта. Флаг снимаем здесь, а
+    // не «когда-нибудь»: иначе он останется висеть в состоянии и в
+    // панели после того, как раскладку уже починили.
+    if (s.lastSheetError) { delete s.lastSheetError; changes.sheetRecovered = true; }
 
     save(s, `apply-decisions: ${changes.dropped.length} снято, ${changes.toEditor.length} «пишем сами», ${changes.notes.length} правок`);
     console.log(JSON.stringify(changes, null, 2));

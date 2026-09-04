@@ -155,6 +155,7 @@ function collectStatus() {
     byStatus: topics.reduce((a, t) => ((a[t.status] = (a[t.status] || 0) + 1), a), {}),
     inReview: topics.filter((t) => t.status === "review").length,
     maxInReview: cyc?.maxInReview ?? 6,
+    sheetError: cyc?.lastSheetError ?? null,
   };
 
   // доступы
@@ -239,7 +240,17 @@ function renderStatus(s) {
   if (cy.cycleId) cyBits.push(cy.cycleId);
   cyBits.push(`очередь редактора ${cy.inReview >= cy.maxInReview ? bad(queue) : queue}`);
   if (!cy.hasDrive) cyBits.push(warn("Drive не развёрнут"));
+  /* Нечитаемая шапка — не деталь для лога, а причина, по которой решения
+   * редактора не доходят вовсе. Пока её не было видно в панели, четырнадцать
+   * дней пустых прогонов выглядели как молчание редакции. */
+  if (cy.sheetError) {
+    const since = String(cy.sheetError.since || "").slice(0, 10);
+    cyBits.push(bad(`таблица не разобрана${since ? ` с ${since}` : ""}`));
+  }
   row("Цикл", cyBits.join(dim(" · ")));
+  if (cy.sheetError) {
+    row("", dim(`нет колонок: ${(cy.sheetError.missing || []).join(", ")} — node scripts/drive-sync.mjs sync-columns --sheet-id <id> --apply`));
+  }
 
   // доступы
   const g = s.creds.google.length;
