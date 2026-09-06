@@ -8,8 +8,9 @@
 //
 // Что делает: показывает состояние модуля одним экраном и запускает
 // скрипты по номеру пункта. Часть работы модуля живёт не в скриптах, а в
-// агентах Claude (/create-article, /cycle-batch и остальные) — такие
-// пункты консоль не выполняет, а выдаёт строку для вставки в Claude.
+// агентах (/create-article, /cycle-batch и остальные) — такие пункты
+// консоль не выполняет, а выдаёт строку для вставки в сессию агента:
+// slash-команда в Claude Code, скилл с тем же именем в Codex.
 // Притворяться, что она их запускает, было бы враньём: у консоли нет
 // доступа ни к агентам, ни к их шлюзам.
 
@@ -371,7 +372,7 @@ function renderMenu() {
     }
   }
   L.push("");
-  L.push(dim(`  ${paint("→", "cyan")} ${dim("— выполняет агент Claude, консоль выдаст строку для вставки")}`));
+  L.push(dim(`  ${paint("→", "cyan")} ${dim("— выполняет агент, консоль выдаст строку для вставки")}`));
   L.push(dim("  s — обновить состояние   q — выход"));
   L.push("");
   return L.join("\n");
@@ -388,10 +389,11 @@ function runItem(it, slug) {
   if (it.type === "claude") {
     const line = slug ? it.cmd.replace("<slug>", slug) : it.cmd;
     console.log("");
-    console.log(paint("  Это делает агент Claude — консоль его не запускает.", "yellow"));
-    console.log("  Вставьте в Claude Code:");
+    console.log(paint("  Это делает агент — консоль его не запускает.", "yellow"));
+    console.log("  Вставьте в сессию агента:");
     console.log("");
-    console.log(paint(`      ${line}`, "cyan"));
+    console.log(paint(`      ${line}`, "cyan") + dim("   — Claude Code"));
+    console.log(paint(`      ${line.replace(/^\//, "$")}`, "cyan") + dim("   — Codex"));
     console.log("");
     return;
   }

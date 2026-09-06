@@ -1,0 +1,132 @@
+name: Рутины цикла на Codex
+
+# Запасной механизм расписания для рутин A0/A/B/C — на случай, когда
+# рутины исполняет не Claude Code Remote, а Codex, и нужен запуск,
+# который не зависит ни от включённого ноутбука, ни от открытого
+# приложения.
+#
+# Почему этот файл существует, если у Codex есть свои запланированные
+# задачи. Задачи Codex бывают двух видов, и разница принципиальная:
+# задача в приложении работает в каталоге проекта на машине владельца и
+# требует, чтобы машина была включена, а приложение открыто; облачная
+# задача этого не требует, но видит только репозиторий — ни локальных
+# файлов, ни локальных MCP. Рутины цикла ходят в Google API по секретам
+# и коммитят в репозиторий, поэтому им подходит облачная задача или вот
+# этот workflow. Ноутбук, который должен быть открыт в понедельник в
+# 12:00, механизмом расписания не является.
+#
+# Промпты не дублируются: единственный экземпляр лежит в docs/routines/,
+# отсюда он извлекается скриптом. Разойтись с репозиторием, как это уже
+# было с промптами в платформе, здесь нечему.
+#
+# Выключен по умолчанию. Включается переменной репозитория
+# ROUTINES_ENGINE = codex (Settings → Secrets and variables → Actions →
+# Variables). Пока переменной нет или в ней другое значение, все задания
+# пропускаются — чтобы во время переезда рутины не отработали дважды,
+# в Claude Code Remote и здесь.
+#
+# Нужны секреты: OPENAI_API_KEY плюс те же Google-ключи, что у рутин в
+# Claude (docs/SECRETS.md).
+
+on:
+  workflow_dispatch:
+    inputs:
+      routine:
+        description: "Какую рутину запустить"
+        required: true
+        type: choice
+        options: ["a0", "a", "b", "c"]
+  schedule:
+    # Расписания скопированы из паспортов docs/routines/*.md. Меняете
+    # там — меняйте здесь: сверить можно командой
+    # `node scripts/routine-prompt.mjs <ключ> --meta`.
+    - cron: "0 8 * * 1"               # A0 — бэклог тем, понедельник
+    - cron: "0 8 1 * *"               # A  — контент-план, 1-го числа
+    - cron: "0 3,7,9,11,13 * * 1-5"   # B  — слушатель, будни 5 раз
+    - cron: "0 7 * * 1,4"             # C  — батч статей, пн и чт
+
+permissions:
+  contents: write
+
+jobs:
+  routine:
+    runs-on: ubuntu-latest
+    if: vars.ROUTINES_ENGINE == 'codex'
+    timeout-minutes: 90
+
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5.1.0
+      - uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0
+        with:
+          node-version: "22"
+
+      - name: Определить рутину
+        id: pick
+        env:
+          # Через env, а не ${{ }} внутри run: — тот же паттерн, что в
+          # backlog.yml и editor-request.yml. Значение расписания
+          # приходит от GitHub, ввод из UI — от владельца репозитория,
+          # но подстановку в текст скрипта не делаем нигде.
+          MANUAL: ${{ inputs.routine }}
+          CRON: ${{ github.event.schedule }}
+        run: |
+          set -euo pipefail
+          if [ -n "${MANUAL}" ]; then
+            KEY="${MANUAL}"
+          else
+            case "${CRON}" in
+              "0 8 * * 1")             KEY="a0" ;;
+              "0 8 1 * *")             KEY="a"  ;;
+              "0 3,7,9,11,13 * * 1-5") KEY="b"  ;;
+              "0 7 * * 1,4")           KEY="c"  ;;
+              *)
+                echo "::error::расписание «${CRON}» не сопоставлено ни с одной рутиной"
+                exit 1 ;;
+            esac
+          fi
+          echo "key=${KEY}" >> "$GITHUB_OUTPUT"
+          echo "Рутина: ${KEY}"
+
+      - name: Извлечь промпт
+        env:
+          KEY: ${{ steps.pick.outputs.key }}
+        run: |
+          set -euo pipefail
+          node scripts/routine-prompt.mjs "${KEY}" > "${RUNNER_TEMP}/routine-prompt.txt"
+          wc -l < "${RUNNER_TEMP}/routine-prompt.txt" | xargs echo "строк в промпте:"
+
+      - name: Подпись коммитов
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Прогон рутины
+        id: codex
+        uses: openai/codex-action@86365089eb2b84e0a8fb0717b304f8bdcb13b20e # v1
+        with:
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+          prompt-file: ${{ runner.temp }}/routine-prompt.txt
+          safety-strategy: drop-sudo
+          output-file: ${{ runner.temp }}/routine-report.md
+        env:
+          # A0 по паспорту (docs/routines/a0-backlog.md) работает БЕЗ
+          # Drive-секретов: публикация и чтение решений у неё идут через
+          # GitHub Actions. Раздать ей ключи «на всякий случай» значило бы
+          # молча отменить это решение — поэтому условие, а не общий блок.
+          GOOGLE_DOCS_KEY: ${{ steps.pick.outputs.key != 'a0' && secrets.GOOGLE_DOCS_KEY || '' }}
+          GOOGLE_DOCS_FOLDER_ID: ${{ steps.pick.outputs.key != 'a0' && secrets.GOOGLE_DOCS_FOLDER_ID || '' }}
+          BLOG_BASE_URL: ${{ secrets.BLOG_BASE_URL }}
+          # Wordstat нужен только бэклогу тем.
+          YC_API_KEY: ${{ steps.pick.outputs.key == 'a0' && secrets.YC_API_KEY || '' }}
+          YC_FOLDER_ID: ${{ steps.pick.outputs.key == 'a0' && secrets.YC_FOLDER_ID || '' }}
+
+      - name: Отчёт
+        if: always()
+        env:
+          KEY: ${{ steps.pick.outputs.key }}
+        run: |
+          {
+            echo "## Рутина ${KEY}"
+            echo ""
+            cat "${RUNNER_TEMP}/routine-report.md" 2>/dev/null || echo "_отчёт пуст — смотрите лог шага «Прогон рутины»_"
+          } >> "$GITHUB_STEP_SUMMARY"

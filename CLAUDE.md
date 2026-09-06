@@ -37,6 +37,16 @@ slash-команда, и Skill (описание в frontmatter). Полный �
   на другие инструменты как есть — см. `AGENTS.md` → «Портируемость»
   для эквивалента через GitHub Actions.
 
+## Точки входа для Codex
+
+`.agents/skills/` и `.codex/agents/` — сгенерированные точки входа для
+Codex. Руками не править: они собираются из `.claude/commands/` и
+`.claude/agents/` скриптом `scripts/codex-sync.mjs` и на них только
+ссылаются. Меняете `description` команды или добавляете новую —
+`npm run codex:sync`, иначе тест `codex-sync.test.mjs` покраснеет.
+
+Сам переезд — `docs/codex-migration.md`.
+
 ## Когда меняется workflow или структура
 
 Обновляйте `AGENTS.md`, если правило универсально (применимо к любому

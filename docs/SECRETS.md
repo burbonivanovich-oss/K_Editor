@@ -16,6 +16,7 @@ Actions** репозитория. Этот документ — единый с�
 | `GOOGLE_DOCS_FOLDER_ID` | строка | — | Корневая папка редакционного цикла в Drive |
 | `BLOG_BASE_URL` | строка: домен принимающего проекта | — | `drive-sync.mjs make-doc` — во что разворачивать внутренние ссылки статей |
 | `GITHUB_TOKEN` | автоматически | в каждом workflow | git push commit'ов |
+| `OPENAI_API_KEY` | OpenAI (платформа) | бессрочный | `routines-codex.yml` — рутины A0/A/B/C через Codex. Нужен только если рутины исполняет Codex, см. `docs/codex-migration.md` |
 
 ## Переменные (не секреты)
 

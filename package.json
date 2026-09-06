@@ -15,6 +15,9 @@
     "check:ai": "node scripts/check-ai-markers.mjs",
     "check:stale": "node scripts/check-stale-content.mjs",
     "health": "node scripts/health-check.mjs",
+    "codex:sync": "node scripts/codex-sync.mjs",
+    "codex:check": "node scripts/codex-sync.mjs --check",
+    "routine": "node scripts/routine-prompt.mjs",
     "test": "find scripts -name '*.test.mjs' -print0 | xargs -0 node --test",
     "gates": "node scripts/gates.mjs"
   },

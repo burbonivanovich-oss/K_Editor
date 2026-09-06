@@ -66,7 +66,7 @@ node scripts/maintain-content-queue.mjs --json
 ### 2а. Фактчек
 
 Запустить `/factcheck <slug>` — наш собственный скилл (см. `docs/factcheck.md`).
-Скрипт извлекает claims, скилл сверяет через WebSearch, применяет
+Скрипт извлекает claims, скилл сверяет их веб-поиском, применяет
 редполитику (`docs/editorial-policy.md`). Результат: `src/data/factcheck/results/<slug>.json`
 + обновлённый маркер `.claude/factchecked/<slug>`.
 

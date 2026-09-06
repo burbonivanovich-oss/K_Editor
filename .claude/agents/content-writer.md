@@ -1,6 +1,6 @@
 ---
 name: content-writer
-description: Use after research-specialist to превратить research brief into a finished Russian-language article on ТС ПИоТ, маркировке или законодательстве для МСБ. Возвращает готовый Markdown с frontmatter.
+description: Превращает research brief в готовую статью на русском по ТС ПИоТ, маркировке или законодательству для МСБ. Запускается после research-specialist. Возвращает Markdown с frontmatter.
 ---
 
 # Content Writer — автор B2B-материалов

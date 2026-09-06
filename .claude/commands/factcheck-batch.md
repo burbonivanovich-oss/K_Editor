@@ -1,12 +1,12 @@
 ---
-description: Пакетная проверка фактов 8–16 статей за один прогон через параллельный subagent dispatch. Закрывает backfill быстрее в 6 раз.
+description: Пакетная проверка фактов 8–16 статей за один прогон параллельными роль-агентами. Закрывает backfill быстрее в 6 раз.
 argument-hint: "[--count <N>] [--filter <risk-zone|markirovka|nalogi|...>]"
 ---
 
 # /factcheck-batch — пакетный фактчек
 
 Запускает `/factcheck` логику для 8–16 статей одновременно через
-параллельный subagent dispatch. За одну сессию (~30 минут) закрывает
+параллельный запуск роль-агентов. За одну сессию (~30 минут) закрывает
 весь корпус: при backfill 2026-05-19 — 75 статей за 18 батчей.
 
 Вызов:
@@ -50,12 +50,12 @@ const candidates = readBlogDir()
 
 ### Шаг 3 — Параллельный dispatch
 
-Запустить 2–4 subagent-а одновременно (один Agent tool-call с несколькими
-параметрами). Каждый агент:
+Запустить 2–4 роль-агента одновременно, одним вызовом с несколькими
+параметрами. Каждый агент:
 
 1. Получает свой список из 4 статей
 2. Для каждой запускает `node scripts/factcheck/extract-claims.mjs <slug>`
-3. Каждый claim → WebSearch к первоисточнику (`src/data/factcheck/sources.json`)
+3. Каждый claim → веб-поиск по первоисточнику (`src/data/factcheck/sources.json`)
 4. Если class C — точечная правка статьи, `updatedDate: 2026-05-19`,
    `draft: false` сохраняется
 5. Записывает `src/data/factcheck/results/<slug>.json`
@@ -101,7 +101,7 @@ notification по мере завершения каждого батча.
 статьи:
 1. node scripts/factcheck/extract-claims.mjs <slug>
 2. Прочитать src/data/factcheck/claims/<slug>.json
-3. Каждый claim → WebSearch к первоисточнику
+3. Каждый claim → веб-поиск по первоисточнику
    (src/data/factcheck/sources.json)
 4. Редполитика docs/editorial-policy.md — классы A/B/C
 5. Если class C: обновить статью точечно, updatedDate: <сегодня>,
@@ -198,7 +198,7 @@ notification по мере завершения каждого батча.
 
 ## Правила
 
-- Не запускать > 4 параллельных батчей одновременно — WebSearch rate-limit.
+- Не запускать > 4 параллельных батчей одновременно — rate-limit веб-поиска.
 - Не править статьи без critical. Class B (moderate) — только в отчёт,
   не редактировать.
 - Не публиковать (`draft: true` → `false`) — только обновлять

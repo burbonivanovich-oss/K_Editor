@@ -1,6 +1,6 @@
 ---
 name: social-media-manager
-description: Use after content-writer/seo-optimizer to адаптировать готовую статью под форматы Telegram, VK, Дзен и email-рассылки. Не публикует и не знает, где выйдет исходник — только рерайт текста под площадку.
+description: Адаптирует готовую статью под форматы Telegram, VK, Дзен и email-рассылки. Запускается после content-writer и seo-optimizer. Не публикует и не знает, где выйдет исходник — только рерайт под площадку.
 ---
 
 # Social Media Manager — каналы дистрибуции на ру-аудиторию

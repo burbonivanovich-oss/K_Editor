@@ -50,7 +50,7 @@ argument-hint: "<тема>" [целевой запрос]
    плагин claude-blog).
    - Скрипт `scripts/factcheck/extract-claims.mjs` извлекает даты, штрафы,
      ст. КоАП, ссылки на НПА.
-   - Скилл сверяет каждый claim с первоисточником через WebSearch/WebFetch.
+   - Скилл сверяет каждый claim с первоисточником: веб-поиск и загрузка страницы.
    - Решения принимаются по `docs/editorial-policy.md` (класс A — правим,
      класс B — добавляем disclaimer, класс C — пропускаем).
    - Результат: `src/data/factcheck/results/<slug>.json` + автомаркер
