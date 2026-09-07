@@ -1,0 +1,22 @@
+{
+  "seed": "меркурий вэд",
+  "slug": "меркурий-вэд",
+  "category": "entity",
+  "cluster": "merkuriy",
+  "fetchedAt": "2026-09-07T08:48:55.007Z",
+  "count": 3,
+  "phrases": [
+    {
+      "phrase": "меркурий вэд",
+      "count": 155
+    },
+    {
+      "phrase": "меркурий тн вэд",
+      "count": 136
+    },
+    {
+      "phrase": "коды тн вэд меркурий",
+      "count": 57
+    }
+  ]
+}
