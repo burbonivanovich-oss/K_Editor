@@ -20,7 +20,7 @@ argument-hint: "[--limit N]"
 ## Шаг 1 — Собрать кандидатов
 
 ```bash
-node scripts/topics/generate-backlog.mjs --limit 15
+node --env-file=.env scripts/topics/generate-backlog.mjs --limit 15
 ```
 
 Скрипт берёт последний `discoveries/**/diffs/<дата>.json`, отбрасывает
@@ -78,7 +78,7 @@ node scripts/topics/generate-backlog.mjs --limit 15
 **3. Пересобрать бэклог с сигналами:**
 
 ```bash
-node scripts/topics/generate-backlog.mjs --signals /tmp/signals.json
+node --env-file=.env scripts/topics/generate-backlog.mjs --signals /tmp/signals.json
 ```
 
 Инфоповоды отбираются **до** общего пула и в пределах своей квоты
@@ -101,7 +101,7 @@ Wordstat-фразу как есть и кладёт её в поле `topic` б�
 ключевое слово».
 
 Эту работу делает не скрипт, а именно эта сессия — здесь у неё есть
-языковая генерация, которой нет в GitHub Actions. Прочитать
+языковая генерация, которой нет в детерминированном скрипте. Прочитать
 `src/data/topic-backlog.json` (`candidates[]`), и для каждого кандидата
 переписать `topic` в заголовок статьи, **не трогая `targetKeyword`**
 (остаётся исходной фразой — колонка «Целевой запрос»):
@@ -170,40 +170,22 @@ Wordstat-фразу как есть и кладёт её в поле `topic` б�
 оставить её внизу списка, чем маскировать шаблоном.
 
 Переписанный `topic-backlog.json` (с новыми заголовками и обоснованиями,
-`targetKeyword` неизменным) сохранить обратно тем же путём и закоммитить:
-`backlog: заголовки <дата>`, запушить в `main`. Это отдельный коммит от «backlog:
-сборка <дата>», который делает `backlog.yml`, — так виден момент, когда
-сырые фразы стали темами, не только момент сбора кандидатов.
+`targetKeyword` неизменным) сохранить обратно тем же путём. Итог всего
+прохода фиксируется одним локальным коммитом `backlog: локальный прогон
+<дата>`. GitHub для истории и публикации не используется.
 
 ## Шаг 2 — Выложить редактору
 
-Отдельная таблица, не та, где живёт контент-план: у бэклога недельный
-ритм, у плана — месячный, мешать их в одном листе неудобно обоим. Лежит в
-корневой папке редакции рядом с контент-планом — папку цикла бэклог не
-заводит, в нём ещё нет статей.
+Бэклог и контент-план живут в общей таблице «Редакция — темы и план» на
+вкладке текущего месяца. Ресёрч идёт еженедельно, поэтому A0 дописывает
+новые строки ниже, не перезаливая прежние решения редактора.
 
-Секреты Google Drive живут только в GitHub Actions — интерактивная
-сессия их не получает (тот же принцип, что у остальных Drive-операций
-проекта). Два пути, в зависимости от того, откуда идёт этот шаг:
-
-**Если сессия запущена вручную и Drive-креды есть в окружении** (редкий
-случай — обычно только при локальной обкатке):
-
-```bash
-node -e "const j=require('./src/data/topic-backlog.json');require('fs').writeFileSync('/tmp/backlog.json',JSON.stringify(j.candidates||[]))"
-node scripts/drive-sync.mjs init-backlog \
-  --week $(date -u +%F) --items /tmp/backlog.json
-```
-
-**Обычный путь — еженедельная Routine, без Drive-кредов в сессии.**
-Дождаться, пока коммит из Шага 1а уйдёт в `main`, затем запустить
-`.github/workflows/backlog-publish.yml` через `mcp__github__actions_run_trigger`
-(`method: "run_workflow"`, `owner: "burbonivanovich-oss"`,
-`repo: "K_Editor"`, `workflow_id: "backlog-publish.yml"`, `ref: "main"`).
-Workflow сам разворачивает `candidates` из `topic-backlog.json` и
-публикует — эта сессия только запускает его и забирает ссылку из
-`mcp__github__get_job_logs` или Summary прогона (`sheetUrl` в выводе
-шага «Таблица редактору в Drive»).
+Локальная задача получает Google-доступ из `.env` и пишет напрямую.
+`drive.sheetId` берётся из `src/data/editorial-cycle.json`. В начале
+месяца вкладку создаёт `init-month`; в остальные недели новые строки
+добавляет `append-topics`. Устаревшая команда `init-backlog` больше не
+используется: она намеренно завершает работу с подсказкой перейти на
+`init-month`.
 
 **Публикация — дописывание, а не перезалив.** Ресёрч идёт еженедельно
 (`backlog.yml`, понедельник 06:00 UTC), вкладка — месячная. Новые темы
@@ -214,12 +196,12 @@ Workflow сам разворачивает `candidates` из `topic-backlog.json
 #    скрипт превратить фразу Wordstat в заголовок статьи не может).
 #    Результат — массив кандидатов с добавленным полем title.
 # 2. Завести их в состоянии цикла: отсекутся дубли по слагу, назначатся строки.
-node scripts/cycle-state.mjs add-candidates --file /tmp/new.json > /tmp/added.json
+node --env-file=.env scripts/cycle-state.mjs add-candidates --file /tmp/new.json > /tmp/added.json
 # 3. Дописать в таблицу и обновить списки решений.
-node scripts/drive-sync.mjs append-topics --sheet-id <id> --items /tmp/added.json
-node scripts/drive-sync.mjs set-cells --sheet-id <id> --updates "$(node scripts/cycle-state.mjs sheet-sync)"
-node scripts/drive-sync.mjs set-row-dropdowns --sheet-id <id> --updates "$(node scripts/cycle-state.mjs row-decisions)"
-node scripts/verify-sheet.mjs --sheet-id <id>
+node --env-file=.env scripts/drive-sync.mjs append-topics --sheet-id <id> --items /tmp/added.json
+node --env-file=.env scripts/drive-sync.mjs set-cells --sheet-id <id> --updates "$(node --env-file=.env scripts/cycle-state.mjs sheet-sync)"
+node --env-file=.env scripts/drive-sync.mjs set-row-dropdowns --sheet-id <id> --updates "$(node --env-file=.env scripts/cycle-state.mjs row-decisions)"
+node --env-file=.env scripts/verify-sheet.mjs --sheet-id <id>
 ```
 
 Одна и та же фраза Wordstat приходит из недели в неделю — `add-candidates`
@@ -238,7 +220,7 @@ node scripts/verify-sheet.mjs --sheet-id <id>
 **Сигнал редакции о новых темах — комментарий в таблице:**
 
 ```bash
-node scripts/drive-sync.mjs comment --file-id <id> \
+node --env-file=.env scripts/drive-sync.mjs comment --file-id <id> \
   --text "Бэклог на <месяц>: N новых тем со статусом «кандидат». …" \
   --mention <адрес из EDITOR_EMAILS>
 ```
@@ -318,7 +300,7 @@ node scripts/drive-sync.mjs comment --file-id <id> \
 
 Слова решений те же, что в таблице плана: «пишем» и «не подходит» значат
 в обеих таблицах одно и то же. До 11.08.2026 бэклог говорил
-«согласовано / не согласовано» — эти значения `pull-backlog` приводит к
+«согласовано / не согласовано» — эти значения `drive-sync pull` приводит к
 новым сам и кладёт исходник в поле `decisionRaw`, так что уже
 проставленные решения в старых таблицах читаются как прежде.
 
@@ -332,7 +314,7 @@ node scripts/drive-sync.mjs comment --file-id <id> \
 Следующим проходом (или вручную после закрытия таблицы):
 
 ```bash
-node scripts/drive-sync.mjs pull-backlog --sheet-id <id> > /tmp/backlog-decisions.json
+node --env-file=.env scripts/drive-sync.mjs pull --sheet-id <id> > /tmp/backlog-decisions.json
 ```
 
 Отдаёт строки со всеми колонками таблицы (`topic`, `wordstat`, `cluster`,

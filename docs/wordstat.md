@@ -151,12 +151,13 @@ YC_API_KEY=… YC_FOLDER_ID=b1ghs… node scripts/wordstat/fetch.mjs
 
 ## Автозапуск
 
-`.github/workflows/wordstat-weekly.yml` — каждый понедельник в 04:00 UTC.
-Запускает `extract-keys.mjs` → `fetch.mjs` → коммит `keys.json` и нового снепшота
-обратно в активную ветку.
+Локальная задача Codex «Контур M1 — недельный Wordstat» запускается по
+понедельникам. Она выполняет `extract-keys.mjs` → `fetch.mjs`, сохраняет
+`keys.json` и новый снимок локальным коммитом. Параметры и часы описаны в
+[`docs/routines/codex-local.md`](routines/codex-local.md).
 
-Ручной запуск: **Actions → Wordstat Weekly Refresh → Run workflow**. Можно
-переопределить `max_quota`, `top_requests_limit`, `fresh_days`.
+Для ручного прогона выполните ту же процедуру из
+[`docs/routines/m1-wordstat.md`](routines/m1-wordstat.md).
 
 ## Ретенция (D-01)
 
@@ -165,8 +166,8 @@ YC_API_KEY=… YC_FOLDER_ID=b1ghs… node scripts/wordstat/fetch.mjs
 (kontur-набор гоняется ежедневно, не только weekly). Без уборки рабочее
 дерево репозитория растёт неограниченно.
 
-Два скрипта в конце еженедельного workflow (после `diff-snapshots.mjs`,
-до коммита):
+Два скрипта в конце еженедельной задачи (после `diff-snapshots.mjs`, до
+локального коммита):
 
 ```bash
 node scripts/wordstat/prune-history.mjs [--dry-run]
@@ -187,7 +188,7 @@ node scripts/wordstat/cleanup-orphans.mjs [--apply] [--age 90]
 Вложенные namespace (`discoveries/kontur/` и любые будущие) чистятся тем
 же проходом, независимо от корня. `seeds.json`/`seeds-kontur.json` —
 рукописные входные данные, не дампы, — под ретенцию не попадают ни при
-каком лимите. Выход всегда 0: ретенция не должна ронять workflow.
+каком лимите. Выход всегда 0: ретенция не должна ронять плановую задачу.
 
 **`cleanup-orphans.mjs`** — отдельная уборка `keys.json`: удаляет записи,
 которых уже нет ни в `seo.keywords` опубликованных статей, ни в
@@ -252,13 +253,14 @@ Wordstat больше **не отдельный сервис**. С 2026 года
 ## Цикл недели
 
 ```
-Понедельник 04:00 UTC ─ workflow:
+Понедельник, локальная задача M1:
   1. extract-keys.mjs           — собирает кандидатов из блога + плана
   2. fetch.mjs                  — точечно по seo.keywords (контур A)
   3. discover.mjs               — broad по 162 seeds (контур B)
   4. diff-snapshots.mjs         — сравнивает с прошлой неделей
   5. demand-watch.mjs           — спрос ↔ покрытие по кластерам → demand-watch.md
-  6. commit                     — пушит keys.json, discoveries/<date>/, diffs/<date>.md,
+  6. commit                     — фиксирует локально keys.json,
+                                  discoveries/<date>/, diffs/<date>.md,
                                   demand-watch.md
 
 Понедельник днём:
@@ -273,9 +275,9 @@ Wordstat больше **не отдельный сервис**. С 2026 года
 > Два файла seeds — `seeds.json` (176 фраз, weekly) и `seeds-kontur.json`
 > (206 фраз, kontur-контур) — лежат в `discoveries/` рядом с дампами
 > прогонов, но дампами **не являются**: это рукописные входные данные
-> обоих workflow. Чистка `discoveries/` от старых прогонов не должна их
-> трогать — без них `discover.mjs` падает на чтении файла, а оба cron'а
-> валятся.
+> задач M1 и M2. Чистка `discoveries/` от старых прогонов не должна их
+> трогать — без них `discover.mjs` падает на чтении файла, а оба прохода
+> останавливаются.
 
 `src/data/wordstat/discoveries/seeds.json` — JSON-массив с полями `phrase`,
 `category`, `cluster`. Категории: `entity` (узкая сущность), `intent`

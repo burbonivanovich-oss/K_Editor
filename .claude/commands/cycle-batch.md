@@ -188,8 +188,10 @@ node scripts/drive-sync.mjs set-cells --sheet-id <sheetId> --updates "$(cat /tmp
 
 git add src/content/blog src/content/updates src/data/editorial-cycle.json
 git commit -m "cycle: батч N — <k> статей на вычитку"
-git push -u origin main
 ```
+
+Не отправлять коммит в удалённый репозиторий: следующая локальная задача
+читает состояние из этой же рабочей копии.
 
 Статусы в таблице становятся «на вычитке», в колонке «Ссылка на докс» —
 ссылки. Редактору больше ничего искать не нужно.
